@@ -33,6 +33,16 @@ model User {
   provider         Provider
   secrets          Secrets?
   resumes          Resume[]
+  information      Information?
+}
+
+model Information {
+  id        String   @id @default(cuid())
+  data      Json     @default("{}")
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Secrets {
