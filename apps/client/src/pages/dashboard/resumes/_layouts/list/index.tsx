@@ -1,6 +1,7 @@
 import { sortByDate } from "@reactive-resume/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { GenerateResumeListItem } from "@/client/pages/dashboard/resumes/_layouts/list/_components/generate-item";
 import { useResumes } from "@/client/services/resume";
 
 import { BaseListItem } from "./_components/base-item";
@@ -22,6 +23,13 @@ export const ListView = () => {
         animate={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
       >
         <ImportResumeListItem />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
+      >
+        <GenerateResumeListItem />
       </motion.div>
 
       {loading &&

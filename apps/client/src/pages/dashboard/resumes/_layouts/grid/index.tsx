@@ -7,6 +7,7 @@ import { BaseCard } from "./_components/base-card";
 import { CreateResumeCard } from "./_components/create-card";
 import { ImportResumeCard } from "./_components/import-card";
 import { ResumeCard } from "./_components/resume-card";
+import { GenerateResumeCard } from "@/client/pages/dashboard/resumes/_layouts/grid/_components/generate-card";
 
 export const GridView = () => {
   const { resumes, loading } = useResumes();
@@ -22,6 +23,13 @@ export const GridView = () => {
         animate={{ opacity: 1, x: 0, transition: { delay: 0.1 } }}
       >
         <ImportResumeCard />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+      >
+        <GenerateResumeCard />
       </motion.div>
 
       {loading &&

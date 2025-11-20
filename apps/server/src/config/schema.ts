@@ -83,6 +83,9 @@ export const configSchema = z.object({
   OPENID_SCOPE: z.string().optional(),
   OPENID_TOKEN_URL: z.string().url().optional(),
   OPENID_USER_INFO_URL: z.string().url().optional(),
+
+  // OpenAI (Optional)
+  OPENAI_API_KEY: z.string().optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;

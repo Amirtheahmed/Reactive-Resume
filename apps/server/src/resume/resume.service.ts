@@ -5,14 +5,22 @@ import {
   Logger,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
-import { CreateResumeDto, ImportResumeDto, ResumeDto, UpdateResumeDto } from "@reactive-resume/dto";
-import { defaultResumeData, ResumeData } from "@reactive-resume/schema";
+import {
+  CreateResumeDto,
+  GenerateResumeDto,
+  ImportResumeDto,
+  ResumeDto,
+  UpdateResumeDto,
+} from "@reactive-resume/dto";
+import { defaultResumeData, InformationData, ResumeData } from "@reactive-resume/schema";
 import type { DeepPartial } from "@reactive-resume/utils";
 import { ErrorMessage, generateRandomName } from "@reactive-resume/utils";
 import slugify from "@sindresorhus/slugify";
 import deepmerge from "deepmerge";
 import { PrismaService } from "nestjs-prisma";
 
+import { InformationService } from "@/server/information/information.service";
+import { OpenAIService } from "@/server/openai/openai.service";
 import { PrinterService } from "@/server/printer/printer.service";
 
 import { StorageService } from "../storage/storage.service";
@@ -23,6 +31,8 @@ export class ResumeService {
     private readonly prisma: PrismaService,
     private readonly printerService: PrinterService,
     private readonly storageService: StorageService,
+    private readonly informationService: InformationService,
+    private readonly openaiService: OpenAIService,
   ) {}
 
   async create(userId: string, createResumeDto: CreateResumeDto) {
@@ -157,6 +167,24 @@ export class ResumeService {
     }
 
     return url;
+  }
+
+  async generate(userId: string, generateResumeDto: GenerateResumeDto) {
+    const information = await this.informationService.findAll(userId);
+    const generatedData = await this.openaiService.generateResume(
+      information.data as InformationData,
+      generateResumeDto.jobDescription,
+    );
+
+    return this.prisma.resume.create({
+      data: {
+        userId,
+        title: generateResumeDto.title,
+        slug: generateResumeDto.slug,
+        visibility: "private",
+        data: generatedData as unknown as Prisma.JsonObject,
+      },
+    });
   }
 
   printPreview(resume: ResumeDto) {

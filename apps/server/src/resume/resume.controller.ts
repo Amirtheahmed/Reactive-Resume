@@ -16,6 +16,7 @@ import { User as UserEntity } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {
   CreateResumeDto,
+  GenerateResumeDto,
   importResumeSchema,
   ResumeDto,
   UpdateResumeDto,
@@ -136,6 +137,17 @@ export class ResumeController {
       const url = await this.resumeService.printResume(resume, userId);
 
       return { url };
+    } catch (error) {
+      Logger.error(error);
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  @Post("generate")
+  @UseGuards(TwoFactorGuard)
+  async generate(@User() user: UserEntity, @Body() generateResumeDto: GenerateResumeDto) {
+    try {
+      return await this.resumeService.generate(user.id, generateResumeDto);
     } catch (error) {
       Logger.error(error);
       throw new InternalServerErrorException(error);

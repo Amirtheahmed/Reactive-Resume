@@ -3,8 +3,8 @@
 import { z } from "zod";
 
 import { basicsSchema, defaultBasics } from "../basics";
-import { idSchema } from "../shared";
 import { defaultSections, sectionsSchema } from "../sections";
+import { idSchema } from "../shared";
 
 export const customInformationSchema = z.object({
   id: idSchema,

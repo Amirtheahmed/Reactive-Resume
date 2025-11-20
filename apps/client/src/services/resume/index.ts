@@ -1,5 +1,6 @@
 export * from "./create";
 export * from "./delete";
+export * from "./generate";
 export * from "./print";
 export * from "./resume";
 export * from "./resumes";
