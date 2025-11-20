@@ -5,7 +5,7 @@ import { defaultSections, sectionsSchema } from "../sections";
 
 export const informationSchema = z.object({
   basics: basicsSchema,
-  sections: sectionsSchema,
+  sections: sectionsSchema
 });
 
 export type InformationData = z.infer<typeof informationSchema>;

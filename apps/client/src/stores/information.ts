@@ -1,22 +1,24 @@
-import type { InformationData } from "@reactive-resume/schema";
+import type { InformationDto } from "@reactive-resume/dto";
 import { defaultInformation } from "@reactive-resume/schema";
 import _set from "lodash.set";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-import { updateInformation } from "../services/information";
+import { debouncedUpdateInformation } from "../services/information";
 
 type InformationStore = {
-  information: InformationData;
+  information: InformationDto;
 
   // Actions
-  setInformation: (information: InformationData) => void;
+  setInformation: (information: InformationDto) => void;
   setValue: (path: string, value: unknown) => void;
 };
 
 export const useInformationStore = create<InformationStore>()(
   immer((set) => ({
-    information: defaultInformation,
+    information: {
+      data: defaultInformation,
+    } as InformationDto,
     setInformation: (information) => {
       set((state) => {
         state.information = information;
@@ -24,8 +26,11 @@ export const useInformationStore = create<InformationStore>()(
     },
     setValue: (path, value) => {
       set((state) => {
-        state.information = _set(state.information, path, value);
-        void updateInformation({ data: state.information });
+        // Update the state
+        state.information.data = _set(state.information.data, path, value);
+
+        // Debounce the update to the server
+        void debouncedUpdateInformation(JSON.parse(JSON.stringify(state.information.data)));
       });
     },
   })),

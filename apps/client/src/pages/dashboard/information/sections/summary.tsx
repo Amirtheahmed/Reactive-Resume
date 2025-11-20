@@ -5,7 +5,7 @@ import { useInformationStore } from "@/client/stores/information";
 
 export const SummarySection = () => {
   const setValue = useInformationStore((state) => state.setValue);
-  const summary = useInformationStore((state) => state.information.sections.summary);
+  const summary = useInformationStore((state) => state.information.data.sections.summary);
 
   return (
     <section id="summary" className="space-y-6">
