@@ -18,8 +18,10 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput
+  RichInput,
 } from "@reactive-resume/ui";
+import slugify from "@sindresorhus/slugify";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import type { z } from "zod";
@@ -38,6 +40,15 @@ export const GenerateDialog = () => {
     resolver: zodResolver(generateResumeSchema),
     defaultValues: { title: "", slug: "", jobDescription: "" },
   });
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "title") {
+        form.setValue("slug", slugify(value.title ?? ""));
+      }
+    });
+    return () => { subscription.unsubscribe(); };
+  }, [form.watch]);
 
   const onSubmit = async (data: FormValues) => {
     const resume = await generateResume(data);
@@ -62,30 +73,19 @@ export const GenerateDialog = () => {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                name="title"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t`Resume Title`}</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="slug"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t`Resume Slug`}</FormLabel>
-                    <FormControl><Input {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              name="title"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t`Resume Title`}</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               name="jobDescription"

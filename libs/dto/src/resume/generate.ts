@@ -1,8 +1,8 @@
 // libs/dto/src/resume/generate.ts
+import { createId } from "@paralleldrive/cuid2";
+import slugify from "@sindresorhus/slugify";
 import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
-import slugify from "@sindresorhus/slugify";
-import { createId } from "@paralleldrive/cuid2";
 
 export const generateResumeSchema = z.object({
   title: z.string().min(1),
@@ -13,7 +13,8 @@ export const generateResumeSchema = z.object({
       const slug = slugify(value);
       if (!slug) return createId();
       return slug;
-    }),
+    })
+    .optional(),
   jobDescription: z.string().min(1),
 });
 

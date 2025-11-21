@@ -1,3 +1,4 @@
+// apps/server/src/resume/resume.service.ts
 import {
   BadRequestException,
   Injectable,
@@ -180,7 +181,7 @@ export class ResumeService {
       data: {
         userId,
         title: generateResumeDto.title,
-        slug: generateResumeDto.slug,
+        slug: generateResumeDto.slug ?? slugify(generateResumeDto.title),
         visibility: "private",
         data: generatedData as unknown as Prisma.JsonObject,
       },
