@@ -71,17 +71,17 @@ export const Sidebar = ({ setOpen }: SidebarProps) => {
   const { user } = useUser();
   const navigate = useNavigate();
 
-  useKeyboardShortcut(["shift", "r"], () => {
+  useKeyboardShortcut(["option", "r"], () => {
     void navigate("/dashboard/resumes");
     setOpen?.(false);
   });
 
-  useKeyboardShortcut(["shift", "i"], () => {
+  useKeyboardShortcut(["option", "i"], () => {
     void navigate("/dashboard/information");
     setOpen?.(false);
   });
 
-  useKeyboardShortcut(["shift", "s"], () => {
+  useKeyboardShortcut(["option", "s"], () => {
     void navigate("/dashboard/settings");
     setOpen?.(false);
   });
@@ -90,25 +90,25 @@ export const Sidebar = ({ setOpen }: SidebarProps) => {
     {
       path: "/dashboard/resumes",
       name: t`Resumes`,
-      shortcut: "⇧R",
+      shortcut: "⌥R",
       icon: <ReadCvLogoIcon />,
     },
     {
       path: "/dashboard/cover-letters", // New Item
       name: t`Cover Letters`,
-      shortcut: "⇧C",
+      shortcut: "⌥C",
       icon: <ArticleIcon />,
     },
     {
       path: "/dashboard/information",
       name: t`Information`,
-      shortcut: "⇧I",
+      shortcut: "⌥I",
       icon: <Bank />,
     },
     {
       path: "/dashboard/settings",
       name: t`Settings`,
-      shortcut: "⇧S",
+      shortcut: "⌥S",
       icon: <FadersHorizontalIcon />,
     },
   ];

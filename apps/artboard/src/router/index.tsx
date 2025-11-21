@@ -13,8 +13,8 @@ export const routes = createRoutesFromChildren(
       <Route element={<ArtboardPage />}>
         <Route path="builder" element={<BuilderLayout />} />
         <Route path="preview" element={<PreviewLayout />} />
+        <Route path="cover-letter" element={<CoverLetterPage />} />
       </Route>
-      <Route path="cover-letter" element={<CoverLetterPage />} />
     </Route>
   </Route>,
 );
