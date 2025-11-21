@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { ResumeDto } from "@reactive-resume/dto";
+import { CoverLetterDto, ResumeDto } from "@reactive-resume/dto";
 import { ErrorMessage } from "@reactive-resume/utils";
 import retry from "async-retry";
 import { PDFDocument } from "pdf-lib";
@@ -70,6 +70,22 @@ export class PrinterService {
     return url;
   }
 
+  async printCoverLetter(coverLetter: CoverLetterDto) {
+    const start = performance.now();
+    const url = await retry<string | undefined>(() => this.generateCoverLetter(coverLetter), {
+      retries: 3,
+      randomize: true,
+      onRetry: (_, attempt) => {
+        this.logger.log(`Retrying to print cover letter #${coverLetter.id}, attempt #${attempt}`);
+      },
+    });
+
+    const duration = +(performance.now() - start).toFixed(0);
+    this.logger.debug(`Chrome took ${duration}ms to print 1 page`);
+    if (!url) throw new InternalServerErrorException(ErrorMessage.ResumePrinterError);
+    return url;
+  }
+
   async printPreview(resume: ResumeDto) {
     const start = performance.now();
 
@@ -90,10 +106,113 @@ export class PrinterService {
     return url;
   }
 
+  async generateCoverLetter(coverLetter: CoverLetterDto) {
+    try {
+      const browser = await this.getBrowser();
+      const page = await browser.newPage();
+
+      // -- Debugging: Log browser console output to server logs --
+      page.on("console", (msg) => {
+        const type = msg.type();
+        const text = msg.text();
+        if (type === "error") {
+          this.logger.error(`[Browser Console] ${text}`);
+        } else {
+          this.logger.debug(`[Browser Console] ${text}`);
+        }
+      });
+
+      page.on("pageerror", (err) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        this.logger.error(`[Browser Page Error] ${err.message}`);
+      });
+      // ----------------------------------------------------------
+
+      const publicUrl = this.configService.getOrThrow<string>("PUBLIC_URL");
+      const storageUrl = this.configService.getOrThrow<string>("STORAGE_URL");
+
+      let url = publicUrl;
+
+      if ([publicUrl, storageUrl].some((url) => /https?:\/\/localhost(:\d+)?/.test(url))) {
+        url = url.replace(
+          /localhost(:\d+)?/,
+          (_match, port) => `host.docker.internal${port ?? ""}`,
+        );
+
+        await page.setRequestInterception(true);
+
+        page.on("request", (request) => {
+          if (request.url().startsWith(storageUrl)) {
+            const modifiedUrl = request
+              .url()
+              .replace(/localhost(:\d+)?/, (_match, port) => `host.docker.internal${port ?? ""}`);
+
+            void request.continue({ url: modifiedUrl });
+          } else {
+            void request.continue();
+          }
+        });
+      }
+
+      this.logger.debug(`Navigating to ${url}/artboard/cover-letter`);
+
+      await page.goto(`${url}/artboard/cover-letter`, { waitUntil: "domcontentloaded" });
+
+      await page.evaluate((data) => {
+        window.localStorage.setItem("cover-letter", JSON.stringify(data));
+      }, coverLetter);
+
+      await Promise.all([
+        page.reload({ waitUntil: "load" }),
+        page.waitForSelector('[data-page="1"]', { timeout: 15_000 }),
+      ]);
+
+      const pageElement = await page.$(`[data-page="1"]`);
+      // eslint-disable-next-line unicorn/no-await-expression-member
+      const width = (await (await pageElement?.getProperty("scrollWidth"))?.jsonValue()) ?? 0;
+      // eslint-disable-next-line unicorn/no-await-expression-member
+      const height = (await (await pageElement?.getProperty("scrollHeight"))?.jsonValue()) ?? 0;
+
+      const uint8array = await page.pdf({ width, height, printBackground: true });
+      const buffer = Buffer.from(uint8array);
+
+      const pdfUrl = await this.storageService.uploadObject(
+        coverLetter.userId,
+        "resumes",
+        buffer,
+        coverLetter.title,
+      );
+
+      await page.close();
+      await browser.disconnect();
+
+      return pdfUrl;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        "Error printing cover letter",
+        (error as Error).message,
+      );
+    }
+  }
+
   async generateResume(resume: ResumeDto) {
     try {
       const browser = await this.getBrowser();
       const page = await browser.newPage();
+
+      // -- Debugging --
+      page.on("console", (msg) => {
+        const type = msg.type();
+        const text = msg.text();
+        if (type === "error") this.logger.error(`[Browser Console] ${text}`);
+        else this.logger.debug(`[Browser Console] ${text}`);
+      });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      page.on("pageerror", (err) => { this.logger.error(`[Browser Page Error] ${err.message}`); });
+      // -- Debugging --
 
       const publicUrl = this.configService.getOrThrow<string>("PUBLIC_URL");
       const storageUrl = this.configService.getOrThrow<string>("STORAGE_URL");
@@ -123,6 +242,8 @@ export class PrinterService {
           }
         });
       }
+
+      this.logger.debug(`Navigating to ${url}/artboard/preview`);
 
       // Set the data of the resume to be printed in the browser's session storage
       const numberPages = resume.data.metadata.layout.length;
@@ -220,6 +341,18 @@ export class PrinterService {
     const browser = await this.getBrowser();
     const page = await browser.newPage();
 
+    // -- Debugging --
+    page.on("console", (msg) => {
+      const type = msg.type();
+      const text = msg.text();
+      if (type === "error") this.logger.error(`[Browser Console] ${text}`);
+      else this.logger.debug(`[Browser Console] ${text}`);
+    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    page.on("pageerror", (err) => { this.logger.error(`[Browser Page Error] ${err.message}`); });
+    // -- Debugging --
+
     const publicUrl = this.configService.getOrThrow<string>("PUBLIC_URL");
     const storageUrl = this.configService.getOrThrow<string>("STORAGE_URL");
 
@@ -252,6 +385,8 @@ export class PrinterService {
     }, resume.data);
 
     await page.setViewport({ width: 794, height: 1123 });
+
+    this.logger.debug(`Navigating to ${url}/artboard/preview`);
 
     await page.goto(`${url}/artboard/preview`, { waitUntil: "networkidle0" });
 

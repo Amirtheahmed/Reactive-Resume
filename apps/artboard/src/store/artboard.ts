@@ -1,4 +1,4 @@
-import type { ResumeData } from "@reactive-resume/schema";
+import { defaultResumeData, ResumeData } from "@reactive-resume/schema";
 import { create } from "zustand";
 
 export type ArtboardStore = {
@@ -7,7 +7,7 @@ export type ArtboardStore = {
 };
 
 export const useArtboardStore = create<ArtboardStore>()((set) => ({
-  resume: null as unknown as ResumeData,
+  resume: defaultResumeData,
   setResume: (resume) => {
     set({ resume });
   },

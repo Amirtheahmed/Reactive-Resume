@@ -139,4 +139,64 @@ export class OpenAIService {
       throw new InternalServerErrorException("AI returned invalid JSON.", error.message);
     }
   }
+
+  async generateCoverLetter(
+    information: InformationData,
+    jobDescription: string,
+  ): Promise<{ content: string }> {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!this.openai) {
+      throw new InternalServerErrorException("OpenAI API key is not configured on the server.");
+    }
+
+    const response = await this.openai.chat.completions.create({
+      model: "gpt-4o",
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content: `
+            You are an expert career coach specializing in writing compelling cover letters.
+            Your task is to generate a professional cover letter in JSON format with a single key "content" containing the letter as an HTML string.
+            Use the user's information bank as the source of truth.
+            Tailor the cover letter to match the keywords and requirements in the job description.
+            The tone should be professional, confident, and tailored to the company and role.
+            Do not invent information not present in the information bank.
+            Adhere to all the grammar, punctuation, and style rules from your system prompt.
+          `,
+        },
+        {
+          role: "user",
+          content: `
+            Here is the user's information bank:
+            ${JSON.stringify(information)}
+
+            Here is the job description to tailor the cover letter for:
+            ${jobDescription}
+
+            Now, generate the cover letter JSON. The output must be a JSON object with a "content" key.
+          `,
+        },
+      ],
+    });
+
+    const content = response.choices[0].message.content;
+    if (!content) {
+      throw new InternalServerErrorException("AI returned an empty response.");
+    }
+
+    try {
+      const parsed = JSON.parse(content) as { content: string };
+      if (typeof parsed.content !== "string") {
+        throw new TypeError("AI did not return content in the expected format.");
+      }
+
+      // Clean up extra line breaks
+      parsed.content = parsed.content.replace(/(<p><br><\/p>\s*){2,}/g, "<p><br></p>");
+
+      return parsed;
+    } catch (error) {
+      throw new InternalServerErrorException("AI returned invalid JSON.", error.message);
+    }
+  }
 }

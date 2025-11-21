@@ -1,3 +1,4 @@
+// apps/server/src/app.module.ts
 import path from "node:path";
 
 import { HttpException, Module } from "@nestjs/common";
@@ -11,6 +12,7 @@ import { OpenAIModule } from "@/server/openai/openai.module";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule } from "./config/config.module";
 import { ContributorsModule } from "./contributors/contributors.module";
+import { CoverLetterModule } from "./cover-letter/cover-letter.module";
 import { DatabaseModule } from "./database/database.module";
 import { FeatureModule } from "./feature/feature.module";
 import { HealthModule } from "./health/health.module";
@@ -36,6 +38,7 @@ import { UserModule } from "./user/user.module";
     AuthModule.register(),
     UserModule,
     ResumeModule,
+    CoverLetterModule,
     StorageModule,
     PrinterModule,
     FeatureModule,
@@ -44,16 +47,20 @@ import { UserModule } from "./user/user.module";
     InformationModule,
 
     // Static Assets
-    ServeStaticModule.forRoot({
-      serveRoot: "/artboard",
-      // eslint-disable-next-line unicorn/prefer-module
-      rootPath: path.join(__dirname, "..", "artboard"),
-    }),
-    ServeStaticModule.forRoot({
-      renderPath: "/*",
-      // eslint-disable-next-line unicorn/prefer-module
-      rootPath: path.join(__dirname, "..", "client"),
-    }),
+    ...(process.env.NODE_ENV === "production"
+      ? [
+        ServeStaticModule.forRoot({
+          serveRoot: "/artboard",
+          // eslint-disable-next-line unicorn/prefer-module
+          rootPath: path.join(__dirname, "..", "artboard"),
+        }),
+        ServeStaticModule.forRoot({
+          renderPath: "/*",
+          // eslint-disable-next-line unicorn/prefer-module
+          rootPath: path.join(__dirname, "..", "client"),
+        }),
+      ]
+      : []),
   ],
   providers: [
     {

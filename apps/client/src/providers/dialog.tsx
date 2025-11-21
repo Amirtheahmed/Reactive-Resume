@@ -1,3 +1,4 @@
+// apps/client/src/providers/dialog.tsx
 import { AwardsDialog } from "../pages/builder/sidebars/left/dialogs/awards";
 import { CertificationsDialog } from "../pages/builder/sidebars/left/dialogs/certifications";
 import { CustomSectionDialog } from "../pages/builder/sidebars/left/dialogs/custom-section";
@@ -11,6 +12,8 @@ import { PublicationsDialog } from "../pages/builder/sidebars/left/dialogs/publi
 import { ReferencesDialog } from "../pages/builder/sidebars/left/dialogs/references";
 import { SkillsDialog } from "../pages/builder/sidebars/left/dialogs/skills";
 import { VolunteerDialog } from "../pages/builder/sidebars/left/dialogs/volunteer";
+import { CoverLetterDialog } from "../pages/dashboard/cover-letters/_dialogs/cover-letter";
+import { GenerateCoverLetterDialog } from "../pages/dashboard/cover-letters/_dialogs/generate";
 import { GenerateDialog } from "../pages/dashboard/resumes/_dialogs/generate";
 import { ImportDialog } from "../pages/dashboard/resumes/_dialogs/import";
 import { LockDialog } from "../pages/dashboard/resumes/_dialogs/lock";
@@ -30,11 +33,18 @@ export const DialogProvider = ({ children }: Props) => {
       {children}
 
       <div id="dialog-root">
+        {/* Resume Dialogs */}
         <ResumeDialog />
         <LockDialog />
         <ImportDialog />
-        <TwoFactorDialog />
         <GenerateDialog />
+
+        {/* Cover Letter Dialogs */}
+        <CoverLetterDialog />
+        <GenerateCoverLetterDialog />
+
+        {/* Settings Dialogs */}
+        <TwoFactorDialog />
 
         {isResumeLoaded && (
           <>

@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Bank, FadersHorizontalIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
+import { ArticleIcon, Bank, FadersHorizontalIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
 import { Button, KeyboardShortcut, Separator } from "@reactive-resume/ui";
 import { cn } from "@reactive-resume/utils";
 import { motion } from "framer-motion";
@@ -39,7 +39,8 @@ type SidebarItemProps = SidebarItem & {
 };
 
 const SidebarItem = ({ path, name, shortcut, icon, onClick }: SidebarItemProps) => {
-  const isActive = useLocation().pathname === path;
+  const { pathname } = useLocation();
+  const isActive = pathname.startsWith(path);
 
   return (
     <Button
@@ -91,6 +92,12 @@ export const Sidebar = ({ setOpen }: SidebarProps) => {
       name: t`Resumes`,
       shortcut: "⇧R",
       icon: <ReadCvLogoIcon />,
+    },
+    {
+      path: "/dashboard/cover-letters", // New Item
+      name: t`Cover Letters`,
+      shortcut: "⇧C",
+      icon: <ArticleIcon />,
     },
     {
       path: "/dashboard/information",

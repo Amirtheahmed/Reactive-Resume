@@ -26,7 +26,7 @@ import {
   TextOutdentIcon,
   TextStrikethroughIcon,
 } from "@phosphor-icons/react";
-import { PopoverTrigger } from "@radix-ui/react-popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { cn } from "@reactive-resume/utils";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Image } from "@tiptap/extension-image";
@@ -36,14 +36,13 @@ import { Underline } from "@tiptap/extension-underline";
 import type { Editor, EditorContentProps } from "@tiptap/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { forwardRef, useCallback } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "./button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Input } from "./input";
-import { Popover, PopoverContent } from "./popover";
 import { ScrollArea } from "./scroll-area";
 import { Skeleton } from "./skeleton";
 import { Toggle } from "./toggle";
@@ -513,6 +512,12 @@ export const RichInput = forwardRef<Editor, RichInputProps>(
       parseOptions: { preserveWhitespace: "full" },
       onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
     });
+
+     useEffect(() => {
+       if (editor && content !== editor.getHTML()) {
+         editor.commands.setContent(content ?? "", false);
+       }
+     }, [content, editor]);
 
     if (!editor) {
       return (

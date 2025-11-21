@@ -20,12 +20,19 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+    allowedHosts: ["host.docker.internal"],
     fs: { allow: [searchForWorkspaceRoot(process.cwd())] },
 
     proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        secure: false,
+        changeOrigin: true,
+      },
       "/artboard": {
         target: "http://localhost:6173",
         changeOrigin: true,
+        ws: true,
       },
     },
   },
