@@ -38,7 +38,7 @@ export const GenerateDialog = () => {
   const navigate = useNavigate();
   const { isOpen, close } = useDialog("generate");
   const { generateResume, loading } = useGenerateResume();
-  const { apiKey, baseURL, model, maxTokens, isAzure, azureApiVersion } = useOpenAiStore();
+  const { provider, apiKey, baseURL, model, maxTokens, isAzure, azureApiVersion } = useOpenAiStore();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -58,6 +58,7 @@ export const GenerateDialog = () => {
     const resume = await generateResume({
       ...data,
       openAiConfig: {
+        provider: provider,
         apiKey: apiKey ?? undefined,
         baseURL: baseURL ?? undefined,
         model: model ?? undefined,

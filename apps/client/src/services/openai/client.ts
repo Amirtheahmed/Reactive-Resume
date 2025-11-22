@@ -1,18 +1,20 @@
 import { t } from "@lingui/macro";
 import { OpenAI } from "openai";
 
+import { GEMINI_BASE_URL } from "@/client/constants/llm";
 import { useOpenAiStore } from "@/client/stores/openai";
 
 export const openai = () => {
-  const { apiKey, baseURL, isAzure, azureApiVersion, model } = useOpenAiStore.getState();
+  const { apiKey, baseURL, isAzure, azureApiVersion, model, provider } = useOpenAiStore.getState();
 
   if (!apiKey) {
     throw new Error(
-      t`Your OpenAI API Key has not been set yet. Please go to your account settings to enable OpenAI Integration.`,
+      t`Your API Key has not been set yet. Please go to your account settings to enable AI Integration.`,
     );
   }
 
-  if (isAzure) {
+  // Handle Azure
+  if (provider === "azure" || isAzure) {
     if (!baseURL || !model || !azureApiVersion) {
       throw new Error(
         t`Azure OpenAI Base URL, deployment name (model), and API version are required when using Azure OpenAI.`,
@@ -29,9 +31,19 @@ export const openai = () => {
     });
   }
 
+  // Handle Gemini
+  if (provider === "gemini") {
+    return new OpenAI({
+      apiKey,
+      baseURL: GEMINI_BASE_URL,
+      dangerouslyAllowBrowser: true,
+    });
+  }
+
+  // Handle OpenAI / Ollama
   return new OpenAI({
     apiKey,
-    baseURL,
+    baseURL: baseURL ?? undefined,
     dangerouslyAllowBrowser: true,
   });
 };

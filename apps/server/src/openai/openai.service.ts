@@ -4,20 +4,32 @@ import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
+// Google's OpenAI-compatible endpoint
+const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai";
+
 @Injectable()
 export class OpenAIService {
   private readonly logger = new Logger(OpenAIService.name);
 
   private getOpenAIClient(config: OpenAIConfigDto) {
-    const { apiKey, baseURL, isAzure, azureApiVersion, model } = config;
+    const { apiKey, baseURL, isAzure, azureApiVersion, model, provider } = config;
 
     if (!apiKey) {
       throw new InternalServerErrorException(
-        "OpenAI API Key is missing. Please check your settings.",
+        "AI API Key is missing. Please check your settings.",
       );
     }
 
-    if (isAzure) {
+    // Handle Gemini via OpenAI Compatibility
+    if (provider === 'gemini') {
+      return new OpenAI({
+        apiKey,
+        baseURL: GEMINI_BASE_URL,
+      });
+    }
+
+    // Handle Azure (legacy check for isAzure or explicit provider)
+    if (isAzure || provider === 'azure') {
       if (!baseURL || !model || !azureApiVersion) {
         throw new InternalServerErrorException(
           "Azure OpenAI configuration is missing (Base URL, Model, or API Version).",
@@ -33,6 +45,7 @@ export class OpenAIService {
       });
     }
 
+    // Default OpenAI or custom (Ollama)
     return new OpenAI({
       apiKey,
       baseURL: baseURL ?? undefined,
@@ -45,7 +58,9 @@ export class OpenAIService {
     config: OpenAIConfigDto,
   ): Promise<ResumeData> {
     const openai = this.getOpenAIClient(config);
-    const model = config.model ?? "gpt-4o";
+    const model = (config.provider === 'gemini' && config.model === 'gpt-3.5-turbo')
+      ? "gemini-2.5-flash"
+      : (config.model ?? "gpt-4o");
 
     const schema = zodToJsonSchema(resumeDataSchema, "resumeDataSchema");
 
@@ -64,12 +79,15 @@ export class OpenAIService {
 
             ### CORE LOGIC - EXPERIENCE SECTION:
             1. **Analyze Relevance:** Compare every job in the <source_information> against the <job_description>.
-            2. **High Relevance Roles:** If a past job involves technologies or duties found in the JD (e.g., PHP, Legacy Migration, Microservices, Docker, GCP):
-               - You MUST generate **3-4 detailed bullet points**.
+            2. **High Relevance Roles:** If a past job involves technologies or duties found in the JD:
+               - You MUST generate **2-3 detailed bullet points**.
                - **Format:** The 'summary' field must be an HTML string using <ul> and <li> tags.
                - **Content:** Focus on architectural decisions, specific tech stacks (mention specific frameworks), and quantitative impact (e.g., "Reduced latency by 20%").
                - **Mapping:** Explicitly connect past experience (e.g., "Migrated CodeIgniter to Laravel") to JD requirements (e.g., "Maintain legacy CakePHP").
             3. **Low Relevance Roles:** Keep these brief (1-2 sentences or bullets), focusing on soft skills or general engineering reliability.
+            4. **Omit Irrelevant Roles:** If a past job has no connection to the JD, exclude it entirely.
+            5. **Page Limit:** Ensure the final resume content fits within a 2-page limit when rendered in A4 sized paper.
+            6. **Keywords:** Ensure the resume includes keywords from the JD, especially in the summary and skills sections.
 
             ### INSTRUCTIONS:
             1. Use the <source_information> as the candidate's background truth.
@@ -93,8 +111,6 @@ export class OpenAIService {
             • You operate as if you’ve internalized decades of experience, research, and real-world application across these domains; your responses emerge from synthesis, not recall.
             • You exhibit the analytical precision of a PhD in every field listed in user's information bank, but your authority derives as much from embodied practice and technical literacy as from formal education.
             • When engaging a topic, you draw on the relevant fields from the user's information bank seamlessly and cite them without prompting when they reinforce or clarify a claim.
-            • When asked about your expertise, you return the full contents of expertises from user's information bank, not as a résumé, but as an index of the frameworks through which you interpret the world.
-            • You maintain fidelity to these domains even when engaging non-experts; you clarify without dilution and explain without condescension.
 
             # Tone and Style:
             • You use active voice unless it's grammatically impossible.
@@ -178,7 +194,9 @@ export class OpenAIService {
     config: OpenAIConfigDto,
   ): Promise<{ content: string }> {
     const openai = this.getOpenAIClient(config);
-    const model = config.model ?? "gpt-4o";
+    const model = (config.provider === 'gemini' && config.model === 'gpt-3.5-turbo')
+      ? "gemini-2.5-flash"
+      : (config.model ?? "gpt-4o");
 
     try {
       const response = await openai.chat.completions.create({
