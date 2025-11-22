@@ -4,6 +4,7 @@ export * from "./contributors";
 export * from "./cover-letter";
 export * from "./feature";
 export * from "./information";
+export * from "./openai";
 export * from "./resume";
 export * from "./secrets";
 export * from "./statistics";

@@ -1,4 +1,3 @@
-// apps/server/src/resume/resume.service.ts
 import {
   BadRequestException,
   Injectable,
@@ -100,7 +99,6 @@ export class ResumeService {
       where: { user: { username }, slug, visibility: "public" },
     });
 
-    // Update statistics: increment the number of views by 1
     if (!userId) {
       await this.prisma.statistics.upsert({
         where: { resumeId: resume.id },
@@ -147,7 +145,6 @@ export class ResumeService {
 
   async remove(userId: string, id: string) {
     await Promise.all([
-      // Remove files in storage, and their cached keys
       this.storageService.deleteObject(userId, "resumes", id),
       this.storageService.deleteObject(userId, "previews", id),
     ]);
@@ -158,7 +155,6 @@ export class ResumeService {
   async printResume(resume: ResumeDto, userId?: string) {
     const url = await this.printerService.printResume(resume);
 
-    // Update statistics: increment the number of downloads by 1
     if (!userId) {
       await this.prisma.statistics.upsert({
         where: { resumeId: resume.id },
@@ -171,17 +167,24 @@ export class ResumeService {
   }
 
   async generate(userId: string, generateResumeDto: GenerateResumeDto) {
+    const { openAiConfig, jobDescription, title, slug } = generateResumeDto;
+
+    if (!openAiConfig) {
+      throw new BadRequestException("OpenAI configuration is required for generation.");
+    }
+
     const information = await this.informationService.findAll(userId);
     const generatedData = await this.openaiService.generateResume(
       information.data as InformationData,
-      generateResumeDto.jobDescription,
+      jobDescription,
+      openAiConfig,
     );
 
     return this.prisma.resume.create({
       data: {
         userId,
-        title: generateResumeDto.title,
-        slug: generateResumeDto.slug ?? slugify(generateResumeDto.title),
+        title,
+        slug: slug ?? slugify(title),
         visibility: "private",
         data: generatedData as unknown as Prisma.JsonObject,
       },

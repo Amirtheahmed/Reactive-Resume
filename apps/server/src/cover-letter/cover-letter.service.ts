@@ -1,5 +1,4 @@
-// apps/server/src/cover-letter/cover-letter.service.ts
-import { Injectable } from "@nestjs/common";
+import { BadRequestException,Injectable } from "@nestjs/common";
 import { CreateCoverLetterDto, GenerateCoverLetterDto, UpdateCoverLetterDto } from "@reactive-resume/dto";
 import { InformationData } from "@reactive-resume/schema";
 import slugify from "@sindresorhus/slugify";
@@ -24,6 +23,7 @@ export class CoverLetterService {
         userId,
         title: createCoverLetterDto.title,
         slug: createCoverLetterDto.slug ?? slugify(createCoverLetterDto.title),
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         content: createCoverLetterDto.content ?? "",
       },
     });
@@ -55,17 +55,24 @@ export class CoverLetterService {
   }
 
   async generate(userId: string, generateCoverLetterDto: GenerateCoverLetterDto) {
+    const { openAiConfig, jobDescription, title, slug } = generateCoverLetterDto;
+
+    if (!openAiConfig) {
+      throw new BadRequestException("OpenAI configuration is required for generation.");
+    }
+
     const information = await this.informationService.findAll(userId);
     const { content } = await this.openaiService.generateCoverLetter(
       information.data as InformationData,
-      generateCoverLetterDto.jobDescription,
+      jobDescription,
+      openAiConfig,
     );
 
     return this.prisma.coverLetter.create({
       data: {
         userId,
-        title: generateCoverLetterDto.title,
-        slug: generateCoverLetterDto.slug ?? slugify(generateCoverLetterDto.title),
+        title,
+        slug: slug ?? slugify(title),
         content,
       },
     });

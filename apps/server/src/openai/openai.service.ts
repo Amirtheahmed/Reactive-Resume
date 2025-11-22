@@ -1,36 +1,54 @@
-// apps/server/src/openai/openai.service.ts
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { OpenAIConfigDto } from "@reactive-resume/dto";
 import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/schema";
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-import { Config } from "../config/schema";
-
 @Injectable()
 export class OpenAIService {
-  private openai: OpenAI;
+  private getOpenAIClient(config: OpenAIConfigDto) {
+    const { apiKey, baseURL, isAzure, azureApiVersion, model } = config;
 
-  constructor(private readonly configService: ConfigService<Config>) {
-    const apiKey = this.configService.get("OPENAI_API_KEY");
-    if (apiKey) {
-      this.openai = new OpenAI({ apiKey });
+    if (!apiKey) {
+      throw new InternalServerErrorException(
+        "OpenAI API Key is missing. Please check your settings.",
+      );
     }
+
+    if (isAzure) {
+      if (!baseURL || !model || !azureApiVersion) {
+        throw new InternalServerErrorException(
+          "Azure OpenAI configuration is missing (Base URL, Model, or API Version).",
+        );
+      }
+
+      const azureBaseURL = baseURL.replace(/\/$/, "");
+
+      return new OpenAI({
+        apiKey,
+        baseURL: `${azureBaseURL}/openai/deployments/${model}`,
+        defaultQuery: { "api-version": azureApiVersion },
+      });
+    }
+
+    return new OpenAI({
+      apiKey,
+      baseURL: baseURL ?? undefined,
+    });
   }
 
   async generateResume(
     information: InformationData,
     jobDescription: string,
+    config: OpenAIConfigDto,
   ): Promise<ResumeData> {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!this.openai) {
-      throw new InternalServerErrorException("OpenAI API key is not configured on the server.");
-    }
+    const openai = this.getOpenAIClient(config);
+    const model = config.model ?? "gpt-4o";
 
     const schema = zodToJsonSchema(resumeDataSchema, "resumeDataSchema");
 
-    const response = await this.openai.chat.completions.create({
-      model: "gpt-4o", // Or "gpt-4-turbo"
+    const response = await openai.chat.completions.create({
+      model,
       response_format: { type: "json_object" },
       messages: [
         {
@@ -133,24 +151,22 @@ export class OpenAIService {
 
     try {
       const parsedJson = JSON.parse(content);
-      // Final validation before returning
       return resumeDataSchema.parse(parsedJson);
     } catch (error) {
-      throw new InternalServerErrorException("AI returned invalid JSON.", error.message);
+      throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
     }
   }
 
   async generateCoverLetter(
     information: InformationData,
     jobDescription: string,
+    config: OpenAIConfigDto,
   ): Promise<{ content: string }> {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!this.openai) {
-      throw new InternalServerErrorException("OpenAI API key is not configured on the server.");
-    }
+    const openai = this.getOpenAIClient(config);
+    const model = config.model ?? "gpt-4o";
 
-    const response = await this.openai.chat.completions.create({
-      model: "gpt-4o",
+    const response = await openai.chat.completions.create({
+      model,
       response_format: { type: "json_object" },
       messages: [
         {
@@ -191,12 +207,11 @@ export class OpenAIService {
         throw new TypeError("AI did not return content in the expected format.");
       }
 
-      // Clean up extra line breaks
       parsed.content = parsed.content.replace(/(<p><br><\/p>\s*){2,}/g, "<p><br></p>");
 
       return parsed;
     } catch (error) {
-      throw new InternalServerErrorException("AI returned invalid JSON.", error.message);
+      throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
     }
   }
 }

@@ -1,4 +1,3 @@
-// apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/macro";
 import { MagicWandIcon } from "@phosphor-icons/react";
@@ -28,16 +27,21 @@ import type { z } from "zod";
 
 import { useGenerateCoverLetter } from "@/client/services/cover-letter";
 import { useDialog } from "@/client/stores/dialog";
+import { useOpenAiStore } from "@/client/stores/openai";
 
-type FormValues = z.infer<typeof generateCoverLetterSchema>;
+// Omit openAiConfig from the form validation as it is pulled from the store
+const formSchema = generateCoverLetterSchema.omit({ openAiConfig: true });
+
+type FormValues = z.infer<typeof formSchema>;
 
 export const GenerateCoverLetterDialog = () => {
   const navigate = useNavigate();
   const { isOpen, close } = useDialog("generate-cover-letter");
   const { generateCoverLetter, loading } = useGenerateCoverLetter();
+  const { apiKey, baseURL, model, maxTokens, isAzure, azureApiVersion } = useOpenAiStore();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(generateCoverLetterSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: { title: "", slug: "", jobDescription: "" },
   });
 
@@ -51,7 +55,17 @@ export const GenerateCoverLetterDialog = () => {
   }, [form.watch]);
 
   const onSubmit = async (data: FormValues) => {
-    const coverLetter = await generateCoverLetter(data);
+    const coverLetter = await generateCoverLetter({
+      ...data,
+      openAiConfig: {
+        apiKey: apiKey ?? undefined,
+        baseURL: baseURL ?? undefined,
+        model: model ?? undefined,
+        maxTokens: maxTokens ?? undefined,
+        isAzure,
+        azureApiVersion: azureApiVersion ?? undefined,
+      },
+    });
     close();
     await navigate(`/dashboard/cover-letters/${coverLetter.id}`);
   };

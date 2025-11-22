@@ -1,8 +1,9 @@
-// libs/dto/src/resume/generate.ts
 import { createId } from "@paralleldrive/cuid2";
 import slugify from "@sindresorhus/slugify";
 import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
+
+import { openAIConfigSchema } from "../openai";
 
 export const generateResumeSchema = z.object({
   title: z.string().min(1),
@@ -16,6 +17,7 @@ export const generateResumeSchema = z.object({
     })
     .optional(),
   jobDescription: z.string().min(1),
+  openAiConfig: openAIConfigSchema.optional(),
 });
 
 export class GenerateResumeDto extends createZodDto(generateResumeSchema) {}
