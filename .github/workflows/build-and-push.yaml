@@ -39,8 +39,8 @@ jobs:
         with:
           images: ${{ env.APP_REPO }}/${{ env.APP_NAME }}
           tags: |
-            type=sha,prefix=,format=short
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=tag
+            type=sha
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
