@@ -6,21 +6,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: sr\n"
-"Project-Id-Version: reactive-resume\n"
+"Project-Id-Version: reactive-resume-fork\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-11-04 14:22\n"
+"PO-Revision-Date: 2025-11-22 20:32\n"
 "Last-Translator: \n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Crowdin-Project: reactive-resume\n"
-"X-Crowdin-Project-ID: 503410\n"
+"X-Crowdin-Project: reactive-resume-fork\n"
+"X-Crowdin-Project-ID: 848558\n"
 "X-Crowdin-Language: sr\n"
 "X-Crowdin-File: messages.po\n"
-"X-Crowdin-File-ID: 494\n"
+"X-Crowdin-File-ID: 2\n"
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:171
 msgid "You have enabled two-factor authentication successfully."
-msgstr "Успешно сте омогућили двофакторну аутентификацију."
+msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:57
 msgid "{templatesCount} resume templates to choose from"
@@ -52,6 +52,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:133
 msgid "<0>Two-factor authentication is enabled.</0> You will be asked to enter a code every time you sign in."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/summary.tsx:15
+msgid "A brief overview of your professional background and goals. You can also use this for your Work Philosophy."
 msgstr ""
 
 #: apps/client/src/pages/home/page.tsx:24
@@ -98,7 +102,7 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:175
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:179
 msgid "Add a custom field"
 msgstr ""
 
@@ -115,6 +119,10 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/index.tsx:149
 #: apps/client/src/pages/builder/sidebars/left/index.tsx:267
 msgid "Add a new section"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/page.tsx:91
+msgid "Add Custom Section"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/layout.tsx:266
@@ -135,7 +143,7 @@ msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:23
 msgid "An internal server error occurred."
-msgstr "."
+msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:32
 msgid "An unexpected error occurred."
@@ -156,6 +164,10 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/css.tsx:41
 msgid "Apply Custom CSS"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:152
+msgid "Are you sure you want to delete this cover letter?"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:128
@@ -239,6 +251,7 @@ msgid "Basics"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:43
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:14
 msgid "Basics"
 msgstr ""
 
@@ -257,14 +270,15 @@ msgstr ""
 #: apps/client/src/components/copyright.tsx:27
 #: apps/client/src/pages/home/sections/contributors/index.tsx:20
 msgid "By the community, for the community."
-msgstr "Од заједнице, за заједницу."
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:135
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:158
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:49
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:156
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:137
 msgid "Cancel"
-msgstr "Откажи"
+msgstr ""
 
 #: apps/client/src/components/ai-actions.tsx:107
 #: apps/client/src/components/ai-actions.tsx:110
@@ -302,7 +316,7 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:249
 msgid "Close"
-msgstr "Затвори"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:201
 msgid "Code"
@@ -328,7 +342,7 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:39
 msgid "Company"
-msgstr "Компанија"
+msgstr ""
 
 #: apps/client/src/components/ai-actions.tsx:119
 #: apps/client/src/components/ai-actions.tsx:122
@@ -350,36 +364,57 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/sharing.tsx:78
 msgid "Copy to Clipboard"
-msgstr "Копирај у клипборд"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:81
+msgid "Cover Letter Title"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:98
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:40
+msgid "Cover Letters"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:179
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:237
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:244
 msgid "Create"
-msgstr "Направи"
+msgstr ""
 
 #: apps/client/src/pages/auth/register/page.tsx:64
 #: apps/client/src/pages/auth/register/page.tsx:69
 msgid "Create a new account"
-msgstr "Креирајте нови налог"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:180
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/create-card.tsx:27
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/create-item.tsx:16
+msgid "Create a new cover letter"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:163
 msgid "Create a new item"
-msgstr "Креирајте нову ставку"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:178
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/create-card.tsx:28
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/create-item.tsx:18
 msgid "Create a new resume"
-msgstr "Креирајте нови резиме"
+msgstr ""
 
 #: apps/client/src/pages/auth/login/page.tsx:65
 msgctxt "This is a link to create a new account"
 msgid "Create one now"
-msgstr "Направи један сада"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:259
 msgid "Create Sample Resume"
-msgstr "Направи пример резимеа"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:252
+msgid "Create with Sample Content"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:82
 msgid "Current Password"
@@ -393,7 +428,7 @@ msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:62
 msgid "Custom resume sections"
-msgstr "Прилагођени одељци резимеа"
+msgstr ""
 
 #: apps/client/src/stores/resume.ts:53
 msgid "Custom Section"
@@ -413,13 +448,13 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:87
 msgid "Dark"
-msgstr "Тамна"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:67
 msgid "Date"
-msgstr "Датум"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/custom-section.tsx:109
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:110
@@ -427,20 +462,24 @@ msgstr "Датум"
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:101
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:67
 msgid "Date or Date Range"
-msgstr "Датум или опсег датума"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:137
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:160
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:89
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:99
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:133
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:158
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:121
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:127
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:172
 msgid "Delete"
-msgstr "Обриши"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/danger.tsx:79
 #: apps/client/src/pages/dashboard/settings/_sections/danger.tsx:94
 msgid "Delete Account"
-msgstr "Обриши налог"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:205
 msgid "Deployment Name"
@@ -452,46 +491,46 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:53
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:84
 msgid "Description"
-msgstr "Опис"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:58
 msgid "Design single/multi page resumes"
-msgstr "Дизајнирајте једностране/вишестране резимее"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:139
 msgid "Disable"
-msgstr "Онемогући"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:154
 msgid "Disable 2FA"
-msgstr "Онемогући двофакторску аутентификацију"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:302
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:220
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:134
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:118
 msgid "Discard"
-msgstr "Одбаци"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:110
 msgid "Documentation"
-msgstr "Документација"
+msgstr ""
 
 #: apps/client/src/pages/auth/login/page.tsx:62
 msgid "Don't have an account?"
-msgstr "Немате налог?"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:88
 msgid "Don't know where to begin? Hit the docs!"
-msgstr "Не знате одакле да почнете? Погледајте документацију!"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:107
 msgid "Don't see your language? <0>Help translate the app.</0>"
-msgstr "Не видите свој језик? <0>Помозите у превођењу апликације.</0>"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:45
 msgid "Donate to Reactive Resume"
-msgstr "Донирајте Реактивном Резимеу"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:56
 msgid "Download a JSON snapshot of your resume. This file can be used to import your resume in the future, or can even be shared with others to collaborate."
@@ -503,40 +542,52 @@ msgstr ""
 
 #: apps/client/src/pages/builder/_components/toolbar.tsx:176
 msgid "Download PDF"
-msgstr "Преузми PDF"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:58
 msgid "Downloads"
-msgstr "Преузимања"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:181
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:239
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:84
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:88
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:128
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:246
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:105
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:95
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:156
 msgid "Duplicate"
-msgstr "Дупликат"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:182
+msgid "Duplicate an existing cover letter"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:165
 msgid "Duplicate an existing item"
-msgstr "Дуплирај постојећу ставку"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:180
 msgid "Duplicate an existing resume"
-msgstr "Дуплирај постојећи резиме"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:97
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:76
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:70
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:120
 msgid "Edit"
-msgstr "Измени"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:169
 msgid "Effects"
-msgstr "Ефекти"
+msgstr ""
 
 #: apps/client/src/pages/auth/forgot-password/page.tsx:82
 #: apps/client/src/pages/auth/login/page.tsx:90
 #: apps/client/src/pages/auth/register/page.tsx:141
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:81
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:45
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:181
 msgid "Email"
 msgstr ""
@@ -553,7 +604,7 @@ msgstr ""
 msgid "Enter one of the 10 backup codes you saved when you enabled two-factor authentication."
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:63
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:67
 msgid "Enter Phosphor Icon"
 msgstr ""
 
@@ -668,11 +719,41 @@ msgid "Friendly"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:56
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:22
 msgid "Full Name"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+msgid "Generate"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:198
+msgid "Generate a random title"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:202
 msgid "Generate a random title for your resume"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:68
+msgid "Generate Cover Letter with AI"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:68
+msgid "Generate Customized Resume"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/generate-card.tsx:27
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/generate-item.tsx:15
+#: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/generate-card.tsx:29
+#: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/generate-item.tsx:18
+msgid "Generate with AI"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+msgid "Generating..."
 msgstr ""
 
 #: apps/client/src/pages/home/sections/hero/call-to-action.tsx:32
@@ -689,12 +770,12 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:187
 msgid "Give your old resume a new name."
-msgstr "Дајте свом старом резимеу ново име."
+msgstr ""
 
 #: apps/client/src/pages/auth/verify-email/page.tsx:67
 #: apps/client/src/pages/home/sections/hero/call-to-action.tsx:18
 msgid "Go to Dashboard"
-msgstr "Иди на контролну таблу"
+msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:55
 msgid "Go to home"
@@ -702,55 +783,57 @@ msgstr ""
 
 #: apps/client/src/pages/auth/_components/social-auth.tsx:31
 msgid "Google"
-msgstr "Google"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:202
 msgid "Grayscale"
-msgstr "Сиви тонови"
+msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:46
 #: apps/client/src/pages/dashboard/resumes/page.tsx:45
 msgid "Grid"
-msgstr "Мрежа"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:70
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:34
 msgid "Headline"
-msgstr "Наслов"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:107
 msgid "Here, you can update your account information such as your profile picture, name and username."
-msgstr "Овде можете ажурирати информације о свом налогу као што су слика вашњег профила, име и корисничко име."
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:68
 msgid "Here, you can update your profile to customize and personalize your experience."
-msgstr "Овде можете ажурирати свој профил да бисте прилагодили и персонализовали своје корисничко искуство."
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/languages.tsx:80
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:115
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:180
 msgid "Hidden"
-msgstr "Сакривено"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:106
 msgid "Hide"
-msgstr "Сакриј"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/typography.tsx:192
 msgid "Hide Icons"
-msgstr "Сакриј иконе"
+msgstr ""
 
 #: apps/client/src/pages/auth/login/page.tsx:115
 #: apps/client/src/pages/auth/register/page.tsx:168
 #: apps/client/src/pages/auth/reset-password/page.tsx:88
 msgid "Hold <0>Ctrl</0> to display your password temporarily."
-msgstr "Држите <0>Ctrl</0> да бисте привремено приказали вашу шифру."
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:93
 msgid "Horizontal"
-msgstr "Хоризонтално"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:67
 msgid "Host your resume publicly"
-msgstr "Хостујте свој резиме јавно"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/testimonials/index.tsx:70
 msgid "I always love to hear from the users of Reactive Resume with feedback or support. Here are some of the messages I've received. If you have any feedback, feel free to drop me an email at <0>{email}</0>."
@@ -759,41 +842,41 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/profiles.tsx:83
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:53
 msgid "Icon"
-msgstr "Иконица"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/logo-cloud/index.tsx:47
 msgid "If this app has helped you with your job hunt, let me know by reaching out through <0>this contact form</0>."
-msgstr "Ако вам је ова апликација помогла у потрази за послом, обавестите ме путем <0>овог контакт формулара</0>."
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:128
 msgid "If you disable two-factor authentication, you will no longer be required to enter a verification code when logging in."
-msgstr "Ако онемогућите двофакторску аутентикацију, више нећете бити обавезни да уносите верификациони код при пријави."
+msgstr ""
 
 #: apps/client/src/pages/home/sections/support/index.tsx:59
 msgid "If you're multilingual, we'd love your help in bringing the app to more languages and communities. Don't worry if you don't see your language on the list - just give me a shout-out on GitHub, and I'll make sure to include it. Ready to get started? Jump into translation over at Crowdin by clicking the link below."
-msgstr "Ако сте вишејезични, волели бисмо вашу помоћ u привођењу апликације у више језика и заједница. Немојте бринути ако не видите свој језик на списку - само ми се обратите на GitHub-u, и ја ћу се потрудити да га укључим. Спремни сте за почетак? Придружите се у превођење на Crowdin-у кликом на доле наведени линк."
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:309
 msgid "Import"
-msgstr "Увези"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:208
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/import-card.tsx:28
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/import-item.tsx:17
 msgid "Import an existing resume"
-msgstr "Увези постојећи резиме"
+msgstr ""
 
 #: apps/client/src/components/ai-actions.tsx:85
 msgid "Improve Writing"
-msgstr "Побољшајте писање"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:188
 msgid "In case you are unable to scan this QR Code, you can also copy-paste this link into your authenticator app."
-msgstr "Уколико нисте у могућности да скенирате овај QR код, такође можете ископирати-налепити овај линк у своју апликацију за аутентификацију."
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:67
 msgid "In this section, you can change your password and enable/disable two-factor authentication."
-msgstr "У овом одељку можете променити своју лозинку и омогућити/онемогућити двофакторску аутентикацију."
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/danger.tsx:64
 msgid "In this section, you can delete your account and all the data associated to your user, but please keep in mind that <0>this action is irreversible</0>."
@@ -802,12 +885,18 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:135
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:121
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:122
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:104
 msgid "Information"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/page.tsx:36
+#: apps/client/src/pages/dashboard/information/page.tsx:43
+msgid "Information Bank"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:39
 msgid "Institution"
-msgstr "Институција"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:53
 msgid "Issuer"
@@ -839,6 +928,11 @@ msgstr ""
 
 #: apps/client/src/services/errors/translate-error.ts:25
 msgid "It looks like your email address has already been verified."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:95
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:95
+msgid "Job Description"
 msgstr ""
 
 #: apps/client/src/pages/auth/register/page.tsx:101
@@ -876,6 +970,8 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:62
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:111
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:83
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:139
 msgid "Last updated {lastUpdated}"
@@ -898,7 +994,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/languages.tsx:64
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:98
 msgid "Level"
-msgstr "Ниво"
+msgstr ""
 
 #: apps/client/src/components/copyright.tsx:16
 msgid "Licensed under <0>MIT</0>"
@@ -910,7 +1006,7 @@ msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:69
 msgid "Light or dark theme"
-msgstr "Светла или тамна тема"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/typography.tsx:165
 msgid "Line Height"
@@ -921,6 +1017,7 @@ msgstr ""
 msgid "LinkedIn, JSON Resume, etc."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:50
 #: apps/client/src/pages/dashboard/resumes/page.tsx:49
 msgid "List"
 msgstr ""
@@ -929,6 +1026,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:86
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:120
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:84
 msgid "Location"
 msgstr ""
 
@@ -1002,7 +1100,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:39
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:39
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:70
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:88
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:92
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:153
 msgid "Name"
 msgstr ""
@@ -1045,6 +1143,7 @@ msgstr ""
 #: apps/client/src/components/ai-actions.tsx:56
 #: apps/client/src/libs/axios.ts:30
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:188
+#: apps/client/src/services/cover-letter/print.ts:24
 #: apps/client/src/services/resume/print.tsx:26
 msgid "Oops, the server returned an error."
 msgstr ""
@@ -1080,9 +1179,9 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/right/sections/page.tsx:67
 #: apps/client/src/pages/builder/sidebars/right/sections/typography.tsx:182
 msgid "Options"
-msgstr "Опције"
+msgstr ""
 
-#: apps/client/src/pages/auth/layout.tsx:47
+#: apps/client/src/pages/auth/layout.tsx:46
 msgctxt "The user can either login with email/password, or continue with GitHub or Google."
 msgid "or continue with"
 msgstr ""
@@ -1108,6 +1207,14 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:72
+msgid "Paste a job description below. We'll use your Information Bank to tailor a new cover letter specifically for this role."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:72
+msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:76
 msgid "PDF"
 msgstr ""
@@ -1117,10 +1224,11 @@ msgid "Personal notes for each resume"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:108
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:72
 msgid "Phone"
 msgstr ""
 
-#: apps/client/src/pages/auth/layout.tsx:76
+#: apps/client/src/pages/auth/layout.tsx:75
 msgid "Photograph by Patrick Tomasso"
 msgstr ""
 
@@ -1170,6 +1278,10 @@ msgstr ""
 msgid "Primary Color"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:16
+msgid "Primary information such as your name, email, phone, etc."
+msgstr ""
+
 #: apps/client/src/pages/home/components/footer.tsx:47
 msgid "Privacy Policy"
 msgstr ""
@@ -1204,6 +1316,9 @@ msgstr ""
 #: apps/client/src/pages/auth/verify-email/page.tsx:43
 #: apps/client/src/pages/auth/verify-otp/page.tsx:52
 #: apps/client/src/pages/builder/page.tsx:60
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:42
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
+#: apps/client/src/pages/dashboard/information/page.tsx:36
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
 #: apps/client/src/pages/dashboard/settings/page.tsx:16
 #: apps/client/src/pages/home/components/footer.tsx:18
@@ -1243,6 +1358,9 @@ msgid "Remove Page"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:111
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:80
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:79
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:124
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:101
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:86
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:152
@@ -1270,7 +1388,11 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:86
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:81
+msgid "Resume Title"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:92
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
 #: apps/client/src/pages/dashboard/resumes/page.tsx:39
 msgid "Resumes"
@@ -1289,6 +1411,7 @@ msgid "Rounded"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:180
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:238
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:245
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:217
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:131
@@ -1299,8 +1422,15 @@ msgstr ""
 msgid "Save Locally"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:83
+#: apps/client/src/pages/dashboard/information/page.tsx:71
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:274
 msgid "Saved"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:72
+#: apps/client/src/pages/dashboard/information/page.tsx:60
+msgid "Saving..."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:168
@@ -1336,6 +1466,10 @@ msgstr ""
 msgid "Search for a language"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/custom-section.tsx:27
+msgid "Section Title"
+msgstr ""
+
 #: apps/client/src/pages/home/sections/features/index.tsx:56
 msgid "Secure with two-factor authentication"
 msgstr ""
@@ -1361,7 +1495,7 @@ msgid "Separate Links"
 msgstr ""
 
 #: apps/client/src/components/user-options.tsx:32
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:92
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:110
 #: apps/client/src/pages/dashboard/settings/page.tsx:16
 #: apps/client/src/pages/dashboard/settings/page.tsx:26
 msgid "Settings"
@@ -1436,6 +1570,7 @@ msgstr ""
 msgid "Size (in px)"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:221
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:228
 msgid "Slug"
 msgstr ""
@@ -1466,6 +1601,11 @@ msgstr ""
 msgid "Start building your resume by giving it a name."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/create-card.tsx:28
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/create-item.tsx:17
+msgid "Start with a blank page"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:114
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:22
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:23
@@ -1480,6 +1620,10 @@ msgstr ""
 msgid "Store your backup codes securely"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/page.tsx:45
+msgid "Store your professional information here to be used across your resumes."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:101
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/dialogs/custom-section.tsx:151
@@ -1489,6 +1633,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:109
+#: apps/client/src/pages/dashboard/information/sections/summary.tsx:13
 msgid "Summary"
 msgstr ""
 
@@ -1514,6 +1659,16 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:85
 msgid "System"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/generate-card.tsx:28
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/generate-item.tsx:16
+msgid "Tailor a cover letter from a job description"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/generate-card.tsx:33
+#: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/generate-item.tsx:22
+msgid "Tailor a resume from a job description"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:65
@@ -1561,6 +1716,10 @@ msgstr ""
 msgid "This action can be reverted by clicking on the undo button in the floating toolbar."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:154
+msgid "This action cannot be undone. This will permanently delete your cover letter."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:151
 msgid "This action cannot be undone. This will permanently delete your resume and cannot be recovered."
 msgstr ""
@@ -1586,6 +1745,7 @@ msgctxt "Name of the Award"
 msgid "Title"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:193
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:196
 msgid "Title"
 msgstr ""
@@ -1654,6 +1814,10 @@ msgstr ""
 msgid "Unverified"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:181
+msgid "Update an existing cover letter"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:164
 msgid "Update an existing item"
 msgstr ""
@@ -1709,7 +1873,7 @@ msgstr ""
 msgid "Validated"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:97
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:101
 msgid "Value"
 msgstr ""
 
@@ -1738,7 +1902,7 @@ msgstr ""
 msgid "Visible"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:70
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:74
 msgid "Visit <0>Phosphor Icons</0> for a list of available icons"
 msgstr ""
 
@@ -1757,6 +1921,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:96
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:60
 msgid "Website"
 msgstr ""
 

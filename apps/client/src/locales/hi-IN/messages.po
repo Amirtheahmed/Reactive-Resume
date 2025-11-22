@@ -54,6 +54,10 @@ msgstr "<0>दो-कारक प्रमाणीकरण वर्तमा
 msgid "<0>Two-factor authentication is enabled.</0> You will be asked to enter a code every time you sign in."
 msgstr "<0>दो-कारक प्रमाणीकरण सक्षम है।</0> हर बार साइन इन करने पर आपसे एक कोड दर्ज करने के लिए कहा जाएगा।"
 
+#: apps/client/src/pages/dashboard/information/sections/summary.tsx:15
+msgid "A brief overview of your professional background and goals. You can also use this for your Work Philosophy."
+msgstr ""
+
 #: apps/client/src/pages/home/page.tsx:24
 #: apps/client/src/pages/home/sections/hero/index.tsx:40
 msgid "A free and open-source resume builder"
@@ -98,7 +102,7 @@ msgstr "केवल {accept} फ़ाइलें स्वीकार कर
 msgid "Account"
 msgstr "खाता"
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:175
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:179
 msgid "Add a custom field"
 msgstr "नया कस्टम फ़ील्ड जोड़ें"
 
@@ -116,6 +120,10 @@ msgstr "एक नया आइटम जोड़ें"
 #: apps/client/src/pages/builder/sidebars/left/index.tsx:267
 msgid "Add a new section"
 msgstr "एक नया अनुभाग जोड़ें"
+
+#: apps/client/src/pages/dashboard/information/page.tsx:91
+msgid "Add Custom Section"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/layout.tsx:266
 msgid "Add New Page"
@@ -156,6 +164,10 @@ msgstr "इस लिंक वाला कोई भी व्यक्ति 
 
 #: apps/client/src/pages/builder/sidebars/right/sections/css.tsx:41
 msgid "Apply Custom CSS"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:152
+msgid "Are you sure you want to delete this cover letter?"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:128
@@ -239,6 +251,7 @@ msgid "Basics"
 msgstr "बुनियादी"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:43
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:14
 msgid "Basics"
 msgstr "बुनियादी"
 
@@ -260,6 +273,7 @@ msgid "By the community, for the community."
 msgstr "समुदाय द्वारा, समुदाय के लिए."
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:135
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:158
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:49
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:156
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:137
@@ -352,7 +366,18 @@ msgstr "फिर से शुरू करने के लिए लिंक
 msgid "Copy to Clipboard"
 msgstr "क्लिपबोर्ड पर कॉपी करें"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:81
+msgid "Cover Letter Title"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:98
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:40
+msgid "Cover Letters"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:179
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:237
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:244
 msgid "Create"
 msgstr "बनाएँ"
@@ -361,6 +386,12 @@ msgstr "बनाएँ"
 #: apps/client/src/pages/auth/register/page.tsx:69
 msgid "Create a new account"
 msgstr "एक नया खाता बनाएँ"
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:180
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/create-card.tsx:27
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/create-item.tsx:16
+msgid "Create a new cover letter"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:163
 msgid "Create a new item"
@@ -380,6 +411,10 @@ msgstr "अभी एक बनाएं"
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:259
 msgid "Create Sample Resume"
 msgstr "नमूना बायोडाटा बनाएं"
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:252
+msgid "Create with Sample Content"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:82
 msgid "Current Password"
@@ -430,6 +465,10 @@ msgid "Date or Date Range"
 msgstr "तारीख या तारीख सीमा"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:137
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:160
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:89
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:99
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:133
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:158
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:121
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:127
@@ -510,12 +549,20 @@ msgid "Downloads"
 msgstr "डाउनलोड"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:181
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:239
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:84
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:88
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:128
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:246
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:105
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:95
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:156
 msgid "Duplicate"
 msgstr "प्रतिरूप"
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:182
+msgid "Duplicate an existing cover letter"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:165
 msgid "Duplicate an existing item"
@@ -526,6 +573,9 @@ msgid "Duplicate an existing resume"
 msgstr "किसी मौजूदा आइटम का नक़ल बनाएं"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:97
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:76
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:70
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:120
 msgid "Edit"
 msgstr "एडिट करें"
 
@@ -537,6 +587,7 @@ msgstr "प्रभाव"
 #: apps/client/src/pages/auth/login/page.tsx:90
 #: apps/client/src/pages/auth/register/page.tsx:141
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:81
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:45
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:181
 msgid "Email"
 msgstr "ई-मेल"
@@ -553,7 +604,7 @@ msgstr "नीचे एक नया पासवर्ड दर्ज कर�
 msgid "Enter one of the 10 backup codes you saved when you enabled two-factor authentication."
 msgstr "दो-कारक प्रमाणीकरण सक्षम करते समय आपके द्वारा सहेजे गए 10 बैकअप कोड में से एक दर्ज करें।"
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:63
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:67
 msgid "Enter Phosphor Icon"
 msgstr ""
 
@@ -668,12 +719,42 @@ msgid "Friendly"
 msgstr "मित्रतापूर्ण"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:56
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:22
 msgid "Full Name"
 msgstr "पूरा नाम"
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+msgid "Generate"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:198
+msgid "Generate a random title"
+msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:202
 msgid "Generate a random title for your resume"
 msgstr "अपने बायोडाटा के लिए एक यादृच्छिक शीर्षक बनाएं"
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:68
+msgid "Generate Cover Letter with AI"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:68
+msgid "Generate Customized Resume"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/generate-card.tsx:27
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/generate-item.tsx:15
+#: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/generate-card.tsx:29
+#: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/generate-item.tsx:18
+msgid "Generate with AI"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+msgid "Generating..."
+msgstr ""
 
 #: apps/client/src/pages/home/sections/hero/call-to-action.tsx:32
 msgid "Get Started"
@@ -708,11 +789,13 @@ msgstr "गूगल"
 msgid "Grayscale"
 msgstr "ग्रेस्केल"
 
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:46
 #: apps/client/src/pages/dashboard/resumes/page.tsx:45
 msgid "Grid"
 msgstr "ग्रिड"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:70
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:34
 msgid "Headline"
 msgstr "शीर्षक"
 
@@ -802,8 +885,14 @@ msgstr "इस अनुभाग में, आप अपना खाता �
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:135
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:121
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:122
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:104
 msgid "Information"
 msgstr "जानकारी"
+
+#: apps/client/src/pages/dashboard/information/page.tsx:36
+#: apps/client/src/pages/dashboard/information/page.tsx:43
+msgid "Information Bank"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:39
 msgid "Institution"
@@ -841,6 +930,11 @@ msgstr "ऐसा लगता है कि आपके द्वारा प
 msgid "It looks like your email address has already been verified."
 msgstr "ऐसा लगता है कि आपका ईमेल पता पहले ही सत्यापित हो चुका है।"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:95
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:95
+msgid "Job Description"
+msgstr ""
+
 #: apps/client/src/pages/auth/register/page.tsx:101
 msgctxt "Localized version of a placeholder name. For example, Max Mustermann in German or Jan Kowalski in Polish."
 msgid "John Doe"
@@ -876,6 +970,8 @@ msgstr "लेबल"
 msgid "Language"
 msgstr "भाषा"
 
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:62
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:111
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:83
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:139
 msgid "Last updated {lastUpdated}"
@@ -921,6 +1017,7 @@ msgstr "पंक्ति ऊँचाई"
 msgid "LinkedIn, JSON Resume, etc."
 msgstr "लिंक्डइन, JSON बायोडाटा, आदि।"
 
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:50
 #: apps/client/src/pages/dashboard/resumes/page.tsx:49
 msgid "List"
 msgstr "सूची"
@@ -929,6 +1026,7 @@ msgstr "सूची"
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:86
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:120
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:84
 msgid "Location"
 msgstr "स्थान"
 
@@ -1002,7 +1100,7 @@ msgstr "मॉडल"
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:39
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:39
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:70
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:88
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:92
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:153
 msgid "Name"
 msgstr "नाम"
@@ -1045,6 +1143,7 @@ msgstr "एक बारी पासवर्ड"
 #: apps/client/src/components/ai-actions.tsx:56
 #: apps/client/src/libs/axios.ts:30
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:188
+#: apps/client/src/services/cover-letter/print.ts:24
 #: apps/client/src/services/resume/print.tsx:26
 msgid "Oops, the server returned an error."
 msgstr "ओह, सर्वर ने एक त्रुटि लौटा दी।"
@@ -1082,7 +1181,7 @@ msgstr ""
 msgid "Options"
 msgstr "विकल्प"
 
-#: apps/client/src/pages/auth/layout.tsx:47
+#: apps/client/src/pages/auth/layout.tsx:46
 msgctxt "The user can either login with email/password, or continue with GitHub or Google."
 msgid "or continue with"
 msgstr "या जारी रखें"
@@ -1108,6 +1207,14 @@ msgstr ""
 msgid "Password"
 msgstr "पासवर्ड"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:72
+msgid "Paste a job description below. We'll use your Information Bank to tailor a new cover letter specifically for this role."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:72
+msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:76
 msgid "PDF"
 msgstr "पीडीएफ"
@@ -1117,10 +1224,11 @@ msgid "Personal notes for each resume"
 msgstr "प्रत्येक बायोडाटा के लिए व्यक्तिगत नोट्स"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:108
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:72
 msgid "Phone"
 msgstr "फ़ोन"
 
-#: apps/client/src/pages/auth/layout.tsx:76
+#: apps/client/src/pages/auth/layout.tsx:75
 msgid "Photograph by Patrick Tomasso"
 msgstr "फ़ोटोग्राफ़ पैट्रिक टोमासो द्वारा"
 
@@ -1170,6 +1278,10 @@ msgstr "<0>सिंपल आइकॉन</0> द्वारा संचा�
 msgid "Primary Color"
 msgstr "प्राथमिक रंग"
 
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:16
+msgid "Primary information such as your name, email, phone, etc."
+msgstr ""
+
 #: apps/client/src/pages/home/components/footer.tsx:47
 msgid "Privacy Policy"
 msgstr "गोपनीयता नीति"
@@ -1204,6 +1316,9 @@ msgstr "एक मुद्दा उठाओ"
 #: apps/client/src/pages/auth/verify-email/page.tsx:43
 #: apps/client/src/pages/auth/verify-otp/page.tsx:52
 #: apps/client/src/pages/builder/page.tsx:60
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:42
+#: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
+#: apps/client/src/pages/dashboard/information/page.tsx:36
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
 #: apps/client/src/pages/dashboard/settings/page.tsx:16
 #: apps/client/src/pages/home/components/footer.tsx:18
@@ -1243,6 +1358,9 @@ msgid "Remove Page"
 msgstr "हटाएँ पेज"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:111
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:80
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:79
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:124
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:101
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:86
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:152
@@ -1270,7 +1388,11 @@ msgstr "अपना पासवर्ड रीसेट करें"
 msgid "Reset Zoom"
 msgstr "ज़ूम रीसेट करें"
 
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:86
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:81
+msgid "Resume Title"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:92
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
 #: apps/client/src/pages/dashboard/resumes/page.tsx:39
 msgid "Resumes"
@@ -1289,6 +1411,7 @@ msgid "Rounded"
 msgstr "गोल"
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:180
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:238
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:245
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:217
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:131
@@ -1299,8 +1422,15 @@ msgstr "परिवर्तन सेव करें"
 msgid "Save Locally"
 msgstr "स्थानीय रूप से सेव करें"
 
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:83
+#: apps/client/src/pages/dashboard/information/page.tsx:71
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:274
 msgid "Saved"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:72
+#: apps/client/src/pages/dashboard/information/page.tsx:60
+msgid "Saving..."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:168
@@ -1336,6 +1466,10 @@ msgstr "फ़ॉन्ट प्रकार खोजें"
 msgid "Search for a language"
 msgstr "एक भाषा के लिए खोज करे"
 
+#: apps/client/src/pages/dashboard/information/sections/custom-section.tsx:27
+msgid "Section Title"
+msgstr ""
+
 #: apps/client/src/pages/home/sections/features/index.tsx:56
 msgid "Secure with two-factor authentication"
 msgstr "दो-कारक प्रमाणीकरण के साथ सुरक्षित"
@@ -1361,7 +1495,7 @@ msgid "Separate Links"
 msgstr ""
 
 #: apps/client/src/components/user-options.tsx:32
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:92
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:110
 #: apps/client/src/pages/dashboard/settings/page.tsx:16
 #: apps/client/src/pages/dashboard/settings/page.tsx:26
 msgid "Settings"
@@ -1436,6 +1570,7 @@ msgstr "पंजीकरण वर्तमान में प्रशास
 msgid "Size (in px)"
 msgstr "आकार (पीएक्स में)"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:221
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:228
 msgid "Slug"
 msgstr "काउंटर"
@@ -1466,6 +1601,11 @@ msgstr "शून्य से निर्माण शुरू करें"
 msgid "Start building your resume by giving it a name."
 msgstr "अपना बायोडाटा एक नाम देकर बनाना शुरू करें।"
 
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/create-card.tsx:28
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/create-item.tsx:17
+msgid "Start with a blank page"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:114
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:22
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:23
@@ -1480,6 +1620,10 @@ msgstr "आँकड़े केवल सार्वजनिक बायो
 msgid "Store your backup codes securely"
 msgstr "अपने बैकअप कोड सुरक्षित रूप से संग्रहीत करें"
 
+#: apps/client/src/pages/dashboard/information/page.tsx:45
+msgid "Store your professional information here to be used across your resumes."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:101
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/dialogs/custom-section.tsx:151
@@ -1489,6 +1633,7 @@ msgstr "अपने बैकअप कोड सुरक्षित रू�
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:109
+#: apps/client/src/pages/dashboard/information/sections/summary.tsx:13
 msgid "Summary"
 msgstr "सारांश"
 
@@ -1515,6 +1660,16 @@ msgstr ""
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:85
 msgid "System"
 msgstr "सिस्टम"
+
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/generate-card.tsx:28
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/generate-item.tsx:16
+msgid "Tailor a cover letter from a job description"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/generate-card.tsx:33
+#: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/generate-item.tsx:22
+msgid "Tailor a resume from a job description"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:65
 #: apps/client/src/pages/builder/sidebars/right/sections/template.tsx:18
@@ -1561,6 +1716,10 @@ msgstr "ब्राउज़र से कनेक्ट करने मे�
 msgid "This action can be reverted by clicking on the undo button in the floating toolbar."
 msgstr "फ़्लोटिंग टूलबार में पूर्ववत करें बटन पर क्लिक करके इस क्रिया को पूर्ववत किया जा सकता है।"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:154
+msgid "This action cannot be undone. This will permanently delete your cover letter."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:151
 msgid "This action cannot be undone. This will permanently delete your resume and cannot be recovered."
 msgstr "इस एक्शन को वापस नहीं किया जा सकता। इससे आपका बायोडाटा स्थायी रूप से हट जाएगा और उसे पुनर्प्राप्त नहीं किया जा सकेगा।"
@@ -1586,6 +1745,7 @@ msgctxt "Name of the Award"
 msgid "Title"
 msgstr "शीर्षक"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:193
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:196
 msgid "Title"
 msgstr "शीर्षक"
@@ -1654,6 +1814,10 @@ msgstr "बायोडाटा को अनलॉक करने से आ�
 msgid "Unverified"
 msgstr "असत्यापित"
 
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:181
+msgid "Update an existing cover letter"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:164
 msgid "Update an existing item"
 msgstr "किसी मौजूदा आइटम का नक़ल बनाएं"
@@ -1709,7 +1873,7 @@ msgstr "वैधीकृत करें"
 msgid "Validated"
 msgstr "वैधीकृत करें"
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:97
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:101
 msgid "Value"
 msgstr "मूल्य"
 
@@ -1738,7 +1902,7 @@ msgstr "दृश्य"
 msgid "Visible"
 msgstr "दर्शनीय"
 
-#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:70
+#: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:74
 msgid "Visit <0>Phosphor Icons</0> for a list of available icons"
 msgstr ""
 
@@ -1757,6 +1921,7 @@ msgstr "हम आपके ईमेल पते को केवल यह �
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:96
+#: apps/client/src/pages/dashboard/information/sections/basics.tsx:60
 msgid "Website"
 msgstr "वेबसाइट"
 
@@ -1839,4 +2004,3 @@ msgstr "ज़ूम इन"
 #: apps/client/src/pages/builder/_components/toolbar.tsx:118
 msgid "Zoom Out"
 msgstr "ज़ूम आउट"
-
