@@ -38,9 +38,9 @@ msgstr "<0>ผมสร้าง Reactive Resume ด้วยตัวเอง�
 msgid "<0>I'm sure the app is not perfect, but I'd like for it to be.</0><1>If you faced any issues while creating your resume, or have an idea that would help you and other users in creating your resume more easily, drop an issue on the repository or send me an email about it.</1>"
 msgstr "<0>ผมมั่นใจว่าแอปยังไม่สมบูรณ์ดี แต่ผมก็อยากให้มันเป็นอย่างนั้น</0><1>ถ้าคุณเจอปัญหาใดๆ ระหว่างที่สร้างเรซูเม่ หรือมีไอเดียดีๆ ที่จะช่วยให้คุณและคนอื่นๆ สร้างเรซูเม่ได้ง่ายขึ้น ให้เปิด issue มาที่ repository ของแอปหรือส่งอีเมลหาผมได้เลยครับ</1>"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:299
-msgid "<0>Note: </0>By utilizing the OpenAI API, you acknowledge and accept the <1>terms of use</1> and <2>privacy policy</2> outlined by OpenAI. Please note that Reactive Resume bears no responsibility for any improper or unauthorized utilization of the service, and any resulting repercussions or liabilities solely rest on the user."
-msgstr "<0>หมายเหตุ: </0>การใช้ OpenAI API หมายความว่า คุณรับรู้และยอมรับ<1>ข้อกำหนดการใช้บริการ</1>และ<2>นโยบายความเป็นส่วนตัว</2>ของ OpenAI โปรดทราบว่า Reactive Resume ไม่รับผิดชอบการใช้บริการที่ไม่เหมาะสมหรือไม่ได้รับการอนุญาต และความรับผิดชอบเป็นของผู้ใช้แต่เพียงผู้เดียว"
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:303
+msgid "<0>Note: </0>By utilizing AI features, you acknowledge that data (such as your resume content) will be sent to the selected third-party provider (OpenAI, Google, or your local Ollama instance). Reactive Resume bears no responsibility for the data processing practices of these third-party providers."
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:90
 msgid "<0>The community has spent a lot of time writing the documentation for Reactive Resume, and I'm sure it will help you get started with the app.</0><1>There are also a lot of examples to help you get started, and features that you might not know about which could help you build your perfect resume.</1>"
@@ -133,6 +133,14 @@ msgstr "เพิ่มหน้าใหม่"
 msgid "AI"
 msgstr "AI"
 
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:128
+msgid "AI Integration"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:143
+msgid "AI Provider"
+msgstr ""
+
 #: apps/client/src/pages/auth/register/page.tsx:71
 msgid "Already have an account?"
 msgstr "มีบัญชีแล้วใช่หรือไม่?"
@@ -161,6 +169,10 @@ msgstr "ทุกคนที่มีลิงก์สามารถดูแ
 #: apps/client/src/pages/builder/sidebars/right/sections/sharing.tsx:30
 msgid "Anyone with this link can view and download the resume. Share it on your profile or with recruiters."
 msgstr "ทุกคนที่มีลิงค์นี้สามารถดูและดาวน์โหลดเรซูเม่ได้ แชร์ไปยังโปรไฟล์ของคุณหรือฝ่ายสรรหาบุคลากรได้"
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:168
+msgid "API Key"
+msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/css.tsx:41
 msgid "Apply Custom CSS"
@@ -211,15 +223,15 @@ msgstr "มีให้บริการใน {languagesCount} ภาษา"
 msgid "Awarder"
 msgstr "ผู้มอบรางวัล"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:258
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:247
 msgid "Azure API Version"
 msgstr "เวอร์ชัน API ของ Azure"
 
-#: apps/client/src/services/openai/client.ts:18
+#: apps/client/src/services/openai/client.ts:20
 msgid "Azure OpenAI Base URL, deployment name (model), and API version are required when using Azure OpenAI."
 msgstr "จำเป็นต้องใช้ URL ฐานของ Azure OpenAI ชื่อการปรับใช้ (โมเดล) และเวอร์ชัน API เมื่อใช้ Azure OpenAI"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:183
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:186
 msgid "Azure OpenAI Resource URL"
 msgstr "URL ทรัพยากร Azure OpenAI"
 
@@ -241,7 +253,7 @@ msgstr "รหัสสำรอง"
 msgid "Backup Codes may contain only lowercase letters or numbers, and must be exactly 10 characters."
 msgstr "รหัสสำรองอาจมีเฉพาะตัวอักษรพิมพ์เล็กหรือตัวเลขเท่านั้น และต้องมีจำนวนอักษร 10 ตัวเท่านั้น"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:183
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:186
 msgid "Base URL"
 msgstr "Base URL"
 
@@ -349,6 +361,10 @@ msgstr "บริษัท"
 msgid "Confident"
 msgstr "มั่นใจ"
 
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:130
+msgid "Configure your AI provider to help generate content, fix grammar, and improve writing."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:234
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:246
 msgid "Continue"
@@ -366,7 +382,7 @@ msgstr "คัดลอกลิงก์ไปยังเรซูเม่"
 msgid "Copy to Clipboard"
 msgstr "คัดลอกไปยังคลิปบอร์ด"
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:81
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:96
 msgid "Cover Letter Title"
 msgstr ""
 
@@ -481,7 +497,7 @@ msgstr "ลบ"
 msgid "Delete Account"
 msgstr "ลบบัญชี"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:205
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:210
 msgid "Deployment Name"
 msgstr "ชื่อการปรับใช้"
 
@@ -688,7 +704,7 @@ msgstr "รูปแบบฟอนต์"
 msgid "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
 msgstr "ตัวอย่างเช่น ข้อมูลเกี่ยวกับบริษัทที่คุณส่งเรซูเม่นี้ให้หรือลิงก์ไปยังรายละเอียดงานสามารถเขียนไว้ได้ที่นี่"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:280
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:270
 msgid "Forget"
 msgstr "ลืม"
 
@@ -723,8 +739,12 @@ msgstr "เป็นกันเอง"
 msgid "Full Name"
 msgstr "ชื่อเต็ม"
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:168
+msgid "Gemini API Key"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:121
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:121
 msgid "Generate"
 msgstr ""
 
@@ -736,11 +756,11 @@ msgstr ""
 msgid "Generate a random title for your resume"
 msgstr "สุ่มชื่อให้เรซูเม่ของคุณ"
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:68
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:83
 msgid "Generate Cover Letter with AI"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:68
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:83
 msgid "Generate Customized Resume"
 msgstr ""
 
@@ -751,8 +771,8 @@ msgstr ""
 msgid "Generate with AI"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:106
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:106
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:121
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:121
 msgid "Generating..."
 msgstr ""
 
@@ -930,8 +950,8 @@ msgstr "ดูเหมือนว่าโทเค็นยืนยันต
 msgid "It looks like your email address has already been verified."
 msgstr "ดูเหมือนว่าที่อยู่อีเมลของคุณได้รับการยืนยันแล้ว"
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:95
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:95
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:110
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:110
 msgid "Job Description"
 msgstr ""
 
@@ -1080,7 +1100,7 @@ msgstr "มีนาคม 2566 - ปัจจุบัน"
 msgid "Margin"
 msgstr "ระยะขอบ"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:218
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:224
 msgid "Max Tokens"
 msgstr "Max Tokens"
 
@@ -1088,7 +1108,7 @@ msgstr "Max Tokens"
 msgid "MIT License"
 msgstr "ใบอนุญาต MIT"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:205
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:210
 msgid "Model"
 msgstr "โมเดล"
 
@@ -1168,14 +1188,6 @@ msgstr "OpenAI ไม่ได้ส่งตัวเลือกใดๆ ใ�
 msgid "OpenAI Integration"
 msgstr "การใช้ระบบ OpenAI"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:120
-msgid "OpenAI/Azure OpenAI/Ollama Integration"
-msgstr "การผสานรวม OpenAI/Azure กับ OpenAI/Ollama"
-
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:169
-msgid "OpenAI/Ollama API Key"
-msgstr "API คีย์ของ OpenAI/Ollama"
-
 #: apps/client/src/pages/builder/sidebars/right/sections/page.tsx:67
 #: apps/client/src/pages/builder/sidebars/right/sections/typography.tsx:182
 msgid "Options"
@@ -1207,11 +1219,11 @@ msgstr "หน้า {pageNumber}"
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:72
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:87
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new cover letter specifically for this role."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:72
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:87
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
 msgstr ""
 
@@ -1388,7 +1400,7 @@ msgstr "รีเซ็ตรหัสผ่านของคุณ"
 msgid "Reset Zoom"
 msgstr "รีเซ็ตการซูม"
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:81
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:96
 msgid "Resume Title"
 msgstr ""
 
@@ -1418,13 +1430,13 @@ msgstr "โค้งมน"
 msgid "Save Changes"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:274
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:264
 msgid "Save Locally"
 msgstr "บันทึกในเบราว์เซอร์"
 
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:83
 #: apps/client/src/pages/dashboard/information/page.tsx:71
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:274
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:264
 msgid "Saved"
 msgstr "บันทึกสำเร็จ"
 
@@ -1477,6 +1489,10 @@ msgstr "รักษาความปลอดภัยด้วยการย
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:65
 msgid "Security"
 msgstr "ความปลอดภัย"
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:147
+msgid "Select a provider"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:50
 msgid "Self-host with Docker"
@@ -1750,6 +1766,10 @@ msgstr "ชื่อ"
 msgid "Title"
 msgstr "ชื่อ"
 
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:280
+msgid "To use Google Gemini, you need to <0>get an API Key from Google AI Studio</0>. This feature uses Google's OpenAI compatibility layer."
+msgstr ""
+
 #: apps/client/src/pages/builder/_components/toolbar.tsx:138
 msgid "Toggle Page Break Line"
 msgstr "เปิด/ปิดบรรทัดแบ่งหน้า"
@@ -1837,10 +1857,6 @@ msgstr "URL"
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/url-input.tsx:61
 msgid "URL must start with https://"
 msgstr "URL ต้องขึ้นต้นด้วย https://"
-
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:247
-msgid "Use Azure OpenAI"
-msgstr "ใช้ Azure OpenAI"
 
 #: apps/client/src/components/theme-switch.tsx:30
 msgid "Use System Theme"
@@ -1944,18 +1960,6 @@ msgstr "คุณสามารถเพิ่มคีย์เวิร์ด
 msgid "You can also enter your username."
 msgstr "คุณสามารถป้อนชื่อผู้ใช้ของคุณได้ด้วย"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:144
-msgid "You can also integrate with Azure OpenAI by enabling the <0>Use Azure OpenAI</0> checkbox and setting the Resource URL to your Azure OpenAI resource: <1>https://your-resource.openai.azure.com</1>. Set the deployment name in the Model field and specify the appropriate API version for your Azure deployment."
-msgstr "คุณยังสามารถผสานการทำงานกับ Azure OpenAI ได้โดยการเปิดใช้งานช่องทำเครื่องหมาย<0>\"ใช้ Azure OpenAI</0>\" และตั้งค่า Resource URL เป็นทรัพยากร Azure OpenAI ของคุณ:<1>https://your-resource.openai.azure.com</1>. ตั้งชื่อการPLOYMENT ในช่อง Model และระบุเวอร์ชัน API ที่เหมาะสมสำหรับการPLOYMENT ของคุณใน Azure."
-
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:153
-msgid "You can also integrate with Ollama simply by setting the API key to<0>sk-1234567890abcdef</0> and the Base URL to your Ollama URL, i.e.<1>http://localhost:11434/v1</1>. You can also pick and choose models and set the max tokens as per your preference."
-msgstr "คุณยังสามารถผสานการทำงานกับ Ollama ได้โดยง่ายเพียงแค่ตั้งค่า API key<0>เป็น tosk-1234567890abcdef</0>และ Base URL เป็น URL ของ Ollama ของคุณ<1>เช่นhttp://localhost:11434/v1</1>. คุณยังสามารถเลือกและกำหนดโมเดลตามที่คุณต้องการได้ และตั้งค่าจำนวน token สูงสุดตามที่คุณต้องการได้เช่นกัน."
-
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:122
-msgid "You can make use of the OpenAI API, Azure OpenAI, or Ollama to help you generate content, or improve your writing while composing your resume."
-msgstr "คุณสามารถใช้ OpenAI API, Azure OpenAI หรือ Ollama เพื่อช่วยสร้างเนื้อหาหรือปรับปรุงการเขียนของคุณขณะกำลังเขียนประวัติย่อได้"
-
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:40
 msgid "You can track the number of views your resume has received, or how many people have downloaded the resume by enabling public sharing."
 msgstr "คุณสามารถติดตามยอดดูเรซูเม่ของคุณได้ หรือดูว่ามีคนดาวน์โหลดเรซูเม่ที่เปิดเป็นสาธารณะไว้กี่คน"
@@ -1964,9 +1968,9 @@ msgstr "คุณสามารถติดตามยอดดูเรซู
 msgid "You don't have permission to access this page."
 msgstr "คุณไม่ได้รับอนุญาตให้เข้าถึงหน้านี้"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:128
-msgid "You have the option to <0>obtain your own OpenAI API key</0>. This key empowers you to leverage the API as you see fit. Alternatively, if you wish to disable the AI features in Reactive Resume altogether, you can simply remove the key from your settings."
-msgstr "คุณมีตัวเลือกในการ<0>ขอคีย์ OpenAI API ของคุณเอง</0> คีย์นี้ช่วยให้คุณใช้ประโยชน์จาก API ได้ตามที่คุณต้องการ กลับกัน หากคุณต้องการปิดการใช้งานคุณสมบัติ AI ใน Reactive Resume โดยสิ้นเชิง คุณแค่ลบคีย์ออกจากการตั้งค่าของคุณได้เลย"
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:288
+msgid "You have the option to <0>obtain your own OpenAI API key</0>."
+msgstr ""
 
 #: apps/client/src/pages/auth/verify-email/page.tsx:50
 msgid "You should have received an email from <0>Reactive Resume</0> with a link to verify your account."
@@ -1981,17 +1985,17 @@ msgstr "เมลเข้าแล้ว!"
 msgid "Your account and all your data has been deleted successfully. Goodbye!"
 msgstr "บัญชีของคุณและข้อมูลทั้งหมดของคุณถูกลบเรียบร้อยแล้ว ลาก่อนนะ!"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:289
-msgid "Your API key is securely stored in the browser's local storage and is only utilized when making requests to OpenAI via their official SDK. Rest assured that your key is not transmitted to any external server except when interacting with OpenAI's services."
-msgstr "คีย์ API ของคุณถูกจัดเก็บไว้อย่างปลอดภัยในพื้นที่จัดเก็บภายในเบราว์เซอร์ และจะเรียกใช้เมื่อมีการส่งคำขอไปยัง OpenAI ผ่านทาง SDK ทางการเท่านั้น ขอให้มั่นใจได้ว่าคีย์ของคุณจะไม่ถูกส่งไปยังเซิร์ฟเวอร์ภายนอกใดๆ ยกเว้นเมื่อมีการโต้ตอบกับบริการของ OpenAI"
+#: apps/client/src/services/openai/client.ts:12
+msgid "Your API Key has not been set yet. Please go to your account settings to enable AI Integration."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:294
+msgid "Your API key is securely stored in the browser's local storage and is only utilized when making requests to the AI provider via their official SDKs or APIs."
+msgstr ""
 
 #: apps/client/src/pages/auth/verify-email/page.tsx:28
 msgid "Your email address has been verified successfully."
 msgstr "ที่อยู่อีเมลของคุณได้รับการยืนยันเรียบร้อยแล้ว"
-
-#: apps/client/src/services/openai/client.ts:11
-msgid "Your OpenAI API Key has not been set yet. Please go to your account settings to enable OpenAI Integration."
-msgstr "คีย์ API ของ OpenAI ของคุณยังไม่ได้ตั้งค่า โปรดไปที่การตั้งค่าบัญชีของคุณเพื่อเปิดใช้งานการใช้ระบบ OpenAI"
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:56
 msgid "Your password has been updated successfully."
