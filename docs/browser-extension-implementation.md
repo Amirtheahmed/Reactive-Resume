@@ -117,20 +117,20 @@ A local, cost-effective engine to fill forms.
 ### Phase 2: Extension Skeleton & Shared Logic
 **Goal:** Get the extension running in the monorepo and sharing UI components.
 
-*   [ ] **Scaffold:** Generate `apps/extension` using Nx/Vite/React.
-*   [ ] **Config:** Setup `manifest.json` (V3) with `side_panel` permissions.
-*   [ ] **Build:** Configure `vite.config.ts` with `@crxjs/vite-plugin`.
-*   [ ] **Styles:** Configure Tailwind to consume `libs/ui/tailwind.config.js`.
-*   [ ] **Auth UI:** Build the "Connect Account" screen in the Side Panel.
+*   [x] **Scaffold:** Generate `apps/extension` using Nx/Vite/React.
+*   [x] **Config:** Setup `manifest.json` (V3) with `side_panel` permissions.
+*   [x] **Build:** Configure `vite.config.ts` with `@crxjs/vite-plugin`.
+*   [x] **Styles:** Configure Tailwind to consume `libs/ui/tailwind.config.js`.
+*   [x] **Auth UI:** Build the "Connect Account" screen in the Side Panel.
 
 ### Phase 3: The Generation Loop
 **Goal:** Scrape a page and generate a resume file.
 
-*   [ ] **Extension API:** Create `apps/server/src/extension` module.
+*   [x] **Extension API:** Create `apps/server/src/extension` module.
   *   Endpoint: `POST /generate/resume` (Composite endpoint handling Generation + Saving + Printing).
-*   [ ] **Content Script:** Implement `PageAnalyzer` using `@mozilla/readability`.
-*   [ ] **Side Panel:** Build the "Job Context" view (Edit Title, Company, Description).
-*   [ ] **UI:** Add "Generate" button and "Result" card (Download PDF, Drag-to-Upload).
+*   [x] **Content Script:** Implement `PageAnalyzer` using `@mozilla/readability`.
+*   [x] **Side Panel:** Build the "Job Context" view (Edit Title, Company, Description).
+*   [x] **UI:** Add "Generate" button and "Result" card (Download PDF, Drag-to-Upload).
 
 ### Phase 4: The Autofill Engine
 **Goal:** Fill forms locally without server API costs.

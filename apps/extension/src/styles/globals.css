@@ -1,0 +1,12 @@
+@import "../../../../apps/client/src/styles/_tailwind.css";
+@import "../../../../apps/client/src/styles/_colors.css";
+@import "../../../../apps/client/src/styles/_theme.css";
+@import "../../../../apps/client/src/styles/_fonts.css";
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply overflow-hidden;
+}
