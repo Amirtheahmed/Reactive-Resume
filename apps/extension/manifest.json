@@ -2,8 +2,12 @@
   "manifest_version": 3,
   "name": "Reactive Resume Copilot",
   "version": "1.0.0",
-  "description": "Context-aware resume generator for Reactive Resume",
+  "description": "Context-aware resume generator and autofiller for Reactive Resume",
   "permissions": ["sidePanel", "storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "https://rxresume.amirtheahmed.dev/*"
+  ],
   "side_panel": {
     "default_path": "index.html"
   },
@@ -22,8 +26,9 @@
     "default_title": "Open Copilot"
   },
   "icons": {
-    "16": "icons/icon-16.png",
-    "48": "icons/icon-48.png",
-    "128": "icons/icon-128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }

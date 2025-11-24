@@ -1,5 +1,11 @@
+// apps/server/src/extension/extension.service.ts
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
-import { ExtensionGenerateResumeDto } from "@reactive-resume/dto";
+import {
+  ExtensionGenerateResumeDto,
+  OpenAIConfigDto,
+  ResumeDto,
+  UserWithSecrets,
+} from "@reactive-resume/dto";
 import { InformationData, ResumeData } from "@reactive-resume/schema";
 import { ErrorMessage } from "@reactive-resume/utils";
 import slugify from "@sindresorhus/slugify";
@@ -22,51 +28,42 @@ export class ExtensionService {
     private readonly printerService: PrinterService,
   ) {}
 
-  async generateResume(userId: string, data: ExtensionGenerateResumeDto) {
-    try {
-      // 1. Fetch User Info
-      const information = await this.informationService.findAll(userId);
-      const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+  async getInformation(userId: string) {
+    const info = await this.informationService.findAll(userId);
+    return info;
+  }
 
-      // 2. Construct Title/Slug
+  async generateResume(user: UserWithSecrets, data: ExtensionGenerateResumeDto) {
+    try {
+      const information = await this.informationService.findAll(user.id);
+
       const title = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
       const slug = slugify(title);
 
-      // 3. Check for OpenAI Key (User's key is preferred, but extension flow might rely on server config if we allow it)
-      // For this implementation, we assume the user has configured an API Key in their settings which we fetch via the user record,
-      // OR we use a system key if configured (optional, but better to stick to user ownership).
-      // However, the OpenAIService expects a config object.
-
-      // We need to decide where the API Key comes from for the extension.
-      // Ideally, the extension sends the key if stored locally, OR the server uses the user's stored key if we implemented server-side key storage.
-      // Current architecture: Keys are browser-local.
-
-      // CRITICAL: The extension currently doesn't send the OpenAI Config because it assumes "headless" operation.
-      // We need to either:
-      // A) Pass the OpenAI config from the extension (user has to set it up in extension settings).
-      // B) Use a server-side key (if self-hosted).
-
-      // Let's check if the server has a global key configured.
-      const openAiConfig = {
-        provider: 'openai' as const,
-        apiKey: process.env.OPENAI_API_KEY,
-        model: 'gpt-4o',
-        isAzure: false,
-      };
-
-      if (!openAiConfig.apiKey) {
-        throw new BadRequestException("Server-side OpenAI API Key is not configured. Please ensure the server has an API key or pass one in the request.");
+      // Pull AI config from the user's secrets instead of the request body
+      const userAiConfig = user.secrets;
+      if (!userAiConfig?.aiApiKey) {
+        throw new BadRequestException(
+          "AI API Key is not configured in your Reactive Resume account. Please add it in Settings -> AI Integration.",
+        );
       }
 
-      // 4. Generate Resume Data
+      const openAiConfig: OpenAIConfigDto = {
+        provider: userAiConfig.aiProvider as OpenAIConfigDto["provider"] ?? "openai",
+        apiKey: userAiConfig.aiApiKey,
+        baseURL: userAiConfig.aiBaseUrl ?? undefined,
+        model: userAiConfig.aiModel ?? undefined,
+        maxTokens: userAiConfig.aiMaxTokens ?? undefined,
+        isAzure: userAiConfig.aiProvider === "azure", // Sync legacy flag
+        azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
+      };
+
       const generatedData = await this.openaiService.generateResume(
         information.data as InformationData,
         data.jobDescription,
-        openAiConfig,
+        openAiConfig, // Pass the user's config
       );
 
-      // 5. Create Resume Record
-      // Merge with default metadata to ensure template is set
       const finalData: ResumeData = {
         ...generatedData,
         basics: {
@@ -75,14 +72,10 @@ export class ExtensionService {
           email: user.email,
           picture: {
             url: user.picture ?? "",
-            size: 0,
-            aspectRatio: 0,
-            borderRadius: 0,
-            effects: {
-              hidden: false,
-              border: false,
-              grayscale: false,
-            },
+            size: 120,
+            aspectRatio: 1,
+            borderRadius: 999,
+            effects: { hidden: false, border: false, grayscale: false },
           },
         },
         metadata: {
@@ -93,7 +86,7 @@ export class ExtensionService {
 
       const resume = await this.prisma.resume.create({
         data: {
-          userId,
+          userId: user.id,
           title,
           slug,
           visibility: "private",
@@ -101,20 +94,17 @@ export class ExtensionService {
         },
       });
 
-      // 6. Generate PDF
-      // We map to ResumeDto roughly here to satisfy the printer service
-      const resumeDto = {
+      const resumeDto: ResumeDto = {
         ...resume,
         data: finalData,
         createdAt: resume.createdAt,
         updatedAt: resume.updatedAt,
       };
 
-      // We use the printResume method which handles storage upload
-      const pdfUrl = await this.printerService.printResume(resumeDto);
-
-      // 7. Generate Preview Image
-      const previewUrl = await this.printerService.printPreview(resumeDto);
+      const [pdfUrl, previewUrl] = await Promise.all([
+        this.printerService.printResume(resumeDto),
+        this.printerService.printPreview(resumeDto),
+      ]);
 
       return {
         id: resume.id,
@@ -122,9 +112,9 @@ export class ExtensionService {
         pdfUrl,
         previewUrl,
       };
-
     } catch (error) {
       this.logger.error(error);
+      if (error instanceof BadRequestException) throw error;
       throw new BadRequestException(ErrorMessage.SomethingWentWrong);
     }
   }

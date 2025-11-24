@@ -12,6 +12,9 @@ export default defineConfig({
     port: 4200,
     host: "localhost",
     fs: { allow: [searchForWorkspaceRoot(process.cwd())] },
+    watch: {
+      ignored: ["**/node_modules/**", "**/.git/**"],
+    },
   },
 
   preview: {
@@ -19,7 +22,21 @@ export default defineConfig({
     host: "localhost",
   },
 
-  plugins: [react(), nxViteTsPaths(), crx({ manifest })],
+  plugins: [
+    // Custom plugin to fix @crxjs/vite-plugin compatibility with Nx/Vite 5
+    {
+      name: "fix-crx-watch",
+      enforce: "pre",
+      configResolved(config) {
+        if (config.server && config.server.watch === false) {
+          config.server.watch = { ignored: [] };
+        }
+      },
+    },
+    react(),
+    nxViteTsPaths(),
+    crx({ manifest }),
+  ],
 
   build: {
     emptyOutDir: true,

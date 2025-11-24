@@ -1,10 +1,21 @@
-import { useState, useEffect } from "react";
-import { useAuthStore } from "./store/auth";
-import { Button, Input, Label, Separator, Textarea, Badge } from "@reactive-resume/ui";
-import { KeyIcon, PlugIcon, CheckCircleIcon, MagicWandIcon, ArrowSquareOutIcon, DownloadSimpleIcon, BriefcaseIcon } from "@phosphor-icons/react";
+import {
+  ArrowLeftIcon,
+  ArrowSquareOutIcon,
+  BriefcaseIcon,
+  CheckCircleIcon,
+  DownloadSimpleIcon,
+  GearIcon,
+  KeyIcon,
+  LightningIcon,
+  MagicWandIcon,
+  PlugIcon,
+} from "@phosphor-icons/react";
+import type { InformationDto, OpenAIConfigDto } from "@reactive-resume/dto";
+import { Badge, Button, Input, Label, Separator, Textarea } from "@reactive-resume/ui";
+import { useEffect, useState } from "react";
 
-// Temporary axios instance until we set up shared libs properly for extension
-import _axios from "axios";
+import { axios } from "./libs/axios";
+import { useAuthStore } from "./store/auth";
 
 type JobContext = {
   title: string;
@@ -20,38 +31,120 @@ type GenerationResult = {
   previewUrl: string;
 };
 
+type View = "connect" | "main" | "settings";
+
+const ConnectView = () => {
+  const { setApiKey } = useAuthStore();
+  const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleConnect = async () => {
+    if (!inputValue.trim()) return;
+    setLoading(true);
+    setError("");
+
+    try {
+      // Test the key before saving
+      await axios.get("/extension/me", { headers: { "X-API-Key": inputValue.trim() } });
+      setApiKey(inputValue.trim());
+    } catch (err) {
+      setError("Invalid API Key. Please check and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex h-screen flex-col bg-background p-4 text-foreground">
+      <div className="mb-6 space-y-2">
+        <h1 className="flex items-center gap-2 font-bold text-xl">
+          <PlugIcon /> Connect
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Enter your API Key from Reactive Resume to enable the extension.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="api-key">API Key</Label>
+          <div className="relative">
+            <KeyIcon className="absolute left-3 top-2.5 size-4 text-muted-foreground" />
+            <Input
+              id="api-key"
+              placeholder="rx_..."
+              className="pl-9"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              type="password"
+            />
+          </div>
+          {error && <p className="text-xs text-error">{error}</p>}
+        </div>
+
+        <Button onClick={handleConnect} className="w-full" disabled={!inputValue || loading}>
+          {loading ? "Connecting..." : "Connect Account"}
+        </Button>
+      </div>
+
+      <Separator className="my-6" />
+
+      <div className="text-xs text-muted-foreground">
+        <p>Don't have a key?</p>
+        <a
+          href="http://localhost:5173/dashboard/settings"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline hover:no-underline"
+        >
+          Generate one in Settings &rarr; Developer
+        </a>
+      </div>
+    </div>
+  );
+};
+
 export const App = () => {
   const { apiKey, setApiKey } = useAuthStore();
-  const [inputValue, setInputValue] = useState("");
   const [isHydrated, setIsHydrated] = useState(false);
+  const [view, setView] = useState<"connect" | "main">("main");
 
-  // Job Context State
+  const [userData, setUserData] = useState<InformationDto | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [jobContext, setJobContext] = useState<JobContext | null>(null);
-
-  // Generation State
   const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState<GenerationResult | null>(null);
+  const [autofilling, setAutofilling] = useState(false);
+  const [autofillCount, setAutofillCount] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
 
-  const handleSaveKey = () => {
-    if (inputValue.trim()) {
-      setApiKey(inputValue.trim());
+  useEffect(() => {
+    if (apiKey) {
+      axios.defaults.headers.common["X-API-Key"] = apiKey;
+      axios
+        .get<InformationDto>("/extension/me")
+        .then((res) => setUserData(res.data))
+        .catch((err) => {
+          if (err.response?.status === 401) setApiKey(null);
+        });
     }
-  };
+  }, [apiKey, setApiKey]);
 
   const handleDisconnect = () => {
     setApiKey(null);
-    setInputValue("");
     setJobContext(null);
     setResult(null);
+    setUserData(null);
   };
 
   const handleAnalyze = async () => {
     setAnalyzing(true);
+    setError(null);
     setJobContext(null);
     setResult(null);
 
@@ -59,203 +152,179 @@ export const App = () => {
     if (tab?.id) {
       try {
         const response = await chrome.tabs.sendMessage(tab.id, { type: "ANALYZE_JOB" });
-
-        if (response && !response.error) {
-          setJobContext({
-            title: response.title,
-            company: response.siteName,
-            description: response.content,
-            url: response.url
-          });
-        } else {
-          console.error("Analysis failed:", response?.error);
-        }
+        if (response?.error) throw new Error(response.error);
+        setJobContext({
+          title: response.title,
+          company: response.siteName,
+          description: response.content,
+          url: response.url,
+        });
       } catch (e) {
-        console.error("Could not communicate with content script", e);
+        setError("Failed to analyze page. Try refreshing the tab.");
+        console.error("Analysis failed:", e);
       }
     }
     setAnalyzing(false);
   };
 
+  const handleAutofill = async () => {
+    if (!userData) return;
+    setAutofilling(true);
+    setAutofillCount(null);
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id) {
+      try {
+        const response = await chrome.tabs.sendMessage(tab.id, { type: "AUTOFILL", data: userData });
+        if (response?.success) setAutofillCount(response.count);
+      } catch (e) {
+        console.error("Autofill error", e);
+      }
+    }
+    setAutofilling(false);
+  };
+
   const handleGenerate = async () => {
     if (!jobContext || !apiKey) return;
     setGenerating(true);
+    setError(null);
 
     try {
-      // Direct axios call to server
-      const res = await _axios.post(
-        "http://localhost:3000/api/extension/generate",
-        {
-          jobTitle: jobContext.title,
-          companyName: jobContext.company,
-          jobDescription: jobContext.description,
-          template: "rhyhorn"
-        },
-        {
-          headers: {
-            "X-API-Key": apiKey
-          }
-        }
-      );
-
+      // The request body is now simpler
+      const res = await axios.post("/extension/generate", {
+        jobTitle: jobContext.title,
+        companyName: jobContext.company,
+        jobDescription: jobContext.description,
+        template: "rhyhorn",
+      });
       setResult(res.data);
     } catch (error) {
+      // The error message from the backend will be more specific now
+      const message = (error as any).response?.data?.message || "Failed to generate resume.";
+      setError(message);
       console.error("Generation failed", error);
     } finally {
       setGenerating(false);
     }
   };
 
-  const openInNewTab = (url: string) => {
-    window.open(url, "_blank");
-  };
-
   if (!isHydrated) return null;
-
-  if (!apiKey) {
-    return (
-      <div className="flex h-screen flex-col p-4 bg-background text-foreground">
-        <div className="space-y-2 mb-6">
-          <h1 className="font-bold text-xl flex items-center gap-2">
-            <PlugIcon /> Connect
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Enter your API Key from Reactive Resume to enable the extension.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="api-key">API Key</Label>
-            <div className="relative">
-              <KeyIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="api-key"
-                placeholder="rx_..."
-                className="pl-9"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                type="password"
-              />
-            </div>
-          </div>
-
-          <Button onClick={handleSaveKey} className="w-full" disabled={!inputValue}>
-            Connect Account
-          </Button>
-        </div>
-
-        <Separator className="my-6" />
-
-        <div className="text-xs text-muted-foreground">
-          <p>Don't have a key?</p>
-          <a
-            href="http://localhost:5173/dashboard/settings"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-primary hover:no-underline"
-          >
-            Generate one in Settings &rarr; Developer
-          </a>
-        </div>
-      </div>
-    );
-  }
+  if (!apiKey) return <ConnectView />;
 
   return (
-    <div className="flex h-screen flex-col p-4 bg-background text-foreground overflow-y-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="flex h-screen flex-col overflow-y-auto bg-background text-foreground">
+      <div className="flex items-center justify-between p-4 pb-2">
         <div className="flex items-center gap-2">
           <CheckCircleIcon size={20} className="text-success" weight="fill" />
-          <h1 className="font-bold text-sm">Reactive Resume Copilot</h1>
+          <h1 className="text-sm font-bold">Reactive Resume Copilot</h1>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleDisconnect} title="Disconnect">
-          <ArrowSquareOutIcon />
-        </Button>
-      </div>
-
-      {/* Main Actions */}
-      {!jobContext && !result && (
-        <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
-          <BriefcaseIcon size={48} className="text-muted-foreground/50" />
-          <div>
-            <h2 className="font-medium">Job Context</h2>
-            <p className="text-xs text-muted-foreground mt-1">
-              Navigate to a job posting and click analyze to extract details.
-            </p>
-          </div>
-          <Button onClick={handleAnalyze} disabled={analyzing}>
-            {analyzing ? "Analyzing..." : "Analyze Job Page"}
+        <div className="flex items-center">
+          <Button variant="ghost" size="icon" onClick={handleDisconnect} title="Disconnect">
+            <ArrowSquareOutIcon />
           </Button>
         </div>
-      )}
+      </div>
+      <Separator />
 
-      {/* Job Context Form */}
-      {jobContext && !result && (
-        <div className="space-y-4 mb-6 animate-in fade-in slide-in-from-bottom-4">
-          <div className="space-y-2">
-            <Label>Job Title</Label>
+      <div className="flex-1 p-4">
+        {error && (
+          <div className="mb-4 rounded-md border border-error/50 bg-error/10 p-3 text-xs text-error">
+            {error}
+          </div>
+        )}
+
+        <div className="mb-6">
+          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Quick Actions
+          </h2>
+          <Button
+            variant="outline"
+            className="w-full justify-between"
+            onClick={handleAutofill}
+            disabled={autofilling}
+          >
+            <span className="flex items-center gap-2">
+              <LightningIcon className="text-warning" /> Autofill This Page
+            </span>
+            {autofillCount !== null && (
+              <Badge variant="success" className="ml-2 h-5 px-1.5 text-[10px]">
+                Filled {autofillCount}
+              </Badge>
+            )}
+          </Button>
+        </div>
+
+        {!jobContext && !result && (
+          <div className="space-y-4 rounded-lg border border-dashed py-8 text-center">
+            <BriefcaseIcon size={48} className="mx-auto text-muted-foreground/50" />
+            <div>
+              <h2 className="font-medium">Context-Aware Resume</h2>
+              <p className="mx-auto mt-1 max-w-xs text-xs text-muted-foreground">
+                Navigate to a job posting and click analyze to generate a tailored resume.
+              </p>
+            </div>
+            <Button onClick={handleAnalyze} disabled={analyzing}>
+              {analyzing ? "Analyzing..." : "Analyze Job Page"}
+            </Button>
+          </div>
+        )}
+
+        {jobContext && !result && (
+          <div className="space-y-4">
             <Input
               value={jobContext.title}
-              onChange={(e) => setJobContext({...jobContext, title: e.target.value})}
+              onChange={(e) => setJobContext({ ...jobContext, title: e.target.value })}
             />
-          </div>
-          <div className="space-y-2">
-            <Label>Company</Label>
             <Input
               value={jobContext.company}
-              onChange={(e) => setJobContext({...jobContext, company: e.target.value})}
+              onChange={(e) => setJobContext({ ...jobContext, company: e.target.value })}
             />
-          </div>
-          <div className="space-y-2">
-            <Label>Description</Label>
             <Textarea
               value={jobContext.description}
-              onChange={(e) => setJobContext({...jobContext, description: e.target.value})}
+              onChange={(e) => setJobContext({ ...jobContext, description: e.target.value })}
               className="min-h-[150px] text-xs"
             />
-          </div>
-
-          <div className="pt-2 flex gap-2">
-            <Button variant="outline" className="flex-1" onClick={() => setJobContext(null)}>
-              Back
-            </Button>
-            <Button className="flex-1" onClick={handleGenerate} disabled={generating}>
-              {generating ? "Generating..." : (
-                <><MagicWandIcon className="mr-2" /> Generate Resume</>
-              )}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Results */}
-      {result && (
-        <div className="space-y-6 animate-in fade-in zoom-in-95">
-          <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-            <div className="p-6 flex flex-col items-center space-y-4">
-              <div className="relative w-full aspect-[1/1.4] bg-secondary rounded-md overflow-hidden shadow-inner">
-                <img src={result.previewUrl} alt="Resume Preview" className="object-cover w-full h-full opacity-90" />
-              </div>
-
-              <div className="text-center">
-                <h3 className="font-semibold">{result.title}</h3>
-                <Badge variant="success" className="mt-2">Generated Successfully</Badge>
-              </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" className="flex-1" onClick={() => setJobContext(null)}>
+                Back
+              </Button>
+              <Button className="flex-1" onClick={handleGenerate} disabled={generating}>
+                {generating ? "Generating..." : <><MagicWandIcon className="mr-2" /> Generate</>}
+              </Button>
             </div>
           </div>
+        )}
 
-          <div className="grid gap-2">
-            <Button onClick={() => openInNewTab(result.pdfUrl)}>
-              <DownloadSimpleIcon className="mr-2" /> Download PDF
-            </Button>
-            <Button variant="outline" onClick={() => setJobContext(null) || setResult(null)}>
-              Start Over
-            </Button>
+        {result && (
+          <div className="space-y-6">
+            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+              <div className="flex flex-col items-center space-y-4 p-6">
+                <div className="relative aspect-[1/1.4] w-full overflow-hidden rounded-md bg-secondary shadow-inner">
+                  <img
+                    src={result.previewUrl}
+                    alt="Resume Preview"
+                    className="size-full object-cover opacity-90"
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-semibold">{result.title}</h3>
+                  <Badge variant="success" className="mt-2">
+                    Generated Successfully
+                  </Badge>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <Button onClick={() => window.open(result.pdfUrl, "_blank")}>
+                <DownloadSimpleIcon className="mr-2" /> Download PDF
+              </Button>
+              <Button variant="outline" onClick={() => { setJobContext(null); setResult(null); }}>
+                Start Over
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

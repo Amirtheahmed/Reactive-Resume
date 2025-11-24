@@ -11,4 +11,11 @@ export const secretsSchema = z.object({
   refreshToken: z.string().nullable(),
   resetToken: z.string().nullable(),
   userId: idSchema,
+
+  aiProvider: z.string().nullable().default("openai"),
+  aiApiKey: z.string().nullable(),
+  aiBaseUrl: z.string().nullable(),
+  aiModel: z.string().nullable(),
+  aiMaxTokens: z.number().int().nullable(),
+  aiAzureApiVersion: z.string().nullable(),
 });

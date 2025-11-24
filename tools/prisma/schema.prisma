@@ -59,6 +59,13 @@ model Secrets {
   userId               String   @unique
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  aiProvider        String? @default("openai") // 'openai', 'gemini', 'azure', 'ollama'
+  aiApiKey          String? // This should be encrypted at rest
+  aiBaseUrl         String? // For Azure, Ollama, or other custom endpoints
+  aiModel           String?
+  aiMaxTokens       Int?
+  aiAzureApiVersion String?
+
   @@unique([userId, id])
 }
 

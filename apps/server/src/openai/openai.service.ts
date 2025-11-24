@@ -6,6 +6,8 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Google's OpenAI-compatible endpoint
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai";
+const GEMINI_DEFAULT_MODEL_SERVER = "gemini-1.5-flash";
+const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 
 @Injectable()
 export class OpenAIService {
@@ -58,9 +60,9 @@ export class OpenAIService {
     config: OpenAIConfigDto,
   ): Promise<ResumeData> {
     const openai = this.getOpenAIClient(config);
-    const model = (config.provider === 'gemini' && config.model === 'gpt-3.5-turbo')
-      ? "gemini-2.5-flash"
-      : (config.model ?? "gpt-4o");
+    const model = config.provider === 'gemini'
+      ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+      : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     const schema = zodToJsonSchema(resumeDataSchema, "resumeDataSchema");
 
@@ -166,9 +168,10 @@ export class OpenAIService {
     config: OpenAIConfigDto,
   ): Promise<{ content: string }> {
     const openai = this.getOpenAIClient(config);
-    const model = (config.provider === 'gemini' && config.model === 'gpt-3.5-turbo')
-      ? "gemini-2.5-flash"
-      : (config.model ?? "gpt-4o");
+
+    const model = config.provider === 'gemini'
+      ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+      : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     try {
       const response = await openai.chat.completions.create({

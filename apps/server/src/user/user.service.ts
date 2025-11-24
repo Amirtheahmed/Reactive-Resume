@@ -1,10 +1,19 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { Prisma, User } from "@prisma/client";
-import { UserWithSecrets } from "@reactive-resume/dto";
+import { OpenAIConfigDto, UserWithSecrets } from "@reactive-resume/dto";
 import { ErrorMessage } from "@reactive-resume/utils";
 import { PrismaService } from "nestjs-prisma";
 
 import { StorageService } from "../storage/storage.service";
+
+type AiSettingsData = {
+  provider: string | null;
+  baseURL: string | null;
+  model: string | null;
+  maxTokens: number | null;
+  azureApiVersion: string | null;
+  isApiKeySet: boolean;
+};
 
 @Injectable()
 export class UserService {
@@ -90,5 +99,59 @@ export class UserService {
       this.storageService.deleteFolder(id),
       this.prisma.user.delete({ where: { id } }),
     ]);
+  }
+
+  async getAiSettings(userId: string): Promise<AiSettingsData> {
+    const secrets = await this.prisma.secrets.findUnique({
+      where: { userId },
+      select: {
+        aiProvider: true,
+        aiApiKey: true,
+        aiBaseUrl: true,
+        aiModel: true,
+        aiMaxTokens: true,
+        aiAzureApiVersion: true,
+      },
+    });
+
+    if (!secrets) {
+      // This case should ideally not happen for an existing user
+      return {
+        provider: "openai",
+        baseURL: null,
+        model: null,
+        maxTokens: null,
+        azureApiVersion: null,
+        isApiKeySet: false,
+      };
+    }
+
+    return {
+      provider: secrets.aiProvider,
+      baseURL: secrets.aiBaseUrl,
+      model: secrets.aiModel,
+      maxTokens: secrets.aiMaxTokens,
+      azureApiVersion: secrets.aiAzureApiVersion,
+      isApiKeySet: !!secrets.aiApiKey,
+    };
+  }
+
+  async updateAiSettings(userId: string, data: OpenAIConfigDto) {
+    const updateData: Prisma.SecretsUpdateInput = {
+      aiProvider: data.provider,
+      aiBaseUrl: data.baseURL,
+      aiModel: data.model,
+      aiMaxTokens: data.maxTokens,
+      aiAzureApiVersion: data.azureApiVersion,
+    };
+
+    if (data.apiKey && data.apiKey.trim() !== "") {
+      updateData.aiApiKey = data.apiKey;
+    }
+
+    return this.prisma.secrets.update({
+      where: { userId },
+      data: updateData,
+    });
   }
 }

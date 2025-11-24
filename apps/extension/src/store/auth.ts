@@ -1,9 +1,10 @@
 // apps/extension/src/store/auth.ts
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import type { OpenAIConfigDto } from "@reactive-resume/dto";
 
 type AuthStore = {
-  apiKey: string | null;
+  apiKey: string | null; // This is the Reactive Resume API Key
   setApiKey: (key: string | null) => void;
 };
 
@@ -39,6 +40,6 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: "auth-storage",
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

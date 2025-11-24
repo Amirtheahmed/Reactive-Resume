@@ -1,7 +1,7 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { User as UserEntity } from "@prisma/client";
-import { ExtensionGenerateResumeDto } from "@reactive-resume/dto";
+import { ExtensionGenerateResumeDto, UserWithSecrets } from "@reactive-resume/dto";
 
 import { ApiKeyGuard } from "@/server/auth/guards/api-key.guard";
 import { User } from "@/server/user/decorators/user.decorator";
@@ -14,8 +14,13 @@ import { ExtensionService } from "./extension.service";
 export class ExtensionController {
   constructor(private readonly extensionService: ExtensionService) {}
 
+  @Get("me")
+  getInformation(@User() user: UserEntity) {
+    return this.extensionService.getInformation(user.id);
+  }
+
   @Post("generate")
-  generate(@User() user: UserEntity, @Body() data: ExtensionGenerateResumeDto) {
-    return this.extensionService.generateResume(user.id, data);
+  generate(@User() user: UserWithSecrets, @Body() data: ExtensionGenerateResumeDto) {
+    return this.extensionService.generateResume(user, data);
   }
 }
