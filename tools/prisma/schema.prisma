@@ -35,6 +35,7 @@ model User {
   resumes          Resume[]
   information      Information?
   CoverLetters     CoverLetter[]
+  ApiKeys          ApiKey[]
 }
 
 model Information {
@@ -104,4 +105,20 @@ model CoverLetter {
 
   @@unique([userId, id])
   @@unique([userId, slug])
+}
+
+model ApiKey {
+  id        String    @id @default(cuid())
+  name      String
+  // The key format will be "rx_{id}.{secret}"
+  // We only store the hash of the secret part
+  keyHash   String
+  lastUsed  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId])
 }

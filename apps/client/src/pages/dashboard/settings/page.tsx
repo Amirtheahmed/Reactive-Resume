@@ -8,6 +8,7 @@ import { DangerZoneSettings } from "./_sections/danger";
 import { OpenAISettings } from "./_sections/openai";
 import { ProfileSettings } from "./_sections/profile";
 import { SecuritySettings } from "./_sections/security";
+import { DeveloperSettings } from "@/client/pages/dashboard/settings/_sections/developer";
 
 export const SettingsPage = () => (
   <>
@@ -35,6 +36,8 @@ export const SettingsPage = () => (
           <ProfileSettings />
           <Separator />
           <OpenAISettings />
+          <Separator />
+          <DeveloperSettings />
           <Separator />
           <DangerZoneSettings />
         </div>

@@ -4,7 +4,7 @@
     "maxFileSize": 52428800
   },
   "output": {
-    "filePath": "repomix-codebase.md",
+    "filePath": "reactive-resume-codebase.md",
     "style": "markdown",
     "parsableStyle": false,
     "fileSummary": true,
@@ -13,7 +13,7 @@
     "removeComments": false,
     "removeEmptyLines": false,
     "compress": false,
-    "topFilesLength": 5,
+    "topFilesLength": 10,
     "showLineNumbers": false,
     "truncateBase64": false,
     "copyToClipboard": false,
@@ -35,11 +35,13 @@
     "useGitignore": true,
     "useDefaultPatterns": true,
     "customPatterns": [
-      "repomix-codebase.md",
+      "reactive-resume-codebase.md",
       "tools/**",
       "**.svg",
       "**.po",
-      "libs/utils/src/namespaces/fonts.ts"
+      "libs/utils/src/namespaces/fonts.ts",
+      "apps/artboard/src/templates",
+      "apps/client/public/templates/json"
     ]
   },
   "security": {

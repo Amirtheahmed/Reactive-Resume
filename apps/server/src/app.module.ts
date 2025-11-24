@@ -7,6 +7,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { ZodValidationPipe } from "nestjs-zod";
 
+import { ApiKeyModule } from "@/server/api-key/api-key.module";
 import { OpenAIModule } from "@/server/openai/openai.module";
 
 import { AuthModule } from "./auth/auth.module";
@@ -45,6 +46,7 @@ import { UserModule } from "./user/user.module";
     TranslationModule,
     ContributorsModule,
     InformationModule,
+    ApiKeyModule,
 
     // Static Assets
     ...(process.env.NODE_ENV === "production"
