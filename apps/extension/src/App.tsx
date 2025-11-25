@@ -1,6 +1,7 @@
 import {
   ArrowLeftIcon,
   ArrowSquareOutIcon,
+  ArticleIcon,
   BriefcaseIcon,
   CheckCircleIcon,
   DownloadSimpleIcon,
@@ -9,9 +10,19 @@ import {
   LightningIcon,
   MagicWandIcon,
   PlugIcon,
+  ReadCvLogoIcon,
 } from "@phosphor-icons/react";
 import type { InformationDto, OpenAIConfigDto } from "@reactive-resume/dto";
-import { Badge, Button, Input, Label, Separator, Textarea } from "@reactive-resume/ui";
+import {
+  Badge,
+  Button,
+  Input,
+  Label,
+  Separator,
+  Textarea,
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@reactive-resume/ui";
 import { useEffect, useState } from "react";
 
 import { axios } from "./libs/axios";
@@ -29,7 +40,10 @@ type GenerationResult = {
   title: string;
   pdfUrl: string;
   previewUrl: string;
+  editorUrl?: string; // Optional, for cover letters
 };
+
+type GenerationType = "resume" | "cover-letter";
 
 type View = "connect" | "main" | "settings";
 
@@ -118,6 +132,7 @@ export const App = () => {
   const [autofilling, setAutofilling] = useState(false);
   const [autofillCount, setAutofillCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [generationType, setGenerationType] = useState<GenerationType>("resume");
 
   useEffect(() => {
     setIsHydrated(true);
@@ -190,17 +205,24 @@ export const App = () => {
     setError(null);
 
     try {
-      // The request body is now simpler
-      const res = await axios.post("/extension/generate", {
-        jobTitle: jobContext.title,
-        companyName: jobContext.company,
-        jobDescription: jobContext.description,
-        template: "rhyhorn",
-      });
-      setResult(res.data);
+      if (generationType === "resume") {
+        const res = await axios.post("/extension/generate", {
+          jobTitle: jobContext.title,
+          companyName: jobContext.company,
+          jobDescription: jobContext.description,
+          template: "rhyhorn",
+        });
+        setResult(res.data);
+      } else {
+        const res = await axios.post("/extension/generate-cover-letter", {
+          jobTitle: jobContext.title,
+          companyName: jobContext.company,
+          jobDescription: jobContext.description,
+        });
+        setResult(res.data);
+      }
     } catch (error) {
-      // The error message from the backend will be more specific now
-      const message = (error as any).response?.data?.message || "Failed to generate resume.";
+      const message = (error as any).response?.data?.message || "Failed to generate.";
       setError(message);
       console.error("Generation failed", error);
     } finally {
@@ -295,16 +317,66 @@ export const App = () => {
           </div>
         )}
 
+        {jobContext && !result && (
+          <div className="space-y-4">
+            {/* [!code ++] */}
+            <ToggleGroup
+              type="single"
+              value={generationType}
+              onValueChange={(value: GenerationType) => {
+                if (value) setGenerationType(value);
+              }}
+              className="w-full"
+            >
+              <ToggleGroupItem value="resume" className="flex-1 gap-2">
+                <ReadCvLogoIcon /> Resume
+              </ToggleGroupItem>
+              <ToggleGroupItem value="cover-letter" className="flex-1 gap-2">
+                <ArticleIcon /> Cover Letter
+              </ToggleGroupItem>
+            </ToggleGroup>
+
+            <Input
+              value={jobContext.title}
+              onChange={(e) => setJobContext({ ...jobContext, title: e.target.value })}
+            />
+            <Input
+              value={jobContext.company}
+              onChange={(e) => setJobContext({ ...jobContext, company: e.target.value })}
+            />
+            <Textarea
+              value={jobContext.description}
+              onChange={(e) => setJobContext({ ...jobContext, description: e.target.value })}
+              className="min-h-[150px] text-xs"
+            />
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" className="flex-1" onClick={() => setJobContext(null)}>
+                Back
+              </Button>
+              <Button className="flex-1" onClick={handleGenerate} disabled={generating}>
+                {generating ? "Generating..." : <><MagicWandIcon className="mr-2" /> Generate</>}
+              </Button>
+            </div>
+          </div>
+        )}
+
         {result && (
           <div className="space-y-6">
             <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
               <div className="flex flex-col items-center space-y-4 p-6">
                 <div className="relative aspect-[1/1.4] w-full overflow-hidden rounded-md bg-secondary shadow-inner">
-                  <img
-                    src={result.previewUrl}
-                    alt="Resume Preview"
-                    className="size-full object-cover opacity-90"
-                  />
+                  {/* [!code ++] */}
+                  {result.previewUrl ? (
+                    <img
+                      src={result.previewUrl}
+                      alt="Resume Preview"
+                      className="size-full object-cover opacity-90"
+                    />
+                  ) : (
+                    <div className="flex size-full items-center justify-center p-4">
+                      <ArticleIcon size={64} className="text-muted-foreground/30" />
+                    </div>
+                  )}
                 </div>
                 <div className="text-center">
                   <h3 className="font-semibold">{result.title}</h3>
@@ -318,6 +390,14 @@ export const App = () => {
               <Button onClick={() => window.open(result.pdfUrl, "_blank")}>
                 <DownloadSimpleIcon className="mr-2" /> Download PDF
               </Button>
+              {result.editorUrl && (
+                <Button
+                  variant="secondary"
+                  onClick={() => window.open(`http://localhost:5173${result.editorUrl}`, "_blank")}
+                >
+                  <ArrowSquareOutIcon className="mr-2" /> Open in Editor
+                </Button>
+              )}
               <Button variant="outline" onClick={() => { setJobContext(null); setResult(null); }}>
                 Start Over
               </Button>

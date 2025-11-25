@@ -1,7 +1,11 @@
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { User as UserEntity } from "@prisma/client";
-import { ExtensionGenerateResumeDto, UserWithSecrets } from "@reactive-resume/dto";
+import {
+  ExtensionGenerateCoverLetterDto,
+  ExtensionGenerateResumeDto,
+  UserWithSecrets,
+} from "@reactive-resume/dto";
 
 import { ApiKeyGuard } from "@/server/auth/guards/api-key.guard";
 import { User } from "@/server/user/decorators/user.decorator";
@@ -22,5 +26,13 @@ export class ExtensionController {
   @Post("generate")
   generate(@User() user: UserWithSecrets, @Body() data: ExtensionGenerateResumeDto) {
     return this.extensionService.generateResume(user, data);
+  }
+
+  @Post("generate-cover-letter")
+  generateCoverLetter(
+    @User() user: UserWithSecrets,
+    @Body() data: ExtensionGenerateCoverLetterDto,
+  ) {
+    return this.extensionService.generateCoverLetter(user, data);
   }
 }

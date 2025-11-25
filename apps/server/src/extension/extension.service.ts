@@ -1,6 +1,7 @@
 // apps/server/src/extension/extension.service.ts
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import {
+  ExtensionGenerateCoverLetterDto,
   ExtensionGenerateResumeDto,
   OpenAIConfigDto,
   ResumeDto,
@@ -11,6 +12,7 @@ import { ErrorMessage } from "@reactive-resume/utils";
 import slugify from "@sindresorhus/slugify";
 import { PrismaService } from "nestjs-prisma";
 
+import { CoverLetterService } from "@/server/cover-letter/cover-letter.service";
 import { InformationService } from "@/server/information/information.service";
 import { OpenAIService } from "@/server/openai/openai.service";
 import { PrinterService } from "@/server/printer/printer.service";
@@ -26,6 +28,7 @@ export class ExtensionService {
     private readonly openaiService: OpenAIService,
     private readonly resumeService: ResumeService,
     private readonly printerService: PrinterService,
+    private readonly coverLetterService: CoverLetterService,
   ) {}
 
   async getInformation(userId: string) {
@@ -112,6 +115,58 @@ export class ExtensionService {
         title: resume.title,
         pdfUrl,
         previewUrl,
+      };
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof BadRequestException) throw error;
+      throw new BadRequestException(ErrorMessage.SomethingWentWrong);
+    }
+  }
+
+  async generateCoverLetter(user: UserWithSecrets, data: ExtensionGenerateCoverLetterDto) {
+    try {
+      const information = await this.informationService.findAll(user.id);
+
+      const title = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
+      const slug = slugify(title);
+
+      const userAiConfig = user.secrets;
+      if (!userAiConfig?.aiApiKey) {
+        throw new BadRequestException(
+          "AI API Key is not configured in your Reactive Resume account. Please add it in Settings -> AI Integration.",
+        );
+      }
+
+      const openAiConfig: OpenAIConfigDto = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        provider: (userAiConfig.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+        apiKey: userAiConfig.aiApiKey,
+        baseURL: userAiConfig.aiBaseUrl ?? undefined,
+        model: userAiConfig.aiModel ?? undefined,
+        maxTokens: userAiConfig.aiMaxTokens ?? undefined,
+        isAzure: userAiConfig.aiProvider === "azure",
+        azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
+      };
+
+      const { content } = await this.openaiService.generateCoverLetter(
+        information.data as InformationData,
+        data.jobDescription,
+        openAiConfig,
+      );
+
+      const coverLetter = await this.coverLetterService.create(user.id, {
+        title,
+        slug,
+        content,
+      });
+
+      const pdfUrl = await this.printerService.printCoverLetter(coverLetter);
+
+      return {
+        id: coverLetter.id,
+        title: coverLetter.title,
+        pdfUrl,
+        editorUrl: `/dashboard/cover-letters/${coverLetter.id}`,
       };
     } catch (error) {
       this.logger.error(error);
