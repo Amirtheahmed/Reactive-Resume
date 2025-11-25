@@ -1,7 +1,9 @@
+// apps/server/src/extension/extension.controller.ts
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { User as UserEntity } from "@prisma/client";
 import {
+  AutofillMapRequestDto, // Import new DTO
   ExtensionGenerateCoverLetterDto,
   ExtensionGenerateResumeDto,
   UserWithSecrets,
@@ -34,5 +36,11 @@ export class ExtensionController {
     @Body() data: ExtensionGenerateCoverLetterDto,
   ) {
     return this.extensionService.generateCoverLetter(user, data);
+  }
+
+  // Add the new endpoint here
+  @Post("autofill-map")
+  autofillMap(@User() user: UserWithSecrets, @Body() data: AutofillMapRequestDto) {
+    return this.extensionService.createAutofillMap(user, data);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { createId } from "@paralleldrive/cuid2";
-import { OpenAIConfigDto } from "@reactive-resume/dto";
+import { AutofillMapRequestDto, OpenAIConfigDto } from "@reactive-resume/dto";
 import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/schema";
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
@@ -245,6 +245,97 @@ export class OpenAIService {
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException("Failed to generate cover letter via AI", (error as Error).message);
+    }
+  }
+
+  async createAutofillMap(
+    information: InformationData,
+    fields: AutofillMapRequestDto["fields"],
+    config: OpenAIConfigDto,
+    jobDescription?: string, // [!code ++]
+  ): Promise<{ id: string; value: string; strategy: "AI_MAPPED" | "AI_GENERATED" }[]> {
+    const openai = this.getOpenAIClient(config);
+    const model =
+      config.provider === "gemini"
+        ? config.model ?? GEMINI_DEFAULT_MODEL_SERVER
+        : config.model ?? OPENAI_DEFAULT_MODEL_SERVER;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: `
+            You are an expert AI assistant that intelligently maps a user's professional information to web form fields.
+            Your output MUST be a JSON object with a single key "mapping", which contains an array of field-to-value mappings.
+
+            <CORE_PRINCIPLES>
+            1.  **Exact & Semantic Matching:** Match fields not just by keywords, but by understanding the intent (e.g., "Current Role" maps to "basics.headline").
+            2.  **Format Awareness:** For <select> or radio fields, you MUST use one of the provided 'value' attributes from the 'options' array. Do not use the 'label'.
+            3.  **Generative Answers:** For open-ended 'textarea' fields (e.g., "Why are you a good fit?"), you MUST generate a concise, professional answer based on the user's entire Information Bank. If a <JOB_DESCRIPTION> is provided, you MUST use it as context to tailor the answer. Mark these with the "AI_GENERATED" strategy. All other direct mappings should be "AI_MAPPED".
+            4.  **Omission:** If you cannot find a confident match for a field in the Information Bank, you MUST omit it from your response array. Do not guess.
+            </CORE_PRINCIPLES>
+
+            <OUTPUT_SCHEMA>
+            {
+              "mapping": [
+                {
+                  "id": "field_unique_identifier_from_input",
+                  "value": "The value to be filled (either from the Information Bank or a generated answer)",
+                  "strategy": "'AI_MAPPED' or 'AI_GENERATED'"
+                }
+              ]
+            }
+            </OUTPUT_SCHEMA>
+            `,
+          },
+          {
+            role: "user",
+            content: `
+            <INFORMATION_BANK>
+            ${JSON.stringify(information)}
+            </INFORMATION_BANK>
+
+            <FORM_FIELDS>
+            ${JSON.stringify(fields)}
+            </FORM_FIELDS>
+
+            ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}
+
+            Now, generate the JSON object containing the field mapping.
+            `,
+          },
+        ],
+      });
+
+      const content = response.choices[0].message.content;
+      if (!content) {
+        throw new InternalServerErrorException("AI returned an empty response.");
+      }
+
+      try {
+        const parsed = JSON.parse(content) as {
+          mapping: { id: string; value: string; strategy: "AI_MAPPED" | "AI_GENERATED" }[];
+        };
+
+        if (!Array.isArray(parsed.mapping)) {
+          throw new TypeError("AI did not return a 'mapping' array in the response.");
+        }
+
+        return parsed.mapping;
+      } catch (error) {
+        this.logger.error(`Autofill JSON Parsing Error: ${(error as Error).message}`);
+        this.logger.debug(`Raw Content: ${content}`);
+        throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        "Failed to generate autofill map via AI",
+        (error as Error).message,
+      );
     }
   }
 }

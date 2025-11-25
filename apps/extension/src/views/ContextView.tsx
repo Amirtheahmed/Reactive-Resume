@@ -60,13 +60,13 @@ export const ContextView = ({ jobContext, setJobContext, setResult, setError, on
         onValueChange={(value: GenerationType) => value && setGenerationType(value)}
         className="grid w-full grid-cols-2"
       >
-        <ToggleGroupItem value="resume" className="flex items-center justify-center gap-x-2 text-xs grow">
+        <ToggleGroupItem value="resume" className="flex items-center justify-center gap-x-2 text-xs grow w-full">
           <ReadCvLogoIcon />
           <span>Resume</span>
         </ToggleGroupItem>
         <ToggleGroupItem
           value="cover-letter"
-          className="flex items-center justify-center gap-x-2 text-xs grow"
+          className="flex items-center justify-center gap-x-2 text-xs grow w-full"
         >
           <ArticleIcon />
           <span>Cover Letter</span>

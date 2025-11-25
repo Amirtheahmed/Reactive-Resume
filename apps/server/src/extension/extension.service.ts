@@ -1,6 +1,7 @@
 // apps/server/src/extension/extension.service.ts
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import {
+  AutofillMapRequestDto,
   ExtensionGenerateCoverLetterDto,
   ExtensionGenerateResumeDto,
   OpenAIConfigDto,
@@ -168,6 +169,41 @@ export class ExtensionService {
         pdfUrl,
         editorUrl: `/dashboard/cover-letters/${coverLetter.id}`,
       };
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof BadRequestException) throw error;
+      throw new BadRequestException(ErrorMessage.SomethingWentWrong);
+    }
+  }
+
+  async createAutofillMap(user: UserWithSecrets, data: AutofillMapRequestDto) {
+    try {
+      const information = await this.informationService.findAll(user.id);
+
+      const userAiConfig = user.secrets;
+      if (!userAiConfig?.aiApiKey) {
+        throw new BadRequestException(
+          "AI API Key is not configured in your Reactive Resume account. Please add it in Settings -> AI Integration.",
+        );
+      }
+
+      const openAiConfig: OpenAIConfigDto = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        provider: (userAiConfig.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+        apiKey: userAiConfig.aiApiKey,
+        baseURL: userAiConfig.aiBaseUrl ?? undefined,
+        model: userAiConfig.aiModel ?? undefined,
+        maxTokens: userAiConfig.aiMaxTokens ?? undefined,
+        isAzure: userAiConfig.aiProvider === "azure",
+        azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
+      };
+
+      return this.openaiService.createAutofillMap(
+        information.data as InformationData,
+        data.fields,
+        openAiConfig,
+        data.jobDescription,
+      );
     } catch (error) {
       this.logger.error(error);
       if (error instanceof BadRequestException) throw error;

@@ -1,10 +1,12 @@
+// apps/extension/src/content/index.ts
+
 import { Readability } from "@mozilla/readability";
-import { autofillPage } from "@reactive-resume/autofill";
-import type { InformationDto } from "@reactive-resume/dto";
+import { applyAutofill, extractFormFields, runHeuristics } from "@reactive-resume/autofill";
+import { InformationData } from "@reactive-resume/schema";
 
 console.log("Reactive Resume Copilot: Content Script Loaded");
 
-// Helper: Show a temporary toast notification in the browser page
+// ... showToast function (unchanged) ...
 const showToast = (message: string, type: "success" | "error" = "success") => {
   const id = "rx-resume-toast-host";
   let host = document.getElementById(id);
@@ -58,20 +60,18 @@ const showToast = (message: string, type: "success" | "error" = "success") => {
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  // Phase 3: Analyze Job Description
   if (request.type === "ANALYZE_JOB") {
+    // ... (existing ANALYZE_JOB logic) ...
     try {
-      // Clone the document to avoid modifying the live page
       const documentClone = document.cloneNode(true) as Document;
       const reader = new Readability(documentClone);
       const article = reader.parse();
 
       if (!article) {
         sendResponse({ error: "Could not parse page content." });
-        return;
+        return false; // Synchronous response
       }
 
-      // Heuristics to find Company Name
       let companyName = "";
       const ogSiteName = document.querySelector('meta[property="og:site_name"]');
       if (ogSiteName) companyName = ogSiteName.getAttribute("content") || "";
@@ -85,9 +85,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               companyName = data.hiringOrganization.name;
               break;
             }
-          } catch (e) {
-            // ignore json parse errors
-          }
+          } catch (e) { /* ignore json parse errors */ }
         }
       }
 
@@ -95,36 +93,53 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         title: document.title || article.title,
         content: article.textContent,
         siteName: companyName || article.siteName || window.location.hostname,
-        url: window.location.href
+        url: window.location.href,
       });
     } catch (error) {
       sendResponse({ error: (error as Error).message });
     }
+    return false; // Synchronous response
   }
 
-  // Phase 4: Autofill
-  if (request.type === "AUTOFILL") {
+  if (request.type === "PREPARE_AUTOFILL") {
     try {
-      const data = request.data as InformationDto;
-      if (!data || !data.data) {
-        showToast("Autofill failed: No data available", "error");
-        sendResponse({ error: "No information data provided." });
-        return;
-      }
+      const fields = extractFormFields();
+      const heuristicSuggestions = runHeuristics(request.data as InformationData);
 
-      const count = autofillPage(data.data);
+      // Find which fields were NOT matched by heuristics
+      const matchedIds = new Set(heuristicSuggestions.map(s => s.id));
+      const remainingFields = fields.filter(f => !matchedIds.has(f.id));
 
+      sendResponse({
+        success: true,
+        fields,
+        heuristicSuggestions,
+        remainingFields,
+        url: window.location.href,
+      });
+    } catch (error) {
+      sendResponse({ error: (error as Error).message });
+    }
+    return false; // This is synchronous, so we can return false.
+  }
+
+  if (request.type === "APPLY_AUTOFILL") {
+    try {
+      const count = applyAutofill(request.map);
       if (count > 0) {
         showToast(`⚡ Reactive Resume: Auto-filled ${count} fields!`);
       } else {
-        showToast("Reactive Resume: No matching fields found.", "error");
+        showToast("Reactive Resume: No fields were filled.", "error");
       }
-
       sendResponse({ success: true, count });
     } catch (error) {
       console.error(error);
       showToast("Autofill error occurred", "error");
       sendResponse({ error: (error as Error).message });
     }
+    return false; // Synchronous response
   }
+
+  // Default case for unknown message types
+  return false;
 });

@@ -7,14 +7,16 @@ import type { JobContext } from "../App";
 
 type Props = {
   setJobContext: (context: JobContext) => void;
+  onAutofill: () => void;
   setError: (error: string | null) => void;
+  autofillState: "idle" | "loading" | "reviewing" | "applying" | "success";
+  autofillCount: number | null;
 };
 
-export const MainView = ({ setJobContext, setError }: Props) => {
-  const { information } = useInformationStore();
+export const MainView = ({ setJobContext, onAutofill, setError, autofillState, autofillCount }: Props) => {
   const [analyzing, setAnalyzing] = useState(false);
-  const [autofilling, setAutofilling] = useState(false);
-  const [autofillCount, setAutofillCount] = useState<number | null>(null);
+  const { information } = useInformationStore();
+  const [, setAutofillCount] = useState<number | null>(autofillCount);
 
   const handleAnalyze = async () => {
     setAnalyzing(true);
@@ -38,39 +40,19 @@ export const MainView = ({ setJobContext, setError }: Props) => {
     setAnalyzing(false);
   };
 
-  const handleAutofill = async () => {
-    if (!information) return;
-    setAutofilling(true);
-    setAutofillCount(null);
-
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (tab?.id) {
-      try {
-        const response = await chrome.tabs.sendMessage(tab.id, {
-          type: "AUTOFILL",
-          data: information,
-        });
-        if (response?.success) setAutofillCount(response.count);
-      } catch (e) {
-        setError("Autofill failed. Try refreshing the page.");
-      }
-    }
-    setAutofilling(false);
-  };
-
   return (
     <div className="space-y-4">
       <Card
         className="cursor-pointer transition-colors hover:bg-secondary/30"
-        onClick={handleAutofill}
+        onClick={onAutofill}
       >
         <CardHeader className="flex-row items-center gap-4 space-y-0">
           <LightningIcon size={24} className="text-warning" />
           <div className="flex-1">
             <CardTitle className="flex items-center gap-2">
               Autofill Page
-              {autofilling && <Badge variant="secondary">Working...</Badge>}
-              {autofillCount !== null && (
+              {autofillState === "loading" && <Badge variant="secondary">Working...</Badge>}
+              {autofillState === "success" && autofillCount !== null && (
                 <Badge variant="success">Filled {autofillCount} fields</Badge>
               )}
             </CardTitle>
