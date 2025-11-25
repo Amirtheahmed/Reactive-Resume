@@ -135,11 +135,11 @@ A local, cost-effective engine to fill forms.
 ### Phase 4: The Autofill Engine
 **Goal:** Fill forms locally without server API costs.
 
-*   [ ] **Library:** Create `libs/autofill` (Typescript library).
-  *   Logic: `flattenProfile(user: UserDto)`, `scoreField(element, profile)`, `fillField(element, value)`.
-*   [ ] **Integration:** Import `libs/autofill` into the Extension Content Script.
-*   [ ] **UI:** Add "Autofill" button to Side Panel.
-*   [ ] **Feedback:** Add simple toast notifications in the browser context ("Filled 14 fields").
+*   [x] **Library:** Create `libs/autofill` (Typescript library).
+  *   Logic: `flattenInformation(user: UserDto)`, `scoreElement(element, profile)`, `autofillPage(element, value)`.
+*   [x] **Integration:** Import `libs/autofill` into the Extension Content Script.
+*   [x] **UI:** Add "Autofill" button to Side Panel.
+*   [x] **Feedback:** Add simple toast notifications in the browser context ("Filled 14 fields").
 
 ---
 
