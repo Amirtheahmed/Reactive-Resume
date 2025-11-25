@@ -12,7 +12,7 @@ import { Separator } from "@reactive-resume/ui";
 import { useInformationStore } from "./store/information";
 import { InformationDto } from "@reactive-resume/dto";
 import { ReviewView } from "./views/ReviewView";
-import { useJobContextStore, type JobContext } from "./store/jobContext";
+import { useJobContextStore } from "./store/jobContext";
 
 export type GenerationResult = {
   id: string;

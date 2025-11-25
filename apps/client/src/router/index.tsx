@@ -18,6 +18,7 @@ import { ResumesPage } from "../pages/dashboard/resumes/page";
 import { SettingsPage } from "../pages/dashboard/settings/page";
 import { HomeLayout } from "../pages/home/layout";
 import { HomePage } from "../pages/home/page";
+import { ExtensionPrivacyPolicyPage } from "../pages/meta/extension-privacy-policy/page";
 import { ErrorPage } from "../pages/public/error";
 import { publicLoader, PublicResumePage } from "../pages/public/page";
 import { Providers } from "../providers";
@@ -30,6 +31,8 @@ export const routes = createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
       <Route element={<HomeLayout />}>
         <Route path="/" element={<HomePage />} />
+
+        <Route path="/meta/extension-privacy-policy" element={<ExtensionPrivacyPolicyPage />} />
       </Route>
 
       <Route path="auth">
