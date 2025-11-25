@@ -36,6 +36,7 @@
     "useDefaultPatterns": true,
     "customPatterns": [
       "reactive-resume-codebase.md",
+      "docs/misc_assets/**",
       "tools/**",
       "**.svg",
       "**.po",

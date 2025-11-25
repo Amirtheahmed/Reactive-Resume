@@ -41,8 +41,15 @@ export class ExtensionService {
     try {
       const information = await this.informationService.findAll(user.id);
 
-      const title = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
-      const slug = slugify(title);
+      const baseTitle = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
+      const baseSlug = slugify(baseTitle);
+
+      const { title, slug } = await this.ensureUniqueTitleAndSlug(
+        user.id,
+        baseTitle,
+        baseSlug,
+        'resume',
+      );
 
       // Pull AI config from the user's secrets instead of the request body
       const userAiConfig = user.secrets;
@@ -128,8 +135,15 @@ export class ExtensionService {
     try {
       const information = await this.informationService.findAll(user.id);
 
-      const title = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
-      const slug = slugify(title);
+      const baseTitle = `${data.jobTitle} @ ${data.companyName ?? "Company"}`;
+      const baseSlug = slugify(baseTitle);
+
+      const { title, slug } = await this.ensureUniqueTitleAndSlug(
+        user.id,
+        baseTitle,
+        baseSlug,
+        'coverLetter',
+      );
 
       const userAiConfig = user.secrets;
       if (!userAiConfig?.aiApiKey) {
@@ -210,4 +224,37 @@ export class ExtensionService {
       throw new BadRequestException(ErrorMessage.SomethingWentWrong);
     }
   }
+
+  private async ensureUniqueTitleAndSlug(
+    userId: string,
+    baseTitle: string,
+    baseSlug: string,
+    type: 'resume' | 'coverLetter',
+  ): Promise<{ title: string; slug: string }> {
+    let title = baseTitle;
+    let slug = baseSlug;
+    let counter = 2;
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,no-constant-condition
+    while (true) {
+      const existing = type === 'resume'
+        ? await this.prisma.resume.findFirst({
+          where: { userId, slug },
+          select: { id: true },
+        })
+        : await this.prisma.coverLetter.findFirst({
+          where: { userId, slug },
+          select: { id: true },
+        });
+
+      if (!existing) {
+        return { title, slug };
+      }
+
+      title = `${baseTitle} ${counter}`;
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+  }
+
 }
