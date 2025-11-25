@@ -1,6 +1,7 @@
+// apps/client/src/pages/dashboard/settings/_sections/openai.tsx
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t, Trans } from "@lingui/macro";
-import { FloppyDiskIcon, TrashSimpleIcon } from "@phosphor-icons/react";
+import { TrashSimpleIcon } from "@phosphor-icons/react";
 import {
   Alert,
   Button,
@@ -17,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@reactive-resume/ui";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,11 +28,13 @@ import {
   DEFAULT_MODEL,
   GEMINI_DEFAULT_MODEL,
 } from "@/client/constants/llm";
+import { useToast } from "@/client/hooks/use-toast";
+import { useAiSettings, useUpdateAiSettings } from "@/client/services/user/ai-settings";
 import { useOpenAiStore } from "@/client/stores/openai";
 
 const formSchema = z.object({
   provider: z.enum(["openai", "azure", "ollama", "gemini"]).default("openai"),
-  apiKey: z.string().default(""),
+  apiKey: z.string().optional().default(""), // Optional: only for updates
   baseURL: z.string().optional().default(""),
   model: z.string().default(DEFAULT_MODEL),
   maxTokens: z.number().default(DEFAULT_MAX_TOKENS),
@@ -39,85 +43,124 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export const OpenAISettings = () => {
+const OpenAISettings = () => {
+  const { toast } = useToast();
+  const { data: aiSettings, isLoading } = useAiSettings();
+  const { updateAiSettings, loading: isSaving } = useUpdateAiSettings();
+
   const {
-    provider,
     setProvider,
-    apiKey,
     setApiKey,
-    baseURL,
     setBaseURL,
-    model,
     setModel,
-    maxTokens,
     setMaxTokens,
-    azureApiVersion,
     setAzureApiVersion,
     setIsAzure,
   } = useOpenAiStore();
 
-  const isEnabled = !!apiKey;
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      provider: provider ?? "openai",
-      apiKey: apiKey ?? "",
-      baseURL: baseURL ?? "",
-      model: model ?? DEFAULT_MODEL,
-      maxTokens: maxTokens ?? DEFAULT_MAX_TOKENS,
-      azureApiVersion: azureApiVersion ?? DEFAULT_AZURE_API_VERSION,
-    },
-  });
-
-  const currentProvider = form.watch("provider");
-
-  const onSubmit = (values: FormValues) => {
-    setProvider(values.provider);
-    setApiKey(values.apiKey);
-    setModel(values.model);
-    setMaxTokens(values.maxTokens);
-
-    // Reset irrelevant fields based on provider
-    if (values.provider === "azure") {
-      setBaseURL(values.baseURL || null);
-      setAzureApiVersion(values.azureApiVersion);
-      setIsAzure(true);
-    } else if (values.provider === "ollama") {
-      setBaseURL(values.baseURL || null);
-      setIsAzure(false);
-    } else {
-      setBaseURL(null);
-      setIsAzure(false);
-    }
-  };
-
-  const onRemove = () => {
-    setProvider("openai");
-    setApiKey(null);
-    setBaseURL(null);
-    setModel(DEFAULT_MODEL);
-    setMaxTokens(DEFAULT_MAX_TOKENS);
-    setIsAzure(false);
-    setAzureApiVersion(DEFAULT_AZURE_API_VERSION);
-
-    form.reset({
       provider: "openai",
       apiKey: "",
       baseURL: "",
       model: DEFAULT_MODEL,
       maxTokens: DEFAULT_MAX_TOKENS,
       azureApiVersion: DEFAULT_AZURE_API_VERSION,
+    },
+  });
+
+  useEffect(() => {
+    if (aiSettings) {
+      const newValues = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        provider: aiSettings.provider ?? "openai",
+        apiKey: "", // API key is never sent to the client
+        baseURL: aiSettings.baseURL ?? "",
+        model: aiSettings.model ?? DEFAULT_MODEL,
+        maxTokens: aiSettings.maxTokens ?? DEFAULT_MAX_TOKENS,
+        azureApiVersion: aiSettings.azureApiVersion ?? DEFAULT_AZURE_API_VERSION,
+      };
+
+      // Reset the form with the fetched values
+      form.reset(newValues);
+
+      // Synchronize the fetched settings with the Zustand store
+      setProvider(newValues.provider);
+      setBaseURL(newValues.baseURL);
+      setModel(newValues.model);
+      setMaxTokens(newValues.maxTokens);
+      setAzureApiVersion(newValues.azureApiVersion);
+      setIsAzure(newValues.provider === "azure");
+
+      // Update the key status in the store without exposing the key
+      if (aiSettings.isApiKeySet) {
+        setApiKey("key_is_set_on_server");
+      } else {
+        setApiKey(null);
+      }
+    }
+  }, [aiSettings, form, setProvider, setApiKey, setBaseURL, setModel, setMaxTokens, setAzureApiVersion, setIsAzure]);
+
+  const currentProvider = form.watch("provider");
+  const isEnabled = aiSettings?.isApiKeySet ?? false;
+
+  const onSubmit = async (values: FormValues) => {
+    await updateAiSettings({
+      provider: values.provider,
+      apiKey: values.apiKey,
+      baseURL: values.baseURL,
+      model: values.model,
+      maxTokens: values.maxTokens,
+      azureApiVersion: values.azureApiVersion,
+      isAzure: values.provider === "azure",
     });
+
+    // FIX: After a successful save, also update the Zustand store
+    setProvider(values.provider);
+    setBaseURL(values.baseURL);
+    setModel(values.model);
+    setMaxTokens(values.maxTokens);
+    setAzureApiVersion(values.azureApiVersion);
+    setIsAzure(values.provider === "azure");
+    if (values.apiKey) {
+      setApiKey(values.apiKey);
+    }
+
+    toast({ variant: "success", title: t`AI settings have been saved to your account.` });
   };
 
-  // Auto-switch models when provider changes (UX improvement)
+  const onRemove = async () => {
+    const emptySettings: FormValues = {
+      provider: "openai",
+      apiKey: "",
+      baseURL: "",
+      model: DEFAULT_MODEL,
+      maxTokens: DEFAULT_MAX_TOKENS,
+      azureApiVersion: DEFAULT_AZURE_API_VERSION,
+    };
+
+    await updateAiSettings({ ...emptySettings, apiKey: "", isAzure: false }); // Explicitly clear the key on the server
+
+    // FIX: Clear the Zustand store as well
+    setProvider("openai");
+    setApiKey(null);
+    setBaseURL(null);
+    setModel(DEFAULT_MODEL);
+    setMaxTokens(DEFAULT_MAX_TOKENS);
+    setAzureApiVersion(DEFAULT_AZURE_API_VERSION);
+    setIsAzure(false);
+
+    form.reset(emptySettings);
+    toast({ variant: "success", title: t`AI settings have been removed from your account.` });
+  };
+
   const handleProviderChange = (value: string) => {
-    form.setValue("provider", value as FormValues["provider"]);
-    if (value === "gemini") {
+    const provider = value as FormValues["provider"];
+    form.setValue("provider", provider);
+    if (provider === "gemini") {
       form.setValue("model", GEMINI_DEFAULT_MODEL);
-    } else if (value === "openai" || value === "azure") {
+    } else if (provider === "openai" || provider === "azure") {
       form.setValue("model", DEFAULT_MODEL);
     }
   };
@@ -133,8 +176,6 @@ export const OpenAISettings = () => {
 
       <Form {...form}>
         <form className="grid gap-6 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
-
-          {/* Provider Selection */}
           <FormField
             name="provider"
             control={form.control}
@@ -142,7 +183,11 @@ export const OpenAISettings = () => {
               <FormItem className="sm:col-span-2">
                 <FormLabel>{t`AI Provider`}</FormLabel>
                 <FormControl>
-                  <Select value={field.value} onValueChange={handleProviderChange}>
+                  <Select
+                    value={field.value}
+                    disabled={isLoading}
+                    onValueChange={handleProviderChange}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder={t`Select a provider`} />
                     </SelectTrigger>
@@ -168,14 +213,18 @@ export const OpenAISettings = () => {
                   {currentProvider === "gemini" ? t`Gemini API Key` : t`API Key`}
                 </FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="sk-..." {...field} />
+                  <Input
+                    type="password"
+                    autoComplete="off"
+                    placeholder={isEnabled ? t`•••••••••••••••••••• (saved)` : "sk-..."}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Base URL (Only for Azure and Ollama) */}
           {(currentProvider === "azure" || currentProvider === "ollama") && (
             <FormField
               name="baseURL"
@@ -209,7 +258,13 @@ export const OpenAISettings = () => {
               <FormItem>
                 <FormLabel>{currentProvider === "azure" ? t`Deployment Name` : t`Model`}</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder={currentProvider === "gemini" ? GEMINI_DEFAULT_MODEL : DEFAULT_MODEL} {...field} />
+                  <Input
+                    type="text"
+                    placeholder={
+                      currentProvider === "gemini" ? GEMINI_DEFAULT_MODEL : DEFAULT_MODEL
+                    }
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -237,7 +292,6 @@ export const OpenAISettings = () => {
             )}
           />
 
-          {/* Azure Specific API Version */}
           {currentProvider === "azure" && (
             <FormField
               name="azureApiVersion"
@@ -246,11 +300,7 @@ export const OpenAISettings = () => {
                 <FormItem>
                   <FormLabel>{t`Azure API Version`}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder={DEFAULT_AZURE_API_VERSION}
-                      {...field}
-                    />
+                    <Input type="text" placeholder={DEFAULT_AZURE_API_VERSION} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -259,15 +309,14 @@ export const OpenAISettings = () => {
           )}
 
           <div className="flex items-center space-x-2 self-end sm:col-start-2">
-            <Button type="submit" disabled={!form.formState.isValid}>
-              {isEnabled && <FloppyDiskIcon className="mr-2" />}
-              {isEnabled ? t`Saved` : t`Save Locally`}
+            <Button type="submit" disabled={isSaving || !form.formState.isDirty}>
+              {isSaving ? t`Saving...` : t`Save Changes`}
             </Button>
 
             {isEnabled && (
-              <Button type="reset" variant="ghost" onClick={onRemove}>
+              <Button type="button" variant="ghost" onClick={onRemove}>
                 <TrashSimpleIcon className="mr-2" />
-                {t`Forget`}
+                {t`Remove`}
               </Button>
             )}
           </div>
@@ -278,22 +327,37 @@ export const OpenAISettings = () => {
         {currentProvider === "gemini" && (
           <p>
             <Trans>
-              To use Google Gemini, you need to <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">get an API Key from Google AI Studio</a>.
-              This feature uses Google's OpenAI compatibility layer.
+              To use Google Gemini, you need to{" "}
+              <a
+                href="https://aistudio.google.com/app/apikey"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                get an API Key from Google AI Studio
+              </a>
+              . This feature uses Google's OpenAI compatibility layer.
             </Trans>
           </p>
         )}
         {currentProvider === "openai" && (
           <p>
             <Trans>
-              You have the option to <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/">obtain your own OpenAI API key</a>.
+              You have the option to{" "}
+              <a
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                href="https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/"
+              >
+                obtain your own OpenAI API key
+              </a>
+              .
             </Trans>
           </p>
         )}
         <p>
           <Trans>
-            Your API key is securely stored in the browser's local storage and is only utilized when
-            making requests to the AI provider via their official SDKs or APIs.
+            Your API key is securely stored in the database and is only utilized when making
+            requests to the AI provider via their official SDKs or APIs from the server.
           </Trans>
         </p>
       </div>
@@ -302,11 +366,14 @@ export const OpenAISettings = () => {
         <div className="prose prose-neutral max-w-full text-xs leading-relaxed text-primary dark:prose-invert">
           <Trans>
             <span className="font-medium">Note: </span>
-            By utilizing AI features, you acknowledge that data (such as your resume content) will be sent to the selected third-party provider (OpenAI, Google, or your local Ollama instance).
-            Reactive Resume bears no responsibility for the data processing practices of these third-party providers.
+            By utilizing AI features, you acknowledge that data (such as your resume content) will
+            be sent to the selected third-party provider (OpenAI, Google, or your local Ollama
+            instance). Reactive Resume bears no responsibility for the data processing practices of
+            these third-party providers.
           </Trans>
         </div>
       </Alert>
     </div>
   );
 };
+export default OpenAISettings;

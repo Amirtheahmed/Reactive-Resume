@@ -19,6 +19,7 @@
       "@/artboard/*": ["apps/artboard/src/*"],
       "@/client/*": ["apps/client/src/*"],
       "@/server/*": ["apps/server/src/*"],
+      "@reactive-resume/autofill": ["libs/autofill/src/index.ts"],
       "@reactive-resume/dto": ["libs/dto/src/index.ts"],
       "@reactive-resume/hooks": ["libs/hooks/src/index.ts"],
       "@reactive-resume/parser": ["libs/parser/src/index.ts"],

@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { UpdateUserDto, UserDto } from "@reactive-resume/dto";
+import { OpenAIConfigDto, UpdateUserDto, UserDto } from "@reactive-resume/dto";
 import { ErrorMessage } from "@reactive-resume/utils";
 import type { Response } from "express";
 
@@ -76,5 +76,17 @@ export class UserController {
     response.clearCookie("Refresh");
 
     response.status(200).send({ message: "Sorry to see you go, goodbye!" });
+  }
+
+  @Get("me/ai-settings")
+  @UseGuards(TwoFactorGuard)
+  getAiSettings(@User("id") userId: string) {
+    return this.userService.getAiSettings(userId);
+  }
+
+  @Patch("me/ai-settings")
+  @UseGuards(TwoFactorGuard)
+  updateAiSettings(@User("id") userId: string, @Body() openAIConfigDto: OpenAIConfigDto) {
+    return this.userService.updateAiSettings(userId, openAIConfigDto);
   }
 }

@@ -38,7 +38,8 @@ async function bootstrap() {
   );
 
   // CORS
-  app.enableCors({ credentials: true, origin: isHTTPS });
+  // Force permissive origin in development to ensure Client (5173) can talk to Server (3000)
+  app.enableCors({ credentials: true, origin: true });
 
   // Helmet - enabled only in production
   if (isHTTPS) app.use(helmet({ contentSecurityPolicy: false }));

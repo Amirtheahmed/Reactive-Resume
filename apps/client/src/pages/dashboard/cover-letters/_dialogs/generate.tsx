@@ -27,7 +27,6 @@ import type { z } from "zod";
 
 import { useGenerateCoverLetter } from "@/client/services/cover-letter";
 import { useDialog } from "@/client/stores/dialog";
-import { useOpenAiStore } from "@/client/stores/openai";
 
 // Omit openAiConfig from the form validation as it is pulled from the store
 const formSchema = generateCoverLetterSchema.omit({ openAiConfig: true });
@@ -38,7 +37,6 @@ export const GenerateCoverLetterDialog = () => {
   const navigate = useNavigate();
   const { isOpen, close } = useDialog("generate-cover-letter");
   const { generateCoverLetter, loading } = useGenerateCoverLetter();
-  const { provider, apiKey, baseURL, model, maxTokens, isAzure, azureApiVersion } = useOpenAiStore();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -55,18 +53,7 @@ export const GenerateCoverLetterDialog = () => {
   }, [form.watch]);
 
   const onSubmit = async (data: FormValues) => {
-    const coverLetter = await generateCoverLetter({
-      ...data,
-      openAiConfig: {
-        provider: provider,
-        apiKey: apiKey ?? undefined,
-        baseURL: baseURL ?? undefined,
-        model: model ?? undefined,
-        maxTokens: maxTokens ?? undefined,
-        isAzure,
-        azureApiVersion: azureApiVersion ?? undefined,
-      },
-    });
+    const coverLetter = await generateCoverLetter(data);
     close();
     await navigate(`/dashboard/cover-letters/${coverLetter.id}`);
   };

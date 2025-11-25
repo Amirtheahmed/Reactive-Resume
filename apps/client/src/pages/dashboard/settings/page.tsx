@@ -3,9 +3,11 @@ import { ScrollArea, Separator } from "@reactive-resume/ui";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
+import { DeveloperSettings } from "@/client/pages/dashboard/settings/_sections/developer";
+
 import { AccountSettings } from "./_sections/account";
 import { DangerZoneSettings } from "./_sections/danger";
-import { OpenAISettings } from "./_sections/openai";
+import OpenAISettings from "./_sections/openai";
 import { ProfileSettings } from "./_sections/profile";
 import { SecuritySettings } from "./_sections/security";
 
@@ -35,6 +37,8 @@ export const SettingsPage = () => (
           <ProfileSettings />
           <Separator />
           <OpenAISettings />
+          <Separator />
+          <DeveloperSettings />
           <Separator />
           <DangerZoneSettings />
         </div>

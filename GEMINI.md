@@ -27,7 +27,7 @@
 ### 2.2. Applications
 
 #### **1. `client`** (React + Vite)
-*   **Role:** The main dashboard, builder interface, and landing page.
+*   **Role:** The main dashboard, builder interface, and landing page. Manages resumes, cover letters, and the central Information Bank.
 *   **Key Characteristics:** It **never** renders the resume directly. It acts as the controller.
 *   **State Management:** `Zustand` (with `immer` for mutability and `zundo` for temporal undo/redo).
 *   **Data Fetching:** `TanStack Query` (React Query) with `Axios`.
@@ -35,92 +35,94 @@
 *   **Routing:** `React Router v6`.
 
 #### **2. `artboard`** (React + Vite)
-*   **Role:** A lightweight, isolated renderer for the resume.
-*   **Why?** To sandbox CSS. User-defined CSS or Template CSS cannot bleed into the UI, and UI CSS cannot break the resume layout.
+*   **Role:** A lightweight, isolated renderer for resumes and cover letters.
+*   **Why?** To sandbox CSS. User-defined CSS or Template CSS cannot bleed into the UI, and UI CSS cannot break the document layout.
 *   **Usage:** Embedded as an `<iframe>` within the `client` builder and loaded by the `server` printer service for PDF generation.
 *   **Communication:** Receives data from `client` via `window.postMessage`.
 
 #### **3. `server`** (NestJS)
-*   **Role:** API gateway, authentication, database access, and PDF generation.
+*   **Role:** API gateway, authentication, database access, PDF generation, and AI-powered content generation.
 *   **Database:** PostgreSQL via `Prisma ORM`.
 *   **Storage:** S3-compatible storage (MinIO/AWS S3) for images and PDF artifacts.
-*   **Auth:** `Passport.js` (Local, GitHub, Google, OpenID) using Cookie-based JWTs.
+*   **Auth:** `Passport.js` (Local, GitHub, Google, OpenID) using Cookie-based JWTs. Also supports API Key authentication for the browser extension.
 *   **Printing:** Uses `Puppeteer` (headless Chrome) via `browserless` to generate PDFs.
+
+#### **4. `extension`** (React + Vite + CRXJS)
+*   **Role:** "Reactive Resume Copilot" browser extension for Chrome (Manifest V3).
+*   **Key Features:**
+  *   **Context-Aware Generation:** Scrapes job descriptions from any webpage to generate tailored resumes.
+  *   **Universal Autofill:** Fills job application forms using data from the user's Information Bank.
+*   **UI:** A Side Panel UI that communicates with the `server` via API Key.
 
 ### 2.3. Libraries (`libs/`)
 
 *   **`dto`**: NestJS DTOs powered by `nestjs-zod`. Shared between client and server for API contract type safety.
-*   **`schema`**: Zod definitions for the core `ResumeData` structure. This is the "source of truth".
+*   **`schema`**: Zod definitions for the core `ResumeData` and `InformationData` structures. This is the "source of truth".
 *   **`ui`**: Reusable UI components (Shadcn-like) built on Radix UI and Tailwind.
 *   **`hooks`**: Shared React hooks (e.g., `useDebounce`, `useBreakpoint`).
 *   **`utils`**: Shared utility functions (Date formatting, String manipulation).
 *   **`parser`**: Logic for importing data from external sources (LinkedIn, JSON Resume).
+*   **`autofill`**: Heuristic engine for the browser extension to intelligently fill web forms.
 
 ---
 
 ## 3. Core Workflows
 
 ### 3.1. Client-Artboard Communication (Split-Brain)
-1.  User edits form in `client`.
-2.  `client` updates `useResumeStore` (debounced).
-3.  `BuilderPage` (`apps/client/src/pages/builder/page.tsx`) listens to store changes.
-4.  `postMessage` sends `{ type: 'SET_RESUME', payload: ResumeData }` to the `artboard` iframe.
-5.  `artboard` receives the message, updates its local store, and re-renders the selected Template.
+1.  User edits a resume or cover letter in `client`.
+2.  `client` updates `useResumeStore` or `useCoverLetterStore` (debounced).
+3.  The relevant page (`BuilderPage` or `CoverLetterEditorPage`) listens to store changes.
+4.  `postMessage` sends `{ type: 'SET_RESUME', payload: ResumeData }` or `{ type: 'SET_COVER_LETTER', payload: CoverLetterDto }` to the `artboard` iframe.
+5.  `artboard` receives the message, updates its local store, and re-renders the selected Template or cover letter content.
 
 ### 3.2. PDF Printing
-1.  Client requests print URL (`/resume/print/:id`).
-2.  Server (`PrinterService`) launches Headless Chrome (often via a separate `browserless` container).
-3.  Chrome navigates to the internal **Artboard** URL (`http://artboard-url/preview`).
-4.  Server injects the `ResumeData` directly into the browser's `localStorage`.
+1.  Client requests a print URL (`/resume/print/:id` or `/cover-letter/print/:id`).
+2.  Server (`PrinterService`) launches Headless Chrome.
+3.  Chrome navigates to the internal **Artboard** URL (`/artboard/preview` or `/artboard/cover-letter`).
+4.  Server injects the `ResumeData` or `CoverLetterDto` directly into the browser's `localStorage`.
 5.  Chrome waits for fonts and assets to load, then executes `page.pdf()`.
 6.  Server uploads the resulting PDF buffer to S3/MinIO and returns the URL to the client.
 
-### 3.3. Authentication
-*   **Strategies:** Local (Email/Password), GitHub, Google, OpenID.
-*   **Tokens:** Uses **Cookie-based JWTs**.
-  *   `Authentication`: Access Token (short-lived).
-  *   `Refresh`: Refresh Token (long-lived).
-*   **2FA:** Handled via `otplib` and guards (`TwoFactorGuard`).
+### 3.3. Browser Extension Workflow
+1.  **Auth:** User generates an API Key in the `client` dashboard and saves it in the `extension`'s Side Panel.
+2.  **Context-Aware Generation:**
+  *   User navigates to a job posting and clicks "Analyze Job Page" in the Side Panel.
+  *   The `content` script uses `@mozilla/readability` to extract the job description and sends it to the Side Panel UI.
+  *   User clicks "Generate Resume". The Side Panel calls the `server` endpoint (`/api/extension/generate`).
+  *   The `server` (`ExtensionService`) fetches the user's **Information Bank**, combines it with the job description, and calls the `OpenAIService` to generate a new `ResumeData` object.
+  *   The new resume is saved, printed to PDF, and the PDF/preview URLs are returned to the extension.
+3.  **Autofill:**
+  *   User navigates to a job application form and clicks "Autofill This Page".
+  *   The `content` script fetches the user's **Information Bank** from the server.
+  *   The `autofill` library runs locally in the content script, scoring form fields against the user's data and filling the best matches.
+
+### 3.4. AI Integration (Multi-Provider)
+*   **Configuration:** Users configure their AI provider (OpenAI, Azure, Gemini, Ollama) and API key in the `client` settings. This is stored securely in the `Secrets` table on the server.
+*   **Execution:** When an AI feature is triggered (e.g., "Generate Resume"), the request is sent to the `server`.
+*   **Service Logic:** The `OpenAIService` on the server reads the user's stored configuration, initializes the correct SDK (e.g., `OpenAI`), and makes the request to the third-party AI provider. The client never directly communicates with the AI provider.
 
 ---
 
 ## 4. Data Structures & State Management
 
-### 4.1. Core Resume Object (`ResumeData`)
-Defined in `libs/schema/src/index.ts`.
-```typescript
-// Simplified View
-{
-  basics: { name, email, phone, picture, customFields, ... },
-  sections: {
-    summary: { visible, content, ... },
-    experience: { id: "experience", items: [ ... ], columns: 1, visible: true },
-    // ... other standard sections
-    custom: {
-       "my-custom-id": { name: "Pet Projects", items: [ ... ] }
-    }
-  },
-  metadata: {
-    template: "onyx",
-    layout: [ [ ["summary", "experience"], ["skills"] ] ], // Pages -> Columns -> Sections
-    css: { value: ".section { color: red; }", visible: true },
-    theme: { primary: "#hex", background: "#hex", text: "#hex" },
-    typography: { font: { family: "Roboto", subset: "latin", size: 14 }, lineHeight: 1.5 }
-  }
-}
-```
+### 4.1. Core Data Objects
+*   **`InformationData` (`libs/schema/src/information/index.ts`):** The central source of truth for a user's professional life. Contains `basics`, `sections` (like experience, education), and `custom` sections. This is edited in the "Information Bank" section of the dashboard.
+*   **`ResumeData` (`libs/schema/src/index.ts`):** A self-contained snapshot of a resume. It has the same structure as `InformationData` but also includes `metadata` for styling, layout, and template selection. It is the object used for rendering and printing.
 
 ### 4.2. Database Schema (Prisma)
 Located at `tools/prisma/schema.prisma`.
 *   **`User`**: Identity.
-*   **`Resume`**: Stores the JSON blob of `data` (ResumeData), `visibility`, `slug`, and `locked` status.
-*   **`Secrets`**: Sensitive auth data (password hash, 2FA secret, refresh token) linked 1:1 to User.
+*   **`Resume`**: Stores the JSON blob of `data` (`ResumeData`), `visibility`, `slug`, and `locked` status.
+*   **`CoverLetter`**: Stores `title`, `slug`, and HTML `content`.
+*   **`Information`**: Stores the JSON blob of `data` (`InformationData`), linked 1:1 to a User.
+*   **`ApiKey`**: Stores hashed API keys for programmatic access (e.g., browser extension).
+*   **`Secrets`**: Sensitive auth data (password hash, 2FA secret) and AI provider configurations (`aiProvider`, `aiApiKey`, `aiBaseUrl`, etc.) linked 1:1 to User.
 
 ### 4.3. Client State (Zustand)
-Located at `apps/client/src/stores/resume.ts`.
-*   **Temporal Middleware (`zundo`)**: Handles Undo/Redo functionality. `temporal.getState().clear()` must be called on resume load.
-*   **Immer Middleware**: Allows mutable syntax for immutable state updates.
-*   **Debounce**: Updates to the backend are debounced (`debouncedUpdateResume`) to prevent API flooding.
+*   **`useResumeStore` (`apps/client/src/stores/resume.ts`):** Manages the state of a single resume being edited. Includes temporal (undo/redo) middleware.
+*   **`useCoverLetterStore` (`apps/client/src/stores/cover-letter.ts`):** Manages the state of a single cover letter being edited.
+*   **`useInformationStore` (`apps/client/src/stores/information.ts`):** Manages the Information Bank data.
+*   **`useOpenAiStore` (`apps/client/src/stores/openai.ts`):** Caches the user's AI settings on the client for use in UI and for sending generation requests. The API key itself is stored securely on the server.
 
 ---
 
@@ -128,43 +130,40 @@ Located at `apps/client/src/stores/resume.ts`.
 
 ### 5.1. How to Add a New Resume Section
 1.  **Schema:** Update `libs/schema/src/sections/index.ts` to include the new section schema and default values.
-2.  **DTO:** Run `nx build dto` to propagate changes (usually automatic in dev).
-3.  **Client (Store):** Update `apps/client/src/stores/resume.ts` if specific logic is needed for adding/removing this section.
-4.  **Client (UI):**
-  *   Add a dialog form in `apps/client/src/pages/builder/sidebars/left/dialogs/`.
-  *   Register the dialog in `apps/client/src/providers/dialog.tsx`.
-  *   Add the section icon/trigger in `apps/client/src/pages/builder/sidebars/left/index.tsx`.
-5.  **Artboard (Template):** Update specific templates in `apps/artboard/src/templates/` to render the new section.
+2.  **DTO:** Changes should propagate automatically. If not, run `nx build dto`.
+3.  **Client (UI):**
+*   Add a dialog form in `apps/client/src/pages/builder/sidebars/left/dialogs/`.
+*   Register the dialog in `apps/client/src/providers/dialog.tsx`.
+*   Add the section icon/trigger in `apps/client/src/pages/builder/sidebars/left/index.tsx`.
+4.  **Artboard (Template):** Update specific templates in `apps/artboard/src/templates/` to render the new section.
 
 ### 5.2. How to Create a New Template
 1.  **Create File:** Add `<TemplateName>.tsx` in `apps/artboard/src/templates/`.
-2.  **Implement:** Component should accept `columns` (layout) and `isFirstPage` props.
-  *   Use the `useArtboardStore` to access data.
-  *   Iterate over `columns` to render Main vs Sidebar layouts.
+2.  **Implement:** The component should accept `columns` (layout) and `isFirstPage` props. Use `useArtboardStore` to access resume data.
 3.  **Register:**
-  *   Add to `getTemplate` switch case in `apps/artboard/src/templates/index.tsx`.
-  *   Add name to `templatesList` in `libs/utils/src/namespaces/template.ts`.
+*   Add to `getTemplate` switch case in `apps/artboard/src/templates/index.tsx`.
+*   Add name to `templatesList` in `libs/utils/src/namespaces/template.ts`.
 4.  **Assets:**
-  *   Add a sample JPG preview to `apps/client/public/templates/jpg/<name>.jpg`.
-  *   Add a sample PDF to `apps/client/public/templates/pdf/<name>.pdf`.
+*   Add a sample JPG preview to `apps/client/public/templates/jpg/<name>.jpg`.
+*   Add a sample PDF to `apps/client/public/templates/pdf/<name>.pdf`.
 
-### 5.3. How to Add a New Feature Flag
-1.  **Backend Config:** Update `apps/server/src/config/schema.ts` to validate the environment variable (e.g., `DISABLE_FEATURE_X`).
-2.  **Service:** Update `apps/server/src/feature/feature.service.ts` to expose the flag logic.
-3.  **DTO:** Update the Feature DTO in `libs/dto/src/feature/index.ts` to ensure type safety across the boundary.
-4.  **Frontend:** Use the `useFeatureFlags()` hook in `apps/client` to conditionally render UI elements.
+### 5.3. How to Work with the Browser Extension
+1.  **Location:** All extension code resides in `apps/extension`.
+2.  **Key Files:**
+  *   `manifest.json`: Defines permissions, scripts, and the side panel.
+  *   `src/background/index.ts`: Service worker for background tasks (minimal in V3).
+  *   `src/content/index.ts`: Injected into web pages to read DOM (for analysis) and write to it (for autofill).
+  *   `src/App.tsx`: The main React component for the Side Panel UI.
+3.  **Local Development:**
+  *   Run `pnpm dev`.
+  *   In Chrome, go to `chrome://extensions`, enable "Developer mode".
+  *   Click "Load unpacked" and select the `dist/apps/extension` directory.
+  *   The extension will hot-reload on changes.
 
 ### 5.4. How to Debug PDF Printing
-PDF generation happens server-side via Puppeteer and can be tricky to debug.
-1.  **Check Logs:** Run `docker compose logs server` and look for "Chrome took Xms to print".
-2.  **Network Connectivity:** Ensure the Docker container for `server` can reach the `artboard`. In development, logic in `apps/server/src/printer/printer.service.ts` rewrites URLs to use `host.docker.internal`.
-3.  **Timeouts:** If printing times out, check if the artboard is trying to load external fonts or images that might be blocked or slow.
-
-### 5.5. How to Modify the API
-1.  **Controller:** Create or update `apps/server/src/<module>/<module>.controller.ts`.
-2.  **Service:** Implement business logic in `apps/server/src/<module>/<module>.service.ts`.
-3.  **DTO:** Define input/output validation schemas in `libs/dto`. **Always** start here to ensure the contract is strictly typed.
-4.  **Client Service:** Add a service function in `apps/client/src/services/<module>/` using Axios.
+1.  **Check Logs:** Run `docker compose logs server` and look for `[Browser Console]` messages or errors.
+2.  **Network Connectivity:** Ensure the `server` container can reach the `artboard` container. In development, the `PrinterService` rewrites `localhost` URLs to `host.docker.internal` to bridge this gap.
+3.  **Timeouts:** If printing times out, check if the artboard is trying to load external fonts or images that might be blocked or slow inside the Docker network.
 
 ---
 
@@ -173,20 +172,28 @@ PDF generation happens server-side via Puppeteer and can be tricky to debug.
 ```text
 .
 ├── apps/
-│   ├── artboard/       # The renderer (Vite + React). Isolated environment.
-│   ├── client/         # The main app/controller (Vite + React).
-│   │   ├── src/pages/builder/  # Core builder logic (Sidebars, Drag-Drop).
-│   │   └── src/stores/         # Global state (Resume, Auth, Dialogs).
-│   └── server/         # The API (NestJS).
-│       ├── src/auth/   # Authentication strategies.
-│       ├── src/printer/# Puppeteer/Chrome logic.
-│       └── src/resume/ # CRUD operations.
+│   ├── artboard/       # Isolated renderer for resumes & cover letters.
+│   ├── client/         # Main app: Dashboard, Builder, Settings.
+│   │   ├── src/pages/builder/
+│   │   ├── src/pages/dashboard/
+│   │   └── src/stores/
+│   ├── extension/      # Browser Extension (Copilot).
+│   │   ├── src/content/ # DOM interaction script.
+│   │   └── src/App.tsx   # Side Panel UI.
+│   └── server/         # API (NestJS).
+│       ├── src/auth/
+│       ├── src/printer/
+│       ├── src/resume/
+│       ├── src/cover-letter/
+│       ├── src/information/
+│       └── src/extension/
 ├── libs/
-│   ├── dto/            # Shared Data Transfer Objects (NestJS/Zod).
-│   ├── schema/         # Zod definitions for Resume Data.
-│   ├── ui/             # Reusable UI Kit (Shadcn-like).
+│   ├── autofill/       # Heuristic engine for form filling.
+│   ├── dto/            # Shared Data Transfer Objects (API contracts).
+│   ├── schema/         # Zod definitions for ResumeData & InformationData.
+│   ├── ui/             # Reusable UI Kit.
 │   ├── hooks/          # Shared React hooks.
-│   └── utils/          # Shared utilities (Date, String, Layout).
+│   └── utils/          # Shared utilities.
 └── tools/
     └── prisma/         # Database schema and migrations.
 ```
@@ -196,16 +203,16 @@ PDF generation happens server-side via Puppeteer and can be tricky to debug.
 ## 7. Common Pitfalls & Solutions
 
 1.  **"Hydration Mismatch"**:
-  *   **Cause:** Rendering a Date object, Random ID, or time-sensitive data on the server differently than on the client.
-  *   **Fix:** Use `useEffect` to render these on the client-side only, or use specific formatting utilities in `libs/utils` that ensure consistency.
+*   **Cause:** Rendering a Date object, Random ID, or time-sensitive data on the server differently than on the client.
+*   **Fix:** Use `useEffect` to render these on the client-side only, or use specific formatting utilities in `libs/utils` that ensure consistency.
 
 2.  **"Iframe not updating"**:
-  *   **Cause:** `postMessage` origin mismatch or serialization error.
-  *   **Fix:** Check `apps/artboard/src/providers/index.tsx` message listener. Ensure strict origin checks match the current environment (localhost vs production URL).
+*   **Cause:** `postMessage` origin mismatch or serialization error.
+*   **Fix:** Check `apps/artboard/src/providers/index.tsx` message listener. Ensure strict origin checks match the current environment.
 
 3.  **"Images not loading in PDF"**:
-  *   **Cause:** CORS issues in Headless Chrome or the container cannot resolve the image URL.
-  *   **Fix:** Ensure MinIO/S3 bucket has correct public read policies. The Printer Service accesses images via their public URL.
+*   **Cause:** CORS issues in Headless Chrome or the container cannot resolve the image URL.
+*   **Fix:** Ensure MinIO/S3 bucket has correct public read policies. The `PrinterService` accesses images via their public URL.
 
 ---
 

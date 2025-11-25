@@ -27,7 +27,6 @@ import type { z } from "zod";
 
 import { useGenerateResume } from "@/client/services/resume/generate";
 import { useDialog } from "@/client/stores/dialog";
-import { useOpenAiStore } from "@/client/stores/openai";
 
 // Omit openAiConfig from the form validation as it is pulled from the store
 const formSchema = generateResumeSchema.omit({ openAiConfig: true });
@@ -38,7 +37,6 @@ export const GenerateDialog = () => {
   const navigate = useNavigate();
   const { isOpen, close } = useDialog("generate");
   const { generateResume, loading } = useGenerateResume();
-  const { provider, apiKey, baseURL, model, maxTokens, isAzure, azureApiVersion } = useOpenAiStore();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -55,18 +53,7 @@ export const GenerateDialog = () => {
   }, [form.watch]);
 
   const onSubmit = async (data: FormValues) => {
-    const resume = await generateResume({
-      ...data,
-      openAiConfig: {
-        provider: provider,
-        apiKey: apiKey ?? undefined,
-        baseURL: baseURL ?? undefined,
-        model: model ?? undefined,
-        maxTokens: maxTokens ?? undefined,
-        isAzure,
-        azureApiVersion: azureApiVersion ?? undefined,
-      },
-    });
+    const resume = await generateResume(data);
     close();
     await navigate(`/builder/${resume.id}`);
   };
