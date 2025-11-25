@@ -1,4 +1,3 @@
-// apps/extension/src/views/ContextView.tsx
 import { ArticleIcon, ArrowLeftIcon, MagicWandIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
 import {
   Button,
@@ -11,7 +10,8 @@ import {
 import { useState } from "react";
 
 import { axios } from "../libs/axios";
-import type { GenerationResult, GenerationType, JobContext } from "../App";
+import type { GenerationResult, GenerationType } from "../App";
+import type { JobContext } from "../store/jobContext";
 
 type Props = {
   jobContext: JobContext;

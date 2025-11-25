@@ -252,7 +252,7 @@ export class OpenAIService {
     information: InformationData,
     fields: AutofillMapRequestDto["fields"],
     config: OpenAIConfigDto,
-    jobDescription?: string, // [!code ++]
+    jobDescription?: string,
   ): Promise<{ id: string; value: string; strategy: "AI_MAPPED" | "AI_GENERATED" }[]> {
     const openai = this.getOpenAIClient(config);
     const model =
@@ -274,9 +274,16 @@ export class OpenAIService {
             <CORE_PRINCIPLES>
             1.  **Exact & Semantic Matching:** Match fields not just by keywords, but by understanding the intent (e.g., "Current Role" maps to "basics.headline").
             2.  **Format Awareness:** For <select> or radio fields, you MUST use one of the provided 'value' attributes from the 'options' array. Do not use the 'label'.
-            3.  **Generative Answers:** For open-ended 'textarea' fields (e.g., "Why are you a good fit?"), you MUST generate a concise, professional answer based on the user's entire Information Bank. If a <JOB_DESCRIPTION> is provided, you MUST use it as context to tailor the answer. Mark these with the "AI_GENERATED" strategy. All other direct mappings should be "AI_MAPPED".
+            3.  **Generative Answers:** For open-ended 'textarea' fields (e.g., "Why are you a good fit?", "Cover Letter"), you MUST generate a concise, professional answer based on the user's entire Information Bank.
+                *   **CRITICAL:** You MUST use the provided <JOB_DESCRIPTION> context to tailor these answers.
+                *   Refer to specific skills or requirements from the JD when answering "Why us?" or "Why you?".
             4.  **Omission:** If you cannot find a confident match for a field in the Information Bank, you MUST omit it from your response array. Do not guess.
-            </CORE_PRINCIPLES>
+
+            <IMPORTANT_JSON_RULES>
+            - **Output strict, valid JSON.**
+            - **Escape all double quotes inside string values.** Example: "I want to build \"scalable\" apps." instead of "I want to build "scalable" apps."
+            - Do not include unescaped newlines in strings. Use \\n instead.
+            </IMPORTANT_JSON_RULES>
 
             <OUTPUT_SCHEMA>
             {
@@ -304,7 +311,7 @@ export class OpenAIService {
 
             ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}
 
-            Now, generate the JSON object containing the field mapping.
+            Now, generate the JSON object containing the field mapping. Ensure all internal quotes in values are escaped with backslashes.
             `,
           },
         ],

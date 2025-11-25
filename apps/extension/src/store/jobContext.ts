@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { JobContext } from "../App";
+
+export type JobContext = {
+  title: string;
+  company: string;
+  description: string;
+  url: string;
+};
 
 type JobContextStore = {
   jobContext: JobContext | null;

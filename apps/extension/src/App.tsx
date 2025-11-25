@@ -1,5 +1,3 @@
-// apps/extension/src/App.tsx
-
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -14,14 +12,7 @@ import { Separator } from "@reactive-resume/ui";
 import { useInformationStore } from "./store/information";
 import { InformationDto } from "@reactive-resume/dto";
 import { ReviewView } from "./views/ReviewView";
-import { useJobContextStore } from "./store/jobContext";
-
-export type JobContext = {
-  title: string;
-  company: string;
-  description: string;
-  url: string;
-};
+import { useJobContextStore, type JobContext } from "./store/jobContext";
 
 export type GenerationResult = {
   id: string;
@@ -40,19 +31,23 @@ type Suggestion = {
   strategy: "HEURISTIC" | "AI_MAPPED" | "AI_GENERATED";
 };
 
+type View = "connect" | "main" | "context" | "review" | "result";
+
 export const App = () => {
   const { apiKey, setApiKey } = useAuthStore();
   const { information, setInformation } = useInformationStore();
   const { jobContext, setJobContext } = useJobContextStore();
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // View states
+  // Explicit View State Management
+  const [currentView, setCurrentView] = useState<View>("connect");
+
+  // Data states
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Autofill states
-  type AutofillState = "idle" | "loading" | "reviewing" | "applying" | "success";
-  const [autofillState, setAutofillState] = useState<AutofillState>("idle");
+  const [autofillState, setAutofillState] = useState<"idle" | "loading" | "applying">("idle");
   const [autofillSuggestions, setAutofillSuggestions] = useState<Suggestion[]>([]);
   const [autofillCount, setAutofillCount] = useState<number | null>(null);
 
@@ -77,6 +72,16 @@ export const App = () => {
     };
   }, []);
 
+  // Initial Navigation Logic
+  useEffect(() => {
+    if (!isHydrated) return;
+    if (apiKey) {
+      if (currentView === "connect") setCurrentView("main");
+    } else {
+      setCurrentView("connect");
+    }
+  }, [apiKey, isHydrated]);
+
   useEffect(() => {
     if (apiKey && isHydrated) {
       axios.defaults.headers.common["X-API-Key"] = apiKey;
@@ -100,17 +105,22 @@ export const App = () => {
     setAutofillState("idle");
     setAutofillSuggestions([]);
     setAutofillCount(null);
-    setJobContext(null);
+    setCurrentView("main");
   };
 
   const handleAutofill = async () => {
     if (!information?.data) return;
+
+    if (!jobContext) {
+      setError("Please analyze a job posting first.");
+      return;
+    }
+
     setAutofillState("loading");
     setError(null);
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    // Fix: Removed check for !tab.url, relying on tab.id only
     if (!tab?.id) {
       setError("Cannot access the current tab.");
       setAutofillState("idle");
@@ -127,15 +137,14 @@ export const App = () => {
         throw new Error(response?.error || "Failed to communicate with the page. Please refresh and try again.");
       }
 
-      // Fix: Destructure url from response
       const { fields, heuristicSuggestions, remainingFields, url } = response;
 
       let aiSuggestions: any[] = [];
       if (remainingFields.length > 0) {
         const aiResponse = await axios.post("/extension/autofill-map", {
-          url: url, // Fix: Pass the URL from content script
+          url: url,
           fields: remainingFields,
-          jobDescription: jobContext?.description,
+          jobDescription: jobContext.description,
         });
         aiSuggestions = aiResponse.data;
       }
@@ -155,14 +164,14 @@ export const App = () => {
       }
 
       setAutofillSuggestions(combined);
-      setAutofillState("reviewing");
+      setCurrentView("review");
+      setAutofillState("idle");
     } catch (e) {
       setError((e as Error).message);
       setAutofillState("idle");
     }
   };
 
-  // ... (rest of the component remains same)
   const handleApplyAutofill = async (map: { id: string; value: string }[]) => {
     setAutofillState("applying");
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -172,26 +181,24 @@ export const App = () => {
       const response = await chrome.tabs.sendMessage(tab.id, { type: "APPLY_AUTOFILL", map });
       if (response.success) {
         setAutofillCount(response.count);
-        setAutofillState("success");
-        setTimeout(handleReset, 4000);
+        // Instead of a dedicated success view, we go back to main and show a success badge in MainView
+        setCurrentView("main");
       } else {
         throw new Error(response.error || "Failed to apply autofill.");
       }
     } catch (e) {
       setError((e as Error).message);
-      setAutofillState("reviewing");
+    } finally {
+      setAutofillState("idle");
     }
   };
 
-  const currentView = () => {
-    if (!apiKey) return "connect";
-    if (autofillState === "reviewing" || autofillState === "applying" || autofillState === "success") return "review";
-    if (result) return "result";
-    if (jobContext) return "context";
-    return "main";
+  const handleDisconnect = () => {
+    setApiKey(null);
+    setInformation(null);
+    setJobContext(null);
+    setCurrentView("connect");
   };
-
-  const view = currentView();
 
   if (!isHydrated) {
     return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading...</div>;
@@ -199,7 +206,7 @@ export const App = () => {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
-      <Header onDisconnect={() => { setApiKey(null); setInformation(null); setJobContext(null); }} showDisconnect={!!apiKey} />
+      <Header onDisconnect={handleDisconnect} showDisconnect={!!apiKey} />
       <Separator />
 
       <main className="flex-1 overflow-y-auto p-4">
@@ -214,40 +221,45 @@ export const App = () => {
         )}
         <AnimatePresence mode="wait">
           <motion.div
-            key={view}
+            key={currentView}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.2 }}
           >
-            {view === "connect" && <ConnectView />}
-            {view === "main" && (
+            {currentView === "connect" && <ConnectView />}
+            {currentView === "main" && (
               <MainView
+                jobContext={jobContext}
                 setJobContext={setJobContext}
                 onAutofill={handleAutofill}
+                onGenerate={() => setCurrentView("context")}
                 setError={setError}
                 autofillState={autofillState}
                 autofillCount={autofillCount}
               />
             )}
-            {view === "review" && (
+            {currentView === "review" && (
               <ReviewView
                 suggestions={autofillSuggestions}
                 onApply={handleApplyAutofill}
-                onBack={handleReset}
+                onBack={() => setCurrentView("main")}
                 loading={autofillState === "applying"}
               />
             )}
-            {view === "context" && jobContext && (
+            {currentView === "context" && jobContext && (
               <ContextView
                 jobContext={jobContext}
                 setJobContext={setJobContext}
-                setResult={setResult}
+                setResult={(res) => {
+                  setResult(res);
+                  setCurrentView("result");
+                }}
                 setError={setError}
-                onBack={handleReset}
+                onBack={() => setCurrentView("main")}
               />
             )}
-            {view === "result" && result && <ResultView result={result} onReset={handleReset} />}
+            {currentView === "result" && result && <ResultView result={result} onReset={handleReset} />}
           </motion.div>
         </AnimatePresence>
       </main>
