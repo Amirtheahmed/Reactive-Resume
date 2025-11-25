@@ -73,6 +73,7 @@ const OpenAISettings = () => {
   useEffect(() => {
     if (aiSettings) {
       const newValues = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         provider: aiSettings.provider ?? "openai",
         apiKey: "", // API key is never sent to the client
         baseURL: aiSettings.baseURL ?? "",
@@ -84,19 +85,16 @@ const OpenAISettings = () => {
       // Reset the form with the fetched values
       form.reset(newValues);
 
-      // FIX: Synchronize the fetched settings with the Zustand store
+      // Synchronize the fetched settings with the Zustand store
       setProvider(newValues.provider);
       setBaseURL(newValues.baseURL);
       setModel(newValues.model);
       setMaxTokens(newValues.maxTokens);
       setAzureApiVersion(newValues.azureApiVersion);
       setIsAzure(newValues.provider === "azure");
-      // We don't set the API key here because it's not fetched from the server.
-      // We only need to set it in the store if the user has just entered a new one.
-      // However, to ensure the `isApiKeySet` flag is correct, we can manage it here.
+
+      // Update the key status in the store without exposing the key
       if (aiSettings.isApiKeySet) {
-        // We can set a placeholder to indicate the key is set,
-        // without exposing the key itself.
         setApiKey("key_is_set_on_server");
       } else {
         setApiKey(null);

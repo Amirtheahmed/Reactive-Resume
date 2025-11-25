@@ -1,5 +1,10 @@
 import { BadRequestException,Injectable } from "@nestjs/common";
-import { CreateCoverLetterDto, GenerateCoverLetterDto, UpdateCoverLetterDto } from "@reactive-resume/dto";
+import {
+  CreateCoverLetterDto,
+  GenerateCoverLetterDto,
+  OpenAIConfigDto,
+  UpdateCoverLetterDto,
+} from "@reactive-resume/dto";
 import { InformationData } from "@reactive-resume/schema";
 import slugify from "@sindresorhus/slugify";
 import { PrismaService } from "nestjs-prisma";
@@ -7,6 +12,7 @@ import { PrismaService } from "nestjs-prisma";
 import { InformationService } from "@/server/information/information.service";
 import { OpenAIService } from "@/server/openai/openai.service";
 import { PrinterService } from "@/server/printer/printer.service";
+import { UserService } from "@/server/user/user.service";
 
 @Injectable()
 export class CoverLetterService {
@@ -15,6 +21,7 @@ export class CoverLetterService {
     private readonly informationService: InformationService,
     private readonly openaiService: OpenAIService,
     private readonly printerService: PrinterService,
+    private readonly userService: UserService,
   ) {}
 
   async create(userId: string, createCoverLetterDto: CreateCoverLetterDto) {
@@ -55,11 +62,23 @@ export class CoverLetterService {
   }
 
   async generate(userId: string, generateCoverLetterDto: GenerateCoverLetterDto) {
-    const { openAiConfig, jobDescription, title, slug } = generateCoverLetterDto;
+    const { jobDescription, title, slug } = generateCoverLetterDto;
 
-    if (!openAiConfig) {
-      throw new BadRequestException("OpenAI configuration is required for generation.");
+    const user = await this.userService.findOneById(userId);
+    if (!user.secrets?.aiApiKey) {
+      throw new BadRequestException("AI API Key is not configured for this user.");
     }
+
+    const openAiConfig: OpenAIConfigDto = {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      provider: (user.secrets.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+      apiKey: user.secrets.aiApiKey,
+      baseURL: user.secrets.aiBaseUrl ?? undefined,
+      model: user.secrets.aiModel ?? undefined,
+      maxTokens: user.secrets.aiMaxTokens ?? undefined,
+      isAzure: user.secrets.aiProvider === "azure",
+      azureApiVersion: user.secrets.aiAzureApiVersion ?? undefined,
+    };
 
     const information = await this.informationService.findAll(userId);
     const { content } = await this.openaiService.generateCoverLetter(

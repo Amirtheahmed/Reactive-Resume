@@ -9,6 +9,7 @@ import {
   CreateResumeDto,
   GenerateResumeDto,
   ImportResumeDto,
+  OpenAIConfigDto,
   ResumeDto,
   UpdateResumeDto,
 } from "@reactive-resume/dto";
@@ -22,6 +23,7 @@ import { PrismaService } from "nestjs-prisma";
 import { InformationService } from "@/server/information/information.service";
 import { OpenAIService } from "@/server/openai/openai.service";
 import { PrinterService } from "@/server/printer/printer.service";
+import { UserService } from "@/server/user/user.service";
 
 import { StorageService } from "../storage/storage.service";
 
@@ -33,6 +35,7 @@ export class ResumeService {
     private readonly storageService: StorageService,
     private readonly informationService: InformationService,
     private readonly openaiService: OpenAIService,
+    private readonly userService: UserService,
   ) {}
 
   async create(userId: string, createResumeDto: CreateResumeDto) {
@@ -167,11 +170,23 @@ export class ResumeService {
   }
 
   async generate(userId: string, generateResumeDto: GenerateResumeDto) {
-    const { openAiConfig, jobDescription, title, slug } = generateResumeDto;
+    const { jobDescription, title, slug } = generateResumeDto;
 
-    if (!openAiConfig) {
-      throw new BadRequestException("OpenAI configuration is required for generation.");
+    const user = await this.userService.findOneById(userId);
+    if (!user.secrets?.aiApiKey) {
+      throw new BadRequestException("AI API Key is not configured for this user.");
     }
+
+    const openAiConfig: OpenAIConfigDto = {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      provider: (user.secrets.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+      apiKey: user.secrets.aiApiKey,
+      baseURL: user.secrets.aiBaseUrl ?? undefined,
+      model: user.secrets.aiModel ?? undefined,
+      maxTokens: user.secrets.aiMaxTokens ?? undefined,
+      isAzure: user.secrets.aiProvider === "azure",
+      azureApiVersion: user.secrets.aiAzureApiVersion ?? undefined,
+    };
 
     const information = await this.informationService.findAll(userId);
     const generatedData = await this.openaiService.generateResume(

@@ -55,9 +55,8 @@ export class OpenAIService {
     });
   }
 
-  // --- FIX: Added a private method to sanitize IDs before validation ---
   private sanitizeResumeIds(data: any): ResumeData {
-    if (data && data.sections) {
+    if (data?.sections) {
       for (const key in data.sections) {
         const section = data.sections[key];
         if (section && Array.isArray(section.items)) {
@@ -226,7 +225,7 @@ export class OpenAIService {
         throw new InternalServerErrorException("AI returned an empty response.");
       }
 
-      // Fix: Strip Markdown code blocks if present
+      // Strip Markdown code blocks if present
       const sanitizedContent = content.replace(/^```json\s*/, "").replace(/\s*```$/, "");
 
       try {
@@ -240,6 +239,7 @@ export class OpenAIService {
         return parsed;
       } catch (error) {
         this.logger.error(`JSON Parsing Error: ${(error as Error).message}`);
+        this.logger.debug(`Raw Content: ${content}`);
         throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
       }
     } catch (error) {

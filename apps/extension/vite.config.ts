@@ -3,6 +3,7 @@ import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig, searchForWorkspaceRoot } from "vite";
 
+// @ts-ignore
 import manifest from "./manifest.json";
 
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
       name: "fix-crx-watch",
       enforce: "pre",
       configResolved(config) {
+        // @ts-ignore
         if (config.server && config.server.watch === false) {
           config.server.watch = { ignored: [] };
         }

@@ -49,6 +49,7 @@ export class ExtensionService {
       }
 
       const openAiConfig: OpenAIConfigDto = {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         provider: userAiConfig.aiProvider as OpenAIConfigDto["provider"] ?? "openai",
         apiKey: userAiConfig.aiApiKey,
         baseURL: userAiConfig.aiBaseUrl ?? undefined,
@@ -61,7 +62,7 @@ export class ExtensionService {
       const generatedData = await this.openaiService.generateResume(
         information.data as InformationData,
         data.jobDescription,
-        openAiConfig, // Pass the user's config
+        openAiConfig,
       );
 
       const finalData: ResumeData = {
