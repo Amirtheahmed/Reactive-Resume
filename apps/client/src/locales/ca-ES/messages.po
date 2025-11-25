@@ -8,7 +8,7 @@ msgstr ""
 "Language: ca\n"
 "Project-Id-Version: reactive-resume-fork\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-11-23 11:58\n"
+"PO-Revision-Date: 2025-11-25 17:05\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -30,6 +30,14 @@ msgstr ""
 msgid "{value, plural, one {Column} other {Columns}}"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:219
+msgid "•••••••••••••••••••• (saved)"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:49
+msgid "<0>Context-Aware Content Generation:</0> Analyzing a job description from your active tab to generate a tailored resume or cover letter."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:25
 msgid "<0>I built Reactive Resume mostly by myself during my spare time, with a lot of help from other great open-source contributors.</0><1>If you like the app and want to support keeping it free forever, please donate whatever you can afford to give.</1>"
 msgstr ""
@@ -38,12 +46,28 @@ msgstr ""
 msgid "<0>I'm sure the app is not perfect, but I'd like for it to be.</0><1>If you faced any issues while creating your resume, or have an idea that would help you and other users in creating your resume more easily, drop an issue on the repository or send me an email about it.</1>"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:303
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:55
+msgid "<0>Intelligent Autofill:</0> Filling out job application forms using the data from your Reactive Resume Information Bank."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:367
 msgid "<0>Note: </0>By utilizing AI features, you acknowledge that data (such as your resume content) will be sent to the selected third-party provider (OpenAI, Google, or your local Ollama instance). Reactive Resume bears no responsibility for the data processing practices of these third-party providers."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:90
 msgid "<0>The community has spent a lot of time writing the documentation for Reactive Resume, and I'm sure it will help you get started with the app.</0><1>There are also a lot of examples to help you get started, and features that you might not know about which could help you build your perfect resume.</1>"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:120
+msgid "<0>To Authenticate:</0> Your API Key is used solely to securely connect to your Reactive Resume account."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:133
+msgid "<0>To Autofill Forms:</0> Your Information Bank data is used by a local, on-device engine to identify and fill out forms on your active page."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:126
+msgid "<0>To Generate Content:</0> Your Information Bank data and the scraped job description are sent to our server to be processed by an AI model, creating a new resume or cover letter."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:140
@@ -102,6 +126,10 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:88
+msgid "Actions"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:179
 msgid "Add a custom field"
 msgstr ""
@@ -133,12 +161,24 @@ msgstr ""
 msgid "AI"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:128
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:171
 msgid "AI Integration"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:143
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:184
 msgid "AI Provider"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:155
+msgid "AI settings have been removed from your account."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:130
+msgid "AI settings have been saved to your account."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:173
+msgid "All your professional data is managed through your main Reactive Resume account."
 msgstr ""
 
 #: apps/client/src/pages/auth/register/page.tsx:71
@@ -170,8 +210,16 @@ msgstr ""
 msgid "Anyone with this link can view and download the resume. Share it on your profile or with recruiters."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:168
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:213
 msgid "API Key"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:145
+msgid "API Key Created"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:64
+msgid "API Key deleted successfully."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/css.tsx:41
@@ -223,7 +271,7 @@ msgstr ""
 msgid "Awarder"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:247
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:301
 msgid "Azure API Version"
 msgstr ""
 
@@ -231,7 +279,7 @@ msgstr ""
 msgid "Azure OpenAI Base URL, deployment name (model), and API version are required when using Azure OpenAI."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:186
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:235
 msgid "Azure OpenAI Resource URL"
 msgstr ""
 
@@ -253,7 +301,7 @@ msgstr ""
 msgid "Backup Codes may contain only lowercase letters or numbers, and must be exactly 10 characters."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:186
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:235
 msgid "Base URL"
 msgstr ""
 
@@ -361,8 +409,12 @@ msgstr ""
 msgid "Confident"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:130
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:173
 msgid "Configure your AI provider to help generate content, fix grammar, and improve writing."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:209
+msgid "Contact Us"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:234
@@ -370,7 +422,16 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:69
+msgid "Copied to clipboard"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:11
+msgid "Copilot Privacy Policy"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:101
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:154
 msgid "Copy"
 msgstr ""
 
@@ -382,7 +443,7 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:96
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:83
 msgid "Cover Letter Title"
 msgstr ""
 
@@ -395,6 +456,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:179
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:237
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:244
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:200
 msgid "Create"
 msgstr ""
 
@@ -419,6 +481,14 @@ msgstr ""
 msgid "Create a new resume"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:178
+msgid "Create API Key"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:138
+msgid "Create New Key"
+msgstr ""
+
 #: apps/client/src/pages/auth/login/page.tsx:65
 msgctxt "This is a link to create a new account"
 msgid "Create one now"
@@ -430,6 +500,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:252
 msgid "Create with Sample Content"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:86
+msgid "Created"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:82
@@ -497,7 +571,7 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:210
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
 msgid "Deployment Name"
 msgstr ""
 
@@ -511,6 +585,10 @@ msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:58
 msgid "Design single/multi page resumes"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:75
+msgid "Developer"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:139
@@ -546,6 +624,10 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:45
 msgid "Donate to Reactive Resume"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:171
+msgid "Done"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:56
@@ -610,6 +692,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:163
 msgid "Enable 2FA"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:180
+msgid "Enter a name for your new API key to identify it later."
 msgstr ""
 
 #: apps/client/src/pages/auth/reset-password/page.tsx:67
@@ -704,8 +790,8 @@ msgstr ""
 msgid "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:270
-msgid "Forget"
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:91
+msgid "For the autofill feature, the extension fetches your \"Information Bank\" data (which includes personally identifiable information like your name, email, and work history) from your Reactive Resume account. This data is handled in-memory and is used locally by the content script to fill form fields. It is not stored persistently within the extension."
 msgstr ""
 
 #: apps/client/src/pages/auth/login/page.tsx:131
@@ -739,12 +825,12 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:168
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:213
 msgid "Gemini API Key"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:121
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:121
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:108
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:108
 msgid "Generate"
 msgstr ""
 
@@ -756,11 +842,11 @@ msgstr ""
 msgid "Generate a random title for your resume"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:83
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:70
 msgid "Generate Cover Letter with AI"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:83
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:70
 msgid "Generate Customized Resume"
 msgstr ""
 
@@ -771,8 +857,8 @@ msgstr ""
 msgid "Generate with AI"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:121
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:121
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:108
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:108
 msgid "Generating..."
 msgstr ""
 
@@ -855,6 +941,10 @@ msgstr ""
 msgid "Host your resume publicly"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:116
+msgid "How We Use Your Information"
+msgstr ""
+
 #: apps/client/src/pages/home/sections/testimonials/index.tsx:70
 msgid "I always love to hear from the users of Reactive Resume with feedback or support. Here are some of the messages I've received. If you have any feedback, feel free to drop me an email at <0>{email}</0>."
 msgstr ""
@@ -870,6 +960,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:128
 msgid "If you disable two-factor authentication, you will no longer be required to enter a verification code when logging in."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:212
+msgid "If you have any questions about this privacy policy, please contact us at <0>amirtheahmed@gmail.com</0>."
 msgstr ""
 
 #: apps/client/src/pages/home/sections/support/index.tsx:59
@@ -914,8 +1008,16 @@ msgstr ""
 msgid "Information Bank"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:63
+msgid "Information We Handle"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:39
 msgid "Institution"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:27
+msgid "Introduction"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:53
@@ -950,8 +1052,8 @@ msgstr ""
 msgid "It looks like your email address has already been verified."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:110
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:110
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:97
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:97
 msgid "Job Description"
 msgstr ""
 
@@ -995,6 +1097,14 @@ msgstr ""
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:83
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:139
 msgid "Last updated {lastUpdated}"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:22
+msgid "Last Updated: November 25, 2025"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:87
+msgid "Last Used"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:72
@@ -1042,6 +1152,10 @@ msgstr ""
 msgid "List"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:95
+msgid "Loading..."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/custom-section.tsx:123
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:86
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:81
@@ -1078,6 +1192,10 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:77
+msgid "Manage API keys to access Reactive Resume programmatically or connect the Browser Extension."
+msgstr ""
+
 #: apps/client/src/pages/home/sections/features/index.tsx:59
 msgid "Manage multiple resumes"
 msgstr ""
@@ -1100,7 +1218,7 @@ msgstr ""
 msgid "Margin"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:224
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:279
 msgid "Max Tokens"
 msgstr ""
 
@@ -1108,7 +1226,7 @@ msgstr ""
 msgid "MIT License"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:210
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
 msgid "Model"
 msgstr ""
 
@@ -1122,6 +1240,8 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:70
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:92
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:153
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:85
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:189
 msgid "Name"
 msgstr ""
 
@@ -1134,8 +1254,16 @@ msgstr ""
 msgid "Network"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:112
+msgid "Never"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:96
 msgid "New Password"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:102
+msgid "No API keys found."
 msgstr ""
 
 #: apps/client/src/components/locale-combobox.tsx:45
@@ -1219,11 +1347,11 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:87
+#: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:74
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new cover letter specifically for this role."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:87
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:74
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
 msgstr ""
 
@@ -1253,6 +1381,10 @@ msgstr ""
 msgid "Picture"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:147
+msgid "Please copy your new API key now. You won't be able to see it again!"
+msgstr ""
+
 #: apps/client/src/pages/auth/verify-email/page.tsx:59
 msgid "Please note that this step is completely optional."
 msgstr ""
@@ -1263,6 +1395,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:228
 msgid "Please store your backup codes in a secure location. You can use one of these one-time use codes to login in case you lose access to your authenticator app."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:180
+msgid "Policy Disclosures"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:99
@@ -1296,6 +1432,10 @@ msgstr ""
 
 #: apps/client/src/pages/home/components/footer.tsx:47
 msgid "Privacy Policy"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:18
+msgid "Privacy Policy for Reactive Resume Copilot"
 msgstr ""
 
 #: apps/client/src/components/ai-actions.tsx:113
@@ -1332,9 +1472,10 @@ msgstr ""
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
 #: apps/client/src/pages/dashboard/information/page.tsx:36
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
-#: apps/client/src/pages/dashboard/settings/page.tsx:16
+#: apps/client/src/pages/dashboard/settings/page.tsx:18
 #: apps/client/src/pages/home/components/footer.tsx:18
 #: apps/client/src/pages/home/page.tsx:24
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:11
 #: apps/client/src/pages/public/page.tsx:74
 #: apps/client/src/pages/public/page.tsx:95
 msgid "Reactive Resume"
@@ -1362,6 +1503,7 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:105
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:157
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:319
 msgid "Remove"
 msgstr ""
 
@@ -1400,7 +1542,7 @@ msgstr ""
 msgid "Reset Zoom"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:96
+#: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:83
 msgid "Resume Title"
 msgstr ""
 
@@ -1426,22 +1568,19 @@ msgstr ""
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:238
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:245
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:217
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:313
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:131
 msgid "Save Changes"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:264
-msgid "Save Locally"
-msgstr ""
-
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:83
 #: apps/client/src/pages/dashboard/information/page.tsx:71
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:264
 msgid "Saved"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:72
 #: apps/client/src/pages/dashboard/information/page.tsx:60
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:313
 msgid "Saving..."
 msgstr ""
 
@@ -1478,6 +1617,10 @@ msgstr ""
 msgid "Search for a language"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:153
+msgid "Secret Key"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/information/sections/custom-section.tsx:27
 msgid "Section Title"
 msgstr ""
@@ -1490,7 +1633,7 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:147
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:192
 msgid "Select a provider"
 msgstr ""
 
@@ -1512,8 +1655,8 @@ msgstr ""
 
 #: apps/client/src/components/user-options.tsx:32
 #: apps/client/src/pages/dashboard/_components/sidebar.tsx:110
-#: apps/client/src/pages/dashboard/settings/page.tsx:16
-#: apps/client/src/pages/dashboard/settings/page.tsx:26
+#: apps/client/src/pages/dashboard/settings/page.tsx:18
+#: apps/client/src/pages/dashboard/settings/page.tsx:28
 msgid "Settings"
 msgstr ""
 
@@ -1705,6 +1848,18 @@ msgstr ""
 msgid "Text Color"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:39
+msgid "The \"Single Purpose\" Principle"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:42
+msgid "The Copilot has one clear purpose: to streamline your job application process. It achieves this through two primary functions:"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:144
+msgid "The extension communicates with the Reactive Resume server. When using AI features, our server, in turn, sends the relevant data (your anonymized professional information and the job description) to a third-party AI provider (like OpenAI, Google Gemini, etc.) that you have configured in your account. We do not share more data than is necessary to fulfill the generation request."
+msgstr ""
+
 #: apps/client/src/pages/public/error.tsx:17
 msgid "The page you're looking for doesn't exist."
 msgstr ""
@@ -1726,6 +1881,10 @@ msgstr ""
 
 #: apps/client/src/services/errors/translate-error.ts:40
 msgid "There was an error connecting to the browser. Please make sure 'chrome' is running and reachable."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:141
+msgid "Third-Party Services"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:130
@@ -1766,7 +1925,15 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:280
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:78
+msgid "To connect to your account, you must provide an API Key generated from your Reactive Resume dashboard. This key is stored securely on your local machine using the sandboxed `chrome.storage.local` API. It is never transmitted to any third party other than the Reactive Resume server for authentication."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:66
+msgid "To provide these features, the extension needs to handle specific pieces of information. We do this with maximum respect for your privacy and only upon your explicit action."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:329
 msgid "To use Google Gemini, you need to <0>get an API Key from Google AI Studio</0>. This feature uses Google's OpenAI compatibility layer."
 msgstr ""
 
@@ -1817,6 +1984,10 @@ msgstr ""
 
 #: apps/client/src/pages/builder/_components/toolbar.tsx:76
 msgid "Undo"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:167
+msgid "Uninstalling the extension will permanently delete the API key stored on your device."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:52
@@ -1922,6 +2093,22 @@ msgstr ""
 msgid "Visit <0>Phosphor Icons</0> for a list of available icons"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:183
+msgid "We certify that we adhere to the Chrome Web Store Developer Program Policies:"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:189
+msgid "We do not sell or transfer user data to third parties outside of the approved use cases (e.g., sending data to an AI provider for generation)."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:195
+msgid "We do not use or transfer user data for purposes unrelated to the extension's single purpose of assisting in job applications."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:201
+msgid "We do not use or transfer user data to determine creditworthiness or for lending purposes."
+msgstr ""
+
 #: apps/client/src/pages/auth/verify-email/page.tsx:61
 msgid "We verify your email address only to ensure that we can send you a password reset link in case you forget your password."
 msgstr ""
@@ -1941,8 +2128,16 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:30
+msgid "Welcome to Reactive Resume Copilot. This browser extension is designed to be your smart assistant for job applications, acting as a bridge between your Reactive Resume account and job boards across the web. Our commitment to your privacy is fundamental. This policy outlines what data the extension handles and how it's used."
+msgstr ""
+
 #: apps/client/src/pages/home/sections/hero/index.tsx:32
 msgid "What's new in the latest version"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:105
+msgid "When you click \"Analyze Job Page,\" the extension reads the text content of your current page to extract the job description. This text is sent to the Reactive Resume server to generate tailored documents. This action is user-initiated, and the content is not stored after the generation process is complete."
 msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:26
@@ -1960,6 +2155,10 @@ msgstr ""
 msgid "You can also enter your username."
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:161
+msgid "You can revoke the extension's access at any time by deleting the API key from your Reactive Resume dashboard under Settings > Developer."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/statistics.tsx:40
 msgid "You can track the number of views your resume has received, or how many people have downloaded the resume by enabling public sharing."
 msgstr ""
@@ -1968,7 +2167,11 @@ msgstr ""
 msgid "You don't have permission to access this page."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:288
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:157
+msgid "You have complete control over your data:"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:344
 msgid "You have the option to <0>obtain your own OpenAI API key</0>."
 msgstr ""
 
@@ -1989,8 +2192,12 @@ msgstr ""
 msgid "Your API Key has not been set yet. Please go to your account settings to enable AI Integration."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:294
-msgid "Your API key is securely stored in the browser's local storage and is only utilized when making requests to the AI provider via their official SDKs or APIs."
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:358
+msgid "Your API key is securely stored in the database and is only utilized when making requests to the AI provider via their official SDKs or APIs from the server."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:154
+msgid "Your Control and Rights"
 msgstr ""
 
 #: apps/client/src/pages/auth/verify-email/page.tsx:28
