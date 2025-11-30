@@ -261,6 +261,14 @@ msgstr ""
 msgid "Area of Study"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:71
+msgid "Ask me anything about your resume or the job description!"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/chat/page.tsx:28
+msgid "Ask questions about your resume or how it fits a specific job description."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:79
 msgid "Aspect Ratio"
 msgstr "தோற்ற விகிதம் "
@@ -368,6 +376,15 @@ msgstr ""
 msgid "Changed your mind about the name? Give it a new one."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/chat/page.tsx:16
+msgid "Chat"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:109
+#: apps/client/src/pages/dashboard/chat/page.tsx:24
+msgid "Chat Assistant"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:70
 msgid "Check your email for the confirmation link to update your email address."
 msgstr ""
@@ -449,7 +466,7 @@ msgstr ""
 msgid "Cover Letter Title"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:98
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:103
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:40
 msgid "Cover Letters"
@@ -1001,7 +1018,7 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:135
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:121
 #: apps/client/src/pages/builder/sidebars/right/sections/information.tsx:122
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:104
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:115
 msgid "Information"
 msgstr ""
 
@@ -1057,6 +1074,10 @@ msgstr ""
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/generate.tsx:97
 #: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:97
 msgid "Job Description"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/chat/page.tsx:35
+msgid "Job Description (Optional)"
 msgstr ""
 
 #: apps/client/src/pages/auth/register/page.tsx:101
@@ -1357,6 +1378,10 @@ msgstr ""
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/chat/page.tsx:40
+msgid "Paste the job description here to get tailored answers..."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:76
 msgid "PDF"
 msgstr ""
@@ -1470,6 +1495,7 @@ msgstr ""
 #: apps/client/src/pages/auth/verify-email/page.tsx:43
 #: apps/client/src/pages/auth/verify-otp/page.tsx:52
 #: apps/client/src/pages/builder/page.tsx:60
+#: apps/client/src/pages/dashboard/chat/page.tsx:16
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:42
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
 #: apps/client/src/pages/dashboard/information/page.tsx:36
@@ -1548,7 +1574,7 @@ msgstr ""
 msgid "Resume Title"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:92
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:97
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
 #: apps/client/src/pages/dashboard/resumes/page.tsx:39
 msgid "Resumes"
@@ -1656,7 +1682,7 @@ msgid "Separate Links"
 msgstr ""
 
 #: apps/client/src/components/user-options.tsx:32
-#: apps/client/src/pages/dashboard/_components/sidebar.tsx:110
+#: apps/client/src/pages/dashboard/_components/sidebar.tsx:121
 #: apps/client/src/pages/dashboard/settings/page.tsx:18
 #: apps/client/src/pages/dashboard/settings/page.tsx:28
 msgid "Settings"
@@ -1972,6 +1998,10 @@ msgstr ""
 #. For example, Bachelor's Degree or Master's Degree
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:54
 msgid "Type of Study"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:135
+msgid "Type your message..."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/index.tsx:79

@@ -345,4 +345,59 @@ export class OpenAIService {
       );
     }
   }
+
+  async chat(
+    information: InformationData,
+    query: string,
+    config: OpenAIConfigDto,
+    jobDescription?: string,
+  ): Promise<{ message: string }> {
+    const openai = this.getOpenAIClient(config);
+    const model =
+      config.provider === "gemini"
+        ? config.model ?? GEMINI_DEFAULT_MODEL_SERVER
+        : config.model ?? OPENAI_DEFAULT_MODEL_SERVER;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        messages: [
+          {
+            role: "system",
+            content: `
+            You are a helpful AI assistant for a job seeker.
+            Your task is to answer the user's question based on their professional information (Information Bank) and the provided Job Description (if any).
+
+            <CORE_PRINCIPLES>
+            1.  **Be Helpful and Professional:** Answer the user's question clearly and concisely.
+            2.  **Use the Information Bank:** Base your answers on the provided <INFORMATION_BANK>. If the answer is not in the bank, say so politely.
+            3.  **Contextualize with Job Description:** If a <JOB_DESCRIPTION> is provided, use it to tailor your answer. For example, if the user asks "Why am I a good fit?", relate their skills to the job requirements.
+            4.  **Direct Answer:** Do not start with "Based on your information...". Just answer the question.
+            </CORE_PRINCIPLES>
+
+            <INFORMATION_BANK>
+            ${JSON.stringify(information)}
+            </INFORMATION_BANK>
+
+            ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}
+            `,
+          },
+          {
+            role: "user",
+            content: query,
+          },
+        ],
+      });
+
+      const content = response.choices[0].message.content;
+      if (!content) {
+        throw new InternalServerErrorException("AI returned an empty response.");
+      }
+
+      return { message: content };
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException("Failed to chat via AI", (error as Error).message);
+    }
+  }
 }

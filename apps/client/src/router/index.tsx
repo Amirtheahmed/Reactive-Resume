@@ -10,6 +10,7 @@ import { VerifyEmailPage } from "../pages/auth/verify-email/page";
 import { VerifyOtpPage } from "../pages/auth/verify-otp/page";
 import { BuilderLayout } from "../pages/builder/layout";
 import { builderLoader, BuilderPage } from "../pages/builder/page";
+import { ChatPage } from "../pages/dashboard/chat/page";
 import { CoverLetterEditorPage, CoverLetterLoader } from "../pages/dashboard/cover-letters/[id]/page";
 import { CoverLettersPage } from "../pages/dashboard/cover-letters/page";
 import { InformationPage } from "../pages/dashboard/information/page";
@@ -72,6 +73,7 @@ export const routes = createRoutesFromElements(
             <Route path="resumes" element={<ResumesPage />} />
             <Route path="cover-letters" element={<CoverLettersPage />} /> {/* New List Page */}
             <Route path="cover-letters/:id" element={<CoverLetterEditorPage />} loader={CoverLetterLoader} /> {/* New Editor Page */}
+            <Route path="chat" element={<ChatPage />} />
             <Route path="information" element={<InformationPage />} />
             <Route path="settings" element={<SettingsPage />} />
 

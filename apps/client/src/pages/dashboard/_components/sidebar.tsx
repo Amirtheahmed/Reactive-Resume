@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { ArticleIcon, Bank, FadersHorizontalIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
+import { ArticleIcon, BankIcon, ChatCircleDotsIcon, FadersHorizontalIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
 import { Button, KeyboardShortcut, Separator } from "@reactive-resume/ui";
 import { cn } from "@reactive-resume/utils";
 import { motion } from "framer-motion";
@@ -81,6 +81,11 @@ export const Sidebar = ({ setOpen }: SidebarProps) => {
     setOpen?.(false);
   });
 
+  useKeyboardShortcut(["option", "a"], () => {
+    void navigate("/dashboard/chat");
+    setOpen?.(false);
+  });
+
   useKeyboardShortcut(["option", "s"], () => {
     void navigate("/dashboard/settings");
     setOpen?.(false);
@@ -94,16 +99,22 @@ export const Sidebar = ({ setOpen }: SidebarProps) => {
       icon: <ReadCvLogoIcon />,
     },
     {
-      path: "/dashboard/cover-letters", // New Item
+      path: "/dashboard/cover-letters",
       name: t`Cover Letters`,
       shortcut: "⌥C",
       icon: <ArticleIcon />,
     },
     {
+      path: "/dashboard/chat",
+      name: t`Chat Assistant`,
+      shortcut: "⌥A",
+      icon: <ChatCircleDotsIcon />,
+    },
+    {
       path: "/dashboard/information",
       name: t`Information`,
       shortcut: "⌥I",
-      icon: <Bank />,
+      icon: <BankIcon />,
     },
     {
       path: "/dashboard/settings",
