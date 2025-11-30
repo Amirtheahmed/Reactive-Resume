@@ -14,6 +14,10 @@ type Props = {
   setError: (error: string | null) => void;
   autofillState: "idle" | "loading" | "applying";
   autofillCount: number | null;
+  hasAutofillSuggestions: boolean;
+  hasResult: boolean;
+  onReturnToReview: () => void;
+  onReturnToResult: () => void;
 };
 
 export const MainView = ({
@@ -24,6 +28,10 @@ export const MainView = ({
                            setError,
                            autofillState,
                            autofillCount,
+                           hasAutofillSuggestions,
+                           hasResult,
+                           onReturnToReview,
+                           onReturnToResult,
                          }: Props) => {
   const [analyzing, setAnalyzing] = useState(false);
 
@@ -89,6 +97,20 @@ export const MainView = ({
       </div>
 
       <div className="grid gap-4">
+        {hasAutofillSuggestions && (
+          <Button variant="outline" className="w-full justify-start" onClick={onReturnToReview}>
+            <LightningIcon className="mr-2 text-warning" />
+            Return to Autofill Review
+          </Button>
+        )}
+
+        {hasResult && (
+          <Button variant="outline" className="w-full justify-start" onClick={onReturnToResult}>
+            <MagicWandIcon className="mr-2 text-info" />
+            Return to Generation Result
+          </Button>
+        )}
+
         <Card
           className={cn(
             "transition-colors",

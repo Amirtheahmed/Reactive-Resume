@@ -237,6 +237,10 @@ export const App = () => {
                 setError={setError}
                 autofillState={autofillState}
                 autofillCount={autofillCount}
+                hasAutofillSuggestions={autofillSuggestions.length > 0}
+                hasResult={!!result}
+                onReturnToReview={() => setCurrentView("review")}
+                onReturnToResult={() => setCurrentView("result")}
               />
             )}
             {currentView === "review" && (
@@ -259,7 +263,13 @@ export const App = () => {
                 onBack={() => setCurrentView("main")}
               />
             )}
-            {currentView === "result" && result && <ResultView result={result} onReset={handleReset} />}
+            {currentView === "result" && result && (
+              <ResultView
+                result={result}
+                onReset={handleReset}
+                onBack={() => setCurrentView("context")}
+              />
+            )}
           </motion.div>
         </AnimatePresence>
       </main>

@@ -1,6 +1,7 @@
 // apps/extension/src/views/ResultView.tsx
 import {
   ArticleIcon,
+  ArrowLeftIcon,
   ArrowSquareOutIcon,
   DownloadSimpleIcon,
 } from "@phosphor-icons/react";
@@ -11,10 +12,15 @@ import type { GenerationResult } from "../App";
 type Props = {
   result: GenerationResult;
   onReset: () => void;
+  onBack: () => void;
 };
 
-export const ResultView = ({ result, onReset }: Props) => (
+export const ResultView = ({ result, onReset, onBack }: Props) => (
   <div className="space-y-4">
+    <Button variant="ghost" size="sm" className="-ml-2 h-auto px-2 py-1" onClick={onBack}>
+      <ArrowLeftIcon className="mr-2" /> Back
+    </Button>
+
     <Card>
       <CardHeader>
         <CardTitle className="text-base">{result.title}</CardTitle>
