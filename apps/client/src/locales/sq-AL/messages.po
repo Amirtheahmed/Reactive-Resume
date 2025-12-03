@@ -259,17 +259,17 @@ msgstr "A jeni të sigurt?"
 msgid "Area of Study"
 msgstr "Fusha e Studimit"
 
-#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:71
+#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:112
 msgid "Ask me anything about your resume or the job description!"
-msgstr ""
-
-#: apps/client/src/pages/dashboard/chat/page.tsx:28
-msgid "Ask questions about your resume or how it fits a specific job description."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:79
 msgid "Aspect Ratio"
 msgstr "Proporcioni"
+
+#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:67
+msgid "Attachment"
+msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:51
 msgid "Available in {languagesCount} languages"
@@ -374,12 +374,12 @@ msgstr ""
 msgid "Changed your mind about the name? Give it a new one."
 msgstr "Ndryshove mendjen për emrin? Riemëro."
 
-#: apps/client/src/pages/dashboard/chat/page.tsx:16
+#: apps/client/src/pages/dashboard/chat/page.tsx:34
 msgid "Chat"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/_components/sidebar.tsx:109
-#: apps/client/src/pages/dashboard/chat/page.tsx:24
+#: apps/client/src/pages/dashboard/chat/page.tsx:43
 msgid "Chat Assistant"
 msgstr ""
 
@@ -1074,10 +1074,6 @@ msgstr "Emaili juaj veçse është verifikuar."
 msgid "Job Description"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/chat/page.tsx:35
-msgid "Job Description (Optional)"
-msgstr ""
-
 #: apps/client/src/pages/auth/register/page.tsx:101
 msgctxt "Localized version of a placeholder name. For example, Max Mustermann in German or Jan Kowalski in Polish."
 msgid "John Doe"
@@ -1279,6 +1275,10 @@ msgstr "Rrjeti"
 msgid "Never"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/chat/page.tsx:45
+msgid "New Chat"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:96
 msgid "New Password"
 msgstr "Fjalëkalim i ri"
@@ -1374,10 +1374,6 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/generate.tsx:74
 msgid "Paste a job description below. We'll use your Information Bank to tailor a new resume specifically for this role."
-msgstr ""
-
-#: apps/client/src/pages/dashboard/chat/page.tsx:40
-msgid "Paste the job description here to get tailored answers..."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:76
@@ -1493,7 +1489,7 @@ msgstr "Krijo një Issue në GitHub"
 #: apps/client/src/pages/auth/verify-email/page.tsx:43
 #: apps/client/src/pages/auth/verify-otp/page.tsx:52
 #: apps/client/src/pages/builder/page.tsx:60
-#: apps/client/src/pages/dashboard/chat/page.tsx:16
+#: apps/client/src/pages/dashboard/chat/page.tsx:34
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:42
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
 #: apps/client/src/pages/dashboard/information/page.tsx:36
@@ -1998,7 +1994,7 @@ msgstr "Shkruani <0>delete</0> për të konfirmuar fshirjen e llogarisë tuaj."
 msgid "Type of Study"
 msgstr "Lloji i studimit"
 
-#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:135
+#: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:220
 msgid "Type your message..."
 msgstr ""
 
