@@ -13,7 +13,7 @@ import { Config } from "../config/schema";
 // where `type` can either be "pictures", "previews" or "resumes",
 // and where `fileName` is a unique identifier (cuid) for the file.
 
-type ImageUploadType = "pictures" | "previews";
+type ImageUploadType = "pictures" | "previews" | "chat";
 type DocumentUploadType = "resumes";
 export type UploadType = ImageUploadType | DocumentUploadType;
 
@@ -29,6 +29,7 @@ const PUBLIC_ACCESS_POLICY = {
         "arn:aws:s3:::{{bucketName}}/*/pictures/*",
         "arn:aws:s3:::{{bucketName}}/*/previews/*",
         "arn:aws:s3:::{{bucketName}}/*/resumes/*",
+        "arn:aws:s3:::{{bucketName}}/*/chat/*",
       ],
     },
   ],
@@ -117,25 +118,31 @@ export class StorageService implements OnModuleInit {
     buffer: Buffer,
     filename: string = createId(),
   ): Promise<string> {
-    const extension = type === "resumes" ? "pdf" : "jpg";
+    let extension = "jpg";
+    if (type === "resumes") extension = "pdf";
+    if (type === "chat") {
+      const parts = filename.split(".");
+      extension = parts.length > 1 ? parts.pop()?.toLowerCase() ?? "bin" : "bin";
+    }
+
     const storageUrl = this.configService.getOrThrow<string>("STORAGE_URL");
 
-    let normalizedFilename = slugify(filename);
+    let normalizedFilename = slugify(filename.replace(`.${extension}`, ""));
     if (!normalizedFilename) normalizedFilename = createId();
 
     const filepath = `${userId}/${type}/${normalizedFilename}.${extension}`;
     const url = `${storageUrl}/${filepath}`;
 
     const metadata =
-      extension === "jpg"
-        ? { "Content-Type": "image/jpeg" }
+      extension === "jpg" || extension === "jpeg" || extension === "png" || extension === "webp"
+        ? { "Content-Type": `image/${extension === "jpg" ? "jpeg" : extension}` }
         : {
-            "Content-Type": "application/pdf",
+            "Content-Type": "application/octet-stream",
             "Content-Disposition": `attachment; filename=${normalizedFilename}.${extension}`,
           };
 
     try {
-      if (extension === "jpg") {
+      if (type === "pictures") {
         // If the uploaded file is an image, use sharp to resize the image to a maximum width/height of 600px
         buffer = await sharp(buffer)
           .resize({ width: 600, height: 600, fit: sharp.fit.outside })

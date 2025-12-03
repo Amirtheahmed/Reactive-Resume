@@ -31,4 +31,11 @@ export class StorageController {
 
     return this.storageService.uploadObject(userId, "pictures", file.buffer, file.filename);
   }
+
+  @Put("chat")
+  @UseGuards(TwoFactorGuard)
+  @UseInterceptors(FileInterceptor("file"))
+  async uploadChatFile(@User("id") userId: string, @UploadedFile("file") file: Express.Multer.File) {
+    return this.storageService.uploadObject(userId, "chat", file.buffer, file.originalname);
+  }
 }

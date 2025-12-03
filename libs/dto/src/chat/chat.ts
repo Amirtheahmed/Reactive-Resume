@@ -4,6 +4,7 @@ import { z } from "zod";
 export const chatRequestSchema = z.object({
   message: z.string(),
   jobDescription: z.string().optional(),
+  attachmentUrl: z.string().url().optional(),
 });
 
 export class ChatRequestDto extends createZodDto(chatRequestSchema) {}

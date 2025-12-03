@@ -32,6 +32,12 @@ export class ChatService {
       isAzure: false,
     };
 
-    return this.openAIService.chat(information.data as unknown as InformationData, message, config, jobDescription);
+    return this.openAIService.chat(
+      information.data as unknown as InformationData,
+      message,
+      config,
+      jobDescription,
+      chatRequestDto.attachmentUrl,
+    );
   }
 }

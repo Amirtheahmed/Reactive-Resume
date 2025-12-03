@@ -1,11 +1,12 @@
 import { t } from "@lingui/macro";
-import { PaperPlaneRightIcon, RobotIcon, UserIcon } from "@phosphor-icons/react";
-import { Button, Input, ScrollArea } from "@reactive-resume/ui";
+import { PaperclipIcon, PaperPlaneRightIcon, RobotIcon, UserIcon, XIcon } from "@phosphor-icons/react";
+import { Button, ScrollArea, Textarea } from "@reactive-resume/ui";
 import { cn } from "@reactive-resume/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 import { useChat } from "@/client/services/chat/chat";
+import { useUploadChatAttachment } from "@/client/services/storage";
 
 type Message = {
   id: string;
@@ -19,9 +20,12 @@ type Props = {
 
 export const ChatInterface = ({ jobDescription }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
+  const [attachment, setAttachment] = useState<File | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const { chat, loading } = useChat();
+  const { uploadChatAttachment, loading: uploading } = useUploadChatAttachment();
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -35,19 +39,32 @@ export const ChatInterface = ({ jobDescription }: Props) => {
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!input.trim() || loading) return;
+    if ((!input.trim() && !attachment) || loading || uploading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: input,
+      content: input + (attachment ? `\n[${t`Attachment`}: ${attachment.name}]` : ""),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setAttachment(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
 
     try {
-      const response = await chat({ message: userMessage.content, jobDescription });
+      let attachmentUrl: string | undefined;
+
+      if (attachment) {
+        const url = await uploadChatAttachment(attachment);
+        attachmentUrl = url;
+      }
+
+      const response = await chat({
+        message: userMessage.content,
+        jobDescription,
+        attachmentUrl,
+      });
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -128,18 +145,71 @@ export const ChatInterface = ({ jobDescription }: Props) => {
         </div>
       </ScrollArea>
 
-      <form className="flex gap-x-2" onSubmit={handleSubmit}>
-        <Input
-          autoFocus
-          value={input}
-          placeholder={t`Type your message...`}
-          className="flex-1"
-          onChange={(e) => { setInput(e.target.value); }}
-        />
-        <Button type="submit" size="icon" disabled={loading || !input.trim()}>
-          <PaperPlaneRightIcon />
-        </Button>
-      </form>
+      <div className="flex flex-col gap-y-2 rounded-md border bg-background p-2 ring-offset-background focus-within:border-primary focus-within:ring-1 focus-within:ring-ring">
+        {attachment && (
+          <div className="flex items-center gap-x-2 rounded-md bg-secondary/20 px-3 py-2 text-xs">
+            <PaperclipIcon size={14} />
+            <span className="flex-1 truncate">{attachment.name}</span>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="size-5 rounded-full hover:bg-secondary/40"
+              onClick={() => {
+                setAttachment(null);
+                if (fileInputRef.current) fileInputRef.current.value = "";
+              }}
+            >
+              <XIcon size={12} />
+            </Button>
+          </div>
+        )}
+
+        <form
+          className="flex items-center gap-x-2"
+          onSubmit={handleSubmit}
+        >
+          <input
+            ref={fileInputRef}
+            hidden
+            type="file"
+            onChange={(e) => {
+              if (e.target.files?.[0]) {
+                setAttachment(e.target.files[0]);
+              }
+            }}
+          />
+
+          <Button
+            size="icon"
+            type="button"
+            variant="ghost"
+            className="size-8 shrink-0 rounded-full text-muted-foreground"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <PaperclipIcon size={18} />
+          </Button>
+
+          <Textarea
+            autoFocus
+            value={input}
+            placeholder={t`Type your message...`}
+            className="min-h-[40px] flex-1 resize-none border-0 bg-transparent p-2 shadow-none focus-visible:ring-0"
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                void handleSubmit();
+              }
+            }}
+          />
+
+          <Button type="submit" size="icon" disabled={loading || uploading || (!input.trim() && !attachment)} className="size-8 shrink-0 rounded-full">
+            <PaperPlaneRightIcon size={18} />
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -346,11 +346,17 @@ export class OpenAIService {
     }
   }
 
+  private isImageUrl(url: string): boolean {
+    const extension = url.split(".").pop()?.toLowerCase();
+    return ["jpg", "jpeg", "png", "webp", "gif"].includes(extension ?? "");
+  }
+
   async chat(
     information: InformationData,
     query: string,
     config: OpenAIConfigDto,
     jobDescription?: string,
+    attachmentUrl?: string,
   ): Promise<{ message: string }> {
     const openai = this.getOpenAIClient(config);
     const model =
@@ -384,7 +390,14 @@ export class OpenAIService {
           },
           {
             role: "user",
-            content: query,
+            content: attachmentUrl
+              ? (this.isImageUrl(attachmentUrl)
+                ? [
+                    { type: "text", text: query },
+                    { type: "image_url", image_url: { url: attachmentUrl } },
+                  ]
+                : `${query}\n\n[Attachment: ${attachmentUrl}]`)
+              : query,
           },
         ],
       });
