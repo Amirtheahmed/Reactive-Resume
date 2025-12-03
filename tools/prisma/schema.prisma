@@ -36,6 +36,7 @@ model User {
   information      Information?
   CoverLetters     CoverLetter[]
   ApiKeys          ApiKey[]
+  chats            Chat[]
 }
 
 model Information {
@@ -128,4 +129,38 @@ model ApiKey {
   userId String
 
   @@index([userId])
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  messages Message[]
+
+  @@index([userId])
+}
+
+enum MessageRole {
+  system
+  user
+  assistant
+}
+
+model Message {
+  id      String      @id @default(cuid())
+  role    MessageRole
+  content String      @db.Text
+
+  chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
 }

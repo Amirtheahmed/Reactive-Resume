@@ -2,10 +2,11 @@ import { t } from "@lingui/macro";
 import { PaperclipIcon, PaperPlaneRightIcon, RobotIcon, UserIcon, XIcon } from "@phosphor-icons/react";
 import { Button, ScrollArea, Textarea } from "@reactive-resume/ui";
 import { cn } from "@reactive-resume/utils";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import { useChat } from "@/client/services/chat/chat";
+import { getChat, useChat } from "@/client/services/chat/chat";
 import { useUploadChatAttachment } from "@/client/services/storage";
 
 type Message = {
@@ -15,10 +16,11 @@ type Message = {
 };
 
 type Props = {
-  jobDescription?: string;
+  chatId: string | null;
+  onNewChat: (id: string) => void;
 };
 
-export const ChatInterface = ({ jobDescription }: Props) => {
+export const ChatInterface = ({ chatId, onNewChat }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
@@ -26,6 +28,24 @@ export const ChatInterface = ({ jobDescription }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { chat, loading } = useChat();
   const { uploadChatAttachment, loading: uploading } = useUploadChatAttachment();
+
+  const { data: chatData } = useQuery({
+    queryKey: ["chat", chatId],
+    queryFn: () => getChat(chatId ?? ""),
+    enabled: !!chatId,
+  });
+
+  useEffect(() => {
+    if (chatData) {
+      setMessages(chatData.messages.map((msg) => ({
+        id: msg.id,
+        role: msg.role as "user" | "assistant",
+        content: msg.content,
+      })));
+    } else if (!chatId) {
+      setMessages([]);
+    }
+  }, [chatData, chatId]);
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -61,8 +81,8 @@ export const ChatInterface = ({ jobDescription }: Props) => {
       }
 
       const response = await chat({
+        chatId: chatId ?? undefined,
         message: userMessage.content,
-        jobDescription,
         attachmentUrl,
       });
 
@@ -73,6 +93,10 @@ export const ChatInterface = ({ jobDescription }: Props) => {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      if (!chatId && response.chatId) {
+        onNewChat(response.chatId);
+      }
     } catch {
       // Handle error (maybe add a system message)
     }
@@ -80,7 +104,7 @@ export const ChatInterface = ({ jobDescription }: Props) => {
 
   return (
     <div className="flex h-full flex-col gap-y-4">
-      <ScrollArea className="flex-1 rounded-md border bg-secondary/10 p-4">
+      <ScrollArea ref={scrollRef} className="flex-1 rounded-md border bg-secondary/10 p-4">
         <div className="flex flex-col gap-y-4">
           {messages.length === 0 && (
             <div className="flex h-full flex-col items-center justify-center gap-y-2 opacity-50">
@@ -93,6 +117,7 @@ export const ChatInterface = ({ jobDescription }: Props) => {
             {messages.map((message) => (
               <motion.div
                 key={message.id}
+                layout
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
