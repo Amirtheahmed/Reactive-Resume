@@ -200,7 +200,7 @@ export class OpenAIService {
             4.  **Style:** Maintain a professional, confident, and authentic tone. Avoid using em dashes (—).
 
             ### STRUCTURE:
-            -   **Paragraph 1 (Intro):** standard opening, stating the role applied for and a brief sentence on why it's a fit. Avoid dramatic openings.
+            -   **Paragraph 1 (Intro):** No clichés (e.g., "I am writing to apply..."), Start with a subtle yet engaging hook about the company stating the role applied for and a brief sentence on why it's a fit. Avoid dramatic openings.
             -   **Paragraph 2 (Body):** Pick the *single most relevant* experience or skill from the <information_bank> that matches the <job_description> and explain it simply.
             -   **Paragraph 3 (Closing):** Simple closing and call to action.
 
