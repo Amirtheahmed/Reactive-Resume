@@ -6,7 +6,7 @@ import { defineConfig, searchForWorkspaceRoot } from "vite";
 // @ts-ignore
 import manifest from "./manifest.json";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   cacheDir: "../../node_modules/.vite/extension",
 
   server: {
@@ -46,4 +46,5 @@ export default defineConfig({
     reportCompressedSize: true,
     commonjsOptions: { transformMixedEsModules: true },
   },
-});
+  envFile: mode === "production" ? ".env.production" : ".env.development",
+}));

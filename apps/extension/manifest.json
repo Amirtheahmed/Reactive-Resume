@@ -1,14 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Reactive Resume Copilot",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Context-aware resume generator and autofiller for Reactive Resume",
   "permissions": ["sidePanel", "storage", "activeTab", "scripting"],
   "host_permissions": [
     "http://localhost:3000/*",
     "https://rxresume.amirtheahmed.dev/*"
   ],
-
+  "side_panel": {
+    "default_path": "index.html"
+  },
   "background": {
     "service_worker": "src/background/index.ts",
     "type": "module"

@@ -97,7 +97,7 @@ export class OpenAIService {
 
             <CORE_PRINCIPLES>
             1.  **Relevance is King:** Your primary goal is not to list everything the candidate has done, but to create a compelling argument for why they are the perfect fit for THIS specific job.
-            2.  **The Information Bank is a Source, Not a Script:** The provided <information_bank> contains all possible information about the candidate. You MUST NOT include everything. Your job is to intelligently and ruthlessly select ONLY the most relevant pieces of information that align with the <job_description>. You MUST OMIT any information, be it a job, a project, or a skill, that does not directly support the candidate's application for this specific role.
+            2.  **The Information Bank is a Source, Not a Script:** The provided <information_bank> contains all possible information about the candidate. You MUST NOT include everything. Your job is to intelligently and ruthlessly select ONLY the most relevant pieces of information that align with the <job_description>. You MUST OMIT any information, be it a job, a project, or a skill, that does not directly support the candidate's application for this specific role except for the current job candidate is working at.
             3.  **Brevity and Impact (The 1.5 Page Rule):** The final content must be concise enough to fit comfortably on 1 to 1.5 pages (A4). Every word must earn its place. Eliminate fluff and focus on impactful, quantifiable achievements.
             4.  **Quantify Everything Possible:** Convert duties into achievements. Instead of "managed a team," write "led a team of 5 engineers to deliver the project 3 weeks ahead of schedule."
             </CORE_PRINCIPLES>
@@ -116,6 +116,7 @@ export class OpenAIService {
             # Style & Grammar
             - No em dashes (—). Use commas, semicolors, or restructure sentences.
             - Write in a professional, confident, and direct tone.
+            - Skills should be grouped logically (e.g., Backend, Frontend etc ...) and they should never be listed individually per line as it will make the resume very long.
 
             # Output Format
             - The final output must be a single, raw JSON object. Do not wrap it in markdown code blocks.
