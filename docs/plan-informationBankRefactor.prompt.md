@@ -93,46 +93,46 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.4 Create Dialog Forms for Each Section
 > Create thin wrapper dialogs that compose the shared base with section-specific forms.
 
-- [ ] Create `/apps/client/src/pages/dashboard/information/dialogs/` directory
+- [x] Create `/apps/client/src/pages/dashboard/information/dialogs/` directory
 
-- [ ] Create `experience.tsx` dialog
+- [x] Create `experience.tsx` dialog
   - Use `experienceSchema` and `defaultExperience` from `@reactive-resume/schema`
   - Wire to `useInformationStore` via shared `SectionDialogBase`
 
-- [ ] Create `education.tsx` dialog
+- [x] Create `education.tsx` dialog
   - Use `educationSchema` and `defaultEducation`
 
-- [ ] Create `profiles.tsx` dialog
+- [x] Create `profiles.tsx` dialog
   - Use `profileSchema` and `defaultProfile`
 
-- [ ] Create `skills.tsx` dialog
+- [x] Create `skills.tsx` dialog
   - Use `skillSchema` and `defaultSkill`
 
-- [ ] Create `languages.tsx` dialog
+- [x] Create `languages.tsx` dialog
   - Use `languageSchema` and `defaultLanguage`
 
-- [ ] Create `certifications.tsx` dialog
+- [x] Create `certifications.tsx` dialog
   - Use `certificationSchema` and `defaultCertification`
 
-- [ ] Create `awards.tsx` dialog
+- [x] Create `awards.tsx` dialog
   - Use `awardSchema` and `defaultAward`
 
-- [ ] Create `projects.tsx` dialog
+- [x] Create `projects.tsx` dialog
   - Use `projectSchema` and `defaultProject`
 
-- [ ] Create `publications.tsx` dialog
+- [x] Create `publications.tsx` dialog
   - Use `publicationSchema` and `defaultPublication`
 
-- [ ] Create `volunteer.tsx` dialog
+- [x] Create `volunteer.tsx` dialog
   - Use `volunteerSchema` and `defaultVolunteer`
 
-- [ ] Create `interests.tsx` dialog
+- [x] Create `interests.tsx` dialog
   - Use `interestSchema` and `defaultInterest`
 
-- [ ] Create `references.tsx` dialog
+- [x] Create `references.tsx` dialog
   - Use `referenceSchema` and `defaultReference`
 
-- [ ] Create `index.ts` to export all dialogs
+- [x] Create `index.ts` to export all dialogs
 
 ---
 
