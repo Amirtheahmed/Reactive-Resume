@@ -1,7 +1,25 @@
 import type { SectionKey } from "@reactive-resume/schema";
 import { create } from "zustand";
 
-export type DialogName = "resume" | "lock" | "import" | "two-factor" | "generate" | "generate-cover-letter" | "cover-letter" | SectionKey;
+/**
+ * Information Bank section dialog names (prefixed with "info-")
+ * These are used to differentiate Information Bank dialogs from Resume Builder dialogs.
+ */
+export type InfoSectionDialogName =
+  | "info-profiles"
+  | "info-experience"
+  | "info-education"
+  | "info-skills"
+  | "info-languages"
+  | "info-certifications"
+  | "info-awards"
+  | "info-projects"
+  | "info-publications"
+  | "info-volunteer"
+  | "info-interests"
+  | "info-references";
+
+export type DialogName = "resume" | "lock" | "import" | "two-factor" | "generate" | "generate-cover-letter" | "cover-letter" | SectionKey | InfoSectionDialogName;
 
 export type DialogMode = "create" | "update" | "duplicate" | "delete";
 

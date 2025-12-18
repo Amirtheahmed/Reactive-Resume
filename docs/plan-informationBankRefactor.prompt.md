@@ -48,27 +48,27 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.1 Create Store-Agnostic Section Dialog Base
 > Extract and generalize the `SectionDialog` component to work with any store.
 
-- [ ] Create `/apps/client/src/components/sections/section-dialog-base.tsx`
+- [x] Create `/apps/client/src/components/sections/section-dialog-base.tsx`
   - Accept `setValue`, `getSection`, and `dialogPrefix` as props
   - Extract common dialog logic (create/update/delete/duplicate modes)
   - Support both Resume Builder and Information Bank stores
 
-- [ ] Create `/apps/client/src/components/sections/section-list-item.tsx`
+- [x] Create `/apps/client/src/components/sections/section-list-item.tsx`
   - Copy and adapt from `apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx`
   - Make it reusable (already mostly store-agnostic)
 
-- [ ] Create `/apps/client/src/components/sections/section-base.tsx`
+- [x] Create `/apps/client/src/components/sections/section-base.tsx`
   - Accept `setValue`, `section`, `sectionId`, `dialogPrefix`, and `title/description` functions
   - Include drag-and-drop reordering
   - Include create/update/delete triggers
 
-- [ ] Create `/apps/client/src/components/sections/index.ts`
+- [x] Create `/apps/client/src/components/sections/index.ts`
   - Export all shared section components
 
 #### 3.2 Update Dialog Store for Prefixed Dialogs
 > Support Information Bank dialogs without conflicting with Resume Builder dialogs.
 
-- [ ] Update `/apps/client/src/stores/dialog.ts`
+- [x] Update `/apps/client/src/stores/dialog.ts`
   - Add `info-` prefixed dialog names to `DialogName` type
   - Example: `"info-experience" | "info-education" | "info-profiles"` etc.
 
@@ -79,7 +79,7 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.3 Add Section Item CRUD Actions
 > Add generic actions for managing section items in the Information Bank.
 
-- [ ] Update `/apps/client/src/stores/information.ts`
+- [x] Update `/apps/client/src/stores/information.ts`
   - Add `addItem(sectionId: string, item: SectionItem)` action
   - Add `updateItem(sectionId: string, itemId: string, item: SectionItem)` action
   - Add `removeItem(sectionId: string, itemId: string)` action
