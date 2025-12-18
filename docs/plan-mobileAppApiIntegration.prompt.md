@@ -773,14 +773,14 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 - [x] Create `/auth/mobile-authorize` route
 - [x] Create `AuthorizationCard` component
 - [x] Create `PermissionsList` component
-- [ ] Add "Linked Devices" section to Settings page
-- [ ] Implement device revocation UI
+- [x] Add "Linked Devices" section to Settings page
+- [x] Implement device revocation UI
 
 ### Phase 6: Security & Polish
 
-- [ ] Implement rate limiting (`@nestjs/throttler`)
-- [ ] Add AI generation limits (10 resumes/hour, 20 cover letters/hour)
-- [ ] Add request logging for mobile endpoints
+- [x] Implement rate limiting (`@nestjs/throttler`)
+- [x] Add AI generation limits (10 resumes/hour, 20 cover letters/hour)
+- [x] Add request logging for mobile endpoints
 - [ ] Write API documentation (Swagger/OpenAPI)
 - [ ] Write integration tests
 - [ ] Security audit

@@ -4,6 +4,7 @@ import path from "node:path";
 import { HttpException, Module } from "@nestjs/common";
 import { APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { ThrottlerModule } from "@nestjs/throttler";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { ZodValidationPipe } from "nestjs-zod";
 
@@ -38,6 +39,13 @@ import { UserModule } from "./user/user.module";
     RavenModule,
     HealthModule,
     OpenAIModule,
+    ThrottlerModule.forRoot([
+      {
+        name: "default",
+        ttl: 60000, // 1 minute
+        limit: 100, // 100 requests per minute default
+      },
+    ]),
 
     // Feature Modules
     AuthModule.register(),

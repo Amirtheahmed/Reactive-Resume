@@ -9,8 +9,10 @@ import {
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import type { MobileLink } from "@prisma/client";
 import {
   AutofillExportDto,
@@ -23,6 +25,7 @@ import {
 import { MobileTokenGuard } from "@/server/mobile-link/guards/mobile-token.guard";
 import { User } from "@/server/user/decorators/user.decorator";
 
+import { MobileLoggingInterceptor } from "./interceptors/mobile-logging.interceptor";
 import { MobileService } from "./mobile.service";
 
 // Custom decorator to get mobile link from request
@@ -35,7 +38,9 @@ const GetMobileLink = createParamDecorator(
 
 @ApiTags("Mobile")
 @Controller("mobile")
-@UseGuards(MobileTokenGuard)
+@UseGuards(ThrottlerGuard, MobileTokenGuard)
+@UseInterceptors(MobileLoggingInterceptor)
+@Throttle({ default: { limit: 60, ttl: 60000 } }) // 60 requests per minute default
 export class MobileController {
   constructor(private readonly mobileService: MobileService) {}
 
@@ -110,6 +115,7 @@ export class MobileController {
    * Generate a tailored resume from job description
    */
   @Post("generate-resume")
+  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 per hour for AI generation
   generateResume(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateResumeDto,
@@ -154,6 +160,7 @@ export class MobileController {
    * Generate a tailored cover letter
    */
   @Post("generate-cover-letter")
+  @Throttle({ default: { limit: 20, ttl: 3600000 } }) // 20 per hour for AI generation
   generateCoverLetter(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateCoverLetterDto,

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 import { DeveloperSettings } from "@/client/pages/dashboard/settings/_sections/developer";
+import { MobileDevicesSettings } from "@/client/pages/dashboard/settings/_sections/mobile-devices";
 
 import { AccountSettings } from "./_sections/account";
 import { DangerZoneSettings } from "./_sections/danger";
@@ -39,6 +40,8 @@ export const SettingsPage = () => (
           <OpenAISettings />
           <Separator />
           <DeveloperSettings />
+          <Separator />
+          <MobileDevicesSettings />
           <Separator />
           <DangerZoneSettings />
         </div>
