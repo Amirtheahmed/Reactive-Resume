@@ -212,8 +212,10 @@ All other data (work experience, education, certifications, profiles, etc.) is s
   - Pass `useResumeStore.setValue` and resume-specific getters
   - Ensure backward compatibility
 
-- [ ] Update Resume Builder's `SectionBase` to use shared component
-  - Or keep as-is if migration is too risky; can be done in follow-up
+- [x] Update Resume Builder's `SectionBase` to use shared component
+  - Uses shared `SectionBase` with custom `renderHeader` for builder-specific header
+  - Re-exports `sectionVariants` for backward compatibility
+  - Maintains all existing functionality (collapse, section options, icons)
 
 ---
 

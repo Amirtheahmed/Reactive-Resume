@@ -1,10 +1,6 @@
 import { t } from "@lingui/macro";
 import { CircleNotchIcon, CloudCheckIcon, PlusIcon, WarningIcon } from "@phosphor-icons/react";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
   Alert,
   AlertDescription,
   AlertTitle,
@@ -155,47 +151,42 @@ export const InformationPage = () => {
         {/* References */}
         <ReferencesSection />
 
-        {/* Legacy Custom Sections */}
-        {customSections.length > 0 && (
-          <>
-            <Separator />
-            <Accordion collapsible type="single" className="w-full">
-              <AccordionItem value="legacy-custom" className="border-none">
-                <AccordionTrigger className="py-0 hover:no-underline">
-                  <div className="flex items-center gap-x-2">
-                    <WarningIcon className="text-warning" />
-                    <span className="text-lg font-semibold">{t`Legacy Custom Sections`}</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="pt-4">
-                  <Alert variant="warning" className="mb-4">
-                    <WarningIcon className="size-4" />
-                    <AlertTitle>{t`Deprecated`}</AlertTitle>
-                    <AlertDescription>
-                      {t`Custom sections are deprecated. Please use the structured sections above for better AI generation and autofill support.`}
-                    </AlertDescription>
-                  </Alert>
+        {/* Custom Sections */}
+        <Separator />
+        <section id="custom" className="space-y-6">
+          <header>
+            <h2 className="text-2xl font-bold">{t`Custom Sections`}</h2>
+            <p className="text-muted-foreground">
+              {t`Store additional information that doesn't fit in the standard sections above.`}
+            </p>
+          </header>
 
-                  <div className="space-y-4">
-                    {customSections.map((section, index) => (
-                      // eslint-disable-next-line @typescript-eslint/no-deprecated
-                      <CustomSection key={section.id} id={section.id} index={index} />
-                    ))}
-                  </div>
+          {customSections.length > 0 && (
+            <Alert variant="warning" className="mb-4">
+              <WarningIcon className="size-4" />
+              <AlertTitle>{t`Note`}</AlertTitle>
+              <AlertDescription>
+                {t`For better AI generation and autofill support, prefer using the structured sections above when possible.`}
+              </AlertDescription>
+            </Alert>
+          )}
 
-                  <Button
-                    variant="outline"
-                    className="mt-4 w-full gap-x-2"
-                    onClick={addCustomSection}
-                  >
-                    <PlusIcon />
-                    {t`Add Custom Section`}
-                  </Button>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </>
-        )}
+          <div className="space-y-4">
+            {customSections.map((section, index) => (
+              // eslint-disable-next-line @typescript-eslint/no-deprecated
+              <CustomSection key={section.id} id={section.id} index={index} />
+            ))}
+          </div>
+
+          <Button
+            variant="outline"
+            className="w-full gap-x-2 border-dashed"
+            onClick={addCustomSection}
+          >
+            <PlusIcon />
+            {t`Add Custom Section`}
+          </Button>
+        </section>
       </div>
     </>
   );

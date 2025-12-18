@@ -90,28 +90,40 @@ Date: 2020 - 2023
 Summary: Built web applications...
 ```
 
-## Legacy Custom Sections
+## Custom Sections
 
-The legacy custom sections feature is now deprecated but remains functional for backward compatibility:
+Custom sections are still available for storing information that doesn't fit into the standard structured sections. However, for best results with AI features and autofill, we recommend using the structured sections whenever possible.
 
-- ⚠️ **Deprecated** - Custom sections will not receive new features
-- ✅ **Still Works** - Existing custom sections continue to function
-- ❌ **Not Recommended** - New data should be added to structured sections
-- 🤖 **Limited AI Support** - AI features work best with structured data
+### When to Use Custom Sections
 
-### Deprecation Warning
+Use custom sections for:
+- **Unique information** that doesn't fit any standard category
+- **Industry-specific data** not covered by standard sections
+- **Temporary storage** before migrating to structured sections
+- **Free-form content** that requires flexible formatting
 
-When you have legacy custom sections, you'll see a warning message:
+### When NOT to Use Custom Sections
 
-> "Custom sections are deprecated. Please use the structured sections above for better AI generation and autofill support."
+Prefer structured sections for:
+- Work experience → **Experience** section
+- Education → **Education** section
+- Certifications → **Certifications** section
+- Any data that fits a standard section type
+
+### Limitations of Custom Sections
+
+- ⚠️ **Limited AI Support** - AI features work best with structured data
+- ⚠️ **No Autofill** - Browser extension cannot parse unstructured content
+- ⚠️ **No Validation** - Custom sections don't validate data format
+- ✅ **Still Functional** - Custom sections continue to work for storage
 
 ## FAQ
 
 ### Q: Will my existing custom sections be deleted?
-**A:** No. Your existing custom sections remain intact. You can continue to view and edit them in the "Legacy Custom Sections" accordion.
+**A:** No. Your existing custom sections remain intact and fully functional.
 
 ### Q: Can I still create new custom sections?
-**A:** Yes, but it's not recommended. The option to add custom sections is still available in the legacy accordion, but new data should be added to the appropriate structured sections for best results.
+**A:** Yes! The "Add Custom Section" button is always available at the bottom of the Information Bank page. Custom sections are useful for storing information that doesn't fit into the standard structured sections.
 
 ### Q: Will AI features work with my custom sections?
 **A:** AI features can read custom section content, but structured data produces significantly better results. Structured sections provide context (e.g., "this is a company name" vs "this is a job title") that helps AI generate more accurate content.
