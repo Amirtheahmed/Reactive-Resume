@@ -37,7 +37,7 @@ import { VolunteerSection } from "./sections/volunteer";
 export const InformationPage = () => {
   const { loading } = useInformation();
   const isSaving = useInformationStore((state) => state.isSaving);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-deprecated
   const customSections = useInformationStore((state) => state.information.data.custom ?? []);
   // eslint-disable-next-line @typescript-eslint/no-deprecated
   const addCustomSection = useInformationStore((state) => state.addCustomSection);
@@ -178,6 +178,7 @@ export const InformationPage = () => {
 
                   <div className="space-y-4">
                     {customSections.map((section, index) => (
+                      // eslint-disable-next-line @typescript-eslint/no-deprecated
                       <CustomSection key={section.id} id={section.id} index={index} />
                     ))}
                   </div>

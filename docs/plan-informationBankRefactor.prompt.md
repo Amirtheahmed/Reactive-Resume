@@ -208,7 +208,7 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.8 Migrate Resume Builder to Shared Components
 > Update Resume Builder to use the new shared components for consistency.
 
-- [ ] Update Resume Builder's `SectionDialog` to use `SectionDialogBase`
+- [x] Update Resume Builder's `SectionDialog` to use `SectionDialogBase`
   - Pass `useResumeStore.setValue` and resume-specific getters
   - Ensure backward compatibility
 
@@ -222,7 +222,7 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.9 Create Migration Guide
 > Help existing users understand the changes.
 
-- [ ] Create `/docs/information-bank-migration.md`
+- [x] Create `/docs/information-bank-migration.md`
   - Explain what changed and why
   - Document that `custom: []` is now deprecated for structured data
   - Provide guidance on how to manually migrate old custom entries to proper sections
@@ -231,8 +231,8 @@ All other data (work experience, education, certifications, profiles, etc.) is s
 #### 3.10 Update Code Comments
 > Mark deprecated code paths clearly.
 
-- [ ] Add `@deprecated` JSDoc comments to `addCustomSection` and `removeCustomSection` in information store
-- [ ] Update comment in `libs/schema/src/information/index.ts` line 27 to reflect deprecation status
+- [x] Add `@deprecated` JSDoc comments to `addCustomSection` and `removeCustomSection` in information store
+- [x] Update comment in `libs/schema/src/information/index.ts` line 27 to reflect deprecation status
 
 ---
 

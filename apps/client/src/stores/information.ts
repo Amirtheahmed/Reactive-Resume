@@ -162,10 +162,12 @@ export const useInformationStore = create<InformationStore>()(
       addCustomSection: () => {
         set((state) => {
           const id = createId();
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-deprecated
           if (!state.information.data.custom) {
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             state.information.data.custom = [];
           }
+          // eslint-disable-next-line @typescript-eslint/no-deprecated
           state.information.data.custom.push({
             id,
             name: t`Untitled Section`,
@@ -182,8 +184,9 @@ export const useInformationStore = create<InformationStore>()(
        */
       removeCustomSection: (id) => {
         set((state) => {
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-deprecated
           if (!state.information.data.custom) return;
+          // eslint-disable-next-line @typescript-eslint/no-deprecated
           state.information.data.custom = state.information.data.custom.filter((s) => s.id !== id);
           state.isSaving = true;
         });

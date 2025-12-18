@@ -11,9 +11,16 @@ type Props = {
   id: string;
 };
 
+/**
+ * @deprecated This component is for legacy custom sections only.
+ * New sections should use the structured section components (ExperienceSection, EducationSection, etc.)
+ * that provide proper schema validation and better AI/autofill support.
+ */
 export const CustomSection = ({ index, id }: Props) => {
   const setValue = useInformationStore((state) => state.setValue);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const removeCustomSection = useInformationStore((state) => state.removeCustomSection);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const section = useInformationStore((state) => state.information.data.custom.find((s) => s.id === id));
 
   if (!section) return null;
