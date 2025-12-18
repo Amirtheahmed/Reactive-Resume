@@ -167,12 +167,12 @@ const Section = <T,>({
   if (!section.visible || section.items.filter((item) => item.visible).length === 0) return null;
 
   return (
-    <section id={section.id} className="mb-3">
-      <h2 className="text-sm font-bold uppercase tracking-wider text-black border-b border-black pb-0.5 mb-2">
+    <section id={section.id} className="mb-4">
+      <h2 className="text-lg font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-2">
         {section.name}
       </h2>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {section.items
           .filter((item) => item.visible)
           .map((item) => {
@@ -224,19 +224,19 @@ const ExperienceSection = () => {
       {(item) => (
         <div className="mb-1">
           <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base">
+            <div className="font-bold text-base text-gray-900">
               <LinkedEntity
                 name={item.company}
                 url={item.url}
                 separateLinks={section.separateLinks}
               />
             </div>
-            <div className="text-sm text-gray-800 font-medium">{item.location}</div>
+            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.location}</div>
           </div>
           
-          <div className="flex justify-between items-baseline -mt-0.5">
-            <div className="italic text-sm font-medium text-gray-900">{item.position}</div>
-            <div className="italic text-sm text-gray-700">{item.date}</div>
+          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
+            <div className="italic text-sm font-medium text-gray-800">{item.position}</div>
+            <div className="italic text-sm text-gray-700 whitespace-nowrap ml-2">{item.date}</div>
           </div>
         </div>
       )}
@@ -258,25 +258,21 @@ const EducationSection = () => {
       {(item) => (
         <div className="mb-1">
           <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base">
+            <div className="font-bold text-base text-gray-900">
               <LinkedEntity
                 name={item.institution}
                 url={item.url}
                 separateLinks={section.separateLinks}
               />
             </div>
-            {/* Location isn't standard in Education schema but if it existed we'd put it here.
-                Using score for GPA on the right or regular text? Usually Location is right.
-                We don't have location in Education schema by default but can assume it might be added.
-            */}
-            <div className="text-sm text-gray-800 font-medium">{item.score && `GPA: ${item.score}`}</div>
+            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.score && `GPA: ${item.score}`}</div>
           </div>
           
-          <div className="flex justify-between items-baseline -mt-0.5">
-            <div className="italic text-sm font-medium text-gray-900">
+          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
+            <div className="italic text-sm font-medium text-gray-800">
                {[item.studyType, item.area].filter(Boolean).join(" in ")}
             </div>
-            <div className="italic text-sm text-gray-700">{item.date}</div>
+            <div className="italic text-sm text-gray-700 whitespace-nowrap ml-2">{item.date}</div>
           </div>
         </div>
       )}
@@ -329,7 +325,7 @@ const SkillsSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.skills);
 
   return (
-    <Section<Skill> section={section} keywordsKey="keywords">
+    <Section<Skill> section={section}>
       {(item) => (
         <div className="flex text-sm">
           {item.name && <span className="font-bold mr-2 whitespace-nowrap">{item.name}:</span>}
@@ -376,7 +372,7 @@ const Interests = () => {
   const section = useArtboardStore((state) => state.resume.sections.interests);
 
   return (
-    <Section<Interest> section={section} keywordsKey="keywords">
+    <Section<Interest> section={section}>
       {(item) => (
         <div className="text-sm">
           <span className="font-bold">{item.name}</span>
