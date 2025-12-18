@@ -24,5 +24,5 @@ export type CustomInformation = z.infer<typeof customInformationSchema>;
 export const defaultInformation: InformationData = {
   basics: defaultBasics,
   sections: defaultSections,
-  custom: [],
+  custom: [], // custom way to store raw data (hacky way)
 };
