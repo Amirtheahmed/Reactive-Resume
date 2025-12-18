@@ -731,31 +731,31 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 
 ### Phase 2: Mobile API Module
 
-- [ ] Create `mobile.module.ts`
-- [ ] Create `mobile.controller.ts`
-- [ ] Create `mobile.service.ts`
+- [x] Create `mobile.module.ts`
+- [x] Create `mobile.controller.ts`
+- [x] Create `mobile.service.ts`
 - [x] Create DTOs in `libs/dto/src/mobile/`
   - [x] `generate-resume.dto.ts`
   - [x] `generate-cover-letter.dto.ts`
   - [x] `autofill-export.dto.ts`
   - [x] `mobile-link.dto.ts`
 - [x] Export DTOs from `libs/dto/src/index.ts`
-- [ ] Register `MobileModule` in `app.module.ts`
+- [x] Register `MobileModule` in `app.module.ts`
 
 ### Phase 3: Core API Endpoints
 
-- [ ] `GET /api/mobile/me` - User profile
-- [ ] `GET /api/mobile/information` - Get information bank
-- [ ] `PATCH /api/mobile/information` - Update information bank
-- [ ] `GET /api/mobile/resumes` - List resumes
-- [ ] `GET /api/mobile/resumes/:id` - Get resume by ID
-- [ ] `POST /api/mobile/generate-resume` - Generate tailored resume
-- [ ] `GET /api/mobile/resumes/:id/pdf` - Get resume PDF URL
-- [ ] `GET /api/mobile/cover-letters` - List cover letters
-- [ ] `GET /api/mobile/cover-letters/:id` - Get cover letter by ID
-- [ ] `POST /api/mobile/generate-cover-letter` - Generate cover letter
-- [ ] `GET /api/mobile/cover-letters/:id/pdf` - Get cover letter PDF URL
-- [ ] `POST /api/mobile/autofill-export` - Export autofill data
+- [x] `GET /api/mobile/me` - User profile
+- [x] `GET /api/mobile/information` - Get information bank
+- [x] `PATCH /api/mobile/information` - Update information bank
+- [x] `GET /api/mobile/resumes` - List resumes
+- [x] `GET /api/mobile/resumes/:id` - Get resume by ID
+- [x] `POST /api/mobile/generate-resume` - Generate tailored resume
+- [x] `GET /api/mobile/resumes/:id/pdf` - Get resume PDF URL
+- [x] `GET /api/mobile/cover-letters` - List cover letters
+- [x] `GET /api/mobile/cover-letters/:id` - Get cover letter by ID
+- [x] `POST /api/mobile/generate-cover-letter` - Generate cover letter
+- [x] `GET /api/mobile/cover-letters/:id/pdf` - Get cover letter PDF URL
+- [x] `POST /api/mobile/autofill-export` - Export autofill data
 
 ### Phase 4: Webhook System (Optional)
 
@@ -764,8 +764,8 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 - [x] `DELETE /api/auth/mobile/webhook` - Remove webhook
 - [x] Implement webhook signature generation (HMAC-SHA256)
 - [x] Implement webhook delivery with retry logic
-- [ ] Add `resume.generated` event trigger
-- [ ] Add `cover_letter.generated` event trigger
+- [x] Add `resume.generated` event trigger
+- [x] Add `cover_letter.generated` event trigger
 - [x] Add `link.revoked` event trigger
 
 ### Phase 5: Client-Side Updates

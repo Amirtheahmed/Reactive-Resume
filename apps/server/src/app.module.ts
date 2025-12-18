@@ -11,6 +11,7 @@ import { ApiKeyModule } from "@/server/api-key/api-key.module";
 import { ChatModule } from "@/server/chat/chat.module";
 import { ExtensionModule } from "@/server/extension/extension.module";
 import { MobileLinkModule } from "@/server/mobile-link/mobile-link.module";
+import { MobileModule } from "@/server/mobile/mobile.module";
 import { OpenAIModule } from "@/server/openai/openai.module";
 
 import { AuthModule } from "./auth/auth.module";
@@ -53,6 +54,7 @@ import { UserModule } from "./user/user.module";
     ExtensionModule,
     ChatModule,
     MobileLinkModule,
+    MobileModule,
 
     // Static Assets
     ...(process.env.NODE_ENV === "production"
