@@ -1,21 +1,45 @@
 import { t } from "@lingui/macro";
-import { CircleNotchIcon, CloudCheckIcon, PlusIcon } from "@phosphor-icons/react";
-import { Button, Separator, Skeleton } from "@reactive-resume/ui";
+import { CircleNotchIcon, CloudCheckIcon, PlusIcon, WarningIcon } from "@phosphor-icons/react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Separator,
+  Skeleton,
+} from "@reactive-resume/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 import { useInformation } from "@/client/services/information";
 import { useInformationStore } from "@/client/stores/information";
 
+import { AwardsSection } from "./sections/awards";
 import { BasicsSection } from "./sections/basics";
+import { CertificationsSection } from "./sections/certifications";
 import { CustomSection } from "./sections/custom-section";
+import { EducationSection } from "./sections/education";
+import { ExperienceSection } from "./sections/experience";
+import { InterestsSection } from "./sections/interests";
+import { LanguagesSection } from "./sections/languages";
+import { ProfilesSection } from "./sections/profiles";
+import { ProjectsSection } from "./sections/projects";
+import { PublicationsSection } from "./sections/publications";
+import { ReferencesSection } from "./sections/references";
+import { SkillsSection } from "./sections/skills";
 import { SummarySection } from "./sections/summary";
+import { VolunteerSection } from "./sections/volunteer";
 
 export const InformationPage = () => {
   const { loading } = useInformation();
   const isSaving = useInformationStore((state) => state.isSaving);
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const customSections = useInformationStore((state) => state.information.data.custom ?? []);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const addCustomSection = useInformationStore((state) => state.addCustomSection);
 
   if (loading) {
@@ -76,21 +100,101 @@ export const InformationPage = () => {
           </div>
         </div>
 
+        {/* Basics */}
         <BasicsSection />
         <Separator />
+
+        {/* Summary */}
         <SummarySection />
         <Separator />
 
-        <div className="space-y-4">
-          {customSections.map((section, index) => (
-            <CustomSection key={section.id} id={section.id} index={index} />
-          ))}
-        </div>
+        {/* Profiles */}
+        <ProfilesSection />
+        <Separator />
 
-        <Button variant="outline" className="w-full gap-x-2" onClick={addCustomSection}>
-          <PlusIcon />
-          {t`Add Custom Section`}
-        </Button>
+        {/* Experience */}
+        <ExperienceSection />
+        <Separator />
+
+        {/* Education */}
+        <EducationSection />
+        <Separator />
+
+        {/* Skills */}
+        <SkillsSection />
+        <Separator />
+
+        {/* Languages */}
+        <LanguagesSection />
+        <Separator />
+
+        {/* Certifications */}
+        <CertificationsSection />
+        <Separator />
+
+        {/* Awards */}
+        <AwardsSection />
+        <Separator />
+
+        {/* Projects */}
+        <ProjectsSection />
+        <Separator />
+
+        {/* Publications */}
+        <PublicationsSection />
+        <Separator />
+
+        {/* Volunteering */}
+        <VolunteerSection />
+        <Separator />
+
+        {/* Interests */}
+        <InterestsSection />
+        <Separator />
+
+        {/* References */}
+        <ReferencesSection />
+
+        {/* Legacy Custom Sections */}
+        {customSections.length > 0 && (
+          <>
+            <Separator />
+            <Accordion collapsible type="single" className="w-full">
+              <AccordionItem value="legacy-custom" className="border-none">
+                <AccordionTrigger className="py-0 hover:no-underline">
+                  <div className="flex items-center gap-x-2">
+                    <WarningIcon className="text-warning" />
+                    <span className="text-lg font-semibold">{t`Legacy Custom Sections`}</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pt-4">
+                  <Alert variant="warning" className="mb-4">
+                    <WarningIcon className="size-4" />
+                    <AlertTitle>{t`Deprecated`}</AlertTitle>
+                    <AlertDescription>
+                      {t`Custom sections are deprecated. Please use the structured sections above for better AI generation and autofill support.`}
+                    </AlertDescription>
+                  </Alert>
+
+                  <div className="space-y-4">
+                    {customSections.map((section, index) => (
+                      <CustomSection key={section.id} id={section.id} index={index} />
+                    ))}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="mt-4 w-full gap-x-2"
+                    onClick={addCustomSection}
+                  >
+                    <PlusIcon />
+                    {t`Add Custom Section`}
+                  </Button>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </>
+        )}
       </div>
     </>
   );

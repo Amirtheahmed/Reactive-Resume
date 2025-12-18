@@ -1,4 +1,6 @@
 // apps/client/src/providers/dialog.tsx
+import { useLocation } from "react-router";
+
 import { AwardsDialog } from "../pages/builder/sidebars/left/dialogs/awards";
 import { CertificationsDialog } from "../pages/builder/sidebars/left/dialogs/certifications";
 import { CustomSectionDialog } from "../pages/builder/sidebars/left/dialogs/custom-section";
@@ -14,6 +16,20 @@ import { SkillsDialog } from "../pages/builder/sidebars/left/dialogs/skills";
 import { VolunteerDialog } from "../pages/builder/sidebars/left/dialogs/volunteer";
 import { CoverLetterDialog } from "../pages/dashboard/cover-letters/_dialogs/cover-letter";
 import { GenerateCoverLetterDialog } from "../pages/dashboard/cover-letters/_dialogs/generate";
+import {
+  AwardsInfoDialog,
+  CertificationsInfoDialog,
+  EducationInfoDialog,
+  ExperienceInfoDialog,
+  InterestsInfoDialog,
+  LanguagesInfoDialog,
+  ProfilesInfoDialog,
+  ProjectsInfoDialog,
+  PublicationsInfoDialog,
+  ReferencesInfoDialog,
+  SkillsInfoDialog,
+  VolunteerInfoDialog,
+} from "../pages/dashboard/information/dialogs";
 import { GenerateDialog } from "../pages/dashboard/resumes/_dialogs/generate";
 import { ImportDialog } from "../pages/dashboard/resumes/_dialogs/import";
 import { LockDialog } from "../pages/dashboard/resumes/_dialogs/lock";
@@ -26,7 +42,9 @@ type Props = {
 };
 
 export const DialogProvider = ({ children }: Props) => {
+  const location = useLocation();
   const isResumeLoaded = useResumeStore((state) => Object.keys(state.resume).length > 0);
+  const isInformationPage = location.pathname === "/dashboard/information";
 
   return (
     <>
@@ -46,6 +64,7 @@ export const DialogProvider = ({ children }: Props) => {
         {/* Settings Dialogs */}
         <TwoFactorDialog />
 
+        {/* Resume Builder Section Dialogs */}
         {isResumeLoaded && (
           <>
             <ProfilesDialog />
@@ -61,6 +80,24 @@ export const DialogProvider = ({ children }: Props) => {
             <SkillsDialog />
             <ReferencesDialog />
             <CustomSectionDialog />
+          </>
+        )}
+
+        {/* Information Bank Section Dialogs */}
+        {isInformationPage && (
+          <>
+            <ProfilesInfoDialog />
+            <ExperienceInfoDialog />
+            <EducationInfoDialog />
+            <AwardsInfoDialog />
+            <CertificationsInfoDialog />
+            <InterestsInfoDialog />
+            <LanguagesInfoDialog />
+            <ProjectsInfoDialog />
+            <PublicationsInfoDialog />
+            <VolunteerInfoDialog />
+            <SkillsInfoDialog />
+            <ReferencesInfoDialog />
           </>
         )}
       </div>
