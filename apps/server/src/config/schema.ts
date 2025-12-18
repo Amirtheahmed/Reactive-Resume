@@ -86,6 +86,11 @@ export const configSchema = z.object({
 
   // OpenAI (Optional)
   OPENAI_API_KEY: z.string().optional(),
+
+  // Mobile App Integration (Optional)
+  // Comma-separated list of allowed redirect URIs for mobile app linking
+  // Supports wildcards, e.g., "myapp://*,https://myapp.com/callback"
+  MOBILE_ALLOWED_REDIRECT_URIS: z.string().optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;

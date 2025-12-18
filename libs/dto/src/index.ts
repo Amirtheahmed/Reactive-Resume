@@ -7,6 +7,7 @@ export * from "./cover-letter";
 export * from "./extension";
 export * from "./feature";
 export * from "./information";
+export * from "./mobile";
 export * from "./openai";
 export * from "./resume";
 export * from "./secrets";

@@ -4,6 +4,7 @@ import { BackupOtpPage } from "../pages/auth/backup-otp/page";
 import { ForgotPasswordPage } from "../pages/auth/forgot-password/page";
 import { AuthLayout } from "../pages/auth/layout";
 import { LoginPage } from "../pages/auth/login/page";
+import { MobileAuthorizePage } from "../pages/auth/mobile-authorize/page";
 import { RegisterPage } from "../pages/auth/register/page";
 import { ResetPasswordPage } from "../pages/auth/reset-password/page";
 import { VerifyEmailPage } from "../pages/auth/verify-email/page";
@@ -58,6 +59,11 @@ export const routes = createRoutesFromElements(
           {/* Email Verification */}
           <Route element={<AuthGuard />}>
             <Route path="verify-email" element={<VerifyEmailPage />} />
+          </Route>
+
+          {/* Mobile App Authorization */}
+          <Route element={<AuthGuard />}>
+            <Route path="mobile-authorize" element={<MobileAuthorizePage />} />
           </Route>
 
           {/* OAuth Callback */}

@@ -37,6 +37,7 @@ model User {
   CoverLetters     CoverLetter[]
   ApiKeys          ApiKey[]
   chats            Chat[]
+  mobileLinks      MobileLink[]
 }
 
 model Information {
@@ -163,4 +164,44 @@ model Message {
   updatedAt DateTime @updatedAt
 
   @@index([chatId])
+}
+
+// Mobile App Integration Models
+
+model MobileLink {
+  id         String    @id @default(cuid())
+  userId     String // RR User ID
+  externalId String // Firebase UID or other external identifier
+  deviceId   String? // Optional device identifier for multi-device support
+  deviceName String? // User-friendly device name (e.g., "John's iPhone")
+  provider   String    @default("firebase") // 'firebase' | 'custom'
+  tokenHash  String // Hashed mobile_link_token
+  lastUsed   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  revokedAt  DateTime?
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  webhooks MobileWebhook[]
+
+  @@unique([externalId, deviceId, provider]) // Allow same user, multiple devices
+  @@index([externalId])
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model MobileWebhook {
+  id           String   @id @default(cuid())
+  mobileLinkId String
+  url          String // Webhook endpoint URL
+  secretHash   String // Hashed webhook secret for signature verification
+  events       String[] // Array of event types: ['resume.generated', 'cover_letter.generated', 'link.revoked']
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  mobileLink MobileLink @relation(fields: [mobileLinkId], references: [id], onDelete: Cascade)
+
+  @@unique([mobileLinkId]) // One webhook per mobile link
+  @@index([mobileLinkId])
 }

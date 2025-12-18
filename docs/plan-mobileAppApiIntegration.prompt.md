@@ -714,32 +714,32 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 
 ### Phase 1: Account Linking Infrastructure
 
-- [ ] Create `MobileLink` Prisma model
-- [ ] Run database migration
-- [ ] Create `mobile-link.module.ts`
-- [ ] Create `mobile-link.controller.ts`
-- [ ] Create `mobile-link.service.ts`
-- [ ] Implement `MobileTokenGuard`
-- [ ] Implement token generation (JWT with 30-day expiry)
-- [ ] Implement token validation with auto-refresh
-- [ ] Implement token hashing (bcrypt)
-- [ ] Add `X-Refreshed-Token` header logic
-- [ ] Create authorization consent page (`/auth/mobile/authorize`)
-- [ ] Implement redirect URI validation (allowlist)
-- [ ] Add device management endpoints (`GET /devices`, `DELETE /devices/:id`)
-- [ ] Register `MobileLinkModule` in `app.module.ts`
+- [x] Create `MobileLink` Prisma model
+- [x] Run database migration
+- [x] Create `mobile-link.module.ts`
+- [x] Create `mobile-link.controller.ts`
+- [x] Create `mobile-link.service.ts`
+- [x] Implement `MobileTokenGuard`
+- [x] Implement token generation (JWT with 30-day expiry)
+- [x] Implement token validation with auto-refresh
+- [x] Implement token hashing (bcrypt)
+- [x] Add `X-Refreshed-Token` header logic
+- [x] Create authorization consent page (`/auth/mobile/authorize`)
+- [x] Implement redirect URI validation (allowlist)
+- [x] Add device management endpoints (`GET /devices`, `DELETE /devices/:id`)
+- [x] Register `MobileLinkModule` in `app.module.ts`
 
 ### Phase 2: Mobile API Module
 
 - [ ] Create `mobile.module.ts`
 - [ ] Create `mobile.controller.ts`
 - [ ] Create `mobile.service.ts`
-- [ ] Create DTOs in `libs/dto/src/mobile/`
-  - [ ] `generate-resume.dto.ts`
-  - [ ] `generate-cover-letter.dto.ts`
-  - [ ] `autofill-export.dto.ts`
-  - [ ] `mobile-link.dto.ts`
-- [ ] Export DTOs from `libs/dto/src/index.ts`
+- [x] Create DTOs in `libs/dto/src/mobile/`
+  - [x] `generate-resume.dto.ts`
+  - [x] `generate-cover-letter.dto.ts`
+  - [x] `autofill-export.dto.ts`
+  - [x] `mobile-link.dto.ts`
+- [x] Export DTOs from `libs/dto/src/index.ts`
 - [ ] Register `MobileModule` in `app.module.ts`
 
 ### Phase 3: Core API Endpoints
@@ -759,20 +759,20 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 
 ### Phase 4: Webhook System (Optional)
 
-- [ ] Create `MobileWebhook` Prisma model
-- [ ] `POST /api/auth/mobile/webhook` - Register webhook
-- [ ] `DELETE /api/auth/mobile/webhook` - Remove webhook
-- [ ] Implement webhook signature generation (HMAC-SHA256)
-- [ ] Implement webhook delivery with retry logic
+- [x] Create `MobileWebhook` Prisma model
+- [x] `POST /api/auth/mobile/webhook` - Register webhook
+- [x] `DELETE /api/auth/mobile/webhook` - Remove webhook
+- [x] Implement webhook signature generation (HMAC-SHA256)
+- [x] Implement webhook delivery with retry logic
 - [ ] Add `resume.generated` event trigger
 - [ ] Add `cover_letter.generated` event trigger
-- [ ] Add `link.revoked` event trigger
+- [x] Add `link.revoked` event trigger
 
 ### Phase 5: Client-Side Updates
 
-- [ ] Create `/auth/mobile-authorize` route
-- [ ] Create `AuthorizationCard` component
-- [ ] Create `PermissionsList` component
+- [x] Create `/auth/mobile-authorize` route
+- [x] Create `AuthorizationCard` component
+- [x] Create `PermissionsList` component
 - [ ] Add "Linked Devices" section to Settings page
 - [ ] Implement device revocation UI
 
