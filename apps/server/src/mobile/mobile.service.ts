@@ -1,6 +1,5 @@
 // apps/server/src/mobile/mobile.service.ts
 import { BadRequestException, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import type { User } from "@prisma/client";
 import {
   AutofillExportDto,
   AutofillFlatResponse,
@@ -468,13 +467,13 @@ export class MobileService {
       const basics = data.basics;
       const nameParts = basics.name?.split(" ") ?? [];
 
-      result["fullName"] = basics.name ?? null;
-      result["firstName"] = nameParts[0] ?? null;
-      result["lastName"] = nameParts.slice(1).join(" ") || null;
-      result["email"] = basics.email ?? null;
-      result["phone"] = basics.phone ?? null;
-      result["location"] = basics.location ?? null;
-      result["website"] = basics.url?.href ?? null;
+      result.fullName = basics.name ?? null;
+      result.firstName = nameParts[0] ?? null;
+      result.lastName = nameParts.slice(1).join(" ") || null;
+      result.email = basics.email ?? null;
+      result.phone = basics.phone ?? null;
+      result.location = basics.location ?? null;
+      result.website = basics.url?.href ?? null;
 
       const customFields = basics.customFields ?? [];
       for (const field of customFields) {
@@ -485,26 +484,26 @@ export class MobileService {
     // Add first education entry
     if (shouldInclude("education") && data.sections?.education?.items?.[0]) {
       const edu = data.sections.education.items[0];
-      result["education_institution"] = edu.institution ?? null;
-      result["education_degree"] = edu.studyType ?? null;
-      result["education_field"] = edu.area ?? null;
-      result["education_date"] = edu.date ?? null;
-      result["education_gpa"] = edu.score ?? null;
+      result.education_institution = edu.institution ?? null;
+      result.education_degree = edu.studyType ?? null;
+      result.education_field = edu.area ?? null;
+      result.education_date = edu.date ?? null;
+      result.education_gpa = edu.score ?? null;
     }
 
     // Add first experience entry
     if (shouldInclude("experience") && data.sections?.experience?.items?.[0]) {
       const exp = data.sections.experience.items[0];
-      result["experience_company"] = exp.company ?? null;
-      result["experience_position"] = exp.position ?? null;
-      result["experience_location"] = exp.location ?? null;
-      result["experience_date"] = exp.date ?? null;
+      result.experience_company = exp.company ?? null;
+      result.experience_position = exp.position ?? null;
+      result.experience_location = exp.location ?? null;
+      result.experience_date = exp.date ?? null;
     }
 
     // Add skills as comma-separated string
     if (shouldInclude("skills") && data.sections?.skills?.items) {
       const skillNames = data.sections.skills.items.map((s) => s.name).filter(Boolean);
-      result["skills"] = skillNames.join(", ");
+      result.skills = skillNames.join(", ");
     }
 
     return result;
@@ -523,7 +522,7 @@ export class MobileService {
     let slug = baseSlug;
     let counter = 1;
 
-    // eslint-disable-next-line no-constant-condition
+    // eslint-disable-next-line no-constant-condition,@typescript-eslint/no-unnecessary-condition
     while (true) {
       const existing =
         type === "resume"

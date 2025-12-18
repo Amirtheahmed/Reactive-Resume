@@ -15,7 +15,7 @@ import { usePrintCoverLetter } from "@/client/services/cover-letter/print";
 import { useCoverLetterStore } from "@/client/stores/cover-letter";
 
 export const CoverLetterEditorPage = () => {
-  const coverLetter = useLoaderData() as CoverLetterDto;
+  const coverLetter = useLoaderData();
 
   const { printCoverLetter, loading: printLoading } = usePrintCoverLetter();
 

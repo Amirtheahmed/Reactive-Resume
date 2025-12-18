@@ -11,8 +11,8 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { ApiKeyModule } from "@/server/api-key/api-key.module";
 import { ChatModule } from "@/server/chat/chat.module";
 import { ExtensionModule } from "@/server/extension/extension.module";
-import { MobileLinkModule } from "@/server/mobile-link/mobile-link.module";
 import { MobileModule } from "@/server/mobile/mobile.module";
+import { MobileLinkModule } from "@/server/mobile-link/mobile-link.module";
 import { OpenAIModule } from "@/server/openai/openai.module";
 
 import { AuthModule } from "./auth/auth.module";
@@ -42,7 +42,7 @@ import { UserModule } from "./user/user.module";
     ThrottlerModule.forRoot([
       {
         name: "default",
-        ttl: 60000, // 1 minute
+        ttl: 60_000, // 1 minute
         limit: 100, // 100 requests per minute default
       },
     ]),

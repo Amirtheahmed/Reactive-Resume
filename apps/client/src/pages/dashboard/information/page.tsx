@@ -14,6 +14,7 @@ import { SummarySection } from "./sections/summary";
 export const InformationPage = () => {
   const { loading } = useInformation();
   const isSaving = useInformationStore((state) => state.isSaving);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const customSections = useInformationStore((state) => state.information.data.custom ?? []);
   const addCustomSection = useInformationStore((state) => state.addCustomSection);
 

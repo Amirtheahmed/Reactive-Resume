@@ -1,5 +1,6 @@
-import { ApiKeyDto, ApiKeyWithSecretDto, CreateApiKeyDto } from "@reactive-resume/dto";
+import type { ApiKeyDto, ApiKeyWithSecretDto, CreateApiKeyDto } from "@reactive-resume/dto";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/client/libs/axios";
 import { queryClient } from "@/client/libs/query-client";
 
@@ -38,8 +39,8 @@ export const useCreateApiKey = () => {
     mutateAsync: createApiKeyFn,
   } = useMutation({
     mutationFn: createApiKey,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["api-keys"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["api-keys"] });
     },
   });
 
@@ -53,8 +54,8 @@ export const useDeleteApiKey = () => {
     mutateAsync: deleteApiKeyFn,
   } = useMutation({
     mutationFn: deleteApiKey,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["api-keys"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["api-keys"] });
     },
   });
 

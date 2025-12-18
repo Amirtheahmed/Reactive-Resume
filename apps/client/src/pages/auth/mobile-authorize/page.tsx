@@ -58,7 +58,7 @@ export const MobileAuthorizePage = () => {
       window.location.href = callbackUrl.toString();
     } catch (error_: unknown) {
       const axiosError = error_ as { response?: { data?: { message?: string } } };
-      const message = axiosError?.response?.data?.message ?? t`Failed to authorize. Please try again.`;
+      const message = axiosError.response?.data?.message ?? t`Failed to authorize. Please try again.`;
       toast({
         variant: "error",
         title: t`Authorization Failed`,

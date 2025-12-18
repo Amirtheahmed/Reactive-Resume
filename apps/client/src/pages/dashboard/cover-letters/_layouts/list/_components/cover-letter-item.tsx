@@ -61,9 +61,9 @@ export const CoverLetterListItem = ({ coverLetter }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem
-          onClick={(event) => {
+          onClick={async (event) => {
             event.stopPropagation();
-            onOpen();
+            await onOpen();
           }}
         >
           <PencilSimpleIcon size={14} className="mr-2" />

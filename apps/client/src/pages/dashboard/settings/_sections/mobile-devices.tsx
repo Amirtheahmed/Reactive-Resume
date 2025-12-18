@@ -47,7 +47,7 @@ export const MobileDevicesSettings = () => {
     toast({
       variant: "success",
       title: t`Device unlinked`,
-      description: deviceName ? t`"${deviceName}" has been unlinked from your account.` : t`Device has been unlinked from your account.`,
+      description: deviceName ? deviceName + t` has been unlinked from your account.` : t`Device has been unlinked from your account.`,
     });
   };
 
@@ -141,7 +141,11 @@ export const MobileDevicesSettings = () => {
                           <AlertDialogTitle>{t`Unlink Device`}</AlertDialogTitle>
                           <AlertDialogDescription>
                             <Trans>
-                              Are you sure you want to unlink "{device.deviceName ?? "this device"}"? The mobile app will no longer be able to access your account from this device.
+                              Are you sure you want to unlink
+                            </Trans>
+                            {device.deviceName ?? t` Unknown Device`}?
+                            <Trans>
+                              The mobile app will no longer be able to access your account from this device.
                             </Trans>
                           </AlertDialogDescription>
                         </AlertDialogHeader>
@@ -177,7 +181,7 @@ export const MobileDevicesSettings = () => {
               <AlertDialogTitle>{t`Unlink All Devices`}</AlertDialogTitle>
               <AlertDialogDescription>
                 <Trans>
-                  Are you sure you want to unlink all mobile devices? All {devices.length} devices will be disconnected and will need to re-authorize to access your account.
+                  Are you sure you want to unlink all mobile devices? All </Trans> {devices.length} <Trans> devices will be disconnected and will need to re-authorize to access your account.
                 </Trans>
               </AlertDialogDescription>
             </AlertDialogHeader>

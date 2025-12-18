@@ -63,11 +63,11 @@ const scoreElement = (element: HTMLInputElement | HTMLTextAreaElement | HTMLSele
   // Check surrounding label
   let labelText = "";
   if (element.labels && element.labels.length > 0) {
-    labelText = Array.from(element.labels).map(label => label.innerText).join(' ').toLowerCase();
+    labelText = Array.from(element.labels).map(label => label.innerText ?? label.textContent ?? "").join(' ').toLowerCase();
   } else {
     // Try to find a label by proximity (simple heuristic)
     const parent = element.parentElement;
-    if (parent) labelText = parent.innerText.split('\n')[0].trim().toLowerCase();
+    if (parent) labelText = (parent.innerText ?? parent.textContent ?? "").split('\n')[0].trim().toLowerCase();
   }
   attributes.push(labelText.replace(/[^a-z0-9]/g, ""));
 
@@ -99,11 +99,11 @@ export const extractFormFields = (): FormField[] => {
 
     let labelText = "";
     if (input.labels && input.labels.length > 0) {
-      labelText = Array.from(input.labels).map(label => label.innerText).join(' ').trim();
+      labelText = Array.from(input.labels).map(label => label.innerText ?? label.textContent ?? "").join(' ').trim();
     } else {
       // Fallback proximity search
       const parent = input.parentElement;
-      if (parent) labelText = parent.innerText.split('\n')[0].trim();
+      if (parent) labelText = (parent.innerText ?? parent.textContent ?? "").split('\n')[0].trim();
     }
 
     const field: FormField = {

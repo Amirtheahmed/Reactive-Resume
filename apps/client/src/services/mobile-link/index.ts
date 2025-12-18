@@ -70,9 +70,9 @@ export const useDeleteMobileDevice = () => {
     mutateAsync: deleteDevice,
   } = useMutation({
     mutationFn: deleteMobileDevice,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mobile-devices"] });
-      queryClient.invalidateQueries({ queryKey: ["mobile-link-status"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["mobile-devices"] });
+      await queryClient.invalidateQueries({ queryKey: ["mobile-link-status"] });
     },
   });
 
@@ -86,9 +86,9 @@ export const useRevokeAllMobileLinks = () => {
     mutateAsync: revokeAll,
   } = useMutation({
     mutationFn: revokeAllMobileLinks,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mobile-devices"] });
-      queryClient.invalidateQueries({ queryKey: ["mobile-link-status"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["mobile-devices"] });
+      await queryClient.invalidateQueries({ queryKey: ["mobile-link-status"] });
     },
   });
 

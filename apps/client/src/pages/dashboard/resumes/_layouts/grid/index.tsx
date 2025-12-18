@@ -1,13 +1,13 @@
 import { sortByDate } from "@reactive-resume/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { GenerateResumeCard } from "@/client/pages/dashboard/resumes/_layouts/grid/_components/generate-card";
 import { useResumes } from "@/client/services/resume";
 
 import { BaseCard } from "./_components/base-card";
 import { CreateResumeCard } from "./_components/create-card";
 import { ImportResumeCard } from "./_components/import-card";
 import { ResumeCard } from "./_components/resume-card";
-import { GenerateResumeCard } from "@/client/pages/dashboard/resumes/_layouts/grid/_components/generate-card";
 
 export const GridView = () => {
   const { resumes, loading } = useResumes();

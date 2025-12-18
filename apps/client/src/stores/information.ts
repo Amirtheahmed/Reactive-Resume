@@ -7,6 +7,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import { updateInformation } from "../services/information";
+import { t } from "@lingui/macro";
 
 type InformationStore = {
   information: InformationDto;
@@ -64,7 +65,7 @@ export const useInformationStore = create<InformationStore>()(
           }
           state.information.data.custom.push({
             id,
-            name: "Untitled Section",
+            name: t`Untitled Section`,
             content: "",
           });
           state.isSaving = true;

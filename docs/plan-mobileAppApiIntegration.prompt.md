@@ -781,22 +781,22 @@ def verify_webhook_signature(payload: bytes, signature: str, secret: str) -> boo
 - [x] Implement rate limiting (`@nestjs/throttler`)
 - [x] Add AI generation limits (10 resumes/hour, 20 cover letters/hour)
 - [x] Add request logging for mobile endpoints
-- [ ] Write API documentation (Swagger/OpenAPI)
-- [ ] Write integration tests
-- [ ] Security audit
+- [x] Write API documentation (Swagger/OpenAPI)
+- [x] Write integration tests
+- [x] Security audit (basic - token hashing, rate limiting, input validation)
 
 ### Success Criteria
 
-- [ ] OAuth-style linking flow works end-to-end
-- [ ] Users can authorize mobile app in < 30 seconds
-- [ ] Mobile app can read/update Information Bank via API
-- [ ] Mobile app can generate tailored resumes via API
-- [ ] Mobile app can generate cover letters via API
-- [ ] Mobile app can export autofill data via API
-- [ ] Users can link multiple devices
-- [ ] Users can revoke individual devices from RR dashboard
-- [ ] Tokens auto-refresh on use
-- [ ] Webhook notifications delivered successfully (if configured)
+- [x] OAuth-style linking flow works end-to-end
+- [x] Users can authorize mobile app in < 30 seconds
+- [x] Mobile app can read/update Information Bank via API
+- [x] Mobile app can generate tailored resumes via API
+- [x] Mobile app can generate cover letters via API
+- [x] Mobile app can export autofill data via API
+- [x] Users can link multiple devices
+- [x] Users can revoke individual devices from RR dashboard
+- [x] Tokens auto-refresh on use
+- [x] Webhook notifications delivered successfully (if configured)
 - [ ] API response times < 500ms (excluding AI generation)
 - [ ] AI generation completes < 30 seconds
 - [ ] Zero authentication-related security vulnerabilities

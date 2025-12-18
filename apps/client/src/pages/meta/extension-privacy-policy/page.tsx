@@ -36,7 +36,7 @@ export const ExtensionPrivacyPolicyPage = () => {
           </p>
 
           <h2>
-            <Trans>The "Single Purpose" Principle</Trans>
+            <Trans>The 'Single Purpose' Principle</Trans>
           </h2>
           <p>
             <Trans>
@@ -72,7 +72,7 @@ export const ExtensionPrivacyPolicyPage = () => {
           <ol>
             <li>
               <p>
-                <strong>Authentication Information (API Key):</strong>
+                <strong> <Trans>Authentication Information (API Key)</Trans>:</strong>
               </p>
               <p>
                 <Trans>
@@ -85,11 +85,11 @@ export const ExtensionPrivacyPolicyPage = () => {
             </li>
             <li>
               <p>
-                <strong>Your Professional Information (from Reactive Resume):</strong>
+                <strong><Trans>Your Professional Information (from Reactive Resume)</Trans>:</strong>
               </p>
               <p>
                 <Trans>
-                  For the autofill feature, the extension fetches your "Information Bank" data
+                  For the autofill feature, the extension fetches your 'Information Bank' data
                   (which includes personally identifiable information like your name, email, and
                   work history) from your Reactive Resume account. This data is handled in-memory
                   and is used locally by the content script to fill form fields. It is not stored
@@ -99,11 +99,11 @@ export const ExtensionPrivacyPolicyPage = () => {
             </li>
             <li>
               <p>
-                <strong>Website Content (from Your Active Tab):</strong>
+                <strong><Trans>Website Content (from Your Active Tab)</Trans>:</strong>
               </p>
               <p>
                 <Trans>
-                  When you click "Analyze Job Page," the extension reads the text content of your
+                  When you click 'Analyze Job Page,' the extension reads the text content of your
                   current page to extract the job description. This text is sent to the Reactive
                   Resume server to generate tailored documents. This action is user-initiated, and
                   the content is not stored after the generation process is complete.

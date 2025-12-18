@@ -1,7 +1,6 @@
 // apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx
 import { t } from "@lingui/macro";
 import {
-  ArticleIcon,
   CopySimpleIcon,
   PencilSimpleIcon,
   TrashSimpleIcon,

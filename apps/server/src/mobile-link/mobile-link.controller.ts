@@ -15,7 +15,14 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import type { MobileLink } from "@prisma/client";
 import { User as UserEntity } from "@prisma/client";
 import {
@@ -48,13 +55,17 @@ export class MobileLinkController {
     private readonly configService: ConfigService<Config>,
   ) {}
 
-  /**
-   * GET /api/auth/mobile/authorize
-   *
-   * Redirects to the client-side authorization page.
-   * Query params: state, redirect_uri, device_id (optional), device_name (optional)
-   */
   @Get("authorize")
+  @ApiOperation({
+    summary: "Initiate mobile authorization",
+    description: "Redirects to the client-side authorization page. Used by mobile apps to start the OAuth-style linking flow.",
+  })
+  @ApiQuery({ name: "state", required: true, description: "CSRF protection state token" })
+  @ApiQuery({ name: "redirect_uri", required: true, description: "Callback URI for the mobile app" })
+  @ApiQuery({ name: "device_id", required: false, description: "Optional device identifier" })
+  @ApiQuery({ name: "device_name", required: false, description: "Optional user-friendly device name" })
+  @ApiResponse({ status: 302, description: "Redirects to authorization page." })
+  @ApiResponse({ status: 400, description: "Invalid authorization parameters." })
   authorize(
     @Query() query: Record<string, string>,
     @Res() response: Response,
@@ -83,14 +94,15 @@ export class MobileLinkController {
     response.redirect(authorizePageUrl.toString());
   }
 
-  /**
-   * POST /api/auth/mobile/authorize
-   *
-   * Complete the authorization flow (called by the client after user consent).
-   * Creates a mobile link and returns the token.
-   */
   @Post("authorize")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Complete mobile authorization",
+    description: "Completes the authorization flow after user consent. Creates a mobile link and returns the access token.",
+  })
+  @ApiResponse({ status: 201, description: "Authorization successful, token returned." })
+  @ApiResponse({ status: 400, description: "Bad request or external account already linked." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async completeAuthorization(
     @User() user: UserEntity,
     @Body() data: CompleteMobileAuthDto,
@@ -106,36 +118,41 @@ export class MobileLinkController {
     };
   }
 
-  /**
-   * GET /api/auth/mobile/status
-   *
-   * Check if the current user has any linked mobile devices.
-   */
   @Get("status")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Get mobile link status",
+    description: "Returns whether the user has any linked mobile devices and lists them.",
+  })
+  @ApiResponse({ status: 200, description: "Status retrieved successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async getStatus(@User() user: UserEntity) {
     return this.mobileLinkService.getLinkedDevices(user.id);
   }
 
-  /**
-   * GET /api/auth/mobile/devices
-   *
-   * List all linked devices for the current user.
-   */
   @Get("devices")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "List linked devices",
+    description: "Returns a list of all mobile devices linked to the user's account.",
+  })
+  @ApiResponse({ status: 200, description: "Devices retrieved successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async getDevices(@User() user: UserEntity) {
     return this.mobileLinkService.getLinkedDevices(user.id);
   }
 
-  /**
-   * DELETE /api/auth/mobile/devices/:id
-   *
-   * Unlink a specific device.
-   */
   @Delete("devices/:id")
   @HttpCode(204)
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Unlink a device",
+    description: "Revokes access for a specific mobile device.",
+  })
+  @ApiParam({ name: "id", description: "Mobile link ID to revoke" })
+  @ApiResponse({ status: 204, description: "Device unlinked successfully." })
+  @ApiResponse({ status: 404, description: "Mobile link not found." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async unlinkDevice(
     @User() user: UserEntity,
     @Param("id") linkId: string,
@@ -143,27 +160,29 @@ export class MobileLinkController {
     await this.mobileLinkService.revokeMobileLink(user.id, linkId);
   }
 
-  /**
-   * POST /api/auth/mobile/revoke
-   *
-   * Revoke all mobile links for the current user.
-   */
   @Post("revoke")
   @HttpCode(200)
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Revoke all mobile links",
+    description: "Revokes access for all mobile devices linked to the user's account.",
+  })
+  @ApiResponse({ status: 200, description: "All devices unlinked successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async revokeAll(@User() user: UserEntity) {
     const count = await this.mobileLinkService.revokeAllMobileLinks(user.id);
     return { message: `Revoked ${count} mobile link(s)` };
   }
 
-  /**
-   * POST /api/auth/mobile/webhook
-   *
-   * Register a webhook URL to receive notifications.
-   * Requires mobile token authentication.
-   */
   @Post("webhook")
   @UseGuards(MobileTokenGuard)
+  @ApiBearerAuth("mobile-token")
+  @ApiOperation({
+    summary: "Register webhook",
+    description: "Registers a webhook URL to receive notifications for async events like resume generation completion.",
+  })
+  @ApiResponse({ status: 201, description: "Webhook registered successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async registerWebhook(
     @GetMobileLink() mobileLink: MobileLink,
     @Body() data: RegisterWebhookDto,
@@ -175,14 +194,16 @@ export class MobileLinkController {
     return this.mobileLinkService.registerWebhook(mobileLink.id, data);
   }
 
-  /**
-   * DELETE /api/auth/mobile/webhook
-   *
-   * Remove the webhook for the current mobile link.
-   */
   @Delete("webhook")
   @HttpCode(204)
   @UseGuards(MobileTokenGuard)
+  @ApiBearerAuth("mobile-token")
+  @ApiOperation({
+    summary: "Remove webhook",
+    description: "Removes the webhook registration for the current mobile link.",
+  })
+  @ApiResponse({ status: 204, description: "Webhook removed successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async removeWebhook(@GetMobileLink() mobileLink: MobileLink) {
     if (!mobileLink) {
       throw new BadRequestException("Mobile link not found");
