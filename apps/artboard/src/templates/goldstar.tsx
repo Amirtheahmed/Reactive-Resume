@@ -1,17 +1,12 @@
 /**
- * Goldstar Template - Built on golden resume tips and best practices
+ * Goldstar Template - Heavily inspired by "Jake's Resume" (LaTeX)
  *
- * Design principles based on synthesized advice:
- * 1. Single-column layout for maximum ATS compatibility and easy skimming
- * 2. Clean, modern typography without excessive formatting
- * 3. Clear section separation with adequate white space
- * 4. No icons/images in main content (except profile picture if needed)
- * 5. Dates right-aligned for easy scanning
- * 6. Bullet points, not paragraphs, for descriptions
- * 7. Comma-separated skills for easy reading
- * 8. Minimal use of bolding and formatting - only for emphasis
- * 9. Professional font choices (system defaults)
- * 10. Proper hierarchy: Name > Headline > Contact Info
+ * Design principles:
+ * 1. Single-column, clean, high-density layout.
+ * 2. Centered header with pipe-separated contact info.
+ * 3. Consistent "Company/School (Left) - Location (Right)" & "Role/Degree (Left) - Date (Right)" pattern.
+ * 4. Minimal whitespace, maximum content.
+ * 5. No summary, no photos, no icons.
  */
 
 import type {
@@ -21,11 +16,12 @@ import type {
   CustomSectionGroup,
   Education,
   Experience,
+  Interest,
+  Language,
   Project,
-  Publication,
-  Reference,
   SectionKey,
   SectionWithItem,
+  Skill,
   URL,
   Volunteer,
 } from "@reactive-resume/schema";
@@ -33,114 +29,74 @@ import { cn, isEmptyString, isUrl, sanitize } from "@reactive-resume/utils";
 import get from "lodash.get";
 import React, { Fragment } from "react";
 
-import { Picture } from "../components/picture";
 import { useArtboardStore } from "../store/artboard";
 import type { TemplateProps } from "../types/template";
 
 /**
  * Header Component
- * Follows advice: Name prominent at top, professional email, no phone unless local,
- * no physical address, GitHub/portfolio only if valuable
+ * Centered name, contact info separated by '|'
  */
 const Header = () => {
   const basics = useArtboardStore((state) => state.resume.basics);
   const profiles = useArtboardStore((state) => state.resume.sections.profiles);
 
+  // Helper to filter and join valid contact items
+  const contactItems = [
+    basics.phone && <a href={`tel:${basics.phone}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.phone}</a>,
+    basics.email && <a href={`mailto:${basics.email}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.email}</a>,
+    isUrl(basics.url.href) && (
+      <a href={basics.url.href} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
+        {basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}
+      </a>
+    ),
+    basics.location,
+    ...basics.customFields.map((item) => (
+       isUrl(item.value) ? (
+        <a href={item.value} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
+          {item.name || item.value.replace(/^https?:\/\/(www\.)?/, '')}
+        </a>
+      ) : (
+        <span>{[item.name, item.value].filter(Boolean).join(": ")}</span>
+      )
+    )),
+    ...(profiles.visible
+      ? profiles.items.filter((item) => item.visible).map((item) => (
+          <a
+            key={item.id}
+            href={item.url.href}
+            target="_blank"
+            rel="noreferrer noopener nofollow"
+            className="hover:text-primary"
+          >
+            {item.url.label || item.network || item.url.href.replace(/^https?:\/\/(www\.)?/, '')}
+          </a>
+        ))
+      : []),
+  ].filter(Boolean);
+
   return (
-    <div className="border-b-2 border-primary pb-4 mb-4">
-      <div className="flex items-start gap-4">
-        <Picture />
+    <div className="flex flex-col items-center justify-center pb-2 mb-2">
+      <h1 className="text-3xl font-bold tracking-tight uppercase text-center mb-1">{basics.name}</h1>
+      
+      {/* Optional: Headline if user really wants it, though Jake's usually skips it */}
+      {basics.headline && (
+        <div className="text-md text-gray-700 mb-1 text-center">{basics.headline}</div>
+      )}
 
-        <div className="flex-1">
-          {/* Name - Large and prominent as per all guides */}
-          <h1 className="text-2xl font-bold tracking-tight">{basics.name}</h1>
-
-          {/* Headline - Clear positioning statement */}
-          {basics.headline && (
-            <div className="text-base text-gray-600 mt-0.5">{basics.headline}</div>
-          )}
-
-          {/* Contact info - Single line, comma separated, no icons for ATS */}
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm mt-2">
-            {basics.email && (
-              <a href={`mailto:${basics.email}`} target="_blank" rel="noreferrer" className="hover:text-primary">
-                {basics.email}
-              </a>
-            )}
-            {basics.phone && (
-              <a href={`tel:${basics.phone}`} target="_blank" rel="noreferrer" className="hover:text-primary">
-                {basics.phone}
-              </a>
-            )}
-            {/* Location only if relevant - can cause bias as per guides */}
-            {basics.location && <span>{basics.location}</span>}
-            {isUrl(basics.url.href) && (
-              <a href={basics.url.href} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
-                {basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}
-              </a>
-            )}
-            {basics.customFields.map((item) => (
-              <span key={item.id}>
-                {isUrl(item.value) ? (
-                  <a href={item.value} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
-                    {item.name || item.value.replace(/^https?:\/\/(www\.)?/, '')}
-                  </a>
-                ) : (
-                  <span>{[item.name, item.value].filter(Boolean).join(": ")}</span>
-                )}
-              </span>
-            ))}
-          </div>
-
-          {/* Profiles - GitHub, LinkedIn, Portfolio - Plain text for ATS */}
-          {profiles.visible && profiles.items.length > 0 && (
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm mt-1">
-              {profiles.items
-                .filter((item) => item.visible)
-                .map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.url.href}
-                    target="_blank"
-                    rel="noreferrer noopener nofollow"
-                    className="hover:text-primary"
-                  >
-                    {item.url.label || item.url.href.replace(/^https?:\/\/(www\.)?/, '')}
-                  </a>
-                ))}
-            </div>
-          )}
-        </div>
+      <div className="flex flex-wrap justify-center gap-x-2 text-sm text-gray-800">
+        {contactItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <span>{item}</span>
+            {index < contactItems.length - 1 && <span className="text-gray-400">|</span>}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
 };
 
 /**
- * Summary Component
- * Only include if senior/staff engineer or career changer as per guides
- * Should be brief (<2 sentences) and explain motivation/fit
- */
-const Summary = () => {
-  const section = useArtboardStore((state) => state.resume.sections.summary);
-
-  if (!section.visible || isEmptyString(section.content)) return null;
-
-  return (
-    <section id={section.id} className="mb-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-primary border-b border-primary pb-1 mb-2">
-        {section.name}
-      </h2>
-      <div
-        dangerouslySetInnerHTML={{ __html: sanitize(section.content) }}
-        className="text-sm leading-relaxed"
-      />
-    </section>
-  );
-};
-
-/**
- * Link Component - Clean, no icons for ATS compatibility
+ * Link Component
  */
 type LinkProps = {
   url: URL;
@@ -156,15 +112,15 @@ const Link = ({ url, label, className }: LinkProps) => {
       href={url.href}
       target="_blank"
       rel="noreferrer noopener nofollow"
-      className={cn("hover:text-primary", className)}
+      className={cn("hover:text-primary underline decoration-dotted", className)}
     >
-      {label ?? (url.label || url.href.replace(/^https?:\/\/(www\.)?/, ''))}
+      {label ?? (url.label || url.href)}
     </a>
   );
 };
 
 /**
- * LinkedEntity - For company/institution names with optional links
+ * LinkedEntity
  */
 type LinkedEntityProps = {
   name: string;
@@ -179,7 +135,7 @@ const LinkedEntity = ({ name, url, separateLinks, className }: LinkedEntityProps
       href={url.href}
       target="_blank"
       rel="noreferrer noopener nofollow"
-      className={cn("hover:text-primary", className)}
+      className={cn("hover:text-primary hover:underline", className)}
     >
       {name}
     </a>
@@ -189,15 +145,13 @@ const LinkedEntity = ({ name, url, separateLinks, className }: LinkedEntityProps
 };
 
 /**
- * Generic Section Component
- * Single column layout, clear hierarchy, dates right-aligned
+ * Section Container
  */
 type SectionProps<T> = {
   section: SectionWithItem<T> | CustomSectionGroup;
   children?: (item: T) => React.ReactNode;
   className?: string;
   urlKey?: keyof T;
-  levelKey?: keyof T;
   summaryKey?: keyof T;
   keywordsKey?: keyof T;
 };
@@ -213,12 +167,12 @@ const Section = <T,>({
   if (!section.visible || section.items.filter((item) => item.visible).length === 0) return null;
 
   return (
-    <section id={section.id} className="mb-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-primary border-b border-primary pb-1 mb-3">
+    <section id={section.id} className="mb-3">
+      <h2 className="text-sm font-bold uppercase tracking-wider text-black border-b border-black pb-0.5 mb-2">
         {section.name}
       </h2>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {section.items
           .filter((item) => item.visible)
           .map((item) => {
@@ -231,22 +185,23 @@ const Section = <T,>({
                 {children?.(item as T)}
 
                 {url !== undefined && section.separateLinks && (
-                  <div className="text-sm mt-1">
+                  <div className="text-xs mt-0.5">
                     <Link url={url} />
                   </div>
                 )}
 
-                {/* Summary/Description as bullet-style content */}
                 {summary !== undefined && !isEmptyString(summary) && (
                   <div
                     dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
-                    className="text-sm mt-1 wysiwyg"
+                    className="text-sm mt-1 wysiwyg pl-1"
                   />
                 )}
 
-                {/* Keywords comma-separated as per guides */}
+                {/* Keywords handled differently in some sections, but default here */}
                 {keywords !== undefined && keywords.length > 0 && (
-                  <p className="text-sm text-gray-600 mt-1">{keywords.join(", ")}</p>
+                  <p className="text-sm text-gray-700 mt-0.5">
+                    <span className="font-semibold">Keywords:</span> {keywords.join(", ")}
+                  </p>
                 )}
               </div>
             );
@@ -258,8 +213,8 @@ const Section = <T,>({
 
 /**
  * Experience Section
- * Most important for experienced candidates - follows STAR/XYZ/CAR bullet format
- * Company | Position on left, Date | Location on right
+ * Row 1: Company (Left, Bold) | Location (Right, Regular)
+ * Row 2: Title (Left, Italic) | Date (Right, Italic)
  */
 const ExperienceSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.experience);
@@ -267,20 +222,21 @@ const ExperienceSection = () => {
   return (
     <Section<Experience> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
+        <div className="mb-1">
+          <div className="flex justify-between items-baseline">
+            <div className="font-bold text-base">
               <LinkedEntity
                 name={item.company}
                 url={item.url}
                 separateLinks={section.separateLinks}
               />
             </div>
-            <div className="text-sm">{item.position}</div>
+            <div className="text-sm text-gray-800 font-medium">{item.location}</div>
           </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
-            {item.location && <div className="text-gray-600">{item.location}</div>}
+          
+          <div className="flex justify-between items-baseline -mt-0.5">
+            <div className="italic text-sm font-medium text-gray-900">{item.position}</div>
+            <div className="italic text-sm text-gray-700">{item.date}</div>
           </div>
         </div>
       )}
@@ -290,9 +246,9 @@ const ExperienceSection = () => {
 
 /**
  * Education Section
- * Keep concise - degree, university, location, graduation date
- * No coursework unless extremely specialized
- * GPA only if >3.75 or very impressive
+ * Row 1: Institution (Left, Bold) | Location (Right, Regular)
+ * Row 2: Degree/Area (Left, Italic) | Date (Right, Italic)
+ * GPA/Score included if present
  */
 const EducationSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.education);
@@ -300,23 +256,65 @@ const EducationSection = () => {
   return (
     <Section<Education> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
+        <div className="mb-1">
+          <div className="flex justify-between items-baseline">
+            <div className="font-bold text-base">
               <LinkedEntity
                 name={item.institution}
                 url={item.url}
                 separateLinks={section.separateLinks}
               />
             </div>
-            <div className="text-sm">
-              {[item.studyType, item.area].filter(Boolean).join(" in ")}
+            {/* Location isn't standard in Education schema but if it existed we'd put it here.
+                Using score for GPA on the right or regular text? Usually Location is right.
+                We don't have location in Education schema by default but can assume it might be added.
+            */}
+            <div className="text-sm text-gray-800 font-medium">{item.score && `GPA: ${item.score}`}</div>
+          </div>
+          
+          <div className="flex justify-between items-baseline -mt-0.5">
+            <div className="italic text-sm font-medium text-gray-900">
+               {[item.studyType, item.area].filter(Boolean).join(" in ")}
             </div>
-            {item.score && <div className="text-sm text-gray-600">{item.score}</div>}
+            <div className="italic text-sm text-gray-700">{item.date}</div>
           </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
+        </div>
+      )}
+    </Section>
+  );
+};
+
+/**
+ * Projects Section
+ * Format: Name | Tech Stack (Italic) ----- Date (Right)
+ */
+const ProjectsSection = () => {
+  const section = useArtboardStore((state) => state.resume.sections.projects);
+
+  return (
+    <Section<Project> section={section} urlKey="url" summaryKey="summary">
+      {(item) => (
+        <div className="mb-0.5">
+          <div className="flex justify-between items-baseline">
+            <div className="text-base">
+              <span className="font-bold">
+                <LinkedEntity
+                  name={item.name}
+                  url={item.url}
+                  separateLinks={section.separateLinks}
+                />
+              </span>
+              {item.keywords.length > 0 && (
+                 <>
+                  <span className="mx-1">|</span>
+                  <span className="italic text-sm text-gray-700">{item.keywords.join(", ")}</span>
+                 </>
+              )}
+            </div>
+            <div className="italic text-sm text-gray-700 shrink-0">{item.date}</div>
           </div>
+           {/* Description/Summary handled by Section component */}
+           {item.description && <div className="text-sm mt-0.5">{item.description}</div>}
         </div>
       )}
     </Section>
@@ -325,87 +323,35 @@ const EducationSection = () => {
 
 /**
  * Skills Section
- * Comma-separated, not a long list of buzzwords
- * Only include skills you can interview in
- * Order by importance/relevance
+ * Compact rows: "Category: Skill, Skill, Skill"
  */
 const SkillsSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.skills);
 
-  if (!section.visible || section.items.filter((item) => item.visible).length === 0) return null;
-
   return (
-    <section id={section.id} className="mb-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-primary border-b border-primary pb-1 mb-2">
-        {section.name}
-      </h2>
-
-      <div className="space-y-1">
-        {section.items
-          .filter((item) => item.visible)
-          .map((item) => (
-            <div key={item.id} className="text-sm">
-              {item.name && <span className="font-medium">{item.name}: </span>}
-              {item.keywords.length > 0 && (
-                <span>{item.keywords.join(", ")}</span>
-              )}
-              {item.description && item.keywords.length === 0 && (
-                <span>{item.description}</span>
-              )}
-            </div>
-          ))}
-      </div>
-    </section>
-  );
-};
-
-/**
- * Projects Section
- * Real projects, not tutorials or clones
- * Should have users/impact, not just technical specs
- */
-const ProjectsSection = () => {
-  const section = useArtboardStore((state) => state.resume.sections.projects);
-
-  return (
-    <Section<Project> section={section} urlKey="url" summaryKey="summary" keywordsKey="keywords">
+    <Section<Skill> section={section} keywordsKey="keywords">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
-              <LinkedEntity
-                name={item.name}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
-            </div>
-            {item.description && <div className="text-sm">{item.description}</div>}
-          </div>
-          {item.date && (
-            <div className="text-right text-sm shrink-0">
-              <div className="font-medium">{item.date}</div>
-            </div>
-          )}
+        <div className="flex text-sm">
+          {item.name && <span className="font-bold mr-2 whitespace-nowrap">{item.name}:</span>}
+          <span className="text-gray-900">
+            {item.keywords.length > 0 ? item.keywords.join(", ") : item.description}
+          </span>
         </div>
       )}
     </Section>
   );
 };
 
+// Other sections follow standard patterns but simplified
+
 const Awards = () => {
   const section = useArtboardStore((state) => state.resume.sections.awards);
-
   return (
     <Section<Award> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">{item.title}</div>
-            <LinkedEntity name={item.awarder} url={item.url} separateLinks={section.separateLinks} className="text-sm" />
-          </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
-          </div>
+        <div className="flex justify-between items-baseline">
+          <div className="font-bold text-sm">{item.title}</div>
+          <div className="italic text-sm">{item.date}</div>
         </div>
       )}
     </Section>
@@ -414,18 +360,12 @@ const Awards = () => {
 
 const Certifications = () => {
   const section = useArtboardStore((state) => state.resume.sections.certifications);
-
   return (
     <Section<Certification> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">{item.name}</div>
-            <LinkedEntity name={item.issuer} url={item.url} separateLinks={section.separateLinks} className="text-sm" />
-          </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
-          </div>
+        <div className="flex justify-between items-baseline">
+          <div className="font-bold text-sm">{item.name}</div>
+          <div className="italic text-sm">{item.date}</div>
         </div>
       )}
     </Section>
@@ -435,48 +375,12 @@ const Certifications = () => {
 const Interests = () => {
   const section = useArtboardStore((state) => state.resume.sections.interests);
 
-  if (!section.visible || section.items.filter((item) => item.visible).length === 0) return null;
-
   return (
-    <section id={section.id} className="mb-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-primary border-b border-primary pb-1 mb-2">
-        {section.name}
-      </h2>
-      <div className="text-sm">
-        {section.items
-          .filter((item) => item.visible)
-          .map((item, index, arr) => (
-            <span key={item.id}>
-              {item.name}
-              {item.keywords.length > 0 && ` (${item.keywords.join(", ")})`}
-              {index < arr.length - 1 && ", "}
-            </span>
-          ))}
-      </div>
-    </section>
-  );
-};
-
-const Publications = () => {
-  const section = useArtboardStore((state) => state.resume.sections.publications);
-
-  return (
-    <Section<Publication> section={section} urlKey="url" summaryKey="summary">
+    <Section<Interest> section={section} keywordsKey="keywords">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
-              <LinkedEntity
-                name={item.name}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
-            </div>
-            {item.publisher && <div className="text-sm">{item.publisher}</div>}
-          </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
-          </div>
+        <div className="text-sm">
+          <span className="font-bold">{item.name}</span>
+          {item.keywords.length > 0 && <span> ({item.keywords.join(", ")})</span>}
         </div>
       )}
     </Section>
@@ -485,24 +389,17 @@ const Publications = () => {
 
 const VolunteerSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.volunteer);
-
   return (
     <Section<Volunteer> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
-              <LinkedEntity
-                name={item.organization}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
-            </div>
-            <div className="text-sm">{item.position}</div>
+        <div className="mb-1">
+          <div className="flex justify-between items-baseline">
+            <div className="font-bold text-base">{item.organization}</div>
+            <div className="text-sm font-medium">{item.location}</div>
           </div>
-          <div className="text-right text-sm shrink-0">
-            <div className="font-medium">{item.date}</div>
-            {item.location && <div className="text-gray-600">{item.location}</div>}
+          <div className="flex justify-between items-baseline -mt-0.5">
+            <div className="italic text-sm">{item.position}</div>
+            <div className="italic text-sm">{item.date}</div>
           </div>
         </div>
       )}
@@ -513,75 +410,27 @@ const VolunteerSection = () => {
 const Languages = () => {
   const section = useArtboardStore((state) => state.resume.sections.languages);
 
-  if (!section.visible || section.items.filter((item) => item.visible).length === 0) return null;
-
   return (
-    <section id={section.id} className="mb-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-primary border-b border-primary pb-1 mb-2">
-        {section.name}
-      </h2>
-      <div className="text-sm">
-        {section.items
-          .filter((item) => item.visible)
-          .map((item, index, arr) => (
-            <span key={item.id}>
-              {item.name}
-              {item.description && ` (${item.description})`}
-              {index < arr.length - 1 && ", "}
-            </span>
-          ))}
-      </div>
-    </section>
-  );
-};
-
-const References = () => {
-  const section = useArtboardStore((state) => state.resume.sections.references);
-
-  return (
-    <Section<Reference> section={section} urlKey="url" summaryKey="summary">
+    <Section<Language> section={section}>
       {(item) => (
-        <div>
-          <div className="font-bold">
-            <LinkedEntity
-              name={item.name}
-              url={item.url}
-              separateLinks={section.separateLinks}
-            />
-          </div>
-          {item.description && <div className="text-sm">{item.description}</div>}
+        <div className="text-sm">
+          <span className="font-bold">{item.name}</span>
+          {!isEmptyString(item.description) && <span className="italic"> ({item.description})</span>}
         </div>
       )}
     </Section>
   );
 };
 
+// Generic fallback for custom sections
 const Custom = ({ id }: { id: string }) => {
   const section = useArtboardStore((state) => state.resume.sections.custom[id]);
-
   return (
-    <Section<CustomSection>
-      section={section}
-      urlKey="url"
-      summaryKey="summary"
-      keywordsKey="keywords"
-    >
+    <Section<CustomSection> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="font-bold">
-              <LinkedEntity
-                name={item.name}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
-            </div>
-            {item.description && <div className="text-sm">{item.description}</div>}
-          </div>
-          <div className="text-right text-sm shrink-0">
-            {item.date && <div className="font-medium">{item.date}</div>}
-            {item.location && <div className="text-gray-600">{item.location}</div>}
-          </div>
+        <div className="flex justify-between items-baseline">
+          <div className="font-bold text-sm">{item.name}</div>
+          <div className="italic text-sm">{item.date}</div>
         </div>
       )}
     </Section>
@@ -590,8 +439,9 @@ const Custom = ({ id }: { id: string }) => {
 
 const mapSectionToComponent = (section: SectionKey) => {
   switch (section) {
+    // Summary hidden as per specific instruction
     case "summary": {
-      return <Summary />;
+      return null;
     }
     case "experience": {
       return <ExperienceSection />;
@@ -612,7 +462,7 @@ const mapSectionToComponent = (section: SectionKey) => {
       return <Interests />;
     }
     case "publications": {
-      return <Publications />;
+      return null; // Typically not in standard Jake's, but can be added if needed
     }
     case "volunteer": {
       return <VolunteerSection />;
@@ -624,7 +474,7 @@ const mapSectionToComponent = (section: SectionKey) => {
       return <ProjectsSection />;
     }
     case "references": {
-      return <References />;
+      return null; // No references on resumes
     }
     default: {
       if (section.startsWith("custom.")) return <Custom id={section.split(".")[1]} />;
@@ -633,31 +483,17 @@ const mapSectionToComponent = (section: SectionKey) => {
   }
 };
 
-/**
- * Goldstar Template Main Component
- *
- * Key features based on synthesized resume best practices:
- * - Single column layout for ATS compatibility and easy reading
- * - Clean typography with proper hierarchy
- * - Adequate white space and clear section separation
- * - Right-aligned dates for easy scanning
- * - No excessive formatting or icons
- * - Professional, modern appearance
- * - Minimum 0.5" margins equivalent
- */
 export const Goldstar = ({ columns, isFirstPage = false }: TemplateProps) => {
   const [main, sidebar] = columns;
 
   return (
-    <div className="p-custom text-gray-800">
+    <div className="p-custom text-gray-900 font-sans text-sm leading-relaxed selection:bg-gray-100">
       {isFirstPage && <Header />}
 
-      {/* Main content - single column flow for maximum readability */}
-      <div className="space-y-0">
+      <div className="flex flex-col gap-y-0">
         {main.map((section) => (
           <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
         ))}
-
         {sidebar.map((section) => (
           <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
         ))}
@@ -665,4 +501,3 @@ export const Goldstar = ({ columns, isFirstPage = false }: TemplateProps) => {
     </div>
   );
 };
-
