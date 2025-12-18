@@ -47,7 +47,7 @@ const GetMobileLink = createParamDecorator(
 @Controller("mobile")
 @UseGuards(ThrottlerGuard, MobileTokenGuard)
 @UseInterceptors(MobileLoggingInterceptor)
-@Throttle({ default: { limit: 60, ttl: 60000 } }) // 60 requests per minute default
+@Throttle({ default: { limit: 60, ttl: 60_000 } }) // 60 requests per minute default
 export class MobileController {
   constructor(private readonly mobileService: MobileService) {}
 
@@ -143,7 +143,7 @@ export class MobileController {
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
   @ApiResponse({ status: 401, description: "Unauthorized." })
   @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
-  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 per hour for AI generation
+  @Throttle({ default: { limit: 10, ttl: 3_600_000 } }) // 10 per hour for AI generation
   generateResume(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateResumeDto,
@@ -202,7 +202,7 @@ export class MobileController {
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
   @ApiResponse({ status: 401, description: "Unauthorized." })
   @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
-  @Throttle({ default: { limit: 20, ttl: 3600000 } }) // 20 per hour for AI generation
+  @Throttle({ default: { limit: 20, ttl: 3_600_000 } }) // 20 per hour for AI generation
   generateCoverLetter(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateCoverLetterDto,
