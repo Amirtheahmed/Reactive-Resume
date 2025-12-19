@@ -67,7 +67,7 @@ export class InformationService {
   }
 
   async update(userId: string, updateInformationDto: UpdateInformationDto) {
-    return this.prisma.information.upsert({
+    const info = await this.prisma.information.upsert({
       where: { userId },
       create: {
         userId,
@@ -77,5 +77,13 @@ export class InformationService {
         data: updateInformationDto.data as unknown as Prisma.JsonObject,
       },
     });
+
+    // Merge updated data with defaults to ensure all sections exist in the response
+    const mergedData = mergeWithDefaults(info.data as unknown as Partial<InformationData>);
+
+    return {
+      ...info,
+      data: mergedData,
+    };
   }
 }

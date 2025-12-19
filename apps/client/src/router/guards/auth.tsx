@@ -1,11 +1,9 @@
-import { Navigate, Outlet, useLocation } from "react-router";
+import { createSearchParams, Navigate, Outlet, useLocation } from "react-router";
 
 import { useUser } from "@/client/services/user";
 
 export const AuthGuard = () => {
   const location = useLocation();
-  const redirectTo = location.pathname + location.search;
-
   const { user, loading } = useUser();
 
   if (loading) return null;
@@ -14,5 +12,9 @@ export const AuthGuard = () => {
     return <Outlet />;
   }
 
-  return <Navigate replace to={`/auth/login?redirect=${redirectTo}`} />;
+  const searchParams = createSearchParams({
+    redirect: location.pathname + location.search,
+  });
+
+  return <Navigate replace to={`/auth/login?${searchParams.toString()}`} />;
 };

@@ -87,6 +87,7 @@ export type WebhookResponse = z.infer<typeof webhookResponseSchema>;
 export const mobileAuthQuerySchema = z.object({
   state: z.string().min(1),
   redirect_uri: z.string().url(),
+  external_id: z.string().optional(),
   device_id: z.string().optional(),
   device_name: z.string().optional(),
 });

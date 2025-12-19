@@ -22,6 +22,7 @@ export const MobileAuthorizePage = () => {
   // Extract query params
   const state = searchParams.get("state");
   const redirectUri = searchParams.get("redirect_uri");
+  const externalId = searchParams.get("external_id");
   const deviceId = searchParams.get("device_id");
   const deviceName = searchParams.get("device_name");
 
@@ -41,9 +42,9 @@ export const MobileAuthorizePage = () => {
       // Call the server to complete authorization
       const response = await axios.post<AuthorizeResponse>("/auth/mobile/authorize", {
         state,
-        externalId: state, // The mobile backend will provide the actual Firebase UID
-        deviceId,
-        deviceName,
+        externalId: externalId ?? state, // Use external_id if available, otherwise fallback to state
+        deviceId: deviceId ?? undefined,
+        deviceName: deviceName ?? undefined,
         provider: "firebase",
       });
 

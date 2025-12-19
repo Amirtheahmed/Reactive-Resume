@@ -76,7 +76,7 @@ export class MobileLinkController {
       throw new BadRequestException("Invalid authorization parameters");
     }
 
-    const { state, redirect_uri, device_id, device_name } = result.data;
+    const { state, redirect_uri, external_id, device_id, device_name } = result.data;
 
     // Validate redirect URI
     if (!this.mobileLinkService.isAllowedRedirectUri(redirect_uri)) {
@@ -88,6 +88,7 @@ export class MobileLinkController {
     const authorizePageUrl = new URL(`${publicUrl}/auth/mobile-authorize`);
     authorizePageUrl.searchParams.set("state", state);
     authorizePageUrl.searchParams.set("redirect_uri", redirect_uri);
+    if (external_id) authorizePageUrl.searchParams.set("external_id", external_id);
     if (device_id) authorizePageUrl.searchParams.set("device_id", device_id);
     if (device_name) authorizePageUrl.searchParams.set("device_name", device_name);
 
