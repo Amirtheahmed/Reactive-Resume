@@ -44,12 +44,13 @@ const Header = () => {
   const contactItems = [
     basics.phone && <a href={`tel:${basics.phone}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.phone}</a>,
     basics.email && <a href={`mailto:${basics.email}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.email}</a>,
+    basics.location,
     isUrl(basics.url.href) && (
       <a href={basics.url.href} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
-        {basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}
+        {/*{basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}*/}
+        {basics.url.label || 'Portfolio'}
       </a>
     ),
-    basics.location,
     ...basics.customFields.map((item) => (
        isUrl(item.value) ? (
         <a href={item.value} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
