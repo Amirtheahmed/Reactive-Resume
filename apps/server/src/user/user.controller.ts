@@ -10,7 +10,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OpenAIConfigDto, UpdateUserDto, UserDto } from "@reactive-resume/dto";
 import { ErrorMessage } from "@reactive-resume/utils";
@@ -31,12 +31,25 @@ export class UserController {
 
   @Get("me")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Get current user",
+    description: "Retrieves the profile information of the currently authenticated user.",
+  })
+  @ApiResponse({ status: 200, description: "User profile retrieved successfully.", type: UserDto })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   fetch(@User() user: UserDto) {
     return user;
   }
 
   @Patch("me")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Update current user",
+    description: "Updates the profile information of the currently authenticated user.",
+  })
+  @ApiResponse({ status: 200, description: "User profile updated successfully." })
+  @ApiResponse({ status: 400, description: "Bad request or username already taken." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async update(@User("email") email: string, @Body() updateUserDto: UpdateUserDto) {
     try {
       // If user is updating their email, send a verification email
@@ -69,6 +82,12 @@ export class UserController {
 
   @Delete("me")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Delete account",
+    description: "Permanently deletes the user's account and all associated data.",
+  })
+  @ApiResponse({ status: 200, description: "Account deleted successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   async delete(@User("id") id: string, @Res({ passthrough: true }) response: Response) {
     await this.userService.deleteOneById(id);
 
@@ -80,12 +99,24 @@ export class UserController {
 
   @Get("me/ai-settings")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Get AI settings",
+    description: "Retrieves the user's personal AI configuration (e.g., OpenAI API Key).",
+  })
+  @ApiResponse({ status: 200, description: "AI settings retrieved successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   getAiSettings(@User("id") userId: string) {
     return this.userService.getAiSettings(userId);
   }
 
   @Patch("me/ai-settings")
   @UseGuards(TwoFactorGuard)
+  @ApiOperation({
+    summary: "Update AI settings",
+    description: "Updates the user's personal AI configuration.",
+  })
+  @ApiResponse({ status: 200, description: "AI settings updated successfully." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
   updateAiSettings(@User("id") userId: string, @Body() openAIConfigDto: OpenAIConfigDto) {
     return this.userService.updateAiSettings(userId, openAIConfigDto);
   }

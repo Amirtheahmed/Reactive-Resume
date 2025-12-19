@@ -62,6 +62,7 @@ export class MobileLinkController {
   })
   @ApiQuery({ name: "state", required: true, description: "CSRF protection state token" })
   @ApiQuery({ name: "redirect_uri", required: true, description: "Callback URI for the mobile app" })
+  @ApiQuery({ name: "external_id", required: false, description: "Optional external user ID (e.g. Firebase UID)" })
   @ApiQuery({ name: "device_id", required: false, description: "Optional device identifier" })
   @ApiQuery({ name: "device_name", required: false, description: "Optional user-friendly device name" })
   @ApiResponse({ status: 302, description: "Redirects to authorization page." })
