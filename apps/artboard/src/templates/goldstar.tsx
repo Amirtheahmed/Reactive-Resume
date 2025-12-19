@@ -77,7 +77,7 @@ const Header = () => {
   return (
     <div className="flex flex-col items-center justify-center pb-2 mb-2">
       <h1 className="text-3xl font-bold tracking-tight uppercase text-center mb-1">{basics.name}</h1>
-      
+
       {/* Optional: Headline if user really wants it, though Jake's usually skips it */}
       {basics.headline && (
         <div className="text-md text-gray-700 mb-1 text-center">{basics.headline}</div>
@@ -168,7 +168,7 @@ const Section = <T,>({
 
   return (
     <section id={section.id} className="mb-4">
-      <h2 className="text-lg font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-2">
+      <h2 className="text-lg uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-2">
         {section.name}
       </h2>
 
@@ -224,18 +224,18 @@ const ExperienceSection = () => {
       {(item) => (
         <div className="mb-1">
           <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base text-gray-900">
+            <div className="font-bold text-base text-gray-900">{item.position}</div>
+            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.location}</div>
+          </div>
+
+          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
+            <div className="italic text-sm font-medium text-gray-800">
               <LinkedEntity
                 name={item.company}
                 url={item.url}
                 separateLinks={section.separateLinks}
               />
             </div>
-            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.location}</div>
-          </div>
-          
-          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
-            <div className="italic text-sm font-medium text-gray-800">{item.position}</div>
             <div className="italic text-sm text-gray-700 whitespace-nowrap ml-2">{item.date}</div>
           </div>
         </div>
@@ -267,7 +267,7 @@ const EducationSection = () => {
             </div>
             <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.score && `GPA: ${item.score}`}</div>
           </div>
-          
+
           <div className="flex justify-between items-baseline -mt-0.5 mb-1">
             <div className="italic text-sm font-medium text-gray-800">
                {[item.studyType, item.area].filter(Boolean).join(" in ")}
@@ -483,16 +483,53 @@ export const Goldstar = ({ columns, isFirstPage = false }: TemplateProps) => {
   const [main, sidebar] = columns;
 
   return (
-    <div className="p-custom text-gray-900 font-sans text-sm leading-relaxed selection:bg-gray-100">
-      {isFirstPage && <Header />}
+    <div className="p-custom text-gray-900 selection:bg-gray-100">
+      <style dangerouslySetInnerHTML={{ __html: `
+        .goldstar-template {
+          font-family: "Latin Modern Roman", "Times New Roman", Times, serif;
+          font-size: 11pt;
+          line-height: 1.15;
+        }
+        .goldstar-template h1 {
+          font-size: 18pt;
+          line-height: 1.2;
+        }
+        .goldstar-template h2 {
+          font-size: 14pt;
+          line-height: 1;
+        }
+        .goldstar-template li {
+          font-size: 11pt;
+          line-height: 1;
+        }
+        .goldstar-template a {
+          text-decoration: none !important;
+        }
+        .goldstar-template .text-sm {
+          font-size: 10pt;
+        }
+        .goldstar-template .text-base {
+          font-size: 11pt;
+        }
+        .goldstar-template .italic {
+          font-style: italic;
+        }
+        .goldstar-template .font-bold {
+          font-weight: 700;
+        }
+      `}} />
 
-      <div className="flex flex-col gap-y-0">
-        {main.map((section) => (
-          <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
-        ))}
-        {sidebar.map((section) => (
-          <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
-        ))}
+      <div className="goldstar-template">
+        {isFirstPage && <Header />}
+
+        <div className="flex flex-col gap-y-0">
+          {main.map((section) => (
+            <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
+          ))}
+          {sidebar.map((section) => (
+            <Fragment key={section}>{mapSectionToComponent(section)}</Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );

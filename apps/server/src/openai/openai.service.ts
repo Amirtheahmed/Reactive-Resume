@@ -105,7 +105,7 @@ export class OpenAIService {
             <CONTENT_LIMITS>
             - **Experience:** Include a MAXIMUM of the 4 most recent and relevant roles. Omit older or irrelevant jobs unless they are critical for the narrative.
             - **Bullet Points:** STRICTLY limit to a MAXIMUM of 4 bullet points per role.
-            - **Projects:** Include a MAXIMUM of 2 most impressive/relevant projects.
+            - **Projects:** Include a MAXIMUM of 2 most impressive/relevant projects, don't include if not relevant for the job.
             - **Skills:** Include ONLY skills strictly relevant to the job description. Group into a MAXIMUM of 6 categories.
             </CONTENT_LIMITS>
 
