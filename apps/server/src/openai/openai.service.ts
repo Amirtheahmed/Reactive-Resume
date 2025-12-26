@@ -18,13 +18,11 @@ export class OpenAIService {
     const { apiKey, baseURL, isAzure, azureApiVersion, model, provider } = config;
 
     if (!apiKey) {
-      throw new InternalServerErrorException(
-        "AI API Key is missing. Please check your settings.",
-      );
+      throw new InternalServerErrorException("AI API Key is missing. Please check your settings.");
     }
 
     // Handle Gemini via OpenAI Compatibility
-    if (provider === 'gemini') {
+    if (provider === "gemini") {
       return new OpenAI({
         apiKey,
         baseURL: GEMINI_BASE_URL,
@@ -32,7 +30,7 @@ export class OpenAIService {
     }
 
     // Handle Azure (legacy check for isAzure or explicit provider)
-    if (isAzure || provider === 'azure') {
+    if (isAzure || provider === "azure") {
       if (!baseURL || !model || !azureApiVersion) {
         throw new InternalServerErrorException(
           "Azure OpenAI configuration is missing (Base URL, Model, or API Version).",
@@ -62,8 +60,10 @@ export class OpenAIService {
         if (section && Array.isArray(section.items)) {
           for (const item of section.items) {
             if (item && typeof item === "object") {
-              // Overwrite any AI-generated ID with a valid Cuid2
               item.id = createId();
+              if (typeof item.visible !== "boolean") {
+                item.visible = true;
+              }
             }
           }
         }
@@ -78,9 +78,10 @@ export class OpenAIService {
     config: OpenAIConfigDto,
   ): Promise<ResumeData> {
     const openai = this.getOpenAIClient(config);
-    const model = config.provider === 'gemini'
-      ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
-      : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
+    const model =
+      config.provider === "gemini"
+        ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+        : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     const schema = zodToJsonSchema(resumeDataSchema, "resumeDataSchema");
 
@@ -176,11 +177,17 @@ export class OpenAIService {
       } catch (error) {
         this.logger.error(`JSON Parsing Error: ${(error as Error).message}`);
         this.logger.debug(`Raw Content: ${content}`);
-        throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
+        throw new InternalServerErrorException(
+          "AI returned invalid JSON.",
+          (error as Error).message,
+        );
       }
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException("Failed to generate resume via AI", (error as Error).message);
+      throw new InternalServerErrorException(
+        "Failed to generate resume via AI",
+        (error as Error).message,
+      );
     }
   }
 
@@ -191,9 +198,10 @@ export class OpenAIService {
   ): Promise<{ content: string }> {
     const openai = this.getOpenAIClient(config);
 
-    const model = config.provider === 'gemini'
-      ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
-      : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
+    const model =
+      config.provider === "gemini"
+        ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+        : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     try {
       const response = await openai.chat.completions.create({
@@ -265,11 +273,17 @@ export class OpenAIService {
       } catch (error) {
         this.logger.error(`JSON Parsing Error: ${(error as Error).message}`);
         this.logger.debug(`Raw Content: ${content}`);
-        throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
+        throw new InternalServerErrorException(
+          "AI returned invalid JSON.",
+          (error as Error).message,
+        );
       }
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException("Failed to generate cover letter via AI", (error as Error).message);
+      throw new InternalServerErrorException(
+        "Failed to generate cover letter via AI",
+        (error as Error).message,
+      );
     }
   }
 
@@ -282,8 +296,8 @@ export class OpenAIService {
     const openai = this.getOpenAIClient(config);
     const model =
       config.provider === "gemini"
-        ? config.model ?? GEMINI_DEFAULT_MODEL_SERVER
-        : config.model ?? OPENAI_DEFAULT_MODEL_SERVER;
+        ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+        : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     try {
       const response = await openai.chat.completions.create({
@@ -360,7 +374,10 @@ export class OpenAIService {
       } catch (error) {
         this.logger.error(`Autofill JSON Parsing Error: ${(error as Error).message}`);
         this.logger.debug(`Raw Content: ${content}`);
-        throw new InternalServerErrorException("AI returned invalid JSON.", (error as Error).message);
+        throw new InternalServerErrorException(
+          "AI returned invalid JSON.",
+          (error as Error).message,
+        );
       }
     } catch (error) {
       this.logger.error(error);
@@ -386,8 +403,8 @@ export class OpenAIService {
     const openai = this.getOpenAIClient(config);
     const model =
       config.provider === "gemini"
-        ? config.model ?? GEMINI_DEFAULT_MODEL_SERVER
-        : config.model ?? OPENAI_DEFAULT_MODEL_SERVER;
+        ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+        : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
 
     try {
       const response = await openai.chat.completions.create({
@@ -416,12 +433,12 @@ export class OpenAIService {
           {
             role: "user",
             content: attachmentUrl
-              ? (this.isImageUrl(attachmentUrl)
+              ? this.isImageUrl(attachmentUrl)
                 ? [
                     { type: "text", text: query },
                     { type: "image_url", image_url: { url: attachmentUrl } },
                   ]
-                : `${query}\n\n[Attachment: ${attachmentUrl}]`)
+                : `${query}\n\n[Attachment: ${attachmentUrl}]`
               : query,
           },
         ],

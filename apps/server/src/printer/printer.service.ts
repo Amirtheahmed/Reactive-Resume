@@ -157,16 +157,12 @@ export class PrinterService {
 
       this.logger.debug(`Navigating to ${url}/artboard/cover-letter`);
 
-      await page.goto(`${url}/artboard/cover-letter`, { waitUntil: "domcontentloaded" });
-
-      await page.evaluate((data) => {
+      await page.evaluateOnNewDocument((data) => {
         window.localStorage.setItem("cover-letter", JSON.stringify(data));
       }, coverLetter);
 
-      await Promise.all([
-        page.reload({ waitUntil: "load" }),
-        page.waitForSelector('[data-page="1"]', { timeout: 15_000 }),
-      ]);
+      await page.goto(`${url}/artboard/cover-letter`, { waitUntil: "networkidle0" });
+      await page.waitForSelector('[data-page="1"]', { timeout: 30_000 });
 
       const pageElement = await page.$(`[data-page="1"]`);
       // eslint-disable-next-line unicorn/no-await-expression-member
@@ -211,7 +207,7 @@ export class PrinterService {
       });
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      page.on("pageerror", (err) => { this.logger.error(`[Browser Page Error] ${err.message}`); });
+      page.on("pageerror", (err) => { this.logger.error(`[Browser Page Error] ${err.message}`);});
       // -- Debugging --
 
       const publicUrl = this.configService.getOrThrow<string>("PUBLIC_URL");
@@ -245,20 +241,14 @@ export class PrinterService {
 
       this.logger.debug(`Navigating to ${url}/artboard/preview`);
 
-      // Set the data of the resume to be printed in the browser's session storage
       const numberPages = resume.data.metadata.layout.length;
 
-      await page.goto(`${url}/artboard/preview`, { waitUntil: "domcontentloaded" });
-
-      await page.evaluate((data) => {
+      await page.evaluateOnNewDocument((data) => {
         window.localStorage.setItem("resume", JSON.stringify(data));
       }, resume.data);
 
-      await Promise.all([
-        page.reload({ waitUntil: "load" }),
-        // Wait until first page is present before proceeding
-        page.waitForSelector('[data-page="1"]', { timeout: 15_000 }),
-      ]);
+      await page.goto(`${url}/artboard/preview`, { waitUntil: "networkidle0" });
+      await page.waitForSelector('[data-page="1"]', { timeout: 30_000 });
 
       const pagesBuffer: Buffer[] = [];
 
@@ -349,8 +339,11 @@ export class PrinterService {
       else this.logger.debug(`[Browser Console] ${text}`);
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    page.on("pageerror", (err) => { this.logger.error(`[Browser Page Error] ${err.message}`); });
+    page.on("pageerror", (err) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      this.logger.error(`[Browser Page Error] ${err.message}`);
+    });
     // -- Debugging --
 
     const publicUrl = this.configService.getOrThrow<string>("PUBLIC_URL");

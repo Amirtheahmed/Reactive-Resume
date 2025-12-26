@@ -5,7 +5,7 @@ import { idSchema } from "./id";
 // Schema
 export const itemSchema = z.object({
   id: idSchema,
-  visible: z.boolean(),
+  visible: z.boolean().default(true),
 });
 
 // Type

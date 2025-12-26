@@ -87,7 +87,12 @@ export class MobileLinkService {
       // Find the mobile link
       const mobileLink = await this.prisma.mobileLink.findUnique({
         where: { id: payload.sub },
-        include: { user: true },
+        include: { user: {
+            include: {
+              secrets: true,
+            }
+          }
+        },
       });
 
       if (!mobileLink || mobileLink.revokedAt) {
