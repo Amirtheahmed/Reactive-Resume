@@ -22,6 +22,7 @@ import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import type { MobileLink } from "@prisma/client";
 import {
   AutofillExportDto,
+  IntelligentAutofillRequestDto,
   MobileGenerateCoverLetterDto,
   MobileGenerateResumeDto,
   UpdateInformationDto,
@@ -47,7 +48,7 @@ const GetMobileLink = createParamDecorator(
 @Controller("mobile")
 @UseGuards(ThrottlerGuard, MobileTokenGuard)
 @UseInterceptors(MobileLoggingInterceptor)
-@Throttle({ default: { limit: 60, ttl: 60_000 } }) // 60 requests per minute default
+@Throttle({ default: { limit: 600, ttl: 60_000 } }) // 60 requests per minute default
 export class MobileController {
   constructor(private readonly mobileService: MobileService) {}
 
@@ -143,7 +144,7 @@ export class MobileController {
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
   @ApiResponse({ status: 401, description: "Unauthorized." })
   @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
-  @Throttle({ default: { limit: 10, ttl: 3_600_000 } }) // 10 per hour for AI generation
+  @Throttle({ default: { limit: 100, ttl: 3_600_000 } }) // 10 per hour for AI generation
   generateResume(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateResumeDto,
@@ -202,7 +203,7 @@ export class MobileController {
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
   @ApiResponse({ status: 401, description: "Unauthorized." })
   @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
-  @Throttle({ default: { limit: 20, ttl: 3_600_000 } }) // 20 per hour for AI generation
+  @Throttle({ default: { limit: 200, ttl: 3_600_000 } }) // 20 per hour for AI generation
   generateCoverLetter(
     @User() user: UserWithSecrets,
     @Body() data: MobileGenerateCoverLetterDto,
@@ -224,6 +225,23 @@ export class MobileController {
   @ApiResponse({ status: 401, description: "Unauthorized." })
   exportAutofillData(@User("id") userId: string, @Body() data: AutofillExportDto) {
     return this.mobileService.exportAutofillData(userId, data);
+  }
+
+  @Post("intelligent-autofill")
+  @ApiOperation({
+    summary: "Intelligent form autofill",
+    description:
+      "Analyzes a job application form HTML and returns AI-powered fill instructions. " +
+      "Uses the user's information bank to intelligently map fields and generate answers for custom questions. " +
+      "Rate limited to 30 requests per hour.",
+  })
+  @ApiResponse({ status: 200, description: "Autofill instructions generated successfully." })
+  @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
+  @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
+  @Throttle({ default: { limit: 300, ttl: 3_600_000 } })
+  intelligentAutofill(@User() user: UserWithSecrets, @Body() data: IntelligentAutofillRequestDto) {
+    return this.mobileService.intelligentAutofill(user, data);
   }
 }
 

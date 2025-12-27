@@ -4,6 +4,8 @@ import {
   AutofillExportDto,
   AutofillFlatResponse,
   AutofillStructuredResponse,
+  IntelligentAutofillRequestDto,
+  IntelligentAutofillResponse,
   MobileGenerateCoverLetterDto,
   MobileGenerateResumeDto,
   OpenAIConfigDto,
@@ -509,9 +511,45 @@ export class MobileService {
     return result;
   }
 
-  /**
-   * Ensure unique title and slug for resume/cover letter
-   */
+  async intelligentAutofill(
+    user: UserWithSecrets,
+    data: IntelligentAutofillRequestDto,
+  ): Promise<IntelligentAutofillResponse> {
+    try {
+      const information = await this.informationService.findAll(user.id);
+
+      const userAiConfig = user.secrets;
+      if (!userAiConfig?.aiApiKey) {
+        throw new BadRequestException(
+          "AI API Key is not configured in your Reactive Resume account. Please add it in Settings -> AI Integration.",
+        );
+      }
+
+      const openAiConfig: OpenAIConfigDto = {
+        provider: (userAiConfig.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+        apiKey: userAiConfig.aiApiKey,
+        baseURL: userAiConfig.aiBaseUrl ?? undefined,
+        model: userAiConfig.aiModel ?? undefined,
+        maxTokens: userAiConfig.aiMaxTokens ?? undefined,
+        isAzure: userAiConfig.aiProvider === "azure",
+        azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
+      };
+
+      return this.openaiService.intelligentAutofill(
+        information.data as InformationData,
+        data.form_html,
+        data.form_text,
+        data.page_url,
+        data.job_context,
+        openAiConfig,
+      );
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof BadRequestException) throw error;
+      throw new BadRequestException(ErrorMessage.SomethingWentWrong);
+    }
+  }
+
   private async ensureUniqueTitleAndSlug(
     userId: string,
     baseTitle: string,

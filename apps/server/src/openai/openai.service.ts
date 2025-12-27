@@ -1,13 +1,19 @@
 import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { createId } from "@paralleldrive/cuid2";
-import { AutofillMapRequestDto, OpenAIConfigDto } from "@reactive-resume/dto";
+import {
+  AutofillMapRequestDto,
+  IntelligentAutofillResponse,
+  intelligentAutofillResponseSchema,
+  JobContext,
+  OpenAIConfigDto,
+} from "@reactive-resume/dto";
 import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/schema";
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Google's OpenAI-compatible endpoint
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai";
-const GEMINI_DEFAULT_MODEL_SERVER = "gemini-1.5-flash";
+const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview";
 const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 
 @Injectable()
@@ -88,6 +94,7 @@ export class OpenAIService {
     try {
       const response = await openai.chat.completions.create({
         model,
+        max_completion_tokens: 8192, // Ensure enough tokens for full resume JSON response
         response_format: { type: "json_object" },
         messages: [
           {
@@ -206,6 +213,7 @@ export class OpenAIService {
     try {
       const response = await openai.chat.completions.create({
         model,
+        max_completion_tokens: 8192,
         response_format: { type: "json_object" },
         messages: [
           {
@@ -302,6 +310,7 @@ export class OpenAIService {
     try {
       const response = await openai.chat.completions.create({
         model,
+        max_completion_tokens: 8192,
         response_format: { type: "json_object" },
         messages: [
           {
@@ -453,6 +462,154 @@ export class OpenAIService {
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException("Failed to chat via AI", (error as Error).message);
+    }
+  }
+
+  async intelligentAutofill(
+    information: InformationData,
+    formHtml: string,
+    formText: string | undefined,
+    pageUrl: string,
+    jobContext: JobContext | undefined,
+    config: OpenAIConfigDto,
+  ): Promise<IntelligentAutofillResponse> {
+    const startTime = Date.now();
+    const openai = this.getOpenAIClient(config);
+    const model =
+      config.provider === "gemini"
+        ? (config.model ?? GEMINI_DEFAULT_MODEL_SERVER)
+        : (config.model ?? OPENAI_DEFAULT_MODEL_SERVER);
+
+    const schema = zodToJsonSchema(intelligentAutofillResponseSchema, "intelligentAutofillResponse");
+
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        max_completion_tokens: 8192,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: `You are an expert job application form analyzer and filler.
+
+TASK: Analyze the HTML form and create fill instructions for each fillable field.
+
+RULES:
+1. STANDARD FIELDS (name, email, phone, LinkedIn, location):
+   - Map directly from user profile
+   - Strategy: DETERMINISTIC
+   - Confidence: 0.95-1.0
+
+2. AMBIGUOUS FIELDS (location could mean current/desired/work-auth):
+   - Use surrounding text and field context to determine meaning
+   - Strategy: AI_MAPPED
+   - Confidence: 0.60-0.95
+   - Include reasoning
+
+3. CUSTOM QUESTIONS (textarea with questions like "Why us?", "Tell us about yourself"):
+   - Generate concise, professional answers (2-3 sentences max)
+   - Use job description context to tailor response
+   - Strategy: AI_GENERATED
+   - Confidence: 0.60-0.85
+
+4. DROPDOWNS (select elements):
+   - For critical fields (experience level, work auth): semantic match to closest option
+   - For non-critical (referral source, "how did you hear"): prefer "LinkedIn", "Job Board", or "Other"
+   - Strategy: AI_MAPPED or SMART_DEFAULT
+   - Return the option VALUE attribute, not display text
+   - Confidence: 0.80-0.95
+
+5. FILE UPLOADS:
+   - Identify as resume, cover_letter, or portfolio based on field name/label
+   - Strategy: DETERMINISTIC
+   - Set file_type field
+   - Confidence: 0.95-1.0
+
+6. CHECKBOXES:
+   - For terms/conditions or agreements: action="check", value="true"
+   - Strategy: SMART_DEFAULT
+   - Confidence: 0.90
+
+7. CONFIDENCE SCORING:
+   - 0.95-1.0: Exact match, no ambiguity
+   - 0.80-0.95: High confidence AI mapping
+   - 0.60-0.80: Moderate confidence, acceptable for auto-fill
+   - <0.60: Put in needs_review array, do NOT put in fields array
+
+8. SELECTORS:
+   - Prefer #id selectors when available
+   - Fallback to [name="field_name"] or [data-field="..."]
+   - For inputs without id, use input[name="..."] or combine with type
+   - Ensure selectors are unique and specific
+
+9. FIELD EXTRACTION:
+   - Find ALL fillable elements: input, textarea, select
+   - Skip hidden inputs, submit buttons, CSRF tokens
+   - Extract field label from: label[for], aria-label, placeholder, preceding text
+   - Identify field groups (first_name + last_name = name)
+
+OUTPUT: JSON matching the schema exactly. No markdown wrapping.
+
+<JSON_SCHEMA>
+${JSON.stringify(schema)}
+</JSON_SCHEMA>`,
+          },
+          {
+            role: "user",
+            content: `<USER_PROFILE>
+${JSON.stringify(information, null, 2)}
+</USER_PROFILE>
+
+<FORM_HTML>
+${formHtml}
+</FORM_HTML>
+
+${formText ? `<FORM_VISIBLE_TEXT>\n${formText}\n</FORM_VISIBLE_TEXT>` : ""}
+
+<PAGE_URL>${pageUrl}</PAGE_URL>
+
+${jobContext ? `<JOB_CONTEXT>
+Title: ${jobContext.title ?? "Unknown"}
+Company: ${jobContext.company ?? "Unknown"}
+Description: ${jobContext.description ?? "Not provided"}
+</JOB_CONTEXT>` : ""}
+
+Analyze this form and return fill instructions for each field. Put fields with confidence >= 0.60 in "fields" array and fields with confidence < 0.60 in "needs_review" array.`,
+          },
+        ],
+      });
+
+      const content = response.choices[0].message.content;
+      if (!content) {
+        throw new InternalServerErrorException("AI returned an empty response.");
+      }
+
+      try {
+        const parsed = JSON.parse(content);
+        const validated = intelligentAutofillResponseSchema.parse(parsed);
+
+        validated.metadata = {
+          ...validated.metadata,
+          ai_model_used: model,
+          processing_time_ms: Date.now() - startTime,
+        };
+
+        return validated;
+      } catch (error) {
+        this.logger.error(`Intelligent Autofill JSON Parsing Error: ${(error as Error).message}`);
+        this.logger.debug(`Raw Content: ${content}`);
+        throw new InternalServerErrorException(
+          "AI returned invalid JSON for intelligent autofill.",
+          (error as Error).message,
+        );
+      }
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof InternalServerErrorException) throw error;
+      throw new InternalServerErrorException(
+        "Failed to generate intelligent autofill via AI",
+        (error as Error).message,
+      );
     }
   }
 }
