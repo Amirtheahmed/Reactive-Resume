@@ -4,6 +4,7 @@ import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
+import express from "express";
 import session from "express-session";
 import helmet from "helmet";
 import { patchNestJsSwagger } from "nestjs-zod";
@@ -23,6 +24,10 @@ async function bootstrap() {
   const accessTokenSecret = configService.getOrThrow("ACCESS_TOKEN_SECRET");
   const publicUrl = configService.getOrThrow("PUBLIC_URL");
   const isHTTPS = publicUrl.startsWith("https://") ?? false;
+
+  // Body Parser (10MB limit for mobile autofill endpoints)
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
   // Cookie Parser
   app.use(cookieParser());
