@@ -8,7 +8,7 @@ msgstr ""
 "Language: he\n"
 "Project-Id-Version: reactive-resume-fork\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-12-03 19:08\n"
+"PO-Revision-Date: 2025-12-31 00:43\n"
 "Last-Translator: \n"
 "Language-Team: Hebrew\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
@@ -32,6 +32,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:219
 msgid "•••••••••••••••••••• (saved)"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:49
+msgid "<0>{appName}</0> wants to access your Reactive Resume account"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:49
@@ -122,11 +126,16 @@ msgstr ""
 msgid "Accepts only {accept} files"
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:6
+msgid "Access your profile information"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:105
 msgid "Account"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:88
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:93
 msgid "Actions"
 msgstr ""
 
@@ -134,8 +143,8 @@ msgstr ""
 msgid "Add a custom field"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:150
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:203
+#: apps/client/src/components/sections/section-base.tsx:165
+#: apps/client/src/components/sections/section-base.tsx:216
 msgctxt "For example, add a new work experience, or add a new profile."
 msgid "Add a new item"
 msgstr ""
@@ -149,7 +158,7 @@ msgstr ""
 msgid "Add a new section"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/information/page.tsx:91
+#: apps/client/src/pages/dashboard/information/page.tsx:187
 msgid "Add Custom Section"
 msgstr ""
 
@@ -175,6 +184,14 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:130
 msgid "AI settings have been saved to your account."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:59
+msgid "All devices unlinked"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:60
+msgid "All mobile devices have been unlinked from your account."
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:173
@@ -230,7 +247,7 @@ msgstr ""
 msgid "Are you sure you want to delete this cover letter?"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:128
+#: apps/client/src/components/sections/section-dialog-base.tsx:193
 msgid "Are you sure you want to delete this item?"
 msgstr ""
 
@@ -246,6 +263,14 @@ msgstr ""
 msgid "Are you sure you want to lock this resume?"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:143
+msgid "Are you sure you want to unlink"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:183
+msgid "Are you sure you want to unlink all mobile devices? All"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:39
 msgid "Are you sure you want to unlock this resume?"
 msgstr ""
@@ -255,8 +280,14 @@ msgid "Are you sure?"
 msgstr ""
 
 #. For example, Computer Science or Business Administration
+#. For example, Computer Science or Business Administration
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:73
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:90
 msgid "Area of Study"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/publications.tsx:19
+msgid "Articles, papers, or books you have published."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/chat/_components/chat-interface.tsx:112
@@ -271,12 +302,41 @@ msgstr ""
 msgid "Attachment"
 msgstr ""
 
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:75
+msgid "Authentication Information (API Key)"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/page.tsx:65
+msgid "Authorization Failed"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:83
+msgid "Authorize"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:46
+msgid "Authorize Mobile App"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:83
+msgid "Authorizing..."
+msgstr ""
+
 #: apps/client/src/pages/home/sections/features/index.tsx:51
 msgid "Available in {languagesCount} languages"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:53
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:70
 msgid "Awarder"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/awards.tsx:17
+msgid "Awards"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/awards.tsx:19
+msgid "Awards and honors you have received."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:301
@@ -340,11 +400,13 @@ msgstr ""
 msgid "By the community, for the community."
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:135
+#: apps/client/src/components/sections/section-dialog-base.tsx:200
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:158
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:49
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:156
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:137
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:153
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:189
 msgid "Cancel"
 msgstr ""
 
@@ -355,6 +417,10 @@ msgstr ""
 
 #: apps/client/src/pages/builder/_components/toolbar.tsx:130
 msgid "Center Artboard"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/certifications.tsx:17
+msgid "Certifications"
 msgstr ""
 
 #: apps/client/src/components/locale-switch.tsx:17
@@ -408,7 +474,7 @@ msgid "Collapse All"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:30
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:115
+#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:55
 #: apps/client/src/pages/builder/sidebars/left/sections/summary.tsx:33
 msgid "Collapse section"
 msgstr ""
@@ -418,6 +484,7 @@ msgid "Columns"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:39
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:56
 msgid "Company"
 msgstr ""
 
@@ -447,6 +514,7 @@ msgstr ""
 msgid "Copilot Privacy Policy"
 msgstr ""
 
+#: apps/client/src/components/sections/section-list-item.tsx:106
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:101
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:154
 msgid "Copy"
@@ -470,7 +538,7 @@ msgstr ""
 msgid "Cover Letters"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:179
+#: apps/client/src/components/sections/section-dialog-base.tsx:244
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:237
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:244
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:200
@@ -488,7 +556,7 @@ msgstr ""
 msgid "Create a new cover letter"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:163
+#: apps/client/src/components/sections/section-dialog-base.tsx:228
 msgid "Create a new item"
 msgstr ""
 
@@ -496,6 +564,14 @@ msgstr ""
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/create-card.tsx:28
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/create-item.tsx:18
 msgid "Create a new resume"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:9
+msgid "Create and manage cover letters"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:8
+msgid "Create and manage resumes"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:178
@@ -541,6 +617,10 @@ msgstr ""
 msgid "Custom Section"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/page.tsx:158
+msgid "Custom Sections"
+msgstr ""
+
 #: apps/client/src/pages/home/sections/features/index.tsx:60
 msgid "Customisable colour palettes"
 msgstr ""
@@ -560,6 +640,9 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:67
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:84
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:84
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:84
 msgid "Date"
 msgstr ""
 
@@ -568,12 +651,16 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:72
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:101
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:67
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:127
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:89
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:114
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:84
 msgid "Date or Date Range"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:137
+#: apps/client/src/components/sections/section-dialog-base.tsx:202
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:160
-#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:89
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:88
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:99
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:133
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:158
@@ -588,6 +675,10 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:91
+msgid "Deny"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
 msgid "Deployment Name"
 msgstr ""
@@ -597,6 +688,10 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:87
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:53
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:84
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:68
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:100
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:70
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:98
 msgid "Description"
 msgstr ""
 
@@ -606,6 +701,26 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:75
 msgid "Developer"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:89
+msgid "Device"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:50
+msgid "Device has been unlinked from your account."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:49
+msgid "Device unlinked"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:60
+msgid "Device: <0>{deviceName}</0>"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:184
+msgid "devices will be disconnected and will need to re-authorize to access your account."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:139
@@ -663,9 +778,9 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:181
+#: apps/client/src/components/sections/section-dialog-base.tsx:246
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:239
-#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:84
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:83
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:88
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:128
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:246
@@ -679,7 +794,7 @@ msgstr ""
 msgid "Duplicate an existing cover letter"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:165
+#: apps/client/src/components/sections/section-dialog-base.tsx:230
 msgid "Duplicate an existing item"
 msgstr ""
 
@@ -687,11 +802,16 @@ msgstr ""
 msgid "Duplicate an existing resume"
 msgstr ""
 
+#: apps/client/src/components/sections/section-list-item.tsx:102
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:97
-#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:76
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:75
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:70
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:120
 msgid "Edit"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/education.tsx:17
+msgid "Education"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:169
@@ -756,9 +876,13 @@ msgid "Expand All"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:30
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:115
+#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-base.tsx:55
 #: apps/client/src/pages/builder/sidebars/left/sections/summary.tsx:33
 msgid "Expand section"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/experience.tsx:17
+msgid "Experience"
 msgstr ""
 
 #: apps/client/src/pages/home/sections/templates/index.tsx:12
@@ -769,6 +893,14 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:39
 #: apps/client/src/pages/builder/sidebars/right/sections/export.tsx:40
 msgid "Export"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:10
+msgid "Export your data for autofill"
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/page.tsx:62
+msgid "Failed to authorize. Please try again."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/import.tsx:255
@@ -803,12 +935,16 @@ msgstr ""
 msgid "Font Variants"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/page.tsx:169
+msgid "For better AI generation and autofill support, prefer using the structured sections above when possible."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/right/sections/notes.tsx:35
 msgid "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:91
-msgid "For the autofill feature, the extension fetches your \"Information Bank\" data (which includes personally identifiable information like your name, email, and work history) from your Reactive Resume account. This data is handled in-memory and is used locally by the content script to fill form fields. It is not stored persistently within the extension."
+msgid "For the autofill feature, the extension fetches your 'Information Bank' data (which includes personally identifiable information like your name, email, and work history) from your Reactive Resume account. This data is handled in-memory and is used locally by the content script to fill form fields. It is not stored persistently within the extension."
 msgstr ""
 
 #: apps/client/src/pages/auth/login/page.tsx:131
@@ -917,6 +1053,10 @@ msgstr ""
 msgid "Grid"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:50
+msgid "has been unlinked from your account."
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:70
 #: apps/client/src/pages/dashboard/information/sections/basics.tsx:34
 msgid "Headline"
@@ -933,6 +1073,8 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/languages.tsx:80
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:115
 #: apps/client/src/pages/builder/sidebars/left/sections/picture/options.tsx:180
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:99
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:129
 msgid "Hidden"
 msgstr ""
 
@@ -968,6 +1110,7 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/profiles.tsx:83
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:53
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:101
 msgid "Icon"
 msgstr ""
 
@@ -1020,8 +1163,8 @@ msgstr ""
 msgid "Information"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/information/page.tsx:36
-#: apps/client/src/pages/dashboard/information/page.tsx:43
+#: apps/client/src/pages/dashboard/information/page.tsx:57
+#: apps/client/src/pages/dashboard/information/page.tsx:64
 msgid "Information Bank"
 msgstr ""
 
@@ -1030,14 +1173,28 @@ msgid "Information We Handle"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:39
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:56
 msgid "Institution"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/interests.tsx:17
+msgid "Interests"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:27
 msgid "Introduction"
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/page.tsx:32
+msgid "Invalid authorization request. Missing required parameters."
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/page.tsx:87
+msgid "Invalid Request"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:53
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:70
 msgid "Issuer"
 msgstr ""
 
@@ -1097,6 +1254,9 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/interests.tsx:84
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:159
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:130
+#: apps/client/src/pages/dashboard/information/dialogs/interests.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:163
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:144
 msgid "Keywords"
 msgstr ""
 
@@ -1109,7 +1269,15 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:62
+#: apps/client/src/pages/dashboard/information/sections/languages.tsx:17
+msgid "Languages"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/languages.tsx:19
+msgid "Languages you speak and your proficiency level."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:61
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:111
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:83
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:139
@@ -1121,6 +1289,7 @@ msgid "Last Updated: November 25, 2025"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:87
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:92
 msgid "Last Used"
 msgstr ""
 
@@ -1140,6 +1309,8 @@ msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/languages.tsx:64
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:82
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:112
 msgid "Level"
 msgstr ""
 
@@ -1159,6 +1330,10 @@ msgstr ""
 msgid "Line Height"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:91
+msgid "Linked"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/import-card.tsx:33
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/import-item.tsx:22
 msgid "LinkedIn, JSON Resume, etc."
@@ -1170,6 +1345,7 @@ msgid "List"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:95
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:100
 msgid "Loading..."
 msgstr ""
 
@@ -1177,6 +1353,8 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:86
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:120
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:103
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:98
 #: apps/client/src/pages/dashboard/information/sections/basics.tsx:84
 msgid "Location"
 msgstr ""
@@ -1209,18 +1387,33 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:70
+msgid "Make sure you trust this app. Once authorized, it will have access to your data until you revoke it."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:77
 msgid "Manage API keys to access Reactive Resume programmatically or connect the Browser Extension."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:69
+msgid "Manage mobile devices linked to your Reactive Resume account."
 msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:59
 msgid "Manage multiple resumes"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:72
+msgid "Manager at Company"
+msgstr ""
+
 #. The month and year should be uniform across all languages.
 #: apps/client/src/pages/builder/sidebars/left/dialogs/awards.tsx:71
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:69
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:69
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:86
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:86
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:86
 msgid "March 2023"
 msgstr ""
 
@@ -1228,6 +1421,10 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:74
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:103
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:69
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:129
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:91
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:116
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:86
 msgid "March 2023 - Present"
 msgstr ""
 
@@ -1243,6 +1440,14 @@ msgstr ""
 msgid "MIT License"
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/_components/authorization-card.tsx:33
+msgid "Mobile App"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:67
+msgid "Mobile Devices"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
 msgid "Model"
 msgstr ""
@@ -1256,6 +1461,12 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:39
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:70
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:92
+#: apps/client/src/pages/dashboard/information/dialogs/interests.tsx:83
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:54
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:86
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:56
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:56
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:84
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:153
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:85
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:189
@@ -1263,15 +1474,22 @@ msgid "Name"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/certifications.tsx:39
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:56
 msgctxt "Name of the Certification"
 msgid "Name"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:70
+msgid "Native Speaker"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/profiles.tsx:40
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:58
 msgid "Network"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_sections/developer.tsx:112
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:123
 msgid "Never"
 msgstr ""
 
@@ -1287,12 +1505,24 @@ msgstr ""
 msgid "No API keys found."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:107
+msgid "No devices found."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:77
+msgid "No mobile devices are currently linked to your account. Use our mobile app to link your device and generate resumes on the go."
+msgstr ""
+
 #: apps/client/src/components/locale-combobox.tsx:45
 msgid "No results found"
 msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:49
 msgid "No user tracking or advertising"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/page.tsx:167
+msgid "Note"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:133
@@ -1348,6 +1578,7 @@ msgid "or continue with"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:39
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:56
 msgid "Organization"
 msgstr ""
 
@@ -1382,6 +1613,10 @@ msgstr ""
 
 #: apps/client/src/pages/home/sections/features/index.tsx:63
 msgid "Personal notes for each resume"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/projects.tsx:19
+msgid "Personal or professional projects you have worked on."
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:108
@@ -1427,11 +1662,13 @@ msgid "Portrait"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/experience.tsx:54
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:71
 msgctxt "Position held at a company, for example, Software Engineer"
 msgid "Position"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:53
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:70
 msgid "Position"
 msgstr ""
 
@@ -1440,6 +1677,7 @@ msgid "Powered by"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/dialogs/profiles.tsx:94
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:112
 msgid "Powered by <0>Simple Icons</0>"
 msgstr ""
 
@@ -1464,15 +1702,36 @@ msgstr ""
 msgid "Professional"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/references.tsx:19
+msgid "Professional references who can vouch for your work."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:66
 msgid "Profile"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/profiles.tsx:17
+msgid "Profiles"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/projects.tsx:17
+msgid "Projects"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:90
+msgid "Provider"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/right/sections/sharing.tsx:55
 msgid "Public"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/publications.tsx:17
+msgid "Publications"
+msgstr ""
+
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:53
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:70
 msgid "Publisher"
 msgstr ""
 
@@ -1492,9 +1751,9 @@ msgstr ""
 #: apps/client/src/pages/dashboard/chat/page.tsx:34
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:42
 #: apps/client/src/pages/dashboard/cover-letters/page.tsx:23
-#: apps/client/src/pages/dashboard/information/page.tsx:36
+#: apps/client/src/pages/dashboard/information/page.tsx:57
 #: apps/client/src/pages/dashboard/resumes/page.tsx:22
-#: apps/client/src/pages/dashboard/settings/page.tsx:18
+#: apps/client/src/pages/dashboard/settings/page.tsx:19
 #: apps/client/src/pages/home/components/footer.tsx:18
 #: apps/client/src/pages/home/page.tsx:24
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:11
@@ -1519,10 +1778,19 @@ msgstr ""
 msgid "Reactive Resume thrives thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills. Below, we celebrate the coders who've enhanced its features on GitHub and the linguists whose translations on Crowdin have made it accessible to a broader audience."
 msgstr ""
 
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:7
+msgid "Read and update your Information Bank"
+msgstr ""
+
 #: apps/client/src/pages/builder/_components/toolbar.tsx:89
 msgid "Redo"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/references.tsx:17
+msgid "References"
+msgstr ""
+
+#: apps/client/src/components/sections/section-list-item.tsx:110
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:105
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:157
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:319
@@ -1534,7 +1802,7 @@ msgid "Remove Page"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:111
-#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:80
+#: apps/client/src/pages/dashboard/cover-letters/_layouts/grid/_components/cover-letter-card.tsx:79
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:79
 #: apps/client/src/pages/dashboard/cover-letters/_layouts/list/_components/cover-letter-item.tsx:124
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:101
@@ -1586,7 +1854,7 @@ msgstr ""
 msgid "Rounded"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:180
+#: apps/client/src/components/sections/section-dialog-base.tsx:245
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:238
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:245
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:217
@@ -1596,12 +1864,12 @@ msgid "Save Changes"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:83
-#: apps/client/src/pages/dashboard/information/page.tsx:71
+#: apps/client/src/pages/dashboard/information/page.tsx:92
 msgid "Saved"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:72
-#: apps/client/src/pages/dashboard/information/page.tsx:60
+#: apps/client/src/pages/dashboard/information/page.tsx:81
 #: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:313
 msgid "Saving..."
 msgstr ""
@@ -1611,7 +1879,9 @@ msgid "Scan the QR code below with your authenticator app to setup 2FA on your a
 msgstr ""
 
 #. Score or honors for the degree, for example, CGPA or magna cum laude
+#. Score or honors for the degree, for example, CGPA or magna cum laude
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:92
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:109
 msgid "Score"
 msgstr ""
 
@@ -1643,7 +1913,7 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/information/sections/custom-section.tsx:27
+#: apps/client/src/pages/dashboard/information/sections/custom-section.tsx:34
 msgid "Section Title"
 msgstr ""
 
@@ -1677,8 +1947,8 @@ msgstr ""
 
 #: apps/client/src/components/user-options.tsx:32
 #: apps/client/src/pages/dashboard/_components/sidebar.tsx:121
-#: apps/client/src/pages/dashboard/settings/page.tsx:18
-#: apps/client/src/pages/dashboard/settings/page.tsx:28
+#: apps/client/src/pages/dashboard/settings/page.tsx:19
+#: apps/client/src/pages/dashboard/settings/page.tsx:29
 msgid "Settings"
 msgstr ""
 
@@ -1751,6 +2021,10 @@ msgstr ""
 msgid "Size (in px)"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/skills.tsx:17
+msgid "Skills"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:221
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:228
 msgid "Slug"
@@ -1797,11 +2071,15 @@ msgstr ""
 msgid "Statistics are available only for public resumes."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/page.tsx:160
+msgid "Store additional information that doesn't fit in the standard sections above."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_dialogs/two-factor.tsx:162
 msgid "Store your backup codes securely"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/information/page.tsx:45
+#: apps/client/src/pages/dashboard/information/page.tsx:66
 msgid "Store your professional information here to be used across your resumes."
 msgstr ""
 
@@ -1814,6 +2092,14 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/publications.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:81
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:109
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:112
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:112
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:155
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:131
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:142
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:112
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:126
 #: apps/client/src/pages/dashboard/information/sections/summary.tsx:13
 msgid "Summary"
 msgstr ""
@@ -1871,7 +2157,7 @@ msgid "Text Color"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:39
-msgid "The \"Single Purpose\" Principle"
+msgid "The 'Single Purpose' Principle"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:42
@@ -1880,6 +2166,10 @@ msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:144
 msgid "The extension communicates with the Reactive Resume server. When using AI features, our server, in turn, sends the relevant data (your anonymized professional information and the job description) to a third-party AI provider (like OpenAI, Google Gemini, etc.) that you have configured in your account. We do not share more data than is necessary to fulfill the generation request."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:147
+msgid "The mobile app will no longer be able to access your account from this device."
 msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:17
@@ -1909,8 +2199,24 @@ msgstr ""
 msgid "Third-Party Services"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:130
+#: apps/client/src/components/sections/section-dialog-base.tsx:195
+#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:48
 msgid "This action can be reverted by clicking on the undo button in the floating toolbar."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/interests.tsx:73
+#: apps/client/src/pages/dashboard/information/dialogs/languages.tsx:44
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:48
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:76
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:46
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:74
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:46
+msgid "This action cannot be undone."
 msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:154
@@ -1919,6 +2225,10 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:151
 msgid "This action cannot be undone. This will permanently delete your resume and cannot be recovered."
+msgstr ""
+
+#: apps/client/src/pages/auth/mobile-authorize/_components/permissions-list.tsx:17
+msgid "This app will be able to:"
 msgstr ""
 
 #: apps/client/src/services/errors/translate-error.ts:16
@@ -1943,6 +2253,7 @@ msgid "Title"
 msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:193
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:56
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:196
 msgid "Title"
 msgstr ""
@@ -1990,7 +2301,9 @@ msgid "Type <0>delete</0> to confirm deleting your account."
 msgstr ""
 
 #. For example, Bachelor's Degree or Master's Degree
+#. For example, Bachelor's Degree or Master's Degree
 #: apps/client/src/pages/builder/sidebars/left/dialogs/education.tsx:54
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:71
 msgid "Type of Study"
 msgstr ""
 
@@ -2016,6 +2329,33 @@ msgstr ""
 msgid "Uninstalling the extension will permanently delete the API key stored on your device."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:116
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:146
+msgid "Unknown Device"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:158
+msgid "Unlink"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:195
+msgid "Unlink All"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:176
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:181
+msgid "Unlink All Devices"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:127
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:141
+msgid "Unlink Device"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/mobile-devices.tsx:195
+msgid "Unlinking..."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/resumes/_dialogs/lock.tsx:52
 #: apps/client/src/pages/dashboard/resumes/_layouts/grid/_components/resume-card.tsx:110
 #: apps/client/src/pages/dashboard/resumes/_layouts/list/_components/resume-item.tsx:105
@@ -2027,6 +2367,10 @@ msgstr ""
 msgid "Unlocking a resume will allow you to make changes to it again."
 msgstr ""
 
+#: apps/client/src/stores/information.ts:212
+msgid "Untitled Section"
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:192
 msgid "Unverified"
 msgstr ""
@@ -2035,7 +2379,7 @@ msgstr ""
 msgid "Update an existing cover letter"
 msgstr ""
 
-#: apps/client/src/pages/builder/sidebars/left/sections/shared/section-dialog.tsx:164
+#: apps/client/src/components/sections/section-dialog-base.tsx:229
 msgid "Update an existing item"
 msgstr ""
 
@@ -2070,6 +2414,7 @@ msgstr ""
 
 #: apps/client/src/pages/auth/register/page.tsx:119
 #: apps/client/src/pages/builder/sidebars/left/dialogs/profiles.tsx:55
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:73
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:167
 msgid "Username"
 msgstr ""
@@ -2111,12 +2456,17 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
+#: apps/client/src/components/sections/section-list-item.tsx:97
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:92
 msgid "Visible"
 msgstr ""
 
 #: apps/client/src/pages/builder/sidebars/left/sections/custom/section.tsx:74
 msgid "Visit <0>Phosphor Icons</0> for a list of available icons"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/volunteer.tsx:17
+msgid "Volunteering"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:183
@@ -2150,8 +2500,21 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/references.tsx:67
 #: apps/client/src/pages/builder/sidebars/left/dialogs/volunteer.tsx:95
 #: apps/client/src/pages/builder/sidebars/left/sections/basics.tsx:96
+#: apps/client/src/pages/dashboard/information/dialogs/awards.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/certifications.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/education.tsx:141
+#: apps/client/src/pages/dashboard/information/dialogs/experience.tsx:117
+#: apps/client/src/pages/dashboard/information/dialogs/profiles.tsx:87
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:128
+#: apps/client/src/pages/dashboard/information/dialogs/publications.tsx:98
+#: apps/client/src/pages/dashboard/information/dialogs/references.tsx:84
+#: apps/client/src/pages/dashboard/information/dialogs/volunteer.tsx:112
 #: apps/client/src/pages/dashboard/information/sections/basics.tsx:60
 msgid "Website"
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:102
+msgid "Website Content (from Your Active Tab)"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:30
@@ -2163,7 +2526,7 @@ msgid "What's new in the latest version"
 msgstr ""
 
 #: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:105
-msgid "When you click \"Analyze Job Page,\" the extension reads the text content of your current page to extract the job description. This text is sent to the Reactive Resume server to generate tailored documents. This action is user-initiated, and the content is not stored after the generation process is complete."
+msgid "When you click 'Analyze Job Page,' the extension reads the text content of your current page to extract the job description. This text is sent to the Reactive Resume server to generate tailored documents. This action is user-initiated, and the content is not stored after the generation process is complete."
 msgstr ""
 
 #: apps/client/src/pages/public/error.tsx:26
@@ -2174,6 +2537,9 @@ msgstr ""
 #: apps/client/src/pages/builder/sidebars/left/dialogs/interests.tsx:89
 #: apps/client/src/pages/builder/sidebars/left/dialogs/projects.tsx:164
 #: apps/client/src/pages/builder/sidebars/left/dialogs/skills.tsx:135
+#: apps/client/src/pages/dashboard/information/dialogs/interests.tsx:103
+#: apps/client/src/pages/dashboard/information/dialogs/projects.tsx:168
+#: apps/client/src/pages/dashboard/information/dialogs/skills.tsx:149
 msgid "You can add multiple keywords by separating them with a comma or pressing enter."
 msgstr ""
 
@@ -2226,12 +2592,44 @@ msgstr ""
 msgid "Your Control and Rights"
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/education.tsx:19
+msgid "Your educational background and qualifications."
+msgstr ""
+
 #: apps/client/src/pages/auth/verify-email/page.tsx:28
 msgid "Your email address has been verified successfully."
 msgstr ""
 
+#: apps/client/src/pages/dashboard/information/sections/interests.tsx:19
+msgid "Your hobbies and personal interests."
+msgstr ""
+
 #: apps/client/src/pages/dashboard/settings/_sections/security.tsx:56
 msgid "Your password has been updated successfully."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/certifications.tsx:19
+msgid "Your professional certifications and credentials."
+msgstr ""
+
+#: apps/client/src/pages/meta/extension-privacy-policy/page.tsx:88
+msgid "Your Professional Information (from Reactive Resume)"
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/profiles.tsx:19
+msgid "Your social media profiles and professional networks."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/skills.tsx:19
+msgid "Your technical and professional skills."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/volunteer.tsx:19
+msgid "Your volunteer work and community involvement."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/information/sections/experience.tsx:19
+msgid "Your work experience and employment history."
 msgstr ""
 
 #: apps/client/src/pages/builder/_components/toolbar.tsx:112
