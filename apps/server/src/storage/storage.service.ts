@@ -68,13 +68,15 @@ export class StorageService implements OnModuleInit {
       // if it exists, log that we were able to connect to the storage service
       const bucketExists = await this.client.bucketExists(this.bucketName);
 
+      const bucketPolicy = JSON.stringify(PUBLIC_ACCESS_POLICY).replace(
+        /{{bucketName}}/g,
+        this.bucketName,
+      );
+
       if (bucketExists) {
+        await this.client.setBucketPolicy(this.bucketName, bucketPolicy);
         this.logger.log("Successfully connected to the storage service.");
       } else {
-        const bucketPolicy = JSON.stringify(PUBLIC_ACCESS_POLICY).replace(
-          /{{bucketName}}/g,
-          this.bucketName,
-        );
 
         try {
           await this.client.makeBucket(this.bucketName);

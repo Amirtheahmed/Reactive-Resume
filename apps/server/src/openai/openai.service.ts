@@ -16,6 +16,8 @@ import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
+import { zodToGeminiSchema } from "./gemini-schema.utils";
+
 const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview";
 const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 
@@ -55,7 +57,22 @@ export class OpenAIService {
   }
 
   private getGeminiClient(config: OpenAIConfigDto): GoogleGenAI {
-    const { apiKey } = config;
+    const { apiKey, provider, baseURL } = config;
+
+    if (provider === "vertexai") {
+      if (!apiKey || !baseURL) {
+        throw new InternalServerErrorException(
+          "Vertex AI requires Project ID (in API Key field) and Location (in Base URL field).",
+        );
+      }
+
+      return new GoogleGenAI({
+        vertexai: true,
+        project: "itjobmeterv2",
+        location: "europe-west4",
+        apiKey,
+      });
+    }
 
     if (!apiKey) {
       throw new InternalServerErrorException(
@@ -66,23 +83,26 @@ export class OpenAIService {
     return new GoogleGenAI({ apiKey });
   }
 
-  private sanitizeResumeIds(data: any): ResumeData {
-    if (data?.sections) {
-      for (const key in data.sections) {
-        const section = data.sections[key];
-        if (section && Array.isArray(section.items)) {
+  private sanitizeResumeIds(data: unknown): ResumeData {
+    const typedData = data as Record<string, unknown>;
+    if (typedData.sections) {
+      const sections = typedData.sections as Record<string, unknown>;
+      for (const key in sections) {
+        const section = sections[key] as Record<string, unknown>;
+        if (Array.isArray(section.items)) {
           for (const item of section.items) {
             if (item && typeof item === "object") {
-              item.id = createId();
-              if (typeof item.visible !== "boolean") {
-                item.visible = true;
+              const typedItem = item as Record<string, unknown>;
+              typedItem.id = createId();
+              if (typeof typedItem.visible !== "boolean") {
+                typedItem.visible = true;
               }
             }
           }
         }
       }
     }
-    return data as ResumeData;
+    return typedData as ResumeData;
   }
 
   private getResumeSystemPrompt(): string {
@@ -152,33 +172,30 @@ ${jobDescription}
 
 Now, generate the tailored resume JSON based on the principles and steps provided.`;
 
-    // Use native Gemini SDK for guaranteed structured output
-    if (config.provider === "gemini") {
-      return this.generateResumeWithGemini(systemPrompt, userPrompt, schema, config);
+    if (config.provider === "gemini" || config.provider === "vertexai") {
+      return this.generateResumeWithGemini(systemPrompt, userPrompt, config);
     }
 
-    // Use OpenAI for other providers
     return this.generateResumeWithOpenAI(systemPrompt, userPrompt, config);
   }
 
   private async generateResumeWithGemini(
     systemPrompt: string,
     userPrompt: string,
-    _schema: ReturnType<typeof zodToJsonSchema>,
     config: OpenAIConfigDto,
   ): Promise<ResumeData> {
     const gemini = this.getGeminiClient(config);
     const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
 
     try {
-      // Note: We use responseMimeType without responseSchema because the resume schema
-      // exceeds Gemini's maximum nesting depth limit. responseMimeType still guarantees
-      // valid JSON output, and we validate with Zod after parsing.
       const response = await gemini.models.generateContent({
         model,
-        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
+        contents: [{ role: "user", parts: [{ text: userPrompt }] }],
         config: {
-          responseMimeType: "application/json"
+          systemInstruction: systemPrompt,
+          maxOutputTokens: 65_535,
+          responseMimeType: "application/json",
+          temperature: 0,
         },
       });
 
@@ -187,7 +204,7 @@ Now, generate the tailored resume JSON based on the principles and steps provide
         throw new InternalServerErrorException("Gemini returned an empty response.");
       }
 
-      this.logger.debug(`Raw Content: ${content.substring(0, 500)}...`);
+      this.logger.debug(`Raw Content: ${content.slice(0, 500)}...`);
 
       try {
         const parsedJson = JSON.parse(content);
@@ -315,7 +332,7 @@ ${jobDescription}
 Now, generate the cover letter JSON.`;
 
     // Use native Gemini SDK for guaranteed structured output
-    if (config.provider === "gemini") {
+    if (config.provider === "gemini" || config.provider === "vertexai") {
       return this.generateCoverLetterWithGemini(systemPrompt, userPrompt, config);
     }
 
@@ -482,7 +499,7 @@ ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}
 Now, generate the JSON object containing the field mapping.`;
 
     // Use native Gemini SDK for guaranteed structured output
-    if (config.provider === "gemini") {
+    if (config.provider === "gemini" || config.provider === "vertexai") {
       return this.createAutofillMapWithGemini(systemPrompt, userPrompt, config);
     }
 
@@ -637,7 +654,7 @@ ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}`
     const systemPrompt = this.getChatSystemPrompt(information, jobDescription);
 
     // Use native Gemini SDK for Gemini provider
-    if (config.provider === "gemini") {
+    if (config.provider === "gemini" || config.provider === "vertexai") {
       return this.chatWithGemini(systemPrompt, query, attachmentUrl, config);
     }
 
@@ -655,7 +672,7 @@ ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}`
     const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
 
     try {
-      const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+      const parts: ({ text: string } | { inlineData: { mimeType: string; data: string } })[] = [
         { text: systemPrompt + "\n\n" + query },
       ];
 
@@ -858,25 +875,24 @@ Description: ${jobContext.description ?? "Not provided"}
 
 Analyze this form and return fill instructions for each field. Put fields with confidence >= 0.60 in "fields" array and fields with confidence < 0.60 in "needs_review" array.`;
 
-    // Use native Gemini SDK for guaranteed structured output
-    if (config.provider === "gemini") {
+    if (config.provider === "gemini" || config.provider === "vertexai") {
+      const geminiSchema = zodToGeminiSchema(intelligentAutofillResponseSchema);
       return this.intelligentAutofillWithGemini(
         systemPrompt,
         userPrompt,
-        schema,
+        geminiSchema,
         startTime,
         config,
       );
     }
 
-    // Use OpenAI for other providers
     return this.intelligentAutofillWithOpenAI(systemPrompt, userPrompt, schema, startTime, config);
   }
 
   private async intelligentAutofillWithGemini(
     systemPrompt: string,
     userPrompt: string,
-    _schema: ReturnType<typeof zodToJsonSchema>,
+    geminiSchema: Record<string, unknown>,
     startTime: number,
     config: OpenAIConfigDto,
   ): Promise<IntelligentAutofillResponse> {
@@ -884,14 +900,12 @@ Analyze this form and return fill instructions for each field. Put fields with c
     const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
 
     try {
-      // Note: We use responseMimeType without responseSchema because the autofill schema
-      // may exceed Gemini's maximum nesting depth limit. responseMimeType still guarantees
-      // valid JSON output, and we validate with Zod after parsing.
       const response = await gemini.models.generateContent({
         model,
         contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
           responseMimeType: "application/json",
+          responseSchema: geminiSchema,
         },
       });
 
@@ -1155,19 +1169,24 @@ ${instructions ? `<ADDITIONAL_INSTRUCTIONS>${instructions}</ADDITIONAL_INSTRUCTI
 
 Answer each question based on the user's profile. Put questions with confidence >= 0.60 in "answers" and questions with confidence < 0.60 in "needs_review".`;
 
-    // Use native Gemini SDK for guaranteed structured output
-    if (config.provider === "gemini") {
-      return this.questionAutofillWithGemini(systemPrompt, userPrompt, schema, startTime, config);
+    if (config.provider === "gemini" || config.provider === "vertexai") {
+      const geminiSchema = zodToGeminiSchema(questionAutofillResponseSchema);
+      return this.questionAutofillWithGemini(
+        systemPrompt,
+        userPrompt,
+        geminiSchema,
+        startTime,
+        config,
+      );
     }
 
-    // Use OpenAI for other providers
     return this.questionAutofillWithOpenAI(systemPrompt, userPrompt, schema, startTime, config);
   }
 
   private async questionAutofillWithGemini(
     systemPrompt: string,
     userPrompt: string,
-    _schema: ReturnType<typeof zodToJsonSchema>,
+    geminiSchema: Record<string, unknown>,
     startTime: number,
     config: OpenAIConfigDto,
   ): Promise<QuestionAutofillResponse> {
@@ -1180,6 +1199,7 @@ Answer each question based on the user's profile. Put questions with confidence 
         contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
           responseMimeType: "application/json",
+          responseSchema: geminiSchema,
         },
       });
 
