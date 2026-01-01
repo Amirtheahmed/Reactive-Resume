@@ -9,6 +9,8 @@ import {
   MobileGenerateCoverLetterDto,
   MobileGenerateResumeDto,
   OpenAIConfigDto,
+  QuestionAutofillRequestDto,
+  QuestionAutofillResponse,
   ResumeDto,
   UpdateInformationDto,
   UserWithSecrets,
@@ -118,7 +120,11 @@ export class MobileService {
   /**
    * Generate a tailored resume
    */
-  async generateResume(user: UserWithSecrets, data: MobileGenerateResumeDto, mobileLinkId?: string) {
+  async generateResume(
+    user: UserWithSecrets,
+    data: MobileGenerateResumeDto,
+    mobileLinkId?: string,
+  ) {
     try {
       const information = await this.informationService.findAll(user.id);
 
@@ -382,13 +388,15 @@ export class MobileService {
         email: basics.email,
         phone: basics.phone,
         url: basics.url?.href,
-        location: basics.location ? {
-          address: basics.location,
-          city: undefined, // Would need parsing
-          state: undefined,
-          postalCode: undefined,
-          country: undefined,
-        } : undefined,
+        location: basics.location
+          ? {
+              address: basics.location,
+              city: undefined, // Would need parsing
+              state: undefined,
+              postalCode: undefined,
+              country: undefined,
+            }
+          : undefined,
       };
 
       // Extract social links
@@ -550,6 +558,45 @@ export class MobileService {
     }
   }
 
+  async questionAutofill(
+    user: UserWithSecrets,
+    data: QuestionAutofillRequestDto,
+  ): Promise<QuestionAutofillResponse> {
+    try {
+      const information = await this.informationService.findAll(user.id);
+
+      const userAiConfig = user.secrets;
+      if (!userAiConfig?.aiApiKey) {
+        throw new BadRequestException(
+          "AI API Key is not configured in your Reactive Resume account. Please add it in Settings -> AI Integration.",
+        );
+      }
+
+      const openAiConfig: OpenAIConfigDto = {
+        provider: (userAiConfig.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
+        apiKey: userAiConfig.aiApiKey,
+        baseURL: userAiConfig.aiBaseUrl ?? undefined,
+        model: userAiConfig.aiModel ?? undefined,
+        maxTokens: userAiConfig.aiMaxTokens ?? undefined,
+        isAzure: userAiConfig.aiProvider === "azure",
+        azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
+      };
+
+      return this.openaiService.questionAutofill(
+        information.data as InformationData,
+        data.questions,
+        data.job_context,
+        openAiConfig,
+        data.page_url,
+        data.instructions,
+      );
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof BadRequestException) throw error;
+      throw new BadRequestException(ErrorMessage.SomethingWentWrong);
+    }
+  }
+
   private async ensureUniqueTitleAndSlug(
     userId: string,
     baseTitle: string,
@@ -581,4 +628,3 @@ export class MobileService {
     return { title, slug };
   }
 }
-

@@ -14,7 +14,7 @@ import { Config } from "../config/schema";
 // and where `fileName` is a unique identifier (cuid) for the file.
 
 type ImageUploadType = "pictures" | "previews" | "chat";
-type DocumentUploadType = "resumes";
+type DocumentUploadType = "resumes" | "cover-letters";
 export type UploadType = ImageUploadType | DocumentUploadType;
 
 const PUBLIC_ACCESS_POLICY = {
@@ -29,6 +29,7 @@ const PUBLIC_ACCESS_POLICY = {
         "arn:aws:s3:::{{bucketName}}/*/pictures/*",
         "arn:aws:s3:::{{bucketName}}/*/previews/*",
         "arn:aws:s3:::{{bucketName}}/*/resumes/*",
+        "arn:aws:s3:::{{bucketName}}/*/cover-letters/*",
         "arn:aws:s3:::{{bucketName}}/*/chat/*",
       ],
     },
@@ -119,10 +120,10 @@ export class StorageService implements OnModuleInit {
     filename: string = createId(),
   ): Promise<string> {
     let extension = "jpg";
-    if (type === "resumes") extension = "pdf";
+    if (type === "resumes" || type === "cover-letters") extension = "pdf";
     if (type === "chat") {
       const parts = filename.split(".");
-      extension = parts.length > 1 ? parts.pop()?.toLowerCase() ?? "bin" : "bin";
+      extension = parts.length > 1 ? (parts.pop()?.toLowerCase() ?? "bin") : "bin";
     }
 
     const storageUrl = this.configService.getOrThrow<string>("STORAGE_URL");
@@ -150,7 +151,7 @@ export class StorageService implements OnModuleInit {
           .toBuffer();
       }
 
-      await this.client.putObject(this.bucketName, filepath, buffer, metadata);
+      await this.client.putObject(this.bucketName, filepath, buffer, buffer.length, metadata);
 
       return url;
     } catch {
@@ -159,7 +160,7 @@ export class StorageService implements OnModuleInit {
   }
 
   async deleteObject(userId: string, type: UploadType, filename: string): Promise<void> {
-    const extension = type === "resumes" ? "pdf" : "jpg";
+    const extension = type === "resumes" || type === "cover-letters" ? "pdf" : "jpg";
     const path = `${userId}/${type}/${filename}.${extension}`;
 
     try {

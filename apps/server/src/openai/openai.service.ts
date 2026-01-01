@@ -7,12 +7,16 @@ import {
   intelligentAutofillResponseSchema,
   JobContext,
   OpenAIConfigDto,
+  QuestionAutofillResponse,
+  questionAutofillResponseSchema,
+  QuestionItem,
+  QuestionJobContext,
 } from "@reactive-resume/dto";
 import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/schema";
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-const GEMINI_DEFAULT_MODEL_SERVER = "gemini-2.5-flash";
+const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview";
 const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 
 @Injectable()
@@ -54,7 +58,9 @@ export class OpenAIService {
     const { apiKey } = config;
 
     if (!apiKey) {
-      throw new InternalServerErrorException("Gemini API Key is missing. Please check your settings.");
+      throw new InternalServerErrorException(
+        "Gemini API Key is missing. Please check your settings.",
+      );
     }
 
     return new GoogleGenAI({ apiKey });
@@ -170,11 +176,9 @@ Now, generate the tailored resume JSON based on the principles and steps provide
       // valid JSON output, and we validate with Zod after parsing.
       const response = await gemini.models.generateContent({
         model,
-        contents: [
-          { role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] },
-        ],
+        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
-          responseMimeType: "application/json",
+          responseMimeType: "application/json"
         },
       });
 
@@ -221,7 +225,12 @@ Now, generate the tailored resume JSON based on the principles and steps provide
         max_completion_tokens: 8192,
         response_format: { type: "json_object" },
         messages: [
-          { role: "system", content: systemPrompt + "\n\n# Output Format\n- The final output must be a single, raw JSON object. **DO NOT** wrap it in markdown code blocks (no ```json)." },
+          {
+            role: "system",
+            content:
+              systemPrompt +
+              "\n\n# Output Format\n- The final output must be a single, raw JSON object. **DO NOT** wrap it in markdown code blocks (no ```json).",
+          },
           { role: "user", content: userPrompt },
         ],
       });
@@ -325,9 +334,7 @@ Now, generate the cover letter JSON.`;
     try {
       const response = await gemini.models.generateContent({
         model,
-        contents: [
-          { role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] },
-        ],
+        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
           responseMimeType: "application/json",
           responseSchema: this.coverLetterSchema,
@@ -379,7 +386,12 @@ Now, generate the cover letter JSON.`;
         max_completion_tokens: 8192,
         response_format: { type: "json_object" },
         messages: [
-          { role: "system", content: systemPrompt + "\n\n- Ensure the final output is a raw JSON object, **DO NOT** wrap it in markdown code blocks (no ```json)." },
+          {
+            role: "system",
+            content:
+              systemPrompt +
+              "\n\n- Ensure the final output is a raw JSON object, **DO NOT** wrap it in markdown code blocks (no ```json).",
+          },
           { role: "user", content: userPrompt },
         ],
       });
@@ -489,9 +501,7 @@ Now, generate the JSON object containing the field mapping.`;
     try {
       const response = await gemini.models.generateContent({
         model,
-        contents: [
-          { role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] },
-        ],
+        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
           responseMimeType: "application/json",
           responseSchema: this.autofillMapSchema,
@@ -547,7 +557,9 @@ Now, generate the JSON object containing the field mapping.`;
         messages: [
           {
             role: "system",
-            content: systemPrompt + `
+            content:
+              systemPrompt +
+              `
 
 <IMPORTANT_JSON_RULES>
 - **Output strict, valid JSON.**
@@ -817,7 +829,10 @@ The "warnings" array and "metadata" object are REQUIRED (use empty array [] for 
     config: OpenAIConfigDto,
   ): Promise<IntelligentAutofillResponse> {
     const startTime = Date.now();
-    const schema = zodToJsonSchema(intelligentAutofillResponseSchema, "intelligentAutofillResponse");
+    const schema = zodToJsonSchema(
+      intelligentAutofillResponseSchema,
+      "intelligentAutofillResponse",
+    );
     const systemPrompt = this.getIntelligentAutofillSystemPrompt();
     const userPrompt = `<USER_PROFILE>
 ${JSON.stringify(information, null, 2)}
@@ -831,17 +846,27 @@ ${formText ? `<FORM_VISIBLE_TEXT>\n${formText}\n</FORM_VISIBLE_TEXT>` : ""}
 
 <PAGE_URL>${pageUrl}</PAGE_URL>
 
-${jobContext ? `<JOB_CONTEXT>
+${
+  jobContext
+    ? `<JOB_CONTEXT>
 Title: ${jobContext.title ?? "Unknown"}
 Company: ${jobContext.company ?? "Unknown"}
 Description: ${jobContext.description ?? "Not provided"}
-</JOB_CONTEXT>` : ""}
+</JOB_CONTEXT>`
+    : ""
+}
 
 Analyze this form and return fill instructions for each field. Put fields with confidence >= 0.60 in "fields" array and fields with confidence < 0.60 in "needs_review" array.`;
 
     // Use native Gemini SDK for guaranteed structured output
     if (config.provider === "gemini") {
-      return this.intelligentAutofillWithGemini(systemPrompt, userPrompt, schema, startTime, config);
+      return this.intelligentAutofillWithGemini(
+        systemPrompt,
+        userPrompt,
+        schema,
+        startTime,
+        config,
+      );
     }
 
     // Use OpenAI for other providers
@@ -864,9 +889,7 @@ Analyze this form and return fill instructions for each field. Put fields with c
       // valid JSON output, and we validate with Zod after parsing.
       const response = await gemini.models.generateContent({
         model,
-        contents: [
-          { role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] },
-        ],
+        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
         config: {
           responseMimeType: "application/json",
         },
@@ -939,7 +962,9 @@ Analyze this form and return fill instructions for each field. Put fields with c
         messages: [
           {
             role: "system",
-            content: systemPrompt + `
+            content:
+              systemPrompt +
+              `
 
 OUTPUT: JSON matching the schema exactly. No markdown wrapping.
 
@@ -980,6 +1005,316 @@ ${JSON.stringify(schema)}
       this.logger.error(error);
       throw new InternalServerErrorException(
         "Failed to generate intelligent autofill via AI",
+        (error as Error).message,
+      );
+    }
+  }
+
+  // =============================================================================
+  // Question-Based Autofill (for dynamic forms and AI agents)
+  // =============================================================================
+
+  private getQuestionAutofillSystemPrompt(): string {
+    return `You are an expert job application assistant that answers form questions based on a user's professional profile.
+
+TASK: Answer each question using the user's information. Generate professional, contextually appropriate responses.
+
+RULES:
+
+1. DETERMINISTIC FIELDS (direct profile mapping):
+   - Name, email, phone, location, LinkedIn, GitHub, portfolio URL
+   - Strategy: DETERMINISTIC
+   - Confidence: 0.95-1.0
+   - Use source_field to indicate the profile path (e.g., "basics.email")
+
+2. AI_MAPPED FIELDS (requires interpretation):
+   - "Years of experience" → Calculate from work history
+   - "Highest education" → Extract from education section
+   - "Current company" → Most recent experience
+   - "Salary expectations" → Use reasonable industry defaults or skip
+   - Strategy: AI_MAPPED
+   - Confidence: 0.75-0.95
+
+3. AI_GENERATED FIELDS (open-ended questions):
+   - "Why do you want to work here?" → Generate based on job context + user skills
+   - "Tell us about yourself" → Professional summary from experience
+   - "Why are you a good fit?" → Match user skills to job requirements
+   - "Cover letter" or "Additional information" → Generate concise, relevant content
+   - Strategy: AI_GENERATED
+   - Confidence: 0.60-0.85
+   - Keep answers concise (2-4 sentences for short answers, 1-2 paragraphs for long-form)
+
+4. SELECT/MULTISELECT QUESTIONS:
+   - Match user data to the closest available option
+   - For experience level: map years to Junior/Mid/Senior appropriately
+   - For education: match degree type to options
+   - If no good match, use SMART_DEFAULT with lower confidence
+   - Return the exact option value from the provided options array
+
+5. BOOLEAN QUESTIONS:
+   - Authorization to work, willing to relocate, etc.
+   - Use SMART_DEFAULT with value=true for common affirmative questions
+   - Confidence: 0.80-0.90
+
+6. SKIPPED QUESTIONS:
+   - If absolutely no relevant data and cannot reasonably generate
+   - Put in needs_review array, NOT in answers
+   - Provide helpful suggestions if possible
+
+7. CONFIDENCE THRESHOLDS:
+   - >= 0.60: Include in answers array
+   - < 0.60: Include in needs_review array
+   - Never guess for sensitive fields (salary, legal status, etc.)
+
+8. JOB CONTEXT USAGE:
+   - Use job title/company to personalize AI_GENERATED answers
+   - Reference specific requirements from job description when relevant
+   - Match tone to industry (formal for finance/law, friendly for startups)
+
+OUTPUT FORMAT (STRICT - all fields required):
+{
+  "answers": [
+    {
+      "question_id": "q1",
+      "value": "string or array or number or boolean or null",
+      "confidence": 0.0-1.0,
+      "strategy": "DETERMINISTIC|AI_MAPPED|AI_GENERATED|SMART_DEFAULT|SKIPPED",
+      "reasoning": "optional explanation",
+      "source_field": "optional profile path"
+    }
+  ],
+  "needs_review": [
+    {
+      "question_id": "q2",
+      "question": "original question text",
+      "reason": "why manual input needed",
+      "confidence": 0.0-1.0,
+      "suggestions": ["optional", "suggestions"],
+      "category": "optional category"
+    }
+  ],
+  "warnings": ["array of warning strings"],
+  "metadata": {
+    "questions_received": 10,
+    "questions_answered": 8,
+    "questions_needs_review": 1,
+    "questions_skipped": 1,
+    "ai_model_used": "model_name",
+    "processing_time_ms": 0,
+    "average_confidence": 0.85
+  }
+}
+
+CRITICAL RULES:
+- Every question must appear in either "answers" OR "needs_review", never both
+- The "value" type must match the question "type" (string for text, boolean for boolean, etc.)
+- For multiselect, return an array of selected option values
+- For select, return a single option value (not the label)
+- Always include "warnings" array (empty [] if none)
+- Always include complete "metadata" object`;
+  }
+
+  async questionAutofill(
+    information: InformationData,
+    questions: QuestionItem[],
+    jobContext: QuestionJobContext | undefined,
+    config: OpenAIConfigDto,
+    pageUrl?: string,
+    instructions?: string,
+  ): Promise<QuestionAutofillResponse> {
+    const startTime = Date.now();
+    const schema = zodToJsonSchema(questionAutofillResponseSchema, "questionAutofillResponse");
+    const systemPrompt = this.getQuestionAutofillSystemPrompt();
+
+    const userPrompt = `<USER_PROFILE>
+${JSON.stringify(information, null, 2)}
+</USER_PROFILE>
+
+<QUESTIONS>
+${JSON.stringify(questions, null, 2)}
+</QUESTIONS>
+
+${
+  jobContext
+    ? `<JOB_CONTEXT>
+Title: ${jobContext.title ?? "Unknown"}
+Company: ${jobContext.company ?? "Unknown"}
+Industry: ${jobContext.industry ?? "Not specified"}
+Location: ${jobContext.location ?? "Not specified"}
+Employment Type: ${jobContext.employmentType ?? "Not specified"}
+Experience Level: ${jobContext.experienceLevel ?? "Not specified"}
+Key Requirements: ${jobContext.keyRequirements?.join(", ") ?? "Not specified"}
+Description: ${jobContext.description ?? "Not provided"}
+</JOB_CONTEXT>`
+    : ""
+}
+
+${pageUrl ? `<PAGE_URL>${pageUrl}</PAGE_URL>` : ""}
+
+${instructions ? `<ADDITIONAL_INSTRUCTIONS>${instructions}</ADDITIONAL_INSTRUCTIONS>` : ""}
+
+Answer each question based on the user's profile. Put questions with confidence >= 0.60 in "answers" and questions with confidence < 0.60 in "needs_review".`;
+
+    // Use native Gemini SDK for guaranteed structured output
+    if (config.provider === "gemini") {
+      return this.questionAutofillWithGemini(systemPrompt, userPrompt, schema, startTime, config);
+    }
+
+    // Use OpenAI for other providers
+    return this.questionAutofillWithOpenAI(systemPrompt, userPrompt, schema, startTime, config);
+  }
+
+  private async questionAutofillWithGemini(
+    systemPrompt: string,
+    userPrompt: string,
+    _schema: ReturnType<typeof zodToJsonSchema>,
+    startTime: number,
+    config: OpenAIConfigDto,
+  ): Promise<QuestionAutofillResponse> {
+    const gemini = this.getGeminiClient(config);
+    const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
+
+    try {
+      const response = await gemini.models.generateContent({
+        model,
+        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
+        config: {
+          responseMimeType: "application/json",
+        },
+      });
+
+      const content = response.text;
+      if (!content) {
+        throw new InternalServerErrorException("Gemini returned an empty response.");
+      }
+
+      try {
+        const parsed = JSON.parse(content);
+
+        // Sanitize: Remove null values for optional fields that Gemini may set to null
+        if (parsed.answers && Array.isArray(parsed.answers)) {
+          for (const answer of parsed.answers) {
+            if (answer.reasoning === null) delete answer.reasoning;
+            if (answer.source_field === null) delete answer.source_field;
+          }
+        }
+        if (parsed.needs_review && Array.isArray(parsed.needs_review)) {
+          for (const item of parsed.needs_review) {
+            if (item.suggestions === null) delete item.suggestions;
+            if (item.category === null) delete item.category;
+          }
+        }
+
+        const validated = questionAutofillResponseSchema.parse(parsed);
+
+        // Calculate average confidence
+        const allConfidences = [
+          ...validated.answers.map((a) => a.confidence),
+          ...validated.needs_review.map((r) => r.confidence),
+        ];
+        const avgConfidence =
+          allConfidences.length > 0
+            ? allConfidences.reduce((sum, c) => sum + c, 0) / allConfidences.length
+            : 0;
+
+        validated.metadata = {
+          ...validated.metadata,
+          ai_model_used: model,
+          processing_time_ms: Date.now() - startTime,
+          average_confidence: Math.round(avgConfidence * 100) / 100,
+        };
+
+        return validated;
+      } catch (error) {
+        this.logger.error(`Question Autofill JSON Parsing Error: ${(error as Error).message}`);
+        this.logger.debug(`Raw Content: ${content}`);
+        throw new InternalServerErrorException(
+          "Gemini returned invalid JSON for question autofill.",
+          (error as Error).message,
+        );
+      }
+    } catch (error) {
+      if (error instanceof InternalServerErrorException) throw error;
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        "Failed to generate question autofill via Gemini",
+        (error as Error).message,
+      );
+    }
+  }
+
+  private async questionAutofillWithOpenAI(
+    systemPrompt: string,
+    userPrompt: string,
+    schema: ReturnType<typeof zodToJsonSchema>,
+    startTime: number,
+    config: OpenAIConfigDto,
+  ): Promise<QuestionAutofillResponse> {
+    const openai = this.getOpenAIClient(config);
+    const model = config.model ?? OPENAI_DEFAULT_MODEL_SERVER;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        max_completion_tokens: 8192,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content:
+              systemPrompt +
+              `
+
+OUTPUT: JSON matching the schema exactly. No markdown wrapping.
+
+<JSON_SCHEMA>
+${JSON.stringify(schema)}
+</JSON_SCHEMA>`,
+          },
+          { role: "user", content: userPrompt },
+        ],
+      });
+
+      const content = response.choices[0].message.content;
+      if (!content) {
+        throw new InternalServerErrorException("AI returned an empty response.");
+      }
+
+      try {
+        const parsed = JSON.parse(content);
+        const validated = questionAutofillResponseSchema.parse(parsed);
+
+        // Calculate average confidence
+        const allConfidences = [
+          ...validated.answers.map((a) => a.confidence),
+          ...validated.needs_review.map((r) => r.confidence),
+        ];
+        const avgConfidence =
+          allConfidences.length > 0
+            ? allConfidences.reduce((sum, c) => sum + c, 0) / allConfidences.length
+            : 0;
+
+        validated.metadata = {
+          ...validated.metadata,
+          ai_model_used: model,
+          processing_time_ms: Date.now() - startTime,
+          average_confidence: Math.round(avgConfidence * 100) / 100,
+        };
+
+        return validated;
+      } catch (error) {
+        this.logger.error(`Question Autofill JSON Parsing Error: ${(error as Error).message}`);
+        this.logger.debug(`Raw Content: ${content}`);
+        throw new InternalServerErrorException(
+          "AI returned invalid JSON for question autofill.",
+          (error as Error).message,
+        );
+      }
+    } catch (error) {
+      if (error instanceof InternalServerErrorException) throw error;
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        "Failed to generate question autofill via AI",
         (error as Error).message,
       );
     }

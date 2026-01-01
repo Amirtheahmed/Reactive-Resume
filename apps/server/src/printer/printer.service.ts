@@ -175,7 +175,7 @@ export class PrinterService {
 
       const pdfUrl = await this.storageService.uploadObject(
         coverLetter.userId,
-        "resumes",
+        "cover-letters",
         buffer,
         coverLetter.title,
       );

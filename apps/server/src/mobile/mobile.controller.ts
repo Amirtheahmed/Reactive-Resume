@@ -11,13 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import type { MobileLink } from "@prisma/client";
 import {
@@ -25,6 +19,7 @@ import {
   IntelligentAutofillRequestDto,
   MobileGenerateCoverLetterDto,
   MobileGenerateResumeDto,
+  QuestionAutofillRequestDto,
   UpdateInformationDto,
   UserWithSecrets,
 } from "@reactive-resume/dto";
@@ -138,7 +133,8 @@ export class MobileController {
   @Post("generate-resume")
   @ApiOperation({
     summary: "Generate tailored resume",
-    description: "Uses AI to generate a resume tailored to the provided job description. Rate limited to 10 requests per hour.",
+    description:
+      "Uses AI to generate a resume tailored to the provided job description. Rate limited to 10 requests per hour.",
   })
   @ApiResponse({ status: 201, description: "Resume generated successfully." })
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
@@ -197,7 +193,8 @@ export class MobileController {
   @Post("generate-cover-letter")
   @ApiOperation({
     summary: "Generate tailored cover letter",
-    description: "Uses AI to generate a cover letter tailored to the provided job description. Rate limited to 20 requests per hour.",
+    description:
+      "Uses AI to generate a cover letter tailored to the provided job description. Rate limited to 20 requests per hour.",
   })
   @ApiResponse({ status: 201, description: "Cover letter generated successfully." })
   @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
@@ -219,7 +216,8 @@ export class MobileController {
   @Post("autofill-export")
   @ApiOperation({
     summary: "Export autofill data",
-    description: "Exports user data in a format suitable for form filling. Supports structured or flat formats.",
+    description:
+      "Exports user data in a format suitable for form filling. Supports structured or flat formats.",
   })
   @ApiResponse({ status: 200, description: "Autofill data exported successfully." })
   @ApiResponse({ status: 401, description: "Unauthorized." })
@@ -243,5 +241,22 @@ export class MobileController {
   intelligentAutofill(@User() user: UserWithSecrets, @Body() data: IntelligentAutofillRequestDto) {
     return this.mobileService.intelligentAutofill(user, data);
   }
-}
 
+  @Post("question-autofill")
+  @ApiOperation({
+    summary: "Question-based intelligent autofill",
+    description:
+      "Answers specific form questions using AI based on the user's information bank and job context. " +
+      "Designed for browser AI agents handling dynamic forms, multi-step flows, and non-standard form elements. " +
+      "Unlike intelligent-autofill which requires full HTML, this accepts pre-extracted questions. " +
+      "Rate limited to 50 requests per hour.",
+  })
+  @ApiResponse({ status: 200, description: "Question answers generated successfully." })
+  @ApiResponse({ status: 400, description: "Bad request - Invalid data or AI key not configured." })
+  @ApiResponse({ status: 401, description: "Unauthorized." })
+  @ApiResponse({ status: 429, description: "Too many requests - Rate limit exceeded." })
+  @Throttle({ default: { limit: 500, ttl: 3_600_000 } })
+  questionAutofill(@User() user: UserWithSecrets, @Body() data: QuestionAutofillRequestDto) {
+    return this.mobileService.questionAutofill(user, data);
+  }
+}
