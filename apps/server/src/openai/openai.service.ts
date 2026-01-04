@@ -23,9 +23,11 @@ import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 import { AICacheService } from "./ai-cache.service";
+import { hydrateAIResumeToFull } from "./ai-resume-hydrator";
+import { aiResumeSchema } from "./ai-resume-schema";
 import { zodToGeminiSchema } from "./gemini-schema.utils";
 
-const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview";
+const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview"; // eg. "gemini-3-flash-preview", "gemini-2.5-flash, gemini-2.5-flash-lite-preview-09-2025
 const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 
 @Injectable()
@@ -232,27 +234,37 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
     }
 
     const systemPrompt = this.getResumeSystemPrompt();
-    const userPrompt = `<json_schema>
-    ${JSON.stringify(resumeDataSchema)}
-    </json_schema>
-
-    <information_bank>
-    ${JSON.stringify(information)}
-    </information_bank>
-
-    <job_description>
-    ${jobDescription}
-    </job_description>
-
-    Now, generate the tailored resume JSON based on the principles and steps provided.
-    `;
 
     let result: ResumeData;
 
     if (config.provider === "gemini" || config.provider === "vertexai") {
-      result = await this.generateResumeWithGemini(systemPrompt, userPrompt, config);
+      const geminiUserPrompt = `<information_bank>
+${JSON.stringify(information)}
+</information_bank>
+
+<job_description>
+${jobDescription}
+</job_description>
+
+Generate a tailored resume JSON based on the principles provided. The output structure is enforced by the schema.`;
+
+      result = await this.generateResumeWithGemini(systemPrompt, geminiUserPrompt, config);
     } else {
-      result = await this.generateResumeWithOpenAI(systemPrompt, userPrompt, config);
+      const openaiUserPrompt = `<json_schema>
+${JSON.stringify(resumeDataSchema)}
+</json_schema>
+
+<information_bank>
+${JSON.stringify(information)}
+</information_bank>
+
+<job_description>
+${jobDescription}
+</job_description>
+
+Now, generate the tailored resume JSON based on the principles and steps provided.`;
+
+      result = await this.generateResumeWithOpenAI(systemPrompt, openaiUserPrompt, config);
     }
 
     this.cacheService.set(cacheKey, result);
@@ -268,7 +280,8 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
     const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
 
     try {
-      //const schema = zodToGeminiSchema(resumeDataSchema);
+      const geminiSchema = zodToGeminiSchema(aiResumeSchema);
+
       const response = await gemini.models.generateContent({
         model,
         contents: [{ role: "user", parts: [{ text: userPrompt }] }],
@@ -276,6 +289,7 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
           systemInstruction: systemPrompt,
           maxOutputTokens: 65_535,
           responseMimeType: "application/json",
+          responseSchema: geminiSchema,
           temperature: 0,
         },
       });
@@ -288,9 +302,9 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
       this.logger.debug(`Raw Content: ${content.slice(0, 500)}...`);
 
       try {
-        const parsedJson = JSON.parse(content);
-        const sanitizedData = this.sanitizeResumeIds(parsedJson);
-        return resumeDataSchema.parse(sanitizedData);
+        const parsedJson: unknown = JSON.parse(content);
+        const hydratedData = hydrateAIResumeToFull(parsedJson);
+        return resumeDataSchema.parse(hydratedData);
       } catch (error) {
         this.logger.error(`JSON Parsing Error: ${(error as Error).message}`);
         this.logger.debug(`Raw Content: ${content}`);
@@ -431,11 +445,9 @@ Now, generate the cover letter JSON.`;
 
     let result: { content: string };
 
-    if (config.provider === "gemini" || config.provider === "vertexai") {
-      result = await this.generateCoverLetterWithGemini(systemPrompt, userPrompt, config);
-    } else {
-      result = await this.generateCoverLetterWithOpenAI(systemPrompt, userPrompt, config);
-    }
+    result = await (config.provider === "gemini" || config.provider === "vertexai"
+      ? this.generateCoverLetterWithGemini(systemPrompt, userPrompt, config)
+      : this.generateCoverLetterWithOpenAI(systemPrompt, userPrompt, config));
 
     this.cacheService.set(cacheKey, result);
     return result;
@@ -621,11 +633,9 @@ Now, generate the JSON object containing the field mapping.`;
 
     let result: AutofillResult;
 
-    if (config.provider === "gemini" || config.provider === "vertexai") {
-      result = await this.createAutofillMapWithGemini(systemPrompt, userPrompt, config);
-    } else {
-      result = await this.createAutofillMapWithOpenAI(systemPrompt, userPrompt, config);
-    }
+    result = await (config.provider === "gemini" || config.provider === "vertexai"
+      ? this.createAutofillMapWithGemini(systemPrompt, userPrompt, config)
+      : this.createAutofillMapWithOpenAI(systemPrompt, userPrompt, config));
 
     this.cacheService.set(cacheKey, result);
     return result;
@@ -840,12 +850,12 @@ ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}`
           {
             role: "user",
             content: attachmentUrl
-              ? this.isImageUrl(attachmentUrl)
+              ? (this.isImageUrl(attachmentUrl)
                 ? [
                     { type: "text", text: query },
                     { type: "image_url", image_url: { url: attachmentUrl } },
                   ]
-                : `${query}\n\n[Attachment: ${attachmentUrl}]`
+                : `${query}\n\n[Attachment: ${attachmentUrl}]`)
               : query,
           },
         ],
@@ -1329,7 +1339,7 @@ Answer each question based on the user's profile. Put questions with confidence 
           systemInstruction: systemPrompt,
           responseMimeType: "application/json",
           responseSchema: geminiSchema,
-          temperature: 0
+          temperature: 0,
         },
       });
 
