@@ -160,6 +160,8 @@ export class MobileService {
         information.data as InformationData,
         data.jobDescription,
         openAiConfig,
+        user.id,
+        data.bypassCache,
       );
 
       const finalData: ResumeData = {
@@ -307,13 +309,12 @@ export class MobileService {
         azureApiVersion: userAiConfig.aiAzureApiVersion ?? undefined,
       };
 
-      // Generate cover letter content with tone
-      // Note: tone is accepted in the DTO but currently not used by OpenAI service
-      // Could be used for future prompt customization
       const { content } = await this.openaiService.generateCoverLetter(
         information.data as InformationData,
         data.jobDescription,
         openAiConfig,
+        user.id,
+        data.bypassCache,
       );
 
       const coverLetter = await this.prisma.coverLetter.create({

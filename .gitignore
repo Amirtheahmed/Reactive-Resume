@@ -43,6 +43,7 @@ Thumbs.db
 .turbo
 fly.toml
 stats.html
+.cache
 
 # Environment Variables
 *.env*

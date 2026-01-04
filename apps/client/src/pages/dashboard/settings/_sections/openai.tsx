@@ -33,7 +33,7 @@ import { useAiSettings, useUpdateAiSettings } from "@/client/services/user/ai-se
 import { useOpenAiStore } from "@/client/stores/openai";
 
 const formSchema = z.object({
-  provider: z.enum(["openai", "azure", "ollama", "gemini"]).default("openai"),
+  provider: z.enum(["openai", "azure", "ollama", "gemini", "vertexai"]).default("openai"),
   apiKey: z.string().optional().default(""), // Optional: only for updates
   baseURL: z.string().optional().default(""),
   model: z.string().default(DEFAULT_MODEL),
@@ -194,6 +194,7 @@ const OpenAISettings = () => {
                     <SelectContent>
                       <SelectItem value="openai">OpenAI</SelectItem>
                       <SelectItem value="gemini">Google Gemini</SelectItem>
+                      <SelectItem value="vertexai">Google Gemini Vertex</SelectItem>
                       <SelectItem value="azure">Azure OpenAI</SelectItem>
                       <SelectItem value="ollama">Ollama (Local)</SelectItem>
                     </SelectContent>
@@ -210,7 +211,7 @@ const OpenAISettings = () => {
             render={({ field }) => (
               <FormItem className="sm:col-span-2">
                 <FormLabel>
-                  {currentProvider === "gemini" ? t`Gemini API Key` : t`API Key`}
+                  {currentProvider === "gemini" || currentProvider === "vertexai" ? t`Gemini API Key` : t`API Key`}
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -336,6 +337,21 @@ const OpenAISettings = () => {
                 get an API Key from Google AI Studio
               </a>
               . This feature uses Google's OpenAI compatibility layer.
+            </Trans>
+          </p>
+        )}
+        {currentProvider === "vertexai" && (
+          <p>
+            <Trans>
+              To use Google Gemini Vertex, you need to{" "}
+              <a
+                href="https://cloud.google.com/vertex-ai/docs/generative-ai/enable-generative-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                enable Vertex AI and obtain an API key
+              </a>
+              . This feature uses Google's Vertex AI API.
             </Trans>
           </p>
         )}

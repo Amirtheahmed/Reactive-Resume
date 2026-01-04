@@ -48,7 +48,7 @@ export class ExtensionService {
         user.id,
         baseTitle,
         baseSlug,
-        'resume',
+        "resume",
       );
 
       // Pull AI config from the user's secrets instead of the request body
@@ -61,7 +61,7 @@ export class ExtensionService {
 
       const openAiConfig: OpenAIConfigDto = {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        provider: userAiConfig.aiProvider as OpenAIConfigDto["provider"] ?? "openai",
+        provider: (userAiConfig.aiProvider as OpenAIConfigDto["provider"]) ?? "openai",
         apiKey: userAiConfig.aiApiKey,
         baseURL: userAiConfig.aiBaseUrl ?? undefined,
         model: userAiConfig.aiModel ?? undefined,
@@ -74,6 +74,7 @@ export class ExtensionService {
         information.data as InformationData,
         data.jobDescription,
         openAiConfig,
+        user.id,
       );
 
       const finalData: ResumeData = {
@@ -142,7 +143,7 @@ export class ExtensionService {
         user.id,
         baseTitle,
         baseSlug,
-        'coverLetter',
+        "coverLetter",
       );
 
       const userAiConfig = user.secrets;
@@ -167,6 +168,7 @@ export class ExtensionService {
         information.data as InformationData,
         data.jobDescription,
         openAiConfig,
+        user.id,
       );
 
       const coverLetter = await this.coverLetterService.create(user.id, {
@@ -217,6 +219,7 @@ export class ExtensionService {
         data.fields,
         openAiConfig,
         data.jobDescription,
+        user.id,
       );
     } catch (error) {
       this.logger.error(error);
@@ -229,7 +232,7 @@ export class ExtensionService {
     userId: string,
     baseTitle: string,
     baseSlug: string,
-    type: 'resume' | 'coverLetter',
+    type: "resume" | "coverLetter",
   ): Promise<{ title: string; slug: string }> {
     let title = baseTitle;
     let slug = baseSlug;
@@ -237,15 +240,16 @@ export class ExtensionService {
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,no-constant-condition
     while (true) {
-      const existing = type === 'resume'
-        ? await this.prisma.resume.findFirst({
-          where: { userId, slug },
-          select: { id: true },
-        })
-        : await this.prisma.coverLetter.findFirst({
-          where: { userId, slug },
-          select: { id: true },
-        });
+      const existing =
+        type === "resume"
+          ? await this.prisma.resume.findFirst({
+              where: { userId, slug },
+              select: { id: true },
+            })
+          : await this.prisma.coverLetter.findFirst({
+              where: { userId, slug },
+              select: { id: true },
+            });
 
       if (!existing) {
         return { title, slug };
@@ -256,5 +260,4 @@ export class ExtensionService {
       counter++;
     }
   }
-
 }

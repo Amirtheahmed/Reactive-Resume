@@ -1,4 +1,4 @@
-import { BadRequestException,Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import {
   CreateCoverLetterDto,
   GenerateCoverLetterDto,
@@ -85,6 +85,7 @@ export class CoverLetterService {
       information.data as InformationData,
       jobDescription,
       openAiConfig,
+      userId,
     );
 
     return this.prisma.coverLetter.create({

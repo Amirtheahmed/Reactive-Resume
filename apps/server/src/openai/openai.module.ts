@@ -1,10 +1,10 @@
-// apps/server/src/openai/openai.module.ts
 import { Module } from "@nestjs/common";
 
+import { AICacheService } from "./ai-cache.service";
 import { OpenAIService } from "./openai.service";
 
 @Module({
-  providers: [OpenAIService],
-  exports: [OpenAIService],
+  providers: [OpenAIService, AICacheService],
+  exports: [OpenAIService, AICacheService],
 })
 export class OpenAIModule {}

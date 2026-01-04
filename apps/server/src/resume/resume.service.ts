@@ -193,6 +193,7 @@ export class ResumeService {
       information.data as InformationData,
       jobDescription,
       openAiConfig,
+      userId,
     );
 
     return this.prisma.resume.create({

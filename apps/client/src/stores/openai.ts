@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 import { DEFAULT_AZURE_API_VERSION, DEFAULT_MAX_TOKENS, DEFAULT_MODEL } from "../constants/llm";
 
-type Provider = "openai" | "azure" | "ollama" | "gemini";
+type Provider = "openai" | "azure" | "ollama" | "gemini" | "vertexai";
 
 type OpenAIStore = {
   baseURL: string | null;

@@ -242,7 +242,7 @@ export class MobileController {
     return this.mobileService.intelligentAutofill(user, data);
   }
 
-  @Post("question-autofill")
+  @Post("intelligent-questions-autofill")
   @ApiOperation({
     summary: "Question-based intelligent autofill",
     description:

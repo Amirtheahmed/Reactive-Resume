@@ -8,6 +8,7 @@ export const mobileGenerateResumeSchema = z.object({
   jobDescription: z.string().min(1),
   template: z.string().default("rhyhorn"),
   outputFormat: z.enum(["pdf", "json", "both"]).default("pdf"),
+  bypassCache: z.boolean().default(false),
 });
 
 export class MobileGenerateResumeDto extends createZodDto(mobileGenerateResumeSchema) {}
@@ -21,4 +22,3 @@ export const mobileGenerateResumeResponseSchema = z.object({
 });
 
 export type MobileGenerateResumeResponse = z.infer<typeof mobileGenerateResumeResponseSchema>;
-

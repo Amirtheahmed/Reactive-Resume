@@ -12,10 +12,17 @@ import {
   QuestionItem,
   QuestionJobContext,
 } from "@reactive-resume/dto";
-import { InformationData, ResumeData, resumeDataSchema } from "@reactive-resume/schema";
+import {
+  defaultResumeData,
+  InformationData,
+  ResumeData,
+  resumeDataSchema,
+} from "@reactive-resume/schema";
+import deepmerge from "deepmerge";
 import OpenAI from "openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
+import { AICacheService } from "./ai-cache.service";
 import { zodToGeminiSchema } from "./gemini-schema.utils";
 
 const GEMINI_DEFAULT_MODEL_SERVER = "gemini-3-flash-preview";
@@ -24,6 +31,8 @@ const OPENAI_DEFAULT_MODEL_SERVER = "gpt-4o";
 @Injectable()
 export class OpenAIService {
   private readonly logger = new Logger(OpenAIService.name);
+
+  constructor(private readonly cacheService: AICacheService) {}
 
   private getOpenAIClient(config: OpenAIConfigDto) {
     const { apiKey, baseURL, isAzure, azureApiVersion, model, provider } = config;
@@ -57,22 +66,7 @@ export class OpenAIService {
   }
 
   private getGeminiClient(config: OpenAIConfigDto): GoogleGenAI {
-    const { apiKey, provider, baseURL } = config;
-
-    if (provider === "vertexai") {
-      if (!apiKey || !baseURL) {
-        throw new InternalServerErrorException(
-          "Vertex AI requires Project ID (in API Key field) and Location (in Base URL field).",
-        );
-      }
-
-      return new GoogleGenAI({
-        vertexai: true,
-        project: "itjobmeterv2",
-        location: "europe-west4",
-        apiKey,
-      });
-    }
+    const { apiKey, provider } = config;
 
     if (!apiKey) {
       throw new InternalServerErrorException(
@@ -80,29 +74,93 @@ export class OpenAIService {
       );
     }
 
+    if (provider === "vertexai") {
+      return new GoogleGenAI({
+        vertexai: true,
+        apiVersion: "v1beta1",
+        apiKey,
+      });
+    }
+
     return new GoogleGenAI({ apiKey });
   }
 
+  /**
+   * Sanitizes AI-generated resume data to handle Gemini API limitations:
+   * - Union types (anyOf) not supported: fields like email, url.href get omitted
+   * - Default values stripped from schema
+   * - Pattern validation (cuid2) stripped, so IDs need regeneration
+   */
   private sanitizeResumeIds(data: unknown): ResumeData {
-    const typedData = data as Record<string, unknown>;
-    if (typedData.sections) {
-      const sections = typedData.sections as Record<string, unknown>;
-      for (const key in sections) {
-        const section = sections[key] as Record<string, unknown>;
-        if (Array.isArray(section.items)) {
+    const mergedData = deepmerge(defaultResumeData, data as Partial<ResumeData>, {
+      arrayMerge: (_target, source) => source,
+    });
+
+    this.ensureUrlHref(mergedData.basics?.url);
+
+    if (Array.isArray(mergedData.basics?.customFields)) {
+      for (const field of mergedData.basics.customFields) {
+        if (field && typeof field === "object") {
+          field.id = createId();
+        }
+      }
+    }
+
+    if (mergedData.sections) {
+      for (const key in mergedData.sections) {
+        if (key === "custom") continue;
+
+        const section = mergedData.sections[key as keyof typeof mergedData.sections];
+        if (
+          section &&
+          typeof section === "object" &&
+          "items" in section &&
+          Array.isArray(section.items)
+        ) {
           for (const item of section.items) {
             if (item && typeof item === "object") {
-              const typedItem = item as Record<string, unknown>;
-              typedItem.id = createId();
-              if (typeof typedItem.visible !== "boolean") {
-                typedItem.visible = true;
+              item.id = createId();
+              if (typeof item.visible !== "boolean") {
+                item.visible = true;
+              }
+              if ("url" in item && item.url && typeof item.url === "object") {
+                this.ensureUrlHref(item.url as Record<string, unknown>);
+              }
+            }
+          }
+        }
+      }
+
+      if (mergedData.sections.custom && typeof mergedData.sections.custom === "object") {
+        for (const customKey in mergedData.sections.custom) {
+          const customSection = mergedData.sections.custom[customKey];
+          if (customSection && typeof customSection === "object") {
+            customSection.id = createId();
+            if (Array.isArray(customSection.items)) {
+              for (const item of customSection.items) {
+                if (item && typeof item === "object") {
+                  item.id = createId();
+                  if (typeof item.visible !== "boolean") {
+                    item.visible = true;
+                  }
+                  if ("url" in item && item.url && typeof item.url === "object") {
+                    this.ensureUrlHref(item.url as Record<string, unknown>);
+                  }
+                }
               }
             }
           }
         }
       }
     }
-    return typedData as ResumeData;
+
+    return mergedData as ResumeData;
+  }
+
+  private ensureUrlHref(url: unknown): void {
+    if (url && typeof url === "object" && !("href" in url)) {
+      (url as Record<string, unknown>).href = "";
+    }
   }
 
   private getResumeSystemPrompt(): string {
@@ -155,28 +213,50 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
     information: InformationData,
     jobDescription: string,
     config: OpenAIConfigDto,
+    userId?: string,
+    bypassCache = false,
   ): Promise<ResumeData> {
-    const schema = zodToJsonSchema(resumeDataSchema, "resumeDataSchema");
-    const systemPrompt = this.getResumeSystemPrompt();
-    const userPrompt = `<json_schema>
-${JSON.stringify(schema)}
-</json_schema>
+    const cacheKey = this.cacheService.generateKey("resume", userId ?? "anonymous", {
+      information,
+      jobDescription,
+      model: config.model,
+      provider: config.provider,
+    });
 
-<information_bank>
-${JSON.stringify(information)}
-</information_bank>
-
-<job_description>
-${jobDescription}
-</job_description>
-
-Now, generate the tailored resume JSON based on the principles and steps provided.`;
-
-    if (config.provider === "gemini" || config.provider === "vertexai") {
-      return this.generateResumeWithGemini(systemPrompt, userPrompt, config);
+    if (!bypassCache) {
+      const cached = this.cacheService.get<ResumeData>(cacheKey);
+      if (cached) {
+        this.logger.log("Returning cached resume");
+        return cached;
+      }
     }
 
-    return this.generateResumeWithOpenAI(systemPrompt, userPrompt, config);
+    const systemPrompt = this.getResumeSystemPrompt();
+    const userPrompt = `<json_schema>
+    ${JSON.stringify(resumeDataSchema)}
+    </json_schema>
+
+    <information_bank>
+    ${JSON.stringify(information)}
+    </information_bank>
+
+    <job_description>
+    ${jobDescription}
+    </job_description>
+
+    Now, generate the tailored resume JSON based on the principles and steps provided.
+    `;
+
+    let result: ResumeData;
+
+    if (config.provider === "gemini" || config.provider === "vertexai") {
+      result = await this.generateResumeWithGemini(systemPrompt, userPrompt, config);
+    } else {
+      result = await this.generateResumeWithOpenAI(systemPrompt, userPrompt, config);
+    }
+
+    this.cacheService.set(cacheKey, result);
+    return result;
   }
 
   private async generateResumeWithGemini(
@@ -188,6 +268,7 @@ Now, generate the tailored resume JSON based on the principles and steps provide
     const model = config.model ?? GEMINI_DEFAULT_MODEL_SERVER;
 
     try {
+      //const schema = zodToGeminiSchema(resumeDataSchema);
       const response = await gemini.models.generateContent({
         model,
         contents: [{ role: "user", parts: [{ text: userPrompt }] }],
@@ -319,7 +400,24 @@ Your goal is to write a compelling, human-sounding, and value-driven cover lette
     information: InformationData,
     jobDescription: string,
     config: OpenAIConfigDto,
+    userId?: string,
+    bypassCache = false,
   ): Promise<{ content: string }> {
+    const cacheKey = this.cacheService.generateKey("cover-letter", userId ?? "anonymous", {
+      information,
+      jobDescription,
+      model: config.model,
+      provider: config.provider,
+    });
+
+    if (!bypassCache) {
+      const cached = this.cacheService.get<{ content: string }>(cacheKey);
+      if (cached) {
+        this.logger.log("Returning cached cover letter");
+        return cached;
+      }
+    }
+
     const systemPrompt = this.getCoverLetterSystemPrompt();
     const userPrompt = `<information_bank>
 ${JSON.stringify(information)}
@@ -331,13 +429,16 @@ ${jobDescription}
 
 Now, generate the cover letter JSON.`;
 
-    // Use native Gemini SDK for guaranteed structured output
+    let result: { content: string };
+
     if (config.provider === "gemini" || config.provider === "vertexai") {
-      return this.generateCoverLetterWithGemini(systemPrompt, userPrompt, config);
+      result = await this.generateCoverLetterWithGemini(systemPrompt, userPrompt, config);
+    } else {
+      result = await this.generateCoverLetterWithOpenAI(systemPrompt, userPrompt, config);
     }
 
-    // Use OpenAI for other providers
-    return this.generateCoverLetterWithOpenAI(systemPrompt, userPrompt, config);
+    this.cacheService.set(cacheKey, result);
+    return result;
   }
 
   private async generateCoverLetterWithGemini(
@@ -484,7 +585,27 @@ Your output MUST be a JSON object with a single key "mapping", which contains an
     fields: AutofillMapRequestDto["fields"],
     config: OpenAIConfigDto,
     jobDescription?: string,
+    userId?: string,
+    bypassCache = false,
   ): Promise<{ id: string; value: string; strategy: "AI_MAPPED" | "AI_GENERATED" }[]> {
+    type AutofillResult = { id: string; value: string; strategy: "AI_MAPPED" | "AI_GENERATED" }[];
+
+    const cacheKey = this.cacheService.generateKey("autofill-map", userId ?? "anonymous", {
+      information,
+      fields,
+      jobDescription,
+      model: config.model,
+      provider: config.provider,
+    });
+
+    if (!bypassCache) {
+      const cached = this.cacheService.get<AutofillResult>(cacheKey);
+      if (cached) {
+        this.logger.log("Returning cached autofill map");
+        return cached;
+      }
+    }
+
     const systemPrompt = this.getAutofillMapSystemPrompt();
     const userPrompt = `<INFORMATION_BANK>
 ${JSON.stringify(information)}
@@ -498,13 +619,16 @@ ${jobDescription ? `<JOB_DESCRIPTION>${jobDescription}</JOB_DESCRIPTION>` : ""}
 
 Now, generate the JSON object containing the field mapping.`;
 
-    // Use native Gemini SDK for guaranteed structured output
+    let result: AutofillResult;
+
     if (config.provider === "gemini" || config.provider === "vertexai") {
-      return this.createAutofillMapWithGemini(systemPrompt, userPrompt, config);
+      result = await this.createAutofillMapWithGemini(systemPrompt, userPrompt, config);
+    } else {
+      result = await this.createAutofillMapWithOpenAI(systemPrompt, userPrompt, config);
     }
 
-    // Use OpenAI for other providers
-    return this.createAutofillMapWithOpenAI(systemPrompt, userPrompt, config);
+    this.cacheService.set(cacheKey, result);
+    return result;
   }
 
   private async createAutofillMapWithGemini(
@@ -876,7 +1000,9 @@ Description: ${jobContext.description ?? "Not provided"}
 Analyze this form and return fill instructions for each field. Put fields with confidence >= 0.60 in "fields" array and fields with confidence < 0.60 in "needs_review" array.`;
 
     if (config.provider === "gemini" || config.provider === "vertexai") {
-      const geminiSchema = zodToGeminiSchema(intelligentAutofillResponseSchema);
+      const geminiSchema = zodToJsonSchema(intelligentAutofillResponseSchema, {
+        $refStrategy: "none",
+      });
       return this.intelligentAutofillWithGemini(
         systemPrompt,
         userPrompt,
@@ -1170,7 +1296,9 @@ ${instructions ? `<ADDITIONAL_INSTRUCTIONS>${instructions}</ADDITIONAL_INSTRUCTI
 Answer each question based on the user's profile. Put questions with confidence >= 0.60 in "answers" and questions with confidence < 0.60 in "needs_review".`;
 
     if (config.provider === "gemini" || config.provider === "vertexai") {
-      const geminiSchema = zodToGeminiSchema(questionAutofillResponseSchema);
+      const geminiSchema = zodToJsonSchema(questionAutofillResponseSchema, {
+        $refStrategy: "none",
+      });
       return this.questionAutofillWithGemini(
         systemPrompt,
         userPrompt,
@@ -1196,10 +1324,12 @@ Answer each question based on the user's profile. Put questions with confidence 
     try {
       const response = await gemini.models.generateContent({
         model,
-        contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }],
+        contents: [{ role: "user", parts: [{ text: userPrompt }] }],
         config: {
+          systemInstruction: systemPrompt,
           responseMimeType: "application/json",
           responseSchema: geminiSchema,
+          temperature: 0
         },
       });
 

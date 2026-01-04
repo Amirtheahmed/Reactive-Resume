@@ -7,6 +7,7 @@ export const mobileGenerateCoverLetterSchema = z.object({
   companyName: z.string().optional(),
   jobDescription: z.string().min(1),
   tone: z.enum(["professional", "friendly", "formal"]).default("professional"),
+  bypassCache: z.boolean().default(false),
 });
 
 export class MobileGenerateCoverLetterDto extends createZodDto(mobileGenerateCoverLetterSchema) {}
@@ -18,5 +19,6 @@ export const mobileGenerateCoverLetterResponseSchema = z.object({
   pdfUrl: z.string().url().optional(),
 });
 
-export type MobileGenerateCoverLetterResponse = z.infer<typeof mobileGenerateCoverLetterResponseSchema>;
-
+export type MobileGenerateCoverLetterResponse = z.infer<
+  typeof mobileGenerateCoverLetterResponseSchema
+>;

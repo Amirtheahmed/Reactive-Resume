@@ -95,4 +95,5 @@ export function zodToGeminiSchema(zodSchema: ZodType): Record<string, unknown> {
   });
 
   return cleanSchemaForGemini(jsonSchema) as Record<string, unknown>;
+  return jsonSchema as Record<string, unknown>;
 }
