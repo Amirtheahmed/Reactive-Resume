@@ -56,3 +56,6 @@ apps/client/src/locales/*/messages.*js
 # Repomix
 repomix-codebase.md
 reactive-resume-codebase.md
+
+# Misc
+docs
