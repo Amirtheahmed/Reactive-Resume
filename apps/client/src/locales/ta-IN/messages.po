@@ -30,7 +30,7 @@ msgstr "{templatesCount}resume டெம்பிளேட்களை தேர
 msgid "{value, plural, one {Column} other {Columns}}"
 msgstr "{value, plural,one {நெடுவரிசை }other {நெடுவரிசை }}"
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:219
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:220
 msgid "•••••••••••••••••••• (saved)"
 msgstr ""
 
@@ -54,7 +54,7 @@ msgstr "ஆப்ஸ் சரியாக இல்லை என்று ந�
 msgid "<0>Intelligent Autofill:</0> Filling out job application forms using the data from your Reactive Resume Information Bank."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:367
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:383
 msgid "<0>Note: </0>By utilizing AI features, you acknowledge that data (such as your resume content) will be sent to the selected third-party provider (OpenAI, Google, or your local Ollama instance). Reactive Resume bears no responsibility for the data processing practices of these third-party providers."
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr "இந்த லிங்க் இருக்கும் அனைவ
 msgid "Anyone with this link can view and download the resume. Share it on your profile or with recruiters."
 msgstr "இந்த லிங்க் இருக்கும் அனைவரும் உங்கள் resume -வை பார்க்க மற்றும் பதிவிறக்க முடியும். இந்த லிங்க-கை உங்களது ப்ரொபைல் அல்லது மேலாளர்களிடம் பகிர்ந்து கொள்ளுங்கள்."
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:213
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:214
 msgid "API Key"
 msgstr ""
 
@@ -341,7 +341,7 @@ msgstr ""
 msgid "Awards and honors you have received."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:301
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:302
 msgid "Azure API Version"
 msgstr ""
 
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Azure OpenAI Base URL, deployment name (model), and API version are required when using Azure OpenAI."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:235
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:236
 msgid "Azure OpenAI Resource URL"
 msgstr ""
 
@@ -371,7 +371,7 @@ msgstr "காப்பு குறியீடு"
 msgid "Backup Codes may contain only lowercase letters or numbers, and must be exactly 10 characters."
 msgstr "காப்புப் பிரதிக் குறியீடுகளில் சிறிய எழுத்துக்கள் அல்லது எண்கள் மட்டுமே இருக்கலாம், மேலும் அவை சரியாக 10 எழுத்துகளாக இருக்க வேண்டும்."
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:235
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:236
 msgid "Base URL"
 msgstr "அடிப்படை URL "
 
@@ -681,7 +681,7 @@ msgstr ""
 msgid "Deny"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:260
 msgid "Deployment Name"
 msgstr ""
 
@@ -980,7 +980,7 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:213
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:214
 msgid "Gemini API Key"
 msgstr ""
 
@@ -1434,7 +1434,7 @@ msgstr ""
 msgid "Margin"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:279
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:280
 msgid "Max Tokens"
 msgstr ""
 
@@ -1450,7 +1450,7 @@ msgstr ""
 msgid "Mobile Devices"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:259
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:260
 msgid "Model"
 msgstr ""
 
@@ -1795,7 +1795,7 @@ msgstr ""
 #: apps/client/src/components/sections/section-list-item.tsx:110
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-list-item.tsx:105
 #: apps/client/src/pages/builder/sidebars/left/sections/shared/section-options.tsx:157
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:319
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:320
 msgid "Remove"
 msgstr ""
 
@@ -1860,7 +1860,7 @@ msgstr ""
 #: apps/client/src/pages/dashboard/cover-letters/_dialogs/cover-letter.tsx:238
 #: apps/client/src/pages/dashboard/resumes/_dialogs/resume.tsx:245
 #: apps/client/src/pages/dashboard/settings/_sections/account.tsx:217
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:313
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:314
 #: apps/client/src/pages/dashboard/settings/_sections/profile.tsx:131
 msgid "Save Changes"
 msgstr ""
@@ -1872,7 +1872,7 @@ msgstr ""
 
 #: apps/client/src/pages/dashboard/cover-letters/[id]/page.tsx:72
 #: apps/client/src/pages/dashboard/information/page.tsx:81
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:313
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:314
 msgid "Saving..."
 msgstr ""
 
@@ -2268,7 +2268,11 @@ msgstr ""
 msgid "To provide these features, the extension needs to handle specific pieces of information. We do this with maximum respect for your privacy and only upon your explicit action."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:329
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:345
+msgid "To use Google Gemini Vertex, you need to <0>enable Vertex AI and obtain an API key</0>. This feature uses Google's Vertex AI API."
+msgstr ""
+
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:330
 msgid "To use Google Gemini, you need to <0>get an API Key from Google AI Studio</0>. This feature uses Google's OpenAI compatibility layer."
 msgstr ""
 
@@ -2565,7 +2569,7 @@ msgstr ""
 msgid "You have complete control over your data:"
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:344
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:360
 msgid "You have the option to <0>obtain your own OpenAI API key</0>."
 msgstr ""
 
@@ -2586,7 +2590,7 @@ msgstr ""
 msgid "Your API Key has not been set yet. Please go to your account settings to enable AI Integration."
 msgstr ""
 
-#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:358
+#: apps/client/src/pages/dashboard/settings/_sections/openai.tsx:374
 msgid "Your API key is securely stored in the database and is only utilized when making requests to the AI provider via their official SDKs or APIs from the server."
 msgstr ""
 
