@@ -8,13 +8,50 @@
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/apps/extension"
-      },
+      "options": {},
       "configurations": {
-        "development": {},
-        "production": {}
+        "development": {
+          "outputPath": "dist/apps/extension-dev"
+        },
+        "production": {
+          "outputPath": "dist/apps/extension-prod"
+        }
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "configurations": {
+        "development": {
+          "commands": [
+            "cd dist/apps && zip -r extension-dev.zip extension-dev"
+          ]
+        },
+        "production": {
+          "commands": [
+            "cd dist/apps && zip -r extension-prod.zip extension-prod"
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "build-and-zip": {
+      "executor": "nx:run-commands",
+      "configurations": {
+        "development": {
+          "commands": [
+            "nx run extension:build:development",
+            "nx run extension:zip:development"
+          ]
+        },
+        "production": {
+          "commands": [
+            "nx run extension:build:production",
+            "nx run extension:zip:production"
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
       "executor": "@nx/vite:dev-server",

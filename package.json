@@ -29,7 +29,9 @@
     "prisma:migrate:dev": "pnpm exec prisma migrate dev",
     "messages:extract": "pnpm exec lingui extract --clean --overwrite",
     "extension:build:dev": "pnpm nx build extension --configuration=development --skip-nx-cache",
-    "extension:build:prod": "pnpm nx build extension --configuration=production --skip-nx-cache"
+    "extension:build:prod": "pnpm nx build extension --configuration=production --skip-nx-cache",
+    "extension:build-and-zip:dev": "pnpm nx run extension:build-and-zip --configuration=development --skip-nx-cache",
+    "extension:build-and-zip:prod": "pnpm nx run extension:build-and-zip --configuration=production --skip-nx-cache"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
