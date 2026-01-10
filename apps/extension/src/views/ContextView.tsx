@@ -36,7 +36,7 @@ export const ContextView = ({ jobContext, setJobContext, setResult, setError, on
         jobTitle: jobContext.title,
         companyName: jobContext.company,
         jobDescription: jobContext.description,
-        ...(generationType === "resume" && { template: "rhyhorn" }),
+        ...(generationType === "resume" && { template: "goldstar" }),
       };
       const res = await axios.post(endpoint, payload);
       setResult(res.data);

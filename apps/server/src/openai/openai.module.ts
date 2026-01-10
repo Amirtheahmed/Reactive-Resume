@@ -4,8 +4,8 @@ import { AIModule } from "@/server/ai";
 
 import { AICacheService } from "./ai-cache.service";
 
-export { AIService as OpenAIService } from "@/server/ai";
 export { AICacheService } from "./ai-cache.service";
+export { AIService as OpenAIService } from "@/server/ai";
 
 @Module({
   imports: [AIModule],

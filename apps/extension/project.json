@@ -12,12 +12,8 @@
         "outputPath": "dist/apps/extension"
       },
       "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
+        "development": {},
+        "production": {}
       }
     },
     "serve": {
