@@ -42,53 +42,85 @@ const Header = () => {
 
   // Helper to filter and join valid contact items
   const contactItems = [
-    basics.phone && <a href={`tel:${basics.phone}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.phone}</a>,
-    basics.email && <a href={`mailto:${basics.email}`} target="_blank" rel="noreferrer" className="hover:text-primary">{basics.email}</a>,
-    basics.location,
-    isUrl(basics.url.href) && (
-      <a href={basics.url.href} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
-        {/*{basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}*/}
-        {basics.url.label || 'Portfolio'}
+    basics.phone && (
+      <a
+        href={`tel:${basics.phone}`}
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-primary"
+      >
+        {basics.phone}
       </a>
     ),
-    ...basics.customFields.map((item) => (
-       isUrl(item.value) ? (
-        <a href={item.value} target="_blank" rel="noreferrer noopener nofollow" className="hover:text-primary">
-          {item.name || item.value.replace(/^https?:\/\/(www\.)?/, '')}
+    basics.email && (
+      <a
+        href={`mailto:${basics.email}`}
+        target="_blank"
+        rel="noreferrer"
+        className="hover:text-primary"
+      >
+        {basics.email}
+      </a>
+    ),
+    basics.location,
+    isUrl(basics.url.href) && (
+      <a
+        href={basics.url.href}
+        target="_blank"
+        rel="noreferrer noopener nofollow"
+        className="hover:text-primary"
+      >
+        {/*{basics.url.label || basics.url.href.replace(/^https?:\/\/(www\.)?/, '')}*/}
+        {basics.url.label || "Portfolio"}
+      </a>
+    ),
+    ...basics.customFields.map((item) =>
+      isUrl(item.value) ? (
+        <a
+          href={item.value}
+          target="_blank"
+          rel="noreferrer noopener nofollow"
+          className="hover:text-primary"
+        >
+          {item.name || item.value.replace(/^https?:\/\/(www\.)?/, "")}
         </a>
       ) : (
         <span>{[item.name, item.value].filter(Boolean).join(": ")}</span>
-      )
-    )),
+      ),
+    ),
     ...(profiles.visible
-      ? profiles.items.filter((item) => item.visible).map((item) => (
-          <a
-            key={item.id}
-            href={item.url.href}
-            target="_blank"
-            rel="noreferrer noopener nofollow"
-            className="hover:text-primary"
-          >
-            {item.url.label || item.network || item.url.href.replace(/^https?:\/\/(www\.)?/, '')}
-          </a>
-        ))
+      ? profiles.items
+          .filter((item) => item.visible)
+          .map((item) => (
+            <a
+              key={item.id}
+              href={item.url.href}
+              target="_blank"
+              rel="noreferrer noopener nofollow"
+              className="hover:text-primary"
+            >
+              {item.url.label || item.network || item.url.href.replace(/^https?:\/\/(www\.)?/, "")}
+            </a>
+          ))
       : []),
   ].filter(Boolean);
 
   return (
-    <div className="flex flex-col items-center justify-center pb-2 mb-2">
-      <h1 className="text-3xl font-bold tracking-tight uppercase text-center mb-1">{basics.name}</h1>
+    <div className="mb-2 flex flex-col items-center justify-center pb-2">
+      <h1 className="mb-1 text-center text-3xl font-bold uppercase tracking-tight">
+        {basics.name}
+      </h1>
 
       {/* Optional: Headline if user really wants it, though Jake's usually skips it */}
       {basics.headline && (
-        <div className="text-md text-gray-700 mb-1 text-center">{basics.headline}</div>
+        <div className="text-md mb-1 text-center text-black">{basics.headline}</div>
       )}
 
-      <div className="flex flex-wrap justify-center gap-x-2 text-sm text-gray-800">
+      <div className="flex flex-wrap justify-center gap-x-2 text-sm text-black">
         {contactItems.map((item, index) => (
           <React.Fragment key={index}>
             <span>{item}</span>
-            {index < contactItems.length - 1 && <span className="text-gray-400">|</span>}
+            {index < contactItems.length - 1 && <span className="text-black">|</span>}
           </React.Fragment>
         ))}
       </div>
@@ -113,7 +145,7 @@ const Link = ({ url, label, className }: LinkProps) => {
       href={url.href}
       target="_blank"
       rel="noreferrer noopener nofollow"
-      className={cn("hover:text-primary underline decoration-dotted", className)}
+      className={cn("underline decoration-dotted hover:text-primary", className)}
     >
       {label ?? (url.label || url.href)}
     </a>
@@ -169,7 +201,7 @@ const Section = <T,>({
 
   return (
     <section id={section.id} className="mb-4">
-      <h2 className="text-lg uppercase tracking-wider text-black border-b-2 border-black pb-0.5 mb-2">
+      <h2 className="mb-2 border-b-2 border-black pb-0.5 text-lg uppercase tracking-wider text-black">
         {section.name}
       </h2>
 
@@ -186,7 +218,7 @@ const Section = <T,>({
                 {children?.(item as T)}
 
                 {url !== undefined && section.separateLinks && (
-                  <div className="text-xs mt-0.5">
+                  <div className="mt-0.5 text-xs">
                     <Link url={url} />
                   </div>
                 )}
@@ -194,13 +226,13 @@ const Section = <T,>({
                 {summary !== undefined && !isEmptyString(summary) && (
                   <div
                     dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
-                    className="text-sm mt-1 wysiwyg pl-1"
+                    className="wysiwyg mt-1 pl-1 text-sm"
                   />
                 )}
 
                 {/* Keywords handled differently in some sections, but default here */}
                 {keywords !== undefined && keywords.length > 0 && (
-                  <p className="text-sm text-gray-700 mt-0.5">
+                  <p className="mt-0.5 text-sm text-black">
                     <span className="font-semibold">Keywords:</span> {keywords.join(", ")}
                   </p>
                 )}
@@ -221,23 +253,19 @@ const ExperienceSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.experience);
 
   return (
-    <Section<Experience> section={section} urlKey="url" summaryKey="summary">
+    <Section<Experience> section={section} summaryKey="summary">
       {(item) => (
         <div className="mb-1">
-          <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base text-gray-900">{item.position}</div>
-            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.location}</div>
+          <div className="flex items-baseline justify-between">
+            <div className="text-base font-bold text-black">{item.company}</div>
+            <div className="ml-2 whitespace-nowrap text-sm font-medium text-black">
+              {item.location}
+            </div>
           </div>
 
-          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
-            <div className="italic text-sm font-medium text-gray-800">
-              <LinkedEntity
-                name={item.company}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
-            </div>
-            <div className="italic text-sm text-gray-700 whitespace-nowrap ml-2">{item.date}</div>
+          <div className="-mt-0.5 mb-1 flex items-baseline justify-between">
+            <div className="text-sm font-medium italic text-black">{item.position}</div>
+            <div className="ml-2 whitespace-nowrap text-sm italic text-black">{item.date}</div>
           </div>
         </div>
       )}
@@ -255,25 +283,21 @@ const EducationSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.education);
 
   return (
-    <Section<Education> section={section} urlKey="url" summaryKey="summary">
+    <Section<Education> section={section} summaryKey="summary">
       {(item) => (
         <div className="mb-1">
-          <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base text-gray-900">
-              <LinkedEntity
-                name={item.institution}
-                url={item.url}
-                separateLinks={section.separateLinks}
-              />
+          <div className="flex items-baseline justify-between">
+            <div className="text-base font-bold text-black">{item.institution}</div>
+            <div className="ml-2 whitespace-nowrap text-sm font-medium text-black">
+              {item.score && `GPA: ${item.score}`}
             </div>
-            <div className="text-sm text-gray-800 font-medium whitespace-nowrap ml-2">{item.score && `GPA: ${item.score}`}</div>
           </div>
 
-          <div className="flex justify-between items-baseline -mt-0.5 mb-1">
-            <div className="italic text-sm font-medium text-gray-800">
-               {[item.studyType, item.area].filter(Boolean).join(" in ")}
+          <div className="-mt-0.5 mb-1 flex items-baseline justify-between">
+            <div className="text-sm font-medium italic text-black">
+              {[item.studyType, item.area].filter(Boolean).join(" in ")}
             </div>
-            <div className="italic text-sm text-gray-700 whitespace-nowrap ml-2">{item.date}</div>
+            <div className="ml-2 whitespace-nowrap text-sm italic text-black">{item.date}</div>
           </div>
         </div>
       )}
@@ -289,10 +313,10 @@ const ProjectsSection = () => {
   const section = useArtboardStore((state) => state.resume.sections.projects);
 
   return (
-    <Section<Project> section={section} urlKey="url" summaryKey="summary">
+    <Section<Project> section={section} urlKey="url" summaryKey="summary" keywordsKey="keywords">
       {(item) => (
         <div className="mb-0.5">
-          <div className="flex justify-between items-baseline">
+          <div className="flex items-baseline justify-between">
             <div className="text-base">
               <span className="font-bold">
                 <LinkedEntity
@@ -301,17 +325,11 @@ const ProjectsSection = () => {
                   separateLinks={section.separateLinks}
                 />
               </span>
-              {item.keywords.length > 0 && (
-                 <>
-                  <span className="mx-1">|</span>
-                  <span className="italic text-sm text-gray-700">{item.keywords.join(", ")}</span>
-                 </>
-              )}
             </div>
-            <div className="italic text-sm text-gray-700 shrink-0">{item.date}</div>
+            <div className="shrink-0 text-sm italic text-black">{item.date}</div>
           </div>
-           {/* Description/Summary handled by Section component */}
-           {item.description && <div className="text-sm mt-0.5">{item.description}</div>}
+          {/* Description/Summary handled by Section component */}
+          {item.description && <div className="mt-0.5 text-sm">{item.description}</div>}
         </div>
       )}
     </Section>
@@ -329,8 +347,8 @@ const SkillsSection = () => {
     <Section<Skill> section={section}>
       {(item) => (
         <div className="flex text-sm">
-          {item.name && <span className="font-bold mr-2 whitespace-nowrap">{item.name}:</span>}
-          <span className="text-gray-900">
+          {item.name && <span className="mr-2 whitespace-nowrap font-bold">{item.name}:</span>}
+          <span className="text-black">
             {item.keywords.length > 0 ? item.keywords.join(", ") : item.description}
           </span>
         </div>
@@ -346,9 +364,9 @@ const Awards = () => {
   return (
     <Section<Award> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex justify-between items-baseline">
-          <div className="font-bold text-sm">{item.title}</div>
-          <div className="italic text-sm">{item.date}</div>
+        <div className="flex items-baseline justify-between">
+          <div className="text-sm font-bold">{item.title}</div>
+          <div className="text-sm italic">{item.date}</div>
         </div>
       )}
     </Section>
@@ -360,9 +378,9 @@ const Certifications = () => {
   return (
     <Section<Certification> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex justify-between items-baseline">
-          <div className="font-bold text-sm">{item.name}</div>
-          <div className="italic text-sm">{item.date}</div>
+        <div className="flex items-baseline justify-between">
+          <div className="text-sm font-bold">{item.name}</div>
+          <div className="text-sm italic">{item.date}</div>
         </div>
       )}
     </Section>
@@ -390,13 +408,13 @@ const VolunteerSection = () => {
     <Section<Volunteer> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
         <div className="mb-1">
-          <div className="flex justify-between items-baseline">
-            <div className="font-bold text-base">{item.organization}</div>
+          <div className="flex items-baseline justify-between">
+            <div className="text-base font-bold">{item.organization}</div>
             <div className="text-sm font-medium">{item.location}</div>
           </div>
-          <div className="flex justify-between items-baseline -mt-0.5">
-            <div className="italic text-sm">{item.position}</div>
-            <div className="italic text-sm">{item.date}</div>
+          <div className="-mt-0.5 flex items-baseline justify-between">
+            <div className="text-sm italic">{item.position}</div>
+            <div className="text-sm italic">{item.date}</div>
           </div>
         </div>
       )}
@@ -412,7 +430,9 @@ const Languages = () => {
       {(item) => (
         <div className="text-sm">
           <span className="font-bold">{item.name}</span>
-          {!isEmptyString(item.description) && <span className="italic"> ({item.description})</span>}
+          {!isEmptyString(item.description) && (
+            <span className="italic"> ({item.description})</span>
+          )}
         </div>
       )}
     </Section>
@@ -425,9 +445,9 @@ const Custom = ({ id }: { id: string }) => {
   return (
     <Section<CustomSection> section={section} urlKey="url" summaryKey="summary">
       {(item) => (
-        <div className="flex justify-between items-baseline">
-          <div className="font-bold text-sm">{item.name}</div>
-          <div className="italic text-sm">{item.date}</div>
+        <div className="flex items-baseline justify-between">
+          <div className="text-sm font-bold">{item.name}</div>
+          <div className="text-sm italic">{item.date}</div>
         </div>
       )}
     </Section>
@@ -484,12 +504,15 @@ export const Goldstar = ({ columns, isFirstPage = false }: TemplateProps) => {
   const [main, sidebar] = columns;
 
   return (
-    <div className="p-custom text-gray-900 selection:bg-gray-100">
-      <style dangerouslySetInnerHTML={{ __html: `
+    <div className="p-custom text-black selection:bg-gray-100">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .goldstar-template {
           font-family: "Latin Modern Roman", "Times New Roman", Times, serif;
           font-size: 11pt;
           line-height: 1.15;
+          color: #000;
         }
         .goldstar-template h1 {
           font-size: 18pt;
@@ -518,7 +541,9 @@ export const Goldstar = ({ columns, isFirstPage = false }: TemplateProps) => {
         .goldstar-template .font-bold {
           font-weight: 700;
         }
-      `}} />
+      `,
+        }}
+      />
 
       <div className="goldstar-template">
         {isFirstPage && <Header />}

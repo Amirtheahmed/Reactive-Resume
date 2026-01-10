@@ -18,6 +18,8 @@ Your sole task is to generate a highly targeted, professional resume in JSON for
 <STYLE_GUIDELINES>
 - **ONE LINE PER BULLET:** Every bullet point must be concise enough to fit on a single line.
 - **NO PARAGRAPHS:** Strictly avoid long paragraphs. Use bullet points for everything.
+- **No em dashes (—):** Use commas or semicolons instead.
+- **No buzzwords:** Don't use words like "Passionate", "Hardworking", "Team player". Show results instead.
 </STYLE_GUIDELINES>
 
 <LOGICAL_STEPS>
