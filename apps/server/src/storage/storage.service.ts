@@ -74,15 +74,18 @@ export class StorageService implements OnModuleInit {
       );
 
       if (bucketExists) {
-        await this.client.setBucketPolicy(this.bucketName, bucketPolicy);
         this.logger.log("Successfully connected to the storage service.");
       } else {
+        // check if we have enough permissions to create a bucket
+        this.logger.log(
+          `The storage bucket "${this.bucketName}" does not exist. Creating a new storage bucket...`,
+        );
 
         try {
           await this.client.makeBucket(this.bucketName);
-        } catch {
+        } catch (error) {
           throw new InternalServerErrorException(
-            "There was an error while creating the storage bucket.",
+            "There was an error while creating the storage bucket. Please make sure that you have enough permissions.",
           );
         }
 
