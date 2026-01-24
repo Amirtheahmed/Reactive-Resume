@@ -487,9 +487,9 @@ const mapSectionToComponent = (section: SectionKey) => {
     case "languages": {
       return <Languages />;
     }
-    case "projects": {
-      return <ProjectsSection />;
-    }
+    // case "projects": {
+    //   return <ProjectsSection />;
+    // }
     case "references": {
       return null; // No references on resumes
     }
