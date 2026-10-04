@@ -8,9 +8,9 @@ import { IconButton } from "@reactive-resume/ui/components/icon-button";
 import { cn } from "@reactive-resume/utils/style";
 import { D3, EASE, EXIT } from "@/libs/motion";
 
-// Product Hunt launch day: 6 October 2026 from 12:01am PT (07:01 UTC, 09:01 CEST), for 24 hours.
-// ponytail: dead code once the window closes; delete this file and its two call sites after 7 October 2026.
-const LAUNCH_START = Date.parse("2026-10-06T07:01:00Z");
+// Product Hunt launch day: 5 October 2026 from 12:01am PT (07:01 UTC, 09:01 CEST), for 24 hours.
+// ponytail: dead code once the window closes; delete this file and its two call sites after 6 October 2026.
+const LAUNCH_START = Date.parse("2026-10-05T07:01:00Z");
 const LAUNCH_END = LAUNCH_START + 24 * 60 * 60 * 1000;
 const PRODUCT_HUNT_URL = "https://www.producthunt.com/posts/reactive-resume-v6";
 const DISMISSED_KEY = "product-hunt-launch-dismissed";

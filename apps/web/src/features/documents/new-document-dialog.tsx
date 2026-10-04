@@ -611,7 +611,7 @@ function CopyForJob({ initialSourceId, initialJobId, onBack, onCreated }: CopyFo
 						<label
 							key={resume.id}
 							className={cn(
-								"flex cursor-pointer items-center gap-3 rounded-[10px] border px-3 py-2.5 transition-colors duration-quick",
+								"relative flex cursor-pointer items-center gap-3 rounded-[10px] border px-3 py-2.5 transition-colors duration-quick",
 								resume.id === source?.id ? "border-accent bg-accent-soft" : "border-line hover:bg-hover",
 							)}
 						>
