@@ -1,10 +1,12 @@
+import { isIP } from "node:net";
 import { isAbsolute, join } from "node:path";
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
+import { aiProviderSchema } from "@reactive-resume/ai/types";
 import { findWorkspaceRoot } from "@reactive-resume/utils/monorepo.node";
 import { deploymentEnvironment } from "./deployment";
 
-const workspaceRoot = findWorkspaceRoot();
+const workspaceRoot = process.env.CLOUDFLARE === "1" ? null : findWorkspaceRoot();
 
 if (workspaceRoot) {
 	try {
@@ -19,6 +21,7 @@ if (workspaceRoot) {
 export const env = createEnv({
 	server: {
 		// Application
+		CLOUDFLARE: z.stringbool().default(false),
 		APP_URL: z.url({ protocol: /https?/ }),
 		ROOT_RESUME_ID: z
 			.string()
@@ -26,6 +29,28 @@ export const env = createEnv({
 			.transform((value) => value || undefined)
 			.optional(),
 		SERVER_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
+		TRUSTED_PROXIES: z
+			.string()
+			.transform((value) =>
+				value
+					.split(",")
+					.map((range) => range.trim())
+					.filter(Boolean),
+			)
+			.pipe(
+				z.array(
+					z.string().refine((range) => {
+						const [address, prefix, ...rest] = range.split("/");
+						const family = isIP(address ?? "");
+						return (
+							family > 0 &&
+							rest.length === 0 &&
+							(prefix === undefined || (/^\d+$/.test(prefix) && Number(prefix) <= (family === 4 ? 32 : 128)))
+						);
+					}, "TRUSTED_PROXIES must contain comma-separated IP addresses or CIDRs"),
+				),
+			)
+			.default([]),
 
 		// Database
 		DATABASE_URL: z.url({ protocol: /postgres(ql)?/ }),
@@ -72,7 +97,7 @@ export const env = createEnv({
 		SMTP_SECURE: z.stringbool().default(false),
 
 		// Storage (Optional)
-		STORAGE_BACKEND: z.enum(["local", "s3", "blob"]),
+		STORAGE_BACKEND: z.enum(["local", "s3", "blob", "r2"]),
 		BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
 		BLOB_STORE_ID: z.string().min(1).optional(),
 		DEPLOYMENT_NAMESPACE: z.string().regex(/^[a-zA-Z0-9._-]+$/),
@@ -88,6 +113,15 @@ export const env = createEnv({
 		REDIS_URL: z.url({ protocol: /redis(s)?/ }).optional(),
 		ENCRYPTION_SECRET: z.string().min(32, "ENCRYPTION_SECRET must be at least 32 characters").optional(),
 
+		// Optional search and enhanced reading; custom URLs are operator-controlled Firecrawl services.
+		WEB_ACCESS_PROVIDER: z.enum(["firecrawl", "tavily", "exa"]).optional(),
+		WEB_ACCESS_API_KEY: z.string().trim().min(1).optional(),
+		WEB_ACCESS_API_URL: z.url({ protocol: /^https?$/ }).optional(),
+		AI_PROVIDER: aiProviderSchema.optional(),
+		AI_MODEL: z.string().trim().min(1).optional(),
+		AI_API_KEY: z.string().trim().min(1).optional(),
+		AI_BASE_URL: z.url({ protocol: /^https?$/ }).optional(),
+
 		// Feature Flags
 		FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),
 		FLAG_DISABLE_EMAIL_AUTH: z.stringbool().default(false),
@@ -99,3 +133,25 @@ export const env = createEnv({
 	runtimeEnv: deploymentEnvironment(process.env),
 	emptyStringAsUndefined: true,
 });
+
+if (
+	(env.WEB_ACCESS_PROVIDER || env.WEB_ACCESS_API_KEY || env.WEB_ACCESS_API_URL) &&
+	(!env.WEB_ACCESS_PROVIDER ||
+		(!env.WEB_ACCESS_API_KEY && !(env.WEB_ACCESS_PROVIDER === "firecrawl" && env.WEB_ACCESS_API_URL)) ||
+		(env.WEB_ACCESS_PROVIDER !== "firecrawl" && env.WEB_ACCESS_API_URL))
+) {
+	throw new Error(
+		"Web access requires WEB_ACCESS_PROVIDER and WEB_ACCESS_API_KEY; only Firecrawl accepts WEB_ACCESS_API_URL, which may be keyless.",
+	);
+}
+
+if (
+	(env.AI_PROVIDER || env.AI_MODEL || env.AI_API_KEY || env.AI_BASE_URL) &&
+	(!env.AI_PROVIDER || !env.AI_MODEL || (!env.AI_API_KEY && env.AI_PROVIDER !== "ollama"))
+) {
+	throw new Error("Server AI requires AI_PROVIDER, AI_MODEL and AI_API_KEY (the key is optional for Ollama).");
+}
+
+if (env.AI_PROVIDER === "openai-compatible" && !env.AI_BASE_URL) {
+	throw new Error("The openai-compatible server AI provider requires AI_BASE_URL.");
+}

@@ -12,12 +12,12 @@ import {
 } from "@reactive-resume/ui/components/input-group";
 import { Separator } from "@reactive-resume/ui/components/separator";
 import { Switch } from "@reactive-resume/ui/components/switch";
+import { SectionBase } from "../shared/section-base";
 import { FontFamilyCombobox, FontWeightCombobox } from "@/components/typography/combobox";
 import { getNextWeights } from "@/components/typography/get-next-weights";
-import { useResume, useUpdateResumeData } from "@/features/resume/builder/draft";
+import { useCurrentResume, useUpdateResumeData } from "@/features/resume/builder/draft";
 import { useSyncFormValues } from "@/hooks/use-sync-form-values";
 import { useAppForm } from "@/libs/tanstack-form";
-import { SectionBase } from "../shared/section-base";
 
 export function TypographySectionBuilder() {
 	return (
@@ -33,7 +33,7 @@ type FormValues = z.infer<typeof formSchema>;
 type FontWeight = FormValues["body"]["fontWeights"][number];
 type TypographyPrefix = "body" | "heading";
 
-function useTypographyForm(typography: FormValues | undefined, persist: (data: FormValues) => void) {
+function useTypographyForm(typography: FormValues, persist: (data: FormValues) => void) {
 	const form = useAppForm({
 		defaultValues: typography,
 		validators: { onChange: formSchema },
@@ -48,8 +48,8 @@ function useTypographyForm(typography: FormValues | undefined, persist: (data: F
 type TypographyForm = ReturnType<typeof useTypographyForm>;
 
 function TypographySectionForm() {
-	const resume = useResume();
-	const typography = resume?.data.metadata.typography;
+	const resume = useCurrentResume();
+	const typography = resume.data.metadata.typography;
 	const updateResumeData = useUpdateResumeData();
 
 	const persist = (data: FormValues) => {
@@ -68,7 +68,7 @@ function TypographySectionForm() {
 
 	return (
 		<form
-			className="grid @md:grid-cols-2 grid-cols-1 gap-4"
+			className="grid grid-cols-1 gap-4 @md:grid-cols-2"
 			onSubmit={(event) => {
 				event.preventDefault();
 				event.stopPropagation();
@@ -99,7 +99,7 @@ function TypographySectionForm() {
 							</FormLabel>
 						</div>
 						<FormDescription>
-							<Trans>Currently available for German resumes. Uses the language set in Page.</Trans>
+							<Trans>Breaks long words between syllables, using the language set in Page.</Trans>
 						</FormDescription>
 					</FormItem>
 				)}
@@ -136,7 +136,7 @@ function TypographyGroupFields({ form, prefix, handleAutoSave }: TypographyGroup
 									onValueChange={(value: string | null) => {
 										if (value === null) return;
 										field.handleChange(value);
-										const nextWeights = getNextWeights(value);
+										const nextWeights = getNextWeights(value, prefix === "heading");
 										if (nextWeights) form.setFieldValue(`${prefix}.fontWeights`, nextWeights);
 										handleAutoSave();
 									}}
@@ -158,6 +158,7 @@ function TypographyGroupFields({ form, prefix, handleAutoSave }: TypographyGroup
 						<FormControl
 							render={
 								<FontWeightCombobox
+									single={prefix === "heading"}
 									value={field.state.value}
 									fontFamily={fontFamily}
 									onValueChange={(value) => {
@@ -252,7 +253,7 @@ function TypographyFieldGroup({ label }: TypographyFieldGroupProps) {
 	return (
 		<div className="col-span-full flex items-center gap-x-2">
 			<Separator className="basis-[16px]" />
-			<div className="shrink-0 font-medium text-base leading-none">{label}</div>
+			<div className="shrink-0 text-base leading-none font-medium">{label}</div>
 			<Separator className="flex-1" />
 		</div>
 	);

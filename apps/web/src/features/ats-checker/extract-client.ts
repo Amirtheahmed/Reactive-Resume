@@ -13,7 +13,7 @@ import { HARVEST_DEFAULTS, harvestPdfDocument } from "@reactive-resume/resume/at
  */
 
 /** Refused before PDF.js is even loaded: nothing good happens after this size in a browser tab. */
-export const MAX_UPLOAD_BYTES = 25_000_000;
+const MAX_UPLOAD_BYTES = 25_000_000;
 
 export type ExtractProgress = HarvestProgress | { phase: "loading"; page: 0; pageCount: 0 };
 
@@ -49,7 +49,7 @@ export class PdfUnreadableError extends Error {
 const PDF_MAGIC_BYTES = [0x25, 0x50, 0x44, 0x46] as const; // "%PDF"
 
 /** Sniffs the format from the bytes rather than trusting the extension or the reported MIME type. */
-export async function hasPdfMagicBytes(file: Blob): Promise<boolean> {
+async function hasPdfMagicBytes(file: Blob): Promise<boolean> {
 	const header = new Uint8Array(await file.slice(0, PDF_MAGIC_BYTES.length).arrayBuffer());
 	return PDF_MAGIC_BYTES.every((byte, index) => header[index] === byte);
 }

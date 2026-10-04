@@ -1,44 +1,17 @@
-const productionRootUrl = "https://rxresu.me/";
+import { t } from "@lingui/core/macro";
+
+/**
+ * The server writes every page's canonical link, hreflang alternates, social cards and site-wide structured data into
+ * the HTML it sends (apps/server/src/static/web.ts), so crawlers that never run JavaScript see them. Routes only set
+ * what changes as the visitor navigates: the title, the description and, where needed, `noindex`.
+ */
+
 const appName = "Reactive Resume";
-const repositoryUrl = "https://github.com/reactive-resume/reactive-resume";
-
-type JsonLd = Record<string, unknown>;
-
-export const getCanonicalRootUrl = (origin?: string): string => {
-	if (!origin) return productionRootUrl;
-
-	const url = new URL(origin);
-	url.pathname = "/";
-	url.search = "";
-	url.hash = "";
-
-	return url.toString();
-};
 
 export const createNoindexFollowMeta = () => ({ name: "robots", content: "noindex, follow" });
 
-type ResumeSocialMetaOptions = {
-	canonicalUrl: string;
-	title: string;
-	description: string;
-	imageUrl: string;
-};
-
-export const createResumeSocialMeta = ({ canonicalUrl, title, description, imageUrl }: ResumeSocialMetaOptions) => [
-	{ property: "og:type", content: "profile" },
-	{ property: "og:title", content: title },
-	{ property: "og:description", content: description },
-	{ property: "og:url", content: canonicalUrl },
-	{ property: "og:image", content: imageUrl },
-	// X only reads these as `name`, not `property`
-	{ name: "twitter:card", content: "summary_large_image" },
-	{ name: "twitter:url", content: canonicalUrl },
-	{ name: "twitter:title", content: title },
-	{ name: "twitter:description", content: description },
-	{ name: "twitter:image", content: imageUrl },
-];
-
-const serializeJsonLdForScript = (data: JsonLd) =>
+/** JSON for an inline `application/ld+json` script, escaped so no string in it can close the script early. */
+export const serializeJsonLd = (data: Record<string, unknown>) =>
 	JSON.stringify(data).replace(/[<>&\u2028\u2029]/g, (character) => {
 		switch (character) {
 			case "<":
@@ -56,86 +29,15 @@ const serializeJsonLdForScript = (data: JsonLd) =>
 		}
 	});
 
-const createStructuredDataScript = (id: string, data: JsonLd) => ({
-	id,
-	type: "application/ld+json",
-	children: serializeJsonLdForScript(data),
+/** The homepage's title and description in the active locale. The prerendered page and the route share them. */
+export const getHomepageMeta = () => ({
+	title: `${appName} — ${t`A free and open-source resume builder`}`,
+	description: t`Free, open-source resume builder. Create, update, and share your resume, with PDF and Word downloads, no ads and no paywall.`,
 });
 
-export const getRootStructuredData = (canonicalUrl: string): JsonLd[] => [
-	{
-		"@type": "WebSite",
-		name: appName,
-		url: canonicalUrl,
-	},
-	{
-		"@type": ["SoftwareApplication", "WebApplication"],
-		name: appName,
-		url: canonicalUrl,
-		description:
-			"Reactive Resume is a free and open-source resume builder that makes it easy to create, update, and share your resume.",
-		applicationCategory: "BusinessApplication",
-		operatingSystem: "Web",
-		isAccessibleForFree: true,
-		offers: {
-			"@type": "Offer",
-			price: "0",
-			priceCurrency: "USD",
-		},
-		codeRepository: repositoryUrl,
-	},
-	{
-		"@type": "Project",
-		name: appName,
-		url: canonicalUrl,
-		sameAs: [repositoryUrl],
-	},
-	{
-		"@type": "FAQPage",
-		mainEntity: homeFaqJsonLdItems.map((item) => ({
-			"@type": "Question",
-			name: item.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: item.answer,
-			},
-		})),
-	},
-];
-
-export const createRootStructuredDataScript = (canonicalUrl: string) =>
-	createStructuredDataScript("reactive-resume-structured-data", {
-		"@context": "https://schema.org",
-		"@graph": getRootStructuredData(canonicalUrl),
-	});
-
-const homeFaqJsonLdItems = [
-	{
-		question: "Is Reactive Resume really free?",
-		answer:
-			"Yes. Reactive Resume is free to use, with no hidden costs, premium tiers, or subscription fees. It's open source, and it will stay free.",
-	},
-	{
-		question: "How is my data protected?",
-		answer:
-			"Your data is stored securely and never shared with third parties. If you want full control over it, you can self-host Reactive Resume on your own servers.",
-	},
-	{
-		question: "Can I export my resume to PDF?",
-		answer: "Yes. One click exports your resume to PDF, with your formatting and styling intact.",
-	},
-	{
-		question: "Is Reactive Resume available in multiple languages?",
-		answer:
-			"Yes. Pick your language on the settings page, or with the language switcher in the top right corner. If your language is missing, or the existing translation could be better, you can contribute to the translations on Crowdin.",
-	},
-	{
-		question: "What makes Reactive Resume different from other resume builders?",
-		answer:
-			"Reactive Resume is open source, private, and free. It shows no ads, doesn't track what you do, and doesn't lock features behind a paywall.",
-	},
-	{
-		question: "How do I share my resume?",
-		answer: "Share it with a public URL, put a password on that URL, or download the PDF and send it yourself.",
-	},
-] as const;
+/** The ATS checker's title and description in the active locale. The prerendered page and the route share them. */
+export const getAtsCheckerMeta = () => ({
+	title: `${t`Free ATS resume checker`} — ${appName}`,
+	// Keep under ~120 characters so Google's mobile SERP snippet is not truncated at 3 lines.
+	description: t`Check whether software can read your resume PDF. Runs entirely in your browser, so your file is never uploaded.`,
+});

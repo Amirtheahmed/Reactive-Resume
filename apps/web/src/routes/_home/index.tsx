@@ -1,16 +1,10 @@
 import { ORPCError } from "@orpc/client";
-import { ClientOnly, createFileRoute, lazyRouteComponent, redirect } from "@tanstack/react-router";
+import { createFileRoute, lazyRouteComponent, redirect } from "@tanstack/react-router";
 import { getResumeSocialMeta } from "@reactive-resume/resume/social-meta";
-import { LoadingScreen } from "@/components/layout/loading-screen";
 import { NotFoundScreen } from "@/components/layout/not-found-screen";
 import { Homepage } from "@/features/homepage/page";
 import { orpc } from "@/libs/orpc/client";
-import {
-	createNoindexFollowMeta,
-	createResumeSocialMeta,
-	createRootStructuredDataScript,
-	getCanonicalRootUrl,
-} from "@/libs/seo";
+import { createNoindexFollowMeta, getHomepageMeta } from "@/libs/seo";
 
 const PublicResumePage = lazyRouteComponent(() => import("@/features/resume/public/public-resume"), "PublicResumePage");
 
@@ -28,35 +22,21 @@ export const Route = createFileRoute("/_home/")({
 	head: ({ loaderData }) => {
 		const root = loaderData?.root;
 		if (root && root.status !== "disabled") {
-			const { canonicalUrl } = root;
 			if (root.status === "unavailable") {
-				return {
-					meta: [{ title: "Reactive Resume" }, createNoindexFollowMeta()],
-					links: [{ rel: "canonical", href: canonicalUrl }],
-				};
+				return { meta: [{ title: "Reactive Resume" }, createNoindexFollowMeta()] };
 			}
 			const social = getResumeSocialMeta(root.resume.data, root.resume.name || "Resume");
 			return {
 				meta: [
 					{ title: `${social.name} - Reactive Resume` },
+					{ name: "description", content: social.description },
 					createNoindexFollowMeta(),
-					...createResumeSocialMeta({
-						canonicalUrl,
-						title: social.title,
-						description: social.description,
-						imageUrl: `${canonicalUrl}opengraph/banner.jpg`,
-					}),
 				],
-				links: [{ rel: "canonical", href: canonicalUrl }],
 			};
 		}
-		const appUrl = typeof window !== "undefined" ? window.location.origin : "https://rxresu.me";
-		const canonicalUrl = getCanonicalRootUrl(appUrl);
+		const { title, description } = getHomepageMeta();
 
-		return {
-			links: [{ rel: "canonical", href: canonicalUrl }],
-			scripts: [createRootStructuredDataScript(canonicalUrl)],
-		};
+		return { meta: [{ title }, { name: "description", content: description }] };
 	},
 });
 
@@ -70,11 +50,7 @@ function RouteComponent() {
 			</main>
 		);
 	if (root.status === "public") {
-		return (
-			<ClientOnly fallback={<LoadingScreen />}>
-				<PublicResumePage resume={root.resume} username={root.username} slug={root.slug} flags={flags} isRoot />
-			</ClientOnly>
-		);
+		return <PublicResumePage resume={root.resume} username={root.username} slug={root.slug} flags={flags} isRoot />;
 	}
 
 	return <Homepage />;

@@ -2,8 +2,8 @@ import { t } from "@lingui/core/macro";
 import { GithubLogoIcon, StarIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@reactive-resume/ui/components/button";
-import { orpc } from "@/libs/orpc/client";
 import { CountUp } from "../animation/count-up";
+import { orpc } from "@/libs/orpc/client";
 
 export function GithubStarsButton() {
 	const { data: starCount } = useQuery(orpc.statistics.github.getStarCount.queryOptions());
@@ -15,7 +15,7 @@ export function GithubStarsButton() {
 
 	return (
 		<Button
-			variant="outline"
+			variant="secondary"
 			nativeButton={false}
 			render={
 				<a

@@ -1,8 +1,9 @@
 import { t } from "@lingui/core/macro";
 import Cookies from "js-cookie";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useTimeout } from "usehooks-ts";
 import { toast } from "@reactive-resume/ui/components/toast";
+import { isProductHuntLaunchLive } from "./product-hunt-banner";
 
 const TOAST_ID = "donation-toast";
 const SHOW_TOAST_DELAY_MS = 5 * 60 * 1000; // 5 minutes
@@ -15,14 +16,15 @@ export function DonationToast() {
 	// ponytail: inlined from @reactive-resume/ui/hooks/use-cookie — only consumer, one read + one set-with-expiry
 	const [dismissed, setDismissedState] = useState<string | null>(() => Cookies.get(DISMISSED_COOKIE_NAME) ?? null);
 
-	const setDismissed = useCallback((value: string, options?: { expires?: Date }) => {
+	const setDismissed = (value: string, options?: { expires?: Date }) => {
 		// Attributes match the former useCookie DEFAULT_COOKIE_ATTRIBUTES; options (expiry) override.
 		Cookies.set(DISMISSED_COOKIE_NAME, value, { path: "/", secure: true, sameSite: "lax", ...options });
 		setDismissedState(value);
-	}, []);
+	};
 
-	const showToast = useCallback(() => {
-		if (dismissed === "true") return;
+	const showToast = () => {
+		// One ask at a time: the Product Hunt banner has the corner on launch day.
+		if (dismissed === "true" || isProductHuntLaunchLive()) return;
 
 		toast.add({
 			id: TOAST_ID,
@@ -41,7 +43,7 @@ export function DonationToast() {
 				setDismissed("true", { expires: getDismissedCookieExpiresAt() });
 			},
 		});
-	}, [dismissed, setDismissed]);
+	};
 
 	useTimeout(showToast, SHOW_TOAST_DELAY_MS);
 
