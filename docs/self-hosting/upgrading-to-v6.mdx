@@ -131,7 +131,7 @@ PostgreSQL 18 changes the default data layout. Changing the image tag alone does
 
 ## What the migrations change
 
-Existing v5 migrations stay unchanged. The unreleased v6 changes are consolidated in `20261001042749_v6_release`, generated from the current schema with the v5 data conversions included once. It runs under an advisory lock and ships one `rollback.sql` alongside `migration.sql`.
+Existing v5 migrations stay unchanged. The v6 changes are consolidated in `20261001042749_v6_release`, generated from the current schema with the v5 data conversions included once. It runs under an advisory lock and ships one `rollback.sql` alongside `migration.sql`.
 
 | Area            | What changes                                                                                                                                                                                                                                  |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
