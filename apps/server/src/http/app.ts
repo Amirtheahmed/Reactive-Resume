@@ -8,6 +8,7 @@ import { bodyLimit } from "hono/body-limit";
 import { compress } from "hono/compress";
 import { prepareStagedBody, withStagedBody } from "@reactive-resume/api/features/storage/transport";
 import { env } from "@reactive-resume/env/server";
+import { prepareMcpDiscovery } from "@reactive-resume/mcp";
 import { handleMcp } from "../mcp/handler";
 import { handleOpenApi } from "../openapi/handler";
 import {
@@ -57,6 +58,7 @@ type AppOptions = {
 };
 
 export function createApp(options: AppOptions = {}) {
+	prepareMcpDiscovery();
 	const app = new Hono<ServerEnvironment>();
 	const proxies = new BlockList();
 	for (const range of env.TRUSTED_PROXIES) {

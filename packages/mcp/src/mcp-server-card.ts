@@ -1,8 +1,6 @@
-import { toJsonSchemaCompat } from "@modelcontextprotocol/sdk/server/zod-json-schema-compat.js";
+import { prepareMcpDiscovery } from "./discovery";
 import { MCP_TOOL_NAME as T } from "./mcp-tool-names";
-import { PARITY_TOOL_META } from "./parity";
 import { PROMPT_META } from "./prompts";
-import { TOOL_META } from "./tool-meta";
 
 const RESUME_ID_ARGUMENT = [{ name: "id", description: "Resume ID.", required: true }] as const;
 
@@ -30,17 +28,7 @@ export function buildMcpServerInfo(version: string) {
  * The parameterized resume URI is therefore duplicated here so discovery matches the live template.
  */
 export function buildMcpServerCard(appVersion: string) {
-	// ponytail: derived from TOOL_META; title/description/inputSchema/annotations declared once
-	const tools = Object.entries({ ...TOOL_META, ...PARITY_TOOL_META }).map(
-		([name, { title, description, inputSchema, outputSchema, annotations }]) => ({
-			name,
-			title,
-			description,
-			inputSchema: toJsonSchemaCompat(inputSchema, { strictUnions: true, pipeStrategy: "input" }),
-			outputSchema: toJsonSchemaCompat(outputSchema, { strictUnions: true, pipeStrategy: "output" }),
-			annotations,
-		}),
-	);
+	const tools = prepareMcpDiscovery().tools.map(({ execution: _execution, ...tool }) => tool);
 
 	const prompts = Object.entries(PROMPT_META).map(([name, meta]) => ({
 		name,

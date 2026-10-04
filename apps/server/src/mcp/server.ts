@@ -11,6 +11,7 @@ import {
 	registerPrompts,
 	registerResources,
 	registerTools,
+	registerToolDiscovery,
 } from "@reactive-resume/mcp";
 import { appVersion } from "../app-version";
 import { getRequestLocale } from "../rpc/locale";
@@ -79,6 +80,7 @@ export function createMcpServer(
 		signal: request.signal,
 	});
 	registerPrompts(server, client);
+	registerToolDiscovery(server);
 
 	return server;
 }

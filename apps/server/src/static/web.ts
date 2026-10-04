@@ -263,7 +263,8 @@ export const serveWebDistStatic = env.CLOUDFLARE
 	: serveStatic({
 			root: staticRoot,
 			onFound: (_path, context) => {
-				if (/^\/videos\/.*-v\d+\.(?:mp4|webp)$/.test(context.req.path)) {
+				// Vite fingerprints everything under /assets, so a file there never changes.
+				if (context.req.path.startsWith("/assets/") || /^\/videos\/.*-v\d+\.(?:mp4|webp)$/.test(context.req.path)) {
 					context.header("Cache-Control", "public, max-age=31536000, immutable");
 				}
 			},

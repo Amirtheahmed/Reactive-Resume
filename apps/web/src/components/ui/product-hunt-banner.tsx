@@ -24,7 +24,7 @@ const SHOWN_ON = /^\/(?:$|ats-checker|templates|dashboard)/;
 export const isProductHuntLaunchLive = (now = Date.now()) => now >= LAUNCH_START && now < LAUNCH_END;
 
 /** The current time, refreshed when the launch starts, on every minute while it runs, and once when it ends. */
-function useLaunchClock() {
+export function useLaunchClock() {
 	const [now, setNow] = useState(Date.now);
 
 	useEffect(() => {

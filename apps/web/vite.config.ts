@@ -49,7 +49,10 @@ async function prerenderPages() {
 					/<meta\s+name="description"[^>]*>/,
 					() => `<meta name="description" content="${escapeHtml(page.description)}">`,
 				)
-				.replace('<div id="app"></div>', () => `<div id="app">${page.html}</div>`);
+				.replace('<div id="app"></div>', () => `<div id="app">${page.html}</div>`)
+				// The page is readable before any script runs, so the stylesheet, fonts and images go first.
+				.replaceAll('<link rel="modulepreload" ', '<link rel="modulepreload" fetchpriority="low" ')
+				.replace('<script type="module" ', '<script type="module" fetchpriority="low" ');
 			await writeFile(`${prerenderOutDir}/${name}/${locale}.html`, html);
 		}
 	}
@@ -109,6 +112,9 @@ export default defineConfig({
 		chunkSizeWarningLimit: 10 * 1024, // 10 MB
 		rolldownOptions: {
 			external: ["bcryptjs", "sharp", "@aws-sdk/client-s3", "ioredis", "linkedom"],
+			// Every page loads the libraries the entry imports statically; one file instead of ~100 tiny ones saves
+			// a round trip each on slow connections. App modules stay split to keep their execution order.
+			output: { codeSplitting: { groups: [{ name: "vendor", test: /node_modules/, tags: ["$initial"] }] } },
 		},
 	},
 

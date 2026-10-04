@@ -143,8 +143,18 @@ const accountToolMeta = {
 	annotations: handoffAnnotations,
 };
 
-/** The live server and server card derive the same contracts from the API DTOs. */
-export function parityToolContract(path: string, procedure: AnyProcedure) {
+type ParityToolContract = {
+	inputJson: ReturnType<typeof wireJsonSchema>;
+	inputSchema: z.ZodObject;
+	outputSchema: z.ZodObject;
+};
+const parityContracts = new WeakMap<AnyProcedure, Map<string, ParityToolContract>>();
+
+/** The live server and server card share static contracts, never request context or callbacks. */
+export function parityToolContract(path: string, procedure: AnyProcedure): ParityToolContract {
+	let contracts = parityContracts.get(procedure);
+	const cached = contracts?.get(path);
+	if (cached) return cached;
 	const definition = procedure["~orpc"];
 	const inputJson = definition.inputSchema
 		? wireJsonSchema(requireZod(definition.inputSchema), "input")
@@ -184,7 +194,13 @@ export function parityToolContract(path: string, procedure: AnyProcedure) {
 				: path === "resume.updates.subscribe"
 					? toWireObjectSchema(requireZod(router.resume.getById["~orpc"].outputSchema))
 					: toWireObjectSchema(requireZod(definition.outputSchema));
-	return { inputJson, inputSchema: boundedInput, outputSchema };
+	const contract = { inputJson, inputSchema: boundedInput, outputSchema };
+	if (!contracts) {
+		contracts = new Map();
+		parityContracts.set(procedure, contracts);
+	}
+	contracts.set(path, contract);
+	return contract;
 }
 
 export const PARITY_TOOL_META: Record<
