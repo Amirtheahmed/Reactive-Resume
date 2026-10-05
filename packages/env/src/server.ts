@@ -18,6 +18,39 @@ if (workspaceRoot) {
 	}
 }
 
+// ioredis authenticates as `AUTH <username> <password>`; a bare "redis://value@host" (userinfo with no colon) puts
+// that value in the username slot and Redis rejects the resulting auth. Password-only servers (redis-server
+// --requirepass) need an empty username — "redis://:<pass>@<host>" — or the built-in ACL user,
+// "redis://default:<pass>@<host>". A named user with an explicitly empty password ("redis://user:@host") stays
+// valid: Redis accepts `AUTH <user> ""` for passwordless (`nopass`) ACL users.
+const REDIS_URL_USERINFO_MESSAGE =
+	"REDIS_URL userinfo has no password field. For password-only auth (redis --requirepass) use " +
+	"redis://:<password>@<host>; for ACL users use redis://<user>:<password>@<host> (default is the built-in user; " +
+	"nopass users may keep the password empty, e.g. redis://<user>:@<host>).";
+
+function hasCompleteUserinfo(raw: string): boolean {
+	// Checks run even when the earlier URL-format check has already failed, so this must never throw:
+	// a malformed URL reaching `new URL()` surfaces as an unhandled parse crash instead of a validation
+	// error. Format errors are the URL check's job — only classify complete, parseable URLs here.
+	if (!URL.canParse(raw)) return true;
+
+	// The URL parser normalizes an empty password away ("redis://user:@host" parses like
+	// "redis://user@host"), so the colon that separates the password field must be read from the raw
+	// authority. Userinfo ends at the last "@" before the authority terminator; a userinfo without a
+	// colon is exactly the password-in-username-slot shape ioredis mis-authenticates.
+	const schemeEnd = raw.indexOf("://");
+	if (schemeEnd === -1) return true; // no authority, so no userinfo
+	const authorityStart = schemeEnd + 3;
+	const terminator = raw.slice(authorityStart).search(/[/?#]/);
+	const authority =
+		terminator === -1 ? raw.slice(authorityStart) : raw.slice(authorityStart, authorityStart + terminator);
+	const userinfoEnd = authority.lastIndexOf("@");
+	// `userinfoEnd === 0` is an empty userinfo ("redis://@host") — ioredis reads it exactly like no
+	// userinfo and sends no AUTH, so it passes the same way a missing "@" does.
+	if (userinfoEnd <= 0) return true;
+	return authority.slice(0, userinfoEnd).includes(":");
+}
+
 export const env = createEnv({
 	server: {
 		// Application
@@ -110,7 +143,10 @@ export const env = createEnv({
 		S3_FORCE_PATH_STYLE: z.stringbool().default(false),
 
 		// AI Agent Workspace (optional until the agent feature is used)
-		REDIS_URL: z.url({ protocol: /redis(s)?/ }).optional(),
+		REDIS_URL: z
+			.url({ protocol: /redis(s)?/ })
+			.refine(hasCompleteUserinfo, REDIS_URL_USERINFO_MESSAGE)
+			.optional(),
 		ENCRYPTION_SECRET: z.string().min(32, "ENCRYPTION_SECRET must be at least 32 characters").optional(),
 
 		// Optional search and enhanced reading; custom URLs are operator-controlled Firecrawl services.

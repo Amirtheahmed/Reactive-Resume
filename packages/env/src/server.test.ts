@@ -12,10 +12,14 @@ beforeEach(() => {
 		"AI_MODEL",
 		"AI_API_KEY",
 		"AI_BASE_URL",
+		"REDIS_URL",
 	])
 		vi.stubEnv(name, undefined);
 });
-afterEach(() => vi.unstubAllEnvs());
+afterEach(() => {
+	vi.unstubAllEnvs();
+	vi.restoreAllMocks();
+});
 
 describe("server web access configuration", () => {
 	it.each([
@@ -38,5 +42,50 @@ describe("server web access configuration", () => {
 		vi.stubEnv("WEB_ACCESS_PROVIDER", "firecrawl");
 		vi.stubEnv("WEB_ACCESS_API_URL", "http://firecrawl:3002");
 		expect((await import("./server")).env.WEB_ACCESS_API_KEY).toBeUndefined();
+	});
+});
+
+describe("redis url userinfo", () => {
+	it.each([
+		"redis://localhost:6379",
+		"rediss://localhost:6379/0",
+		"redis://:password@localhost:6379",
+		"redis://default:password@localhost:6379/0",
+		"redis://acl-user:password@localhost:6379",
+	])("accepts %s", async (url) => {
+		vi.stubEnv("REDIS_URL", url);
+		expect((await import("./server")).env.REDIS_URL).toBe(url);
+	});
+
+	it.each([
+		"redis://acl-user:@localhost:6379", // named ACL user with an empty password (nopass) — AUTH <user> "" is valid
+		"redis://@localhost:6379", // empty userinfo — ioredis treats it like no userinfo and sends no AUTH
+	])("accepts %s", async (url) => {
+		vi.stubEnv("REDIS_URL", url);
+		expect((await import("./server")).env.REDIS_URL).toBe(url);
+	});
+
+	it.each([
+		"redis://password@localhost:6379", // password in the username slot (userinfo with no colon)
+	])("rejects %s", async (url) => {
+		vi.stubEnv("REDIS_URL", url);
+		const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+		await expect(import("./server")).rejects.toThrow("Invalid environment variables");
+		expect(consoleError).toHaveBeenCalledWith(
+			expect.any(String),
+			expect.arrayContaining([
+				expect.objectContaining({ message: expect.stringContaining("userinfo has no password field") }),
+			]),
+		);
+	});
+
+	it("rejects a malformed URL as a normal validation failure, not a parse crash", async () => {
+		vi.stubEnv("REDIS_URL", "not a url");
+		const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+		await expect(import("./server")).rejects.toThrow("Invalid environment variables");
+		expect(consoleError).toHaveBeenCalledWith(
+			expect.any(String),
+			expect.arrayContaining([expect.objectContaining({ code: "invalid_format", format: "url" })]),
+		);
 	});
 });
