@@ -4,7 +4,7 @@ import type { HTMLElement } from "node-html-parser";
 import { ORPCError } from "@orpc/client";
 import { parse as parseHtml } from "node-html-parser";
 import z from "zod";
-import { parseResumeData, skillItemSchema } from "@reactive-resume/schema/resume/data";
+import { parseResumeData, projectItemSchema, skillItemSchema } from "@reactive-resume/schema/resume/data";
 import { generateId } from "@reactive-resume/utils/string";
 import { resumeService } from "../resume/service";
 
@@ -82,11 +82,19 @@ export const tailoringSchema = z.object({
 	experience: z
 		.array(rewrite.extend({ roles: z.array(rewrite).catch([]) }))
 		.catch([])
-		.transform((items) => items.slice(0, 4)),
+		.transform((items) => items.slice(0, 6)),
+	// A project either points at a master entry by id or is written from the candidate's background notes.
 	projects: z
-		.array(rewrite)
+		.array(
+			z.object({
+				id: z.string().optional().catch(undefined),
+				name: z.string().catch(""),
+				description: z.string().catch(""),
+			}),
+		)
 		.catch([])
-		.transform((items) => items.slice(0, 2)),
+		.transform((items) => items.slice(0, 3)),
+	education: z.array(rewrite).catch([]),
 	skills: z
 		.array(z.object({ name: z.string(), keywords: z.array(z.string()).catch([]) }))
 		.catch([])
@@ -95,38 +103,71 @@ export const tailoringSchema = z.object({
 
 export type Tailoring = z.infer<typeof tailoringSchema>;
 
+/** Reading order for the single-column goldstar layout. Sections without content are not printed. */
+const GOLDSTAR_ORDER = [
+	"summary",
+	"experience",
+	"projects",
+	"skills",
+	"education",
+	"certifications",
+	"awards",
+	"publications",
+	"volunteer",
+	"languages",
+	"interests",
+];
+
 /**
  * Builds the tailored resume from the master: the model only chooses entries by id and rewrites their
  * descriptions, so employers, titles and dates always come from the master and the result stays schema-valid.
+ * The one thing it may add is a project taken from the master's background notes.
  */
 export function applyTailoring(master: ResumeData, tailoring: Tailoring, template: Template): ResumeData {
 	const data = structuredClone(master);
 
-	const pick = <T extends { id: string; hidden: boolean; description: string }>(
-		items: T[],
-		rewrites: { id: string; description: string }[],
-	) =>
-		rewrites.flatMap(({ id, description }) => {
-			const item = items.find((candidate) => candidate.id === id && !candidate.hidden);
-			return item ? [{ ...item, description: description || item.description }] : [];
-		});
-
-	const experience = pick(data.sections.experience.items, tailoring.experience).map((item) => {
-		const roles = tailoring.experience.find(({ id }) => id === item.id)?.roles ?? [];
-		return {
-			...item,
-			roles: item.roles.map((role) => ({
-				...role,
-				description: roles.find(({ id }) => id === role.id)?.description || role.description,
-			})),
-		};
+	// Kept in the master's own order (newest first), whatever order the model listed them in.
+	const experience = data.sections.experience.items.flatMap((item) => {
+		const chosen = tailoring.experience.find(({ id }) => id === item.id);
+		if (!chosen || item.hidden) return [];
+		return [
+			{
+				...item,
+				description: chosen.description || item.description,
+				roles: item.roles.map((role) => ({
+					...role,
+					description: chosen.roles.find(({ id }) => id === role.id)?.description || role.description,
+				})),
+			},
+		];
 	});
 	// A reply that references none of the master's entries is a failed generation, not an empty resume.
 	if (experience.length === 0 && data.sections.experience.items.some((item) => !item.hidden)) {
 		throw new ORPCError("BAD_GATEWAY", { message: "The AI response did not select any experience. Try again." });
 	}
 	data.sections.experience.items = experience;
-	data.sections.projects.items = pick(data.sections.projects.items, tailoring.projects);
+
+	const masterProjects = data.sections.projects.items;
+	data.sections.projects.items = tailoring.projects.flatMap(({ id, name, description }) => {
+		const item = masterProjects.find((candidate) => candidate.id === id && !candidate.hidden);
+		if (item) return [{ ...item, description: description || item.description }];
+		if (!name.trim() || !description.trim()) return [];
+		return [
+			projectItemSchema.parse({
+				id: generateId(),
+				hidden: false,
+				name: name.trim().slice(0, 100),
+				period: "",
+				website: { url: "", label: "" },
+				description,
+			}),
+		];
+	});
+
+	// Every degree stays; its description is the model's one-liner or nothing, never the master's long-form notes.
+	for (const item of data.sections.education.items) {
+		item.description = tailoring.education.find(({ id }) => id === item.id)?.description ?? "";
+	}
 
 	if (tailoring.skills.length > 0) {
 		data.sections.skills.items = tailoring.skills.map(({ name, keywords }) =>
@@ -146,8 +187,26 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 	data.summary.content = tailoring.summary;
 	data.summary.hidden = tailoring.summary.trim() === "";
 	data.metadata.template = template;
-	// Goldstar is the plain LaTeX-style layout: no icons anywhere.
-	if (template === "goldstar") Object.assign(data.metadata.page, { hideIcons: true, hideSectionIcons: true });
+	if (template === "goldstar") {
+		// The plain LaTeX-style layout: dense, no icons, one column in a fixed order, skills as "Category: a, b, c",
+		// languages on one row without level dots, and links on the entry's title rather than on a line of their own.
+		Object.assign(data.metadata.page, { hideIcons: true, hideSectionIcons: true, gapY: 4 });
+		data.metadata.typography.body.lineHeight = 1.35;
+		Object.assign(data.sections.languages, { columns: Math.min(4, data.sections.languages.items.length || 1) });
+		for (const item of data.sections.languages.items) item.level = 0;
+		const { experience: jobs, projects, education } = data.sections;
+		for (const item of [...jobs.items, ...projects.items, ...education.items]) item.website.inlineLink = true;
+		data.metadata.layout.pages = [{ fullWidth: true, main: GOLDSTAR_ORDER, sidebar: [] }];
+		Object.assign(data.sections.skills, { layout: "inline" });
+		// Profile links (LinkedIn, GitHub) go in the header's contact line instead of a section of their own.
+		const listed = new Set(data.basics.customFields.map((field) => field.link));
+		for (const profile of data.sections.profiles.items) {
+			const link = profile.website.url;
+			if (profile.hidden || !link || listed.has(link)) continue;
+			const text = profile.website.label || link.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+			data.basics.customFields.push({ id: generateId(), icon: "", text, link });
+		}
+	}
 
 	return parseResumeData(data);
 }

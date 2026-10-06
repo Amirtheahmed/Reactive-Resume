@@ -9,7 +9,7 @@ const { applyTailoring, autofillProfile, createFormResolver, profileForPrompt, t
 const master = () => structuredClone(sampleResumeData);
 
 describe("applyTailoring", () => {
-	it("keeps only the selected entries, in the model's order, with facts from the master", () => {
+	it("keeps only the selected entries, in the master's order, with facts from the master", () => {
 		const data = master();
 		const [first] = data.sections.experience.items;
 		if (!first) throw new Error("sample data needs an experience entry");
@@ -31,14 +31,14 @@ describe("applyTailoring", () => {
 			"goldstar",
 		);
 
-		expect(result.sections.experience.items.map((item) => item.id)).toEqual([second.id, first.id]);
-		expect(result.sections.experience.items[0]).toMatchObject({
+		expect(result.sections.experience.items.map((item) => item.id)).toEqual([first.id, second.id]);
+		expect(result.sections.experience.items[1]).toMatchObject({
 			company: second.company,
 			period: second.period,
 			description: "<ul><li>Rewritten</li></ul>",
 		});
 		// An empty rewrite keeps the master's text rather than blanking the entry.
-		expect(result.sections.experience.items[1]?.description).toBe(first.description);
+		expect(result.sections.experience.items[0]?.description).toBe(first.description);
 		expect(result.sections.projects.items).toEqual([]);
 		expect(result.sections.skills.items.map((item) => [item.name, item.keywords])).toEqual([["Backend", ["Node.js"]]]);
 		expect(result.summary.hidden).toBe(true);
@@ -78,10 +78,54 @@ describe("applyTailoring", () => {
 		});
 	});
 
+	it("takes projects from the background, rewrites education and lays goldstar out in one column", () => {
+		const data = master();
+		const [first] = data.sections.experience.items;
+		const [degree] = data.sections.education.items;
+		if (!first || !degree) throw new Error("sample data needs experience and education");
+		degree.description = "<p>A long first-person account of the degree.</p>";
+
+		const result = applyTailoring(
+			data,
+			tailoringSchema.parse({
+				experience: [{ id: first.id, description: "" }],
+				projects: [
+					{ name: "Homelab", description: "<ul><li>Built a cluster</li></ul>" },
+					{ name: "No description" },
+					{ id: "not-in-master", name: "", description: "<ul><li>Nameless</li></ul>" },
+				],
+				education: [{ id: "not-in-master", description: "<p>Invented</p>" }],
+			}),
+			"goldstar",
+		);
+
+		expect(result.sections.projects.items.map((item) => item.name)).toEqual(["Homelab"]);
+		expect(result.sections.education.items).toHaveLength(data.sections.education.items.length);
+		expect(result.sections.education.items.every((item) => item.description === "")).toBe(true);
+		expect(result.metadata.layout.pages).toHaveLength(1);
+		expect(result.metadata.layout.pages[0]).toMatchObject({ fullWidth: true, sidebar: [] });
+		expect(result.metadata.layout.pages[0]?.main.slice(0, 5)).toEqual([
+			"summary",
+			"experience",
+			"projects",
+			"skills",
+			"education",
+		]);
+		expect(result.metadata.layout.pages[0]?.main).not.toContain("profiles");
+		const links = data.sections.profiles.items.filter((item) => !item.hidden && item.website.url);
+		expect(result.basics.customFields.map((field) => field.link)).toEqual(
+			expect.arrayContaining(links.map((item) => item.website.url)),
+		);
+		// Another template keeps the master's own layout.
+		const other = applyTailoring(data, tailoringSchema.parse({ experience: [{ id: first.id }] }), "onyx");
+		expect(other.metadata.layout.pages).toHaveLength(data.metadata.layout.pages.length);
+		expect(other.metadata.layout.pages[0]?.fullWidth).toBe(data.metadata.layout.pages[0]?.fullWidth);
+	});
+
 	it("caps the selection and rejects a reply that selects no experience", () => {
 		const data = master();
 		const many = Array.from({ length: 9 }, () => ({ id: data.sections.experience.items[0]?.id, description: "x" }));
-		expect(tailoringSchema.parse({ experience: many }).experience).toHaveLength(4);
+		expect(tailoringSchema.parse({ experience: many }).experience).toHaveLength(6);
 		expect(() => applyTailoring(data, tailoringSchema.parse({ experience: [{ id: "nope" }] }), "goldstar")).toThrow(
 			/did not select any experience/,
 		);
