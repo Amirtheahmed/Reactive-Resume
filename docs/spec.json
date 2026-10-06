@@ -33372,7 +33372,8 @@
 												"type": "object",
 												"properties": {
 													"selector": {
-														"type": "string"
+														"type": "string",
+														"maxLength": 300
 													},
 													"type": {
 														"type": "string"
@@ -33389,7 +33390,8 @@
 													"value": {
 														"anyOf": [
 															{
-																"type": "string"
+																"type": "string",
+																"maxLength": 2000
 															},
 															{
 																"type": "null"
@@ -33794,12 +33796,14 @@
 													"value": {
 														"anyOf": [
 															{
-																"type": "string"
+																"type": "string",
+																"maxLength": 10000
 															},
 															{
 																"type": "array",
 																"items": {
-																	"type": "string"
+																	"type": "string",
+																	"maxLength": 500
 																}
 															},
 															{

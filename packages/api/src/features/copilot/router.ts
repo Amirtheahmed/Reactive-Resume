@@ -47,11 +47,17 @@ const confidence = z.coerce
 	.catch(0)
 	.transform((n) => Math.max(0, Math.min(1, n)));
 
+// The form HTML comes from an arbitrary web page, so the model's reply is treated as hostile: a page can
+// try to talk the model into dumping the profile into a field. Values are length-capped, and fields the
+// user cannot see (hidden, password) are never filled.
+const MAX_FILL_VALUE_CHARS = 2_000;
+const UNFILLABLE_FIELD_TYPES = new Set(["hidden", "password"]);
+
 const formFieldOutput = z.object({
-	selector: z.string(),
+	selector: z.string().max(300),
 	type: z.string().catch("text"),
 	action: z.enum(["fill", "select", "check", "upload"]).catch("fill"),
-	value: z.string().nullable().catch(null),
+	value: z.string().max(MAX_FILL_VALUE_CHARS).nullable().catch(null),
 	file_type: z.enum(["resume", "cover_letter", "portfolio"]).optional().catch(undefined),
 	confidence,
 	strategy: z.enum(["DETERMINISTIC", "AI_MAPPED", "AI_GENERATED", "SMART_DEFAULT"]).catch("AI_MAPPED"),
@@ -87,7 +93,7 @@ const questionInput = z.object({
 
 const answerOutput = z.object({
 	question_id: z.string(),
-	value: z.union([z.string(), z.array(z.string()), z.number(), z.boolean(), z.null()]).catch(null),
+	value: z.union([z.string().max(10_000), z.array(z.string().max(500)), z.number(), z.boolean(), z.null()]).catch(null),
 	confidence,
 	strategy: z.enum(["DETERMINISTIC", "AI_MAPPED", "AI_GENERATED", "SMART_DEFAULT"]).catch("AI_MAPPED"),
 	reasoning: z.string().optional().catch(undefined),
@@ -273,7 +279,9 @@ export const copilotRouter = {
 			);
 
 			// The prompt asks for this split; enforce it rather than trust it.
-			const fields = result.fields.filter((field) => field.confidence >= 0.6);
+			const fields = result.fields.filter(
+				(field) => field.confidence >= 0.6 && !UNFILLABLE_FIELD_TYPES.has(field.type.toLowerCase()),
+			);
 			return {
 				fields,
 				needs_review: result.needs_review,

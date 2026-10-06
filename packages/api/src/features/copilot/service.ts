@@ -25,8 +25,10 @@ export async function getMasterResume(userId: string) {
 
 /** The master resume without presentation settings or hidden entries, as compact JSON for a prompt. */
 export function profileForPrompt(data: ResumeData): string {
+	// References are other people's contact details: never sent to a model or offered to a form.
+	const { references: _references, ...ownSections } = data.sections;
 	const sections = Object.fromEntries(
-		Object.entries(data.sections).map(([key, section]) => [
+		Object.entries(ownSections).map(([key, section]) => [
 			key,
 			(section.items as Record<string, unknown>[])
 				.filter((item) => !item.hidden)

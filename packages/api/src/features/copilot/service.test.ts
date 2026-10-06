@@ -76,6 +76,7 @@ describe("profileForPrompt", () => {
 		const prompt = profileForPrompt(data);
 		expect(prompt).not.toContain(hidden.id);
 		expect(prompt).not.toContain('"metadata"');
+		expect(prompt).not.toContain('"references"');
 		expect(JSON.parse(prompt).basics.name).toBe(data.basics.name);
 	});
 });
