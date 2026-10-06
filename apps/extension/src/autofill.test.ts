@@ -14,7 +14,16 @@ const profile: Profile = {
 	},
 };
 
+// happy-dom has no layout: every element gets a box, and visibility follows inline display.
+const box = (overrides: Partial<DOMRect> = {}) =>
+	({ width: 200, height: 30, left: 10, top: 10, right: 210, bottom: 40, ...overrides }) as DOMRect;
+
 beforeEach(() => {
+	vi.restoreAllMocks();
+	Element.prototype.checkVisibility = function (this: HTMLElement) {
+		return this.style.display !== "none";
+	};
+	vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(() => box());
 	document.body.innerHTML = `
 		<form>
 			<label for="email">Email address</label><input id="email" name="email" type="email">
@@ -48,11 +57,35 @@ describe("extractFormFields", () => {
 		]);
 	});
 
-	it("skips a field the browser reports as not visible", () => {
+	it.each([
+		["the browser reports it as not visible", (input: HTMLInputElement) => (input.checkVisibility = () => false)],
+		[
+			"it is collapsed to nothing",
+			(input: HTMLInputElement) => (input.getBoundingClientRect = () => box({ width: 1, height: 1 })),
+		],
+		[
+			"it is parked off-screen",
+			(input: HTMLInputElement) => (input.getBoundingClientRect = () => box({ left: -9999, right: -9799 })),
+		],
+		[
+			"visibility cannot be checked at all",
+			(input: HTMLInputElement) => Reflect.set(input, "checkVisibility", undefined),
+		],
+	])("skips a field when %s", (_case, hide) => {
 		const email = document.querySelector<HTMLInputElement>("#email");
 		if (!email) throw new Error("fixture");
-		email.checkVisibility = () => false;
+		hide(email);
 		expect(extractFormFields().map((field) => field.label)).not.toContain("Email address");
+	});
+
+	it("gives every pass fresh ids, so values approved for one pass cannot be applied after another", () => {
+		const [first] = extractFormFields();
+		const [second] = extractFormFields();
+		if (!first || !second) throw new Error("fixture");
+
+		expect(second.id).not.toBe(first.id);
+		expect(applyAutofill([{ id: first.id, value: "stale@example.com" }])).toBe(0);
+		expect(document.querySelector<HTMLInputElement>("#email")?.value).toBe("");
 	});
 });
 

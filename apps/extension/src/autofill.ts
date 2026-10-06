@@ -31,12 +31,29 @@ const SKIPPED_TYPES = new Set([
 
 const normalise = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-// Only fields a person can see are offered. A page can hide an input with a stylesheet to harvest
-// autofilled data, which the server cannot detect from HTML alone; the browser can.
-const isVisible = (element: FormControl) =>
-	typeof element.checkVisibility === "function"
-		? element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })
-		: element.style.display !== "none";
+/** Smallest box, in CSS pixels, that still counts as a field someone could click into. */
+const MIN_FIELD_SIZE = 8;
+
+// Only fields a person can see are offered. A page can hide an input to harvest autofilled data
+// (display, visibility, opacity, zero size, parked off-screen), which the server cannot detect from HTML
+// alone; the browser can. Anything this cannot positively confirm as visible is treated as hidden.
+// It does not detect a field covered by another element; the review step is the backstop for that.
+function isVisible(element: FormControl): boolean {
+	if (typeof element.checkVisibility !== "function") return false;
+	if (!element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, contentVisibilityAuto: true }))
+		return false;
+
+	const box = element.getBoundingClientRect();
+	const page = document.documentElement;
+	return (
+		box.width >= MIN_FIELD_SIZE &&
+		box.height >= MIN_FIELD_SIZE &&
+		box.right > 0 &&
+		box.bottom + window.scrollY > 0 &&
+		box.left < Math.max(page.scrollWidth, window.innerWidth) &&
+		box.top + window.scrollY < Math.max(page.scrollHeight, window.innerHeight)
+	);
+}
 
 const labelOf = (element: FormControl) => {
 	const labels = Array.from(element.labels ?? []);
@@ -48,16 +65,21 @@ const labelOf = (element: FormControl) => {
 	return (element.parentElement?.textContent ?? "").trim().split("\n")[0]?.trim() ?? "";
 };
 
-/** Tags every visible, fillable control on the page with an id and describes it. */
+/**
+ * Tags every visible, fillable control on the page with an id and describes it. The ids carry a random
+ * token made for this pass, so approved values can only ever land in the page and the pass they were
+ * reviewed for: on any other page, or after another pass, no element has them.
+ */
 export function extractFormFields(): FormField[] {
 	const fields: FormField[] = [];
+	const pass = crypto.randomUUID();
 
 	for (const element of document.querySelectorAll<FormControl>("input, textarea, select")) {
 		element.removeAttribute(FIELD_ID);
 		if (SKIPPED_TYPES.has(element.type) || element.disabled || !isVisible(element)) continue;
 		if (!(element instanceof HTMLSelectElement) && element.readOnly) continue;
 
-		const id = `rx-autofill-${fields.length}`;
+		const id = `rx-${pass}-${fields.length}`;
 		element.setAttribute(FIELD_ID, id);
 
 		fields.push({

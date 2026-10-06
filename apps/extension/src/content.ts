@@ -65,7 +65,10 @@ function toast(message: string) {
 	setTimeout(() => host.remove(), 4000);
 }
 
-chrome.runtime.onMessage.addListener((request: PageRequest, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request: PageRequest, sender, sendResponse) => {
+	// Only this extension's own pages may drive the page.
+	if (sender.id !== chrome.runtime.id) return false;
+
 	try {
 		if (request.type === "ANALYZE_JOB") sendResponse(analyzeJob());
 

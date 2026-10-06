@@ -12,12 +12,15 @@ import { ConnectView, GenerateView, MainView, ResultView, ReviewView } from "./v
 
 type View = "main" | "generate" | "review" | "result";
 
-/** Asks the content script in the active tab to do something on the page. */
-async function askPage<T>(request: PageRequest): Promise<T> {
+async function activeTabId(): Promise<number> {
 	const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 	if (!tab?.id) throw new Error("Cannot access the current tab.");
+	return tab.id;
+}
 
-	const response = (await chrome.tabs.sendMessage(tab.id, request).catch(() => undefined)) as
+/** Asks the content script in a tab to do something on its page. */
+async function askPage<T>(tabId: number, request: PageRequest): Promise<T> {
+	const response = (await chrome.tabs.sendMessage(tabId, request).catch(() => undefined)) as
 		| (T & { error?: string })
 		| undefined;
 	if (!response) throw new Error("This page is not ready. Reload it and try again.");
@@ -37,6 +40,8 @@ export function App() {
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState<"analyze" | "autofill" | "apply" | "generate" | null>(null);
 	const [suggestions, setSuggestions] = useState<ReviewSuggestion[]>([]);
+	// The tab a review was prepared in. Values are only ever sent back to that tab, whichever is in front.
+	const [reviewTabId, setReviewTabId] = useState<number | null>(null);
 	const [filled, setFilled] = useState<number | null>(null);
 	const [result, setResult] = useState<GeneratedDocument | null>(null);
 
@@ -72,14 +77,16 @@ export function App() {
 		}
 	};
 
-	const analyze = () => run("analyze", async () => setJob(await askPage<JobAnalysis>({ type: "ANALYZE_JOB" })));
+	const analyze = () =>
+		run("analyze", async () => setJob(await askPage<JobAnalysis>(await activeTabId(), { type: "ANALYZE_JOB" })));
 
 	const prepareAutofill = () =>
 		run("autofill", async () => {
 			if (!apiKey || !job) return;
 			if (!profile) throw new Error('No master resume found. Add the tag "master" to your full resume.');
 
-			const { fields, heuristic } = await askPage<PreparedAutofill>({ type: "PREPARE_AUTOFILL", profile });
+			const tabId = await activeTabId();
+			const { fields, heuristic } = await askPage<PreparedAutofill>(tabId, { type: "PREPARE_AUTOFILL", profile });
 			const matched = new Set(heuristic.map(({ id }) => id));
 			const questions = toQuestions(fields.filter(({ id }) => !matched.has(id)));
 			const answered = questions.length > 0 ? toSuggestions(await api.answer(apiKey, questions, job), fields) : [];
@@ -90,12 +97,14 @@ export function App() {
 			if (all.length === 0) throw new Error("Found nothing to fill on this page.");
 
 			setSuggestions(all);
+			setReviewTabId(tabId);
 			setView("review");
 		});
 
 	const applyAutofill = (chosen: ReviewSuggestion[]) =>
 		run("apply", async () => {
-			const { count } = await askPage<AppliedAutofill>({
+			if (reviewTabId === null) return;
+			const { count } = await askPage<AppliedAutofill>(reviewTabId, {
 				type: "APPLY_AUTOFILL",
 				suggestions: chosen.map(({ id, value }) => ({ id, value })),
 			});
