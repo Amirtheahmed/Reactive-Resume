@@ -122,6 +122,19 @@ describe("applyTailoring", () => {
 		expect(other.metadata.layout.pages[0]?.fullWidth).toBe(data.metadata.layout.pages[0]?.fullWidth);
 	});
 
+	it("strips links, scripts and attributes from the model's text", () => {
+		const parsed = tailoringSchema.parse({
+			summary: '<p onclick="x()">Hi <a href="https://evil.example">here</a><script>alert(1)</script></p>',
+			experience: [{ id: "a", description: '<ul><li style="color:red">Did <img src=x onerror=y> it</li></ul>' }],
+			projects: [{ name: "<b>Lab</b>", description: "<ul><li>ok</li></ul>" }],
+			skills: [{ name: "Back<i>end</i>", keywords: ["<a href='x'>Node.js</a>"] }],
+		});
+		expect(parsed.summary).toBe("<p>Hi here</p>");
+		expect(parsed.experience[0]?.description).toBe("<ul><li>Did  it</li></ul>");
+		expect(parsed.projects[0]?.name).toBe("Lab");
+		expect(parsed.skills).toEqual([{ name: "Backend", keywords: ["Node.js"] }]);
+	});
+
 	it("caps the selection and rejects a reply that selects no experience", () => {
 		const data = master();
 		const many = Array.from({ length: 9 }, () => ({ id: data.sections.experience.items[0]?.id, description: "x" }));

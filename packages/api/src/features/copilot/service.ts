@@ -3,6 +3,7 @@ import type { Template } from "@reactive-resume/schema/templates";
 import type { HTMLElement } from "node-html-parser";
 import { ORPCError } from "@orpc/client";
 import { parse as parseHtml } from "node-html-parser";
+import sanitizeHtml from "sanitize-html";
 import z from "zod";
 import { parseResumeData, projectItemSchema, skillItemSchema } from "@reactive-resume/schema/resume/data";
 import { generateId } from "@reactive-resume/utils/string";
@@ -75,10 +76,29 @@ export function profileForPrompt(data: ResumeData, { background: withBackground 
 }
 
 // Tolerant of LLM variance, like upstream's AI outputs: a malformed part costs that part, and lists are capped.
-const rewrite = z.object({ id: z.string(), description: z.string().catch("") });
+// Model text is untrusted (a job posting can carry instructions): only plain formatting survives, with no
+// links, attributes or styles, and it is clipped.
+const modelHtml = (max: number) =>
+	z
+		.string()
+		.catch("")
+		.transform((html) =>
+			sanitizeHtml(html.slice(0, max), {
+				allowedTags: ["p", "ul", "ol", "li", "strong", "b", "em", "i", "br"],
+				allowedAttributes: {},
+			}),
+		);
+const modelText = (max: number) =>
+	z
+		.string()
+		.catch("")
+		.transform((text) => sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} }).trim().slice(0, max));
+
+const MAX_DESCRIPTION_CHARS = 3_000;
+const rewrite = z.object({ id: z.string(), description: modelHtml(MAX_DESCRIPTION_CHARS) });
 
 export const tailoringSchema = z.object({
-	summary: z.string().catch(""),
+	summary: modelHtml(1_500),
 	experience: z
 		.array(rewrite.extend({ roles: z.array(rewrite).catch([]) }))
 		.catch([])
@@ -88,17 +108,28 @@ export const tailoringSchema = z.object({
 		.array(
 			z.object({
 				id: z.string().optional().catch(undefined),
-				name: z.string().catch(""),
-				description: z.string().catch(""),
+				name: modelText(100),
+				description: modelHtml(MAX_DESCRIPTION_CHARS),
 			}),
 		)
 		.catch([])
 		.transform((items) => items.slice(0, 3)),
-	education: z.array(rewrite).catch([]),
-	skills: z
-		.array(z.object({ name: z.string(), keywords: z.array(z.string()).catch([]) }))
+	education: z
+		.array(z.object({ id: z.string(), description: modelHtml(300) }))
 		.catch([])
-		.transform((items) => items.slice(0, 6)),
+		.transform((items) => items.slice(0, 20)),
+	skills: z
+		.array(
+			z.object({
+				name: modelText(60),
+				keywords: z
+					.array(modelText(60))
+					.catch([])
+					.transform((items) => items.filter(Boolean).slice(0, 15)),
+			}),
+		)
+		.catch([])
+		.transform((items) => items.filter(({ name }) => name).slice(0, 6)),
 });
 
 export type Tailoring = z.infer<typeof tailoringSchema>;
@@ -151,12 +182,12 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 	data.sections.projects.items = tailoring.projects.flatMap(({ id, name, description }) => {
 		const item = masterProjects.find((candidate) => candidate.id === id && !candidate.hidden);
 		if (item) return [{ ...item, description: description || item.description }];
-		if (!name.trim() || !description.trim()) return [];
+		if (!name || !description.trim()) return [];
 		return [
 			projectItemSchema.parse({
 				id: generateId(),
 				hidden: false,
-				name: name.trim().slice(0, 100),
+				name,
 				period: "",
 				website: { url: "", label: "" },
 				description,
