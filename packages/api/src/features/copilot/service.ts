@@ -179,10 +179,24 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 	data.sections.experience.items = experience;
 
 	const masterProjects = data.sections.projects.items;
+	// A project without an id must be named in the candidate's own notes: the model cannot add one of its own
+	// (or one a job posting asked for).
+	const normalize = (text: string) => text.toLowerCase().replace(/\s+/g, " ").trim();
+	const notes = normalize(
+		sanitizeHtml(
+			data.customSections
+				.filter((section) => !section.hidden)
+				.flatMap((section) => (section.items as { hidden: boolean }[]).filter((item) => !item.hidden))
+				.map((item) => Object.values(item).join(" "))
+				.join(" "),
+			{ allowedTags: [], allowedAttributes: {} },
+		),
+	);
+	const inNotes = (name: string) => name.length >= 3 && notes.includes(normalize(name));
 	data.sections.projects.items = tailoring.projects.flatMap(({ id, name, description }) => {
 		const item = masterProjects.find((candidate) => candidate.id === id && !candidate.hidden);
 		if (item) return [{ ...item, description: description || item.description }];
-		if (!name || !description.trim()) return [];
+		if (!inNotes(name) || !description.trim()) return [];
 		return [
 			projectItemSchema.parse({
 				id: generateId(),

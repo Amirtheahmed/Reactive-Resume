@@ -84,6 +84,16 @@ describe("applyTailoring", () => {
 		const [degree] = data.sections.education.items;
 		if (!first || !degree) throw new Error("sample data needs experience and education");
 		degree.description = "<p>A long first-person account of the degree.</p>";
+		data.customSections = [
+			{
+				...(data.customSections[0] as object),
+				id: "notes",
+				type: "summary",
+				title: "Projects",
+				hidden: false,
+				items: [{ id: "n1", hidden: false, content: "<h3><strong>Homelab</strong></h3><p>A k3s cluster.</p>" }],
+			} as never,
+		];
 
 		const result = applyTailoring(
 			data,
@@ -91,6 +101,7 @@ describe("applyTailoring", () => {
 				experience: [{ id: first.id, description: "" }],
 				projects: [
 					{ name: "Homelab", description: "<ul><li>Built a cluster</li></ul>" },
+					{ name: "Invented Startup", description: "<ul><li>Not in the notes</li></ul>" },
 					{ name: "No description" },
 					{ id: "not-in-master", name: "", description: "<ul><li>Nameless</li></ul>" },
 				],
