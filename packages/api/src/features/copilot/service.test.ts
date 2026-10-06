@@ -45,6 +45,38 @@ describe("applyTailoring", () => {
 		expect(result.metadata.template).toBe("goldstar");
 	});
 
+	it("keeps the master's custom sections out of the tailored resume and its layout", () => {
+		const data = master();
+		const [first] = data.sections.experience.items;
+		if (!first) throw new Error("sample data needs an experience entry");
+		data.customSections.push({
+			id: "faq",
+			type: "summary",
+			title: "FAQ",
+			icon: "",
+			columns: 1,
+			hidden: false,
+			keepTogether: false,
+			startOnNewPage: false,
+			items: [{ id: "faq-1", hidden: false, content: "<p>Based in Istanbul.</p>" }],
+		} as never);
+		data.metadata.layout.pages[0]?.main.push("faq");
+
+		const result = applyTailoring(
+			data,
+			tailoringSchema.parse({ experience: [{ id: first.id, description: "" }] }),
+			"goldstar",
+		);
+
+		expect(result.customSections).toEqual([]);
+		expect(result.metadata.layout.pages.flatMap((page) => [...page.main, ...page.sidebar])).not.toContain("faq");
+		// The master itself still has it, and the model still gets to read it.
+		expect(JSON.parse(profileForPrompt(data)).background).toContainEqual({
+			title: "FAQ",
+			items: [{ content: "<p>Based in Istanbul.</p>" }],
+		});
+	});
+
 	it("caps the selection and rejects a reply that selects no experience", () => {
 		const data = master();
 		const many = Array.from({ length: 9 }, () => ({ id: data.sections.experience.items[0]?.id, description: "x" }));

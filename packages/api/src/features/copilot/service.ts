@@ -37,6 +37,16 @@ export function profileForPrompt(data: ResumeData): string {
 				.map(({ hidden: _hidden, icon: _icon, iconColor: _iconColor, ...item }) => item),
 		]),
 	);
+	// Custom sections hold what the standard ones cannot: an FAQ, preferences, extra projects. They are
+	// background for the model, so they are sent whole, apart from anyone else's contact details.
+	const background = data.customSections
+		.filter((section) => !section.hidden && section.type !== "references")
+		.map((section) => ({
+			title: section.title,
+			items: (section.items as Record<string, unknown>[])
+				.filter((item) => !item.hidden)
+				.map(({ id: _id, hidden: _hidden, icon: _icon, iconColor: _iconColor, ...item }) => item),
+		}));
 	const { name, headline, email, phone, location, website, customFields } = data.basics;
 	return JSON.stringify({
 		basics: {
@@ -50,6 +60,7 @@ export function profileForPrompt(data: ResumeData): string {
 		},
 		summary: data.summary.content,
 		sections,
+		background,
 	});
 }
 
@@ -111,6 +122,15 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 		data.sections.skills.items = tailoring.skills.map(({ name, keywords }) =>
 			skillItemSchema.parse({ id: generateId(), hidden: false, icon: "", name, proficiency: "", level: 0, keywords }),
 		);
+	}
+
+	// The master's custom sections are background (FAQ, preferences, notes), not resume content: a tailored
+	// resume is built from the standard sections only.
+	const background = new Set(data.customSections.map((section) => section.id));
+	data.customSections = [];
+	for (const page of data.metadata.layout.pages) {
+		page.main = page.main.filter((id) => !background.has(id));
+		page.sidebar = page.sidebar.filter((id) => !background.has(id));
 	}
 
 	data.summary.content = tailoring.summary;
