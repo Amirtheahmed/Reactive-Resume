@@ -24,4 +24,12 @@ The extension is only granted access to the host in `VITE_APP_URL`; rebuild afte
 - `src/App.tsx` and `src/views.tsx` are the side panel. It holds the API key (in `chrome.storage.local`) and calls `/api/openapi` on your instance.
 - `src/autofill.ts` is the form logic, covered by `src/autofill.test.ts`.
 
-Only fields the browser reports as visible are offered, and password, file and hidden inputs are never filled.
+## What the visibility checks do and don't cover
+
+Password, file, checkbox, radio and hidden inputs are never filled. Other fields are offered only if they are
+displayed, at least half opaque, a clickable size, on the page, and the thing a click on them would actually hit.
+
+These checks are best-effort. A page that wants to disguise a field has more ways to do it than can be tested
+for (CSS filters, clip paths, text and background in the same colour, and so on). The control that matters is
+the review list: nothing is written until you approve each value against the label shown. If the list contains
+a field you cannot find on the page, untick it.
