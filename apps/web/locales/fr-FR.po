@@ -2151,6 +2151,10 @@ msgstr "Impossible de générer le PDF. Veuillez réessayer."
 msgid "Could not load connected applications."
 msgstr "Impossible de charger les applications connectées."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Impossible de préparer votre CV pour l'impression. Veuillez réessayer."
@@ -4159,6 +4163,10 @@ msgstr "Augmentez l'interligne pour que deux lignes ne fusionnent pas en une seu
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Indonésien"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "S'adapter à la description de poste"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

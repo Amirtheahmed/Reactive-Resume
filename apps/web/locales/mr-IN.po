@@ -2151,6 +2151,10 @@ msgstr "PDF तयार करता आले नाही. कृपया �
 msgid "Could not load connected applications."
 msgstr "कनेक्ट केलेले अनुप्रयोग लोड करू शकलो नाही."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "तुमचा रेझ्युमे छपाईसाठी तयार करता आला नाही. कृपया पुन्हा प्रयत्न करा."
@@ -4159,6 +4163,10 @@ msgstr "दोन ओळी एकत्र होऊ नयेत म्हण�
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "इंडोनेशियन"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "नोकरीच्या वर्णनाशी जुळवून 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

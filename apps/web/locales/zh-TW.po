@@ -2151,6 +2151,10 @@ msgstr "無法產生 PDF。請再試一次。"
 msgid "Could not load connected applications."
 msgstr "無法載入已連結的應用程式。"
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "無法為列印準備您的履歷。請再試一次。"
@@ -4159,6 +4163,10 @@ msgstr "增加行距，避免兩行文字被合併成一行。"
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "印尼語"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "適應職位描述"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

@@ -2151,6 +2151,10 @@ msgstr "Nepodarilo sa vytvoriť PDF. Skúste to prosím znova."
 msgid "Could not load connected applications."
 msgstr "Nepodarilo sa načítať pripojené aplikácie."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Nepodarilo sa pripraviť váš životopis na tlač. Skúste to prosím znova."
@@ -4159,6 +4163,10 @@ msgstr "Zväčšite riadkovanie, aby sa dva riadky nezlievali do jedného."
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Indonézština"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "Prispôsobte sa popisu práce"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

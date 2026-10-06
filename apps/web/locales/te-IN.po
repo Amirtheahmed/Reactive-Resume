@@ -2151,6 +2151,10 @@ msgstr "PDF ను రూపొందించలేకపోయాం. దయ�
 msgid "Could not load connected applications."
 msgstr "కనెక్ట్ చేయబడిన అప్లికేషన్‌లను లోడ్ చేయడం సాధ్యపడలేదు."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "ప్రింటింగ్ కోసం మీ రెజ్యూమ్‌ను సిద్ధం చేయలేకపోయాం. దయచేసి మళ్లీ ప్రయత్నించండి."
@@ -4159,6 +4163,10 @@ msgstr "రెండు లైన్లు ఒకటిగా విలీనం
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "ఇండోనేషియన్"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "ఉద్యోగ వివరణకు అనుగుణంగా"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

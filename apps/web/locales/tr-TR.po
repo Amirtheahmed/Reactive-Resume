@@ -2151,6 +2151,10 @@ msgstr "PDF oluşturulamadı. Lütfen tekrar deneyin."
 msgid "Could not load connected applications."
 msgstr "Bağlı uygulamalar yüklenemedi."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Özgeçmişiniz yazdırma için hazırlanamadı. Lütfen tekrar deneyin."
@@ -4159,6 +4163,10 @@ msgstr "İki satırın birleşip tek satır olmaması için satır aralığını
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Endonezce"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "İş tanımına uyum sağlayın"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

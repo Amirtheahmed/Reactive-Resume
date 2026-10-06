@@ -2151,6 +2151,10 @@ msgstr "PDF ତିଆରି କରାଯାଇପାରିଲା ନାହିଁ
 msgid "Could not load connected applications."
 msgstr "ସଂଯୁକ୍ତ ଆପ୍ଲିକେସନ୍ ଲୋଡ୍ କରିହେଲା ନାହିଁ।"
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "ମୁଦ୍ରଣ ପାଇଁ ଆପଣଙ୍କ ରେଜ୍ୟୁମେ ପ୍ରସ୍ତୁତ କରାଯାଇପାରିଲା ନାହିଁ। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।"
@@ -4159,6 +4163,10 @@ msgstr "ଧାଡ଼ି ବ୍ୟବଧାନ ବଢ଼ାନ୍ତୁ ଯାହ
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "ଇଣ୍ଡୋନେସିଆନ୍"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "କାର୍ଯ୍ୟ ବର୍ଣ୍ଣନା ସହିତ ଖାପ �
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

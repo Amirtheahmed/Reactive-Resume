@@ -2151,6 +2151,10 @@ msgstr "تعذّر إنشاء ملف PDF. يرجى المحاولة مرة أخ�
 msgid "Could not load connected applications."
 msgstr "لا يمكن تحميل التطبيقات المتصلة."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "تعذّر تجهيز سيرتك الذاتية للطباعة. يرجى المحاولة مرة أخرى."
@@ -4159,6 +4163,10 @@ msgstr "زد تباعد الأسطر حتى لا يندمج سطران في سط
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "الإندونيسية"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "التكيف مع الوصف الوظيفي"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

@@ -2151,6 +2151,10 @@ msgstr "PDF를 생성하지 못했습니다. 다시 시도하세요."
 msgid "Could not load connected applications."
 msgstr "연결된 애플리케이션을 로드할 수 없습니다."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "이력서를 인쇄용으로 준비하지 못했습니다. 다시 시도하세요."
@@ -4159,6 +4163,10 @@ msgstr "두 줄이 하나로 합쳐지지 않도록 줄 간격을 늘리세요."
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "인도네시아어"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "직업 설명에 적응"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

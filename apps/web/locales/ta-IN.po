@@ -2151,6 +2151,10 @@ msgstr "PDF-ஐ உருவாக்க முடியவில்லை. ம�
 msgid "Could not load connected applications."
 msgstr "இணைக்கப்பட்ட பயன்பாடுகளை ஏற்ற முடியவில்லை."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "அச்சிடுவதற்கு உங்கள் ரெஸ்யூமைத் தயாரிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
@@ -4159,6 +4163,10 @@ msgstr "இரண்டு வரிகள் ஒன்றாக இணையா
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "இந்தோனேஷியன்"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "வேலை விளக்கத்திற்கு ஏற்ப"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

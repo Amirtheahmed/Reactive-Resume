@@ -2146,6 +2146,10 @@ msgstr "Could not generate the PDF. Please try again."
 msgid "Could not load connected applications."
 msgstr "Could not load connected applications."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr "Could not open the Information Bank. Please try again."
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Could not prepare your resume for printing. Please try again."
@@ -4154,6 +4158,10 @@ msgstr "Increase line spacing so two lines are not merged into one."
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Indonesian"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr "Information Bank"
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8052,6 +8060,10 @@ msgstr "Tailor"
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
 msgstr "Tailor a resume to a job"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
+msgstr "Tailor to a job"
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx

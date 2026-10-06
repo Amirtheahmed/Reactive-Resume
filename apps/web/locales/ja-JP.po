@@ -2151,6 +2151,10 @@ msgstr "PDF を生成できませんでした。もう一度お試しくださ�
 msgid "Could not load connected applications."
 msgstr "接続されているアプリケーションをロードできませんでした。"
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "履歴書を印刷用に準備できませんでした。もう一度お試しください。"
@@ -4159,6 +4163,10 @@ msgstr "行間を広げて、2行が1行に結合されないようにしてく�
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "インドネシア語"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "職務内容に適応する"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

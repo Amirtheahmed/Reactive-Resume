@@ -2151,6 +2151,10 @@ msgstr "Не удалось создать PDF. Пожалуйста, попро
 msgid "Could not load connected applications."
 msgstr "Не удалось загрузить подключенные приложения."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Не удалось подготовить резюме к печати. Пожалуйста, попробуйте ещё раз."
@@ -4159,6 +4163,10 @@ msgstr "Увеличьте межстрочный интервал, чтобы �
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Индонезийский"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "Адаптироваться к описанию вакансии"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

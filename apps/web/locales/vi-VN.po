@@ -2151,6 +2151,10 @@ msgstr "Không thể tạo tệp PDF. Vui lòng thử lại."
 msgid "Could not load connected applications."
 msgstr "Không thể tải các ứng dụng được kết nối."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Không thể chuẩn bị sơ yếu lý lịch của bạn để in. Vui lòng thử lại."
@@ -4159,6 +4163,10 @@ msgstr "Tăng khoảng cách dòng để hai dòng không bị hợp nhất thà
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "Tiếng Indonesia"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "Thích ứng với mô tả công việc"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

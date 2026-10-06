@@ -2151,6 +2151,10 @@ msgstr "PDF-tiedostoa ei voitu luoda. Yritä uudelleen."
 msgid "Could not load connected applications."
 msgstr "Ei voitu ladata yhdistettyjä sovelluksia."
 
+#: src/features/copilot/copilot-nav.tsx
+msgid "Could not open the Information Bank. Please try again."
+msgstr ""
+
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Ansioluetteloasi ei voitu valmistella tulostusta varten. Yritä uudelleen."
@@ -4159,6 +4163,10 @@ msgstr "Kasvata riviväliä, jotta kaksi riviä ei sulaudu yhdeksi."
 #: src/libs/locale.ts
 msgid "Indonesian"
 msgstr "indonesia"
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Information Bank"
+msgstr ""
 
 #: src/features/resume/editor/write/section-row.tsx
 msgid "Inline"
@@ -8056,6 +8064,10 @@ msgstr "Sopeutua työnkuvaan"
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Tailor a resume to a job"
+msgstr ""
+
+#: src/features/copilot/copilot-nav.tsx
+msgid "Tailor to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company

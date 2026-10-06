@@ -18,6 +18,7 @@ import { MobileTabIndicator } from "@/components/layout/mobile-tab-indicator";
 import { useDialogStore } from "@/dialogs/store";
 import { applicationsListQueryOptions } from "@/features/applications/queries";
 import { useCommandPaletteStore } from "@/features/command-palette/store";
+import { CopilotNav } from "@/features/copilot/copilot-nav";
 import { isEditableElementFocused } from "@/features/resume/builder/draft";
 import { UserDropdownMenu } from "@/features/user/dropdown-menu";
 import { orpc } from "@/libs/orpc/client";
@@ -133,6 +134,9 @@ function Sidebar() {
 				{items.map((item) => (
 					<NavLink key={item.to} item={item} current={isCurrent(item.to)} />
 				))}
+				<div className="mt-2 grid gap-0.5 border-t border-line pt-2">
+					<CopilotNav />
+				</div>
 				<div className="mt-2 border-t border-line pt-2">
 					<NavLink item={settings} current={isCurrent(settings.to)} />
 				</div>
@@ -227,6 +231,7 @@ function Rail() {
 						/>
 					</RailTip>
 				))}
+				<CopilotNav compact />
 			</nav>
 			<div className="mt-auto grid justify-items-center gap-2">
 				{trash && (
