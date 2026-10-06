@@ -1905,6 +1905,7 @@ msgstr "Community"
 msgid "Compact"
 msgstr "Kompakt"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "Skapade \"{finalName}\""
 msgid "Created and linked to {0}"
 msgstr "Skapad och länkad till {0}"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Beskär och ladda upp"
@@ -2750,6 +2755,10 @@ msgstr "Raderade {0}"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Borttagen i"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "Fullständigt namn"
 msgid "Full Width"
 msgstr "Full bredd"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Generera ett slumpmässigt namn"
@@ -4300,6 +4314,7 @@ msgstr "Japanska"
 msgid "Job"
 msgstr "Jobb"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "Jobbsökning misslyckades. Försök igen eller klistra in en länk för 
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "Jobbsökningsflöde"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Något gick fel när filen lästes. Försök igen."
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Något gick fel när du loggades in. Försök igen."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Taggar gruppdokument i biblioteket; välj en ovanför rutnätet för att
 msgid "Tags…"
 msgstr "Taggar..."
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "Anpassa till arbetsbeskrivning"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "anpassa till {0} platsannonsen"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "anpassad kontra bas cv"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "Ditt CV använder \"I\" och \"my\"."
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "Ditt CV, live kl"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

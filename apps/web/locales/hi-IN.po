@@ -1905,6 +1905,7 @@ msgstr "समुदाय"
 msgid "Compact"
 msgstr "संक्षिप्त"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "\"{finalName}\" बनाया गया"
 msgid "Created and linked to {0}"
 msgstr "बनाया गया और {0} से लिंक किया गया"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "कतरें और अपलोड करें"
@@ -2750,6 +2755,10 @@ msgstr "{0} हटा दिया गया"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "में हटा दिया गया"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "पूरा नाम"
 msgid "Full Width"
 msgstr "पूर्ण चौड़ाई"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "कोई रैंडम नाम बनाएँ"
@@ -4300,6 +4314,7 @@ msgstr "जापानी"
 msgid "Job"
 msgstr "काम"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "नौकरी की खोज विफल रही. पुनः �
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "नौकरी खोज पाइपलाइन"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "उस फ़ाइल को पढ़ते समय कुछ ग़
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "आपको साइन इन करते समय कुछ गड़बड़ हो गई। कृपया फिर से कोशिश करें।"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "पुस्तकालय में समूह दस्तावे
 msgid "Tags…"
 msgstr "टैग..."
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "नौकरी विवरण के अनुरूप ढलें"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} जॉब पोस्टिंग को अनुकूलित �
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "अनुकूलित बनाम आधार बायोडाटा"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "आपका बायोडाटा \"I\" और \"my\" का इस�
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "आपका बायोडाटा, लाइव पर"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

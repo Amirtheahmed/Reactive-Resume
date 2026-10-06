@@ -1905,6 +1905,7 @@ msgstr "Comunidade"
 msgid "Compact"
 msgstr "Compacto"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "Criado “{finalName}”"
 msgid "Created and linked to {0}"
 msgstr "Criado e ligado a {0}"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Recortar e carregar"
@@ -2750,6 +2755,10 @@ msgstr "{0} eliminado"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Excluído em"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "Nome completo"
 msgid "Full Width"
 msgstr "Largura total"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Gerar um nome aleatório"
@@ -4300,6 +4314,7 @@ msgstr "Japonês"
 msgid "Job"
 msgstr "Trabalho"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "A procura de emprego falhou. Tente novamente ou cole um link de um anún
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "Fluxo de procura de emprego"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Algo correu mal ao ler esse ficheiro. Tente novamente."
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Algo correu mal ao iniciar a sua sessão. Tente novamente."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Assinala os documentos de grupo na biblioteca; escolha um acima da grelh
 msgid "Tags…"
 msgstr "Etiquetas…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "Adapte-se à descrição da função"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "adaptar-se ao anúncio de emprego {0}"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "currículo adaptado vs. currículo básico"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "O seu currículo usa \"eu\" e \"meu\"."
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "O seu currículo, ao vivo em"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

@@ -1905,6 +1905,7 @@ msgstr "Yhteisö"
 msgid "Compact"
 msgstr "Kompakti"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "Luotu \"{finalName}\""
 msgid "Created and linked to {0}"
 msgstr "Luotu ja linkitetty {0}:han"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Rajaa ja lataa"
@@ -2750,6 +2755,10 @@ msgstr "Poistettu {0}"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Poistettu sisään"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "Koko nimi"
 msgid "Full Width"
 msgstr "Täysi leveys"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Luo satunnainen nimi"
@@ -4300,6 +4314,7 @@ msgstr "japani"
 msgid "Job"
 msgstr "Job"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "Työnhaku epäonnistui. Yritä uudelleen tai liitä työpaikkailmoitusli
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "Työnhaun eteneminen"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Jotain meni pieleen tuota tiedostoa luettaessa. Yritä uudelleen."
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Kirjautumisessa tapahtui virhe. Yritä uudelleen."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Tagit ryhmittele asiakirjat kirjastossa; valitse yksi ruudukon yläpuole
 msgid "Tags…"
 msgstr "Tunnisteet…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "Sopeutua työnkuvaan"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "mukautua {0} työpaikkailmoitukseen"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "mukautettu vs. perusansioluettelo"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "Ansioluettelossasi käytetään sanoja \"I\" ja \"my\"."
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "Ansioluettelosi, live klo"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

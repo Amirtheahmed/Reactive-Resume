@@ -1905,6 +1905,7 @@ msgstr "കമ്മ്യൂണിറ്റി"
 msgid "Compact"
 msgstr "സംക്ഷിപ്തമായ"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "\"{finalName}\" സൃഷ്ടിച്ചു"
 msgid "Created and linked to {0}"
 msgstr "സൃഷ്ടിക്കുകയും {0}-ലേക്ക് ലിങ്ക് ചെയ്യുകയും ചെയ്തു"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "ചിത്രം ക്രോപ്പ് ചെയ്ത് അപ്‌ലോഡ് ചെയ്യുക"
@@ -2750,6 +2755,10 @@ msgstr "{0} ഇല്ലാതാക്കി"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "ഇല്ലാതാക്കി"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "പൂർണ്ണമായ പേര്"
 msgid "Full Width"
 msgstr "പൂർണ്ണ വീതി"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "ഒരു റാൻഡം പേരുണ്ടാക്കുക"
@@ -4300,6 +4314,7 @@ msgstr "ജാപ്പനീസ്"
 msgid "Job"
 msgstr "ഇയ്യോബ്"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "ജോലി തിരയൽ പരാജയപ്പെട്ടു. �
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "ജോലി തിരച്ചിൽ പൈപ്പ്‌ലൈൻ"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "ആ ഫയൽ വായിക്കുമ്പോൾ എന്തോ �
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "നിങ്ങളെ സൈൻ ഇൻ ചെയ്യുമ്പോൾ എന്തോ കുഴപ്പം സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "ഗ്രന്ഥശാലയിൽ ടാഗുകൾ ഗ്രൂപ�
 msgid "Tags…"
 msgstr "ടാഗുകൾ…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "ജോലി വിവരണവുമായി പൊരുത്തപ്പെടുക"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} ജോലി പോസ്റ്റിംഗുമായി പൊര
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "അടിസ്ഥാന റെസ്യൂമെയുമായി പൊരുത്തപ്പെട്ടു"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "നിങ്ങളുടെ റിസ്യൂം \"I\", \"my\" എന�
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "നിങ്ങളുടെ റെസ്യൂമെ, തത്സമയം"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

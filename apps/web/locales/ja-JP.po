@@ -1905,6 +1905,7 @@ msgstr "コミュニティ"
 msgid "Compact"
 msgstr "コンパクト"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "「{finalName}」を作成しました"
 msgid "Created and linked to {0}"
 msgstr "作成され、{0} にリンクされました"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "トリミングしてアップロード"
@@ -2750,6 +2755,10 @@ msgstr "{0}を削除しました"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "に削除されました"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "フルネーム"
 msgid "Full Width"
 msgstr "全幅"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "ランダムな名前を生成"
@@ -4300,6 +4314,7 @@ msgstr "日本語"
 msgid "Job"
 msgstr "仕事"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "就職活動に失敗しました。もう一度試すか、求人情報
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "求人応募パイプライン"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "ファイルの読み取り中に問題が発生しました。もう一
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "サインイン中に問題が発生しました。もう一度お試しください。"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "タグはライブラリ内のドキュメントをグループ化しま
 msgid "Tags…"
 msgstr "タグ…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "職務内容に適応する"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} の求人情報に適応する"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "適応された履歴書と基本履歴書"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "履歴書内に「I」や「my」が使われています。"
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "あなたの履歴書、住んでいます"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

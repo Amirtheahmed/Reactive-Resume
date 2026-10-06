@@ -51,6 +51,19 @@ export function NavigationCommandGroup() {
 
 				<CommandItem
 					disabled={!session}
+					keywords={[t`Tailor`, t`Generate`, t`Job`]}
+					value="navigation.documents.generate"
+					onSelect={() => {
+						reset();
+						useDialogStore.getState().openDialog("resume.generate", undefined);
+					}}
+				>
+					<Icon name="auto_fix_high" size={16} />
+					<Trans>Tailor a resume to a job</Trans>
+				</CommandItem>
+
+				<CommandItem
+					disabled={!session}
 					keywords={[t`Trash`, t`Deleted`]}
 					value="navigation.trash"
 					onSelect={() => onNavigate("/dashboard/trash")}

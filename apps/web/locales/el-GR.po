@@ -1905,6 +1905,7 @@ msgstr "Κοινότητα"
 msgid "Compact"
 msgstr "Συμπαγής"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "Δημιουργήθηκε το \"{finalName}\""
 msgid "Created and linked to {0}"
 msgstr "Δημιουργήθηκε και συνδέθηκε με το {0}"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Περικοπή και μεταφόρτωση"
@@ -2750,6 +2755,10 @@ msgstr "Διαγράφηκε το {0}"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Διαγράφηκε σε"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "Ονοματεπώνυμο"
 msgid "Full Width"
 msgstr "Πλήρες πλάτος"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Δημιουργία τυχαίου ονόματος"
@@ -4300,6 +4314,7 @@ msgstr "Ιαπωνικά"
 msgid "Job"
 msgstr "Δουλειά"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "Η αναζήτηση εργασίας απέτυχε. Δοκιμάστ�
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "Ροή αναζήτησης εργασίας"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Κάτι πήγε στραβά κατά την ανάγνωση αυτο
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Κάτι πήγε στραβά κατά τη σύνδεσή σας. Δοκιμάστε ξανά."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Ετικέτες ομαδοποιούν έγγραφα στη βιβλι
 msgid "Tags…"
 msgstr "Ετικέτες…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "Προσαρμογή στην περιγραφή της θέσης εργασίας"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "προσαρμοστείτε στην ανάρτηση εργασίας 
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "προσαρμοσμένο έναντι βασικού βιογραφικού"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "Το βιογραφικό σας χρησιμοποιεί τα «εγώ�
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "Το βιογραφικό σας, live στο"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

@@ -1905,6 +1905,7 @@ msgstr "কমিউনিটি"
 msgid "Compact"
 msgstr "সংক্ষিপ্ত"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "\"{finalName}\" তৈরি করা হয়েছে"
 msgid "Created and linked to {0}"
 msgstr "{0} তৈরি এবং লিঙ্ক করা হয়েছে৷"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "ছবি ক্রপ করে আপলোড করুন"
@@ -2750,6 +2755,10 @@ msgstr "{0} মুছে ফেলা হয়েছে৷"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "মুছে ফেলা হয়েছে"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "পুরো নাম"
 msgid "Full Width"
 msgstr "পূর্ণ প্রস্থ"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "একটি এলোমেলো নাম জেনারেট করুন"
@@ -4300,6 +4314,7 @@ msgstr "জাপানি"
 msgid "Job"
 msgstr "চাকরি"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "কাজের সন্ধান ব্যর্থ হয়েছে
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "চাকরি খোঁজার পাইপলাইন"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "ফাইলটি পড়ার সময় কিছু ভুল �
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "আপনাকে সাইন ইন করানোর সময় কিছু ভুল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "লাইব্রেরিতে ট্যাগ গ্রুপ ডক
 msgid "Tags…"
 msgstr "ট্যাগ..."
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "কাজের বিবরণে মানিয়ে নিন"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} চাকরির পোস্টিংয়ের সাথে �
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "অভিযোজিত বনাম বেস রেজিউমে"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "আপনার জীবনবৃত্তান্তে \"I\" এব�
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "আপনার জীবনবৃত্তান্ত, লাইভ এ"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

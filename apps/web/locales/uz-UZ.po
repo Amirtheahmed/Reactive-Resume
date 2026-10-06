@@ -1905,6 +1905,7 @@ msgstr "Hamjamiyat"
 msgid "Compact"
 msgstr "Qisqa"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "Yaratilgan “{finalName}”"
 msgid "Created and linked to {0}"
 msgstr "Yaratilgan va {0} bilan bog'langan"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Rasmni qirqish va yuklash"
@@ -2750,6 +2755,10 @@ msgstr "{0} o'chirildi"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Oʻchirildi"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "To'liq ism"
 msgid "Full Width"
 msgstr "To‘liq kenglik"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Tasodifiy ism yaratish"
@@ -4300,6 +4314,7 @@ msgstr "Yapon tili"
 msgid "Job"
 msgstr "Ish"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "Ish qidirish amalga oshmadi. Qayta urinib ko'ring yoki ish e'loniga havo
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "Ish qidirish jarayoni"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Faylni o‘qishda nimadir xato ketdi. Qayta urinib ko'ring."
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Kirish paytida xatolik yuz berdi. Iltimos, qayta urinib ko‘ring."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Kutubxonadagi hujjatlarni teglar guruhi; filtrlash uchun panjara ustidag
 msgid "Tags…"
 msgstr "Teglar…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "Ish tavsifiga moslash"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} ish e'loniga moslash"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "moslashtirilgan va asosiy rezyume"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "Rezyumeingiz \"I\" va \"my\" so'zlarini ishlatadi."
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "Sizning rezyume, yashash manzili"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"

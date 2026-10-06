@@ -1900,6 +1900,7 @@ msgstr ""
 msgid "Compact"
 msgstr ""
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2484,6 +2485,10 @@ msgstr ""
 msgid "Created and linked to {0}"
 msgstr ""
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr ""
@@ -2744,6 +2749,10 @@ msgstr ""
 
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
+msgstr ""
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
 msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
@@ -3754,6 +3763,11 @@ msgstr ""
 msgid "Full Width"
 msgstr ""
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr ""
@@ -4295,6 +4309,7 @@ msgstr ""
 msgid "Job"
 msgstr ""
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4327,6 +4342,10 @@ msgstr ""
 
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
+msgstr ""
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
 msgstr ""
 
 #: src/features/homepage/sections.tsx
@@ -7685,6 +7704,7 @@ msgstr ""
 msgid "Something went wrong while signing you in. Please try again."
 msgstr ""
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8022,9 +8042,15 @@ msgstr ""
 msgid "Tags…"
 msgstr ""
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
+msgstr ""
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
 msgstr ""
 
 #. placeholder {0}: document.posting.company
@@ -8034,6 +8060,10 @@ msgstr ""
 
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
+msgstr ""
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
 msgstr ""
 
 #: src/libs/locale.ts
@@ -9664,6 +9694,10 @@ msgstr ""
 
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
+msgstr ""
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
 msgstr ""
 
 #: src/features/homepage/sections.tsx

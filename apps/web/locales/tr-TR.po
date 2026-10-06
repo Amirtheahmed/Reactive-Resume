@@ -1905,6 +1905,7 @@ msgstr "Topluluk"
 msgid "Compact"
 msgstr "Kompakt"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2489,6 +2490,10 @@ msgstr "“{finalName}” oluşturuldu"
 msgid "Created and linked to {0}"
 msgstr "Oluşturuldu ve {0}'ya bağlandı"
 
+#: src/dialogs/resume/generate.tsx
+msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgstr ""
+
 #: src/features/resume/editor/write/picture-settings.tsx
 msgid "Crop and Upload"
 msgstr "Kırp ve yükle"
@@ -2750,6 +2755,10 @@ msgstr "{0} silindi"
 #: src/features/documents/trash-page.tsx
 msgid "Deleted in"
 msgstr "Silinme tarihi"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles."
+msgstr ""
 
 #: src/features/resume/editor/design/style-groups.tsx
 msgid "Density"
@@ -3759,6 +3768,11 @@ msgstr "Ad Soyad"
 msgid "Full Width"
 msgstr "Tam Genişlik"
 
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Generate"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx
 msgid "Generate a random name"
 msgstr "Rastgele bir isim oluştur"
@@ -4300,6 +4314,7 @@ msgstr "Japonca"
 msgid "Job"
 msgstr "İş"
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Job description"
@@ -4333,6 +4348,10 @@ msgstr "İş arama başarısız oldu. Tekrar deneyin veya bir iş ilanı bağlan
 #: src/features/applications/components/insights-view.tsx
 msgid "Job search pipeline"
 msgstr "İş arama hattı"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Job title"
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Job tracker"
@@ -7690,6 +7709,7 @@ msgstr "Bu dosyayı okurken bir şeyler ters gitti. Tekrar deneyin."
 msgid "Something went wrong while signing you in. Please try again."
 msgstr "Oturumunuz açılırken bir sorun oluştu. Lütfen tekrar deneyin."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/share/link-tab.tsx
 msgid "Something went wrong. Please try again."
@@ -8027,10 +8047,16 @@ msgstr "Kitaplıktaki belgeleri gruplandırır; ona göre filtrelemek için ızg
 msgid "Tags…"
 msgstr "Etiketler…"
 
+#: src/features/command-palette/pages/navigation.tsx
 #: src/features/homepage/header.tsx
 #: src/features/homepage/tailor.tsx
 msgid "Tailor"
 msgstr "İş tanımına uyum sağlayın"
+
+#: src/dialogs/resume/generate.tsx
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Tailor a resume to a job"
+msgstr ""
 
 #. placeholder {0}: document.posting.company
 #: src/features/assistant/assistant-panel.tsx
@@ -8040,6 +8066,10 @@ msgstr "{0} iş ilanına uyum sağlayın"
 #: src/features/applications/components/insights-view.tsx
 msgid "Tailored vs. base resume"
 msgstr "uyarlanmış ve temel özgeçmiş"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Tailoring your resume..."
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Tamil"
@@ -9670,6 +9700,10 @@ msgstr "Özgeçmişiniz \"I\" ve \"my\" kullanıyor."
 #: src/features/homepage/share.tsx
 msgid "Your resume, live at"
 msgstr "Özgeçmişiniz şu adreste canlı yayında"
+
+#: src/dialogs/resume/generate.tsx
+msgid "Your tailored resume is ready."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Your turn"
