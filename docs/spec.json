@@ -4106,6 +4106,7 @@
 														"ditto",
 														"gengar",
 														"glalie",
+														"goldstar",
 														"kakuna",
 														"lapras",
 														"leafish",
@@ -8562,6 +8563,7 @@
 														"ditto",
 														"gengar",
 														"glalie",
+														"goldstar",
 														"kakuna",
 														"lapras",
 														"leafish",
@@ -30938,6 +30940,7 @@
 																			"ditto",
 																			"gengar",
 																			"glalie",
+																			"goldstar",
 																			"kakuna",
 																			"lapras",
 																			"leafish",
@@ -31554,6 +31557,7 @@
 																			"ditto",
 																			"gengar",
 																			"glalie",
+																			"goldstar",
 																			"kakuna",
 																			"lapras",
 																			"leafish",
@@ -32679,6 +32683,1404 @@
 				]
 			}
 		},
+		"/resumes/generations": {
+			"post": {
+				"operationId": "generateTailoredResume",
+				"summary": "Generate a tailored resume",
+				"description": "Creates a new resume for one job from the master resume (the resume tagged \"master\"). The AI selects the most relevant experience, projects and skills and rewrites their descriptions; employers, titles and dates are copied from the master. Download it with GET /resumes/{id}/pdf. Requires a configured AI provider.",
+				"tags": [
+					"Copilot"
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"jobTitle": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 200
+									},
+									"companyName": {
+										"type": "string",
+										"maxLength": 200
+									},
+									"jobDescription": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 20000
+									},
+									"template": {
+										"enum": [
+											"azurill",
+											"bronzor",
+											"chikorita",
+											"ditgar",
+											"ditto",
+											"gengar",
+											"glalie",
+											"goldstar",
+											"kakuna",
+											"lapras",
+											"leafish",
+											"meowth",
+											"onyx",
+											"pikachu",
+											"porygon",
+											"rhyhorn",
+											"scizor",
+											"smeargle"
+										],
+										"type": "string",
+										"default": "goldstar"
+									}
+								},
+								"required": [
+									"jobTitle",
+									"jobDescription"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string"
+										},
+										"name": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"id",
+										"name"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_REQUEST"
+												},
+												"status": {
+													"const": 400
+												},
+												"message": {
+													"type": "string",
+													"default": "No master resume or no AI provider is set up."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "502",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_GATEWAY"
+												},
+												"status": {
+													"const": 502
+												},
+												"message": {
+													"type": "string",
+													"default": "The AI provider returned an error or is unreachable."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl --request POST \"https://rxresu.me/api/openapi/resumes/generations\" --header \"x-api-key: <api-key>\" --header \"Content-Type: application/json\" --data '{\n  \"jobTitle\": \"<string>\",\n  \"jobDescription\": \"<string>\"\n}'"
+					}
+				]
+			}
+		},
+		"/cover-letters/generations": {
+			"post": {
+				"operationId": "generateCoverLetter",
+				"summary": "Generate a cover letter",
+				"description": "Creates a saved cover letter for one job, written from the given resume or, when none is given, the master resume. Download it with GET /cover-letters/{id}/exports/pdf. Requires a configured AI provider.",
+				"tags": [
+					"Copilot"
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"jobTitle": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 200
+									},
+									"companyName": {
+										"type": "string",
+										"maxLength": 200
+									},
+									"jobDescription": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 20000
+									},
+									"resumeId": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"jobTitle",
+									"jobDescription"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string"
+										},
+										"name": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"id",
+										"name"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_REQUEST"
+												},
+												"status": {
+													"const": 400
+												},
+												"message": {
+													"type": "string",
+													"default": "No master resume or no AI provider is set up."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "502",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_GATEWAY"
+												},
+												"status": {
+													"const": 502
+												},
+												"message": {
+													"type": "string",
+													"default": "The AI provider returned an error or is unreachable."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl --request POST \"https://rxresu.me/api/openapi/cover-letters/generations\" --header \"x-api-key: <api-key>\" --header \"Content-Type: application/json\" --data '{\n  \"jobTitle\": \"<string>\",\n  \"jobDescription\": \"<string>\"\n}'"
+					}
+				]
+			}
+		},
+		"/autofill/profile": {
+			"get": {
+				"operationId": "getAutofillProfile",
+				"summary": "Get autofill profile",
+				"description": "Returns the name, contact details and profile links from the master resume in a flat shape suited to filling application forms. No AI is involved.",
+				"tags": [
+					"Copilot"
+				],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"basics": {
+											"type": "object",
+											"properties": {
+												"fullName": {
+													"type": "string"
+												},
+												"firstName": {
+													"type": "string"
+												},
+												"lastName": {
+													"type": "string"
+												},
+												"email": {
+													"type": "string"
+												},
+												"phone": {
+													"type": "string"
+												},
+												"location": {
+													"type": "object",
+													"properties": {
+														"address": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"address"
+													]
+												},
+												"url": {
+													"type": "string"
+												},
+												"linkedIn": {
+													"type": "string"
+												},
+												"github": {
+													"type": "string"
+												},
+												"twitter": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"fullName",
+												"firstName",
+												"lastName",
+												"email",
+												"phone",
+												"location",
+												"url"
+											]
+										}
+									},
+									"required": [
+										"basics"
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl \"https://rxresu.me/api/openapi/autofill/profile\" --header \"x-api-key: <api-key>\""
+					}
+				]
+			}
+		},
+		"/autofill/form": {
+			"post": {
+				"operationId": "autofillForm",
+				"summary": "Autofill an application form",
+				"description": "Analyses the HTML of a job application form and returns a fill instruction (selector, action, value, confidence) for each field, answered from the master resume. Low-confidence and sensitive fields are returned under needs_review instead. Requires a configured AI provider.",
+				"tags": [
+					"Copilot"
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"form_html": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 200000
+									},
+									"form_text": {
+										"type": "string",
+										"maxLength": 200000
+									},
+									"page_url": {
+										"type": "string"
+									},
+									"job_context": {
+										"type": "object",
+										"properties": {
+											"title": {
+												"type": "string"
+											},
+											"company": {
+												"type": "string"
+											},
+											"description": {
+												"type": "string",
+												"maxLength": 20000
+											},
+											"industry": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"required": [
+									"form_html"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"fields": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"selector": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													},
+													"action": {
+														"enum": [
+															"fill",
+															"select",
+															"check",
+															"upload"
+														],
+														"type": "string"
+													},
+													"value": {
+														"anyOf": [
+															{
+																"type": "string"
+															},
+															{
+																"type": "null"
+															}
+														]
+													},
+													"file_type": {
+														"enum": [
+															"resume",
+															"cover_letter",
+															"portfolio"
+														],
+														"type": "string"
+													},
+													"confidence": {},
+													"strategy": {
+														"enum": [
+															"DETERMINISTIC",
+															"AI_MAPPED",
+															"AI_GENERATED",
+															"SMART_DEFAULT"
+														],
+														"type": "string"
+													},
+													"reasoning": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"selector",
+													"type",
+													"action",
+													"value",
+													"strategy"
+												]
+											}
+										},
+										"needs_review": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"selector": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"reason": {
+														"type": "string"
+													},
+													"confidence": {},
+													"suggestions": {
+														"type": "array",
+														"items": {
+															"type": "string"
+														}
+													}
+												},
+												"required": [
+													"selector",
+													"type",
+													"label",
+													"reason"
+												]
+											}
+										},
+										"warnings": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										},
+										"metadata": {
+											"type": "object",
+											"properties": {
+												"fields_extracted": {
+													"type": "number"
+												},
+												"fields_filled": {
+													"type": "number"
+												},
+												"fields_skipped": {
+													"type": "number"
+												},
+												"processing_time_ms": {
+													"type": "number"
+												}
+											},
+											"required": [
+												"fields_extracted",
+												"fields_filled",
+												"fields_skipped",
+												"processing_time_ms"
+											]
+										}
+									},
+									"required": [
+										"fields",
+										"needs_review",
+										"warnings",
+										"metadata"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_REQUEST"
+												},
+												"status": {
+													"const": 400
+												},
+												"message": {
+													"type": "string",
+													"default": "No master resume or no AI provider is set up."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "502",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_GATEWAY"
+												},
+												"status": {
+													"const": 502
+												},
+												"message": {
+													"type": "string",
+													"default": "The AI provider returned an error or is unreachable."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl --request POST \"https://rxresu.me/api/openapi/autofill/form\" --header \"x-api-key: <api-key>\" --header \"Content-Type: application/json\" --data '{\n  \"form_html\": \"<string>\"\n}'"
+					}
+				]
+			}
+		},
+		"/autofill/questions": {
+			"post": {
+				"operationId": "autofillQuestions",
+				"summary": "Answer application questions",
+				"description": "Answers up to 50 application form questions from the master resume, tailored to the job when a job context is given. Questions the profile cannot answer confidently are returned under needs_review instead. Requires a configured AI provider.",
+				"tags": [
+					"Copilot"
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"questions": {
+										"type": "array",
+										"minItems": 1,
+										"maxItems": 50,
+										"items": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"minLength": 1
+												},
+												"question": {
+													"type": "string",
+													"minLength": 1
+												},
+												"type": {
+													"enum": [
+														"text",
+														"textarea",
+														"select",
+														"multiselect",
+														"date",
+														"number",
+														"boolean",
+														"email",
+														"phone",
+														"url"
+													],
+													"type": "string",
+													"default": "text"
+												},
+												"options": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													}
+												},
+												"context": {
+													"type": "string"
+												},
+												"required": {
+													"type": "boolean",
+													"default": false
+												},
+												"maxLength": {
+													"type": "number",
+													"exclusiveMinimum": 0
+												}
+											},
+											"required": [
+												"id",
+												"question"
+											]
+										}
+									},
+									"job_context": {
+										"type": "object",
+										"properties": {
+											"title": {
+												"type": "string"
+											},
+											"company": {
+												"type": "string"
+											},
+											"description": {
+												"type": "string",
+												"maxLength": 20000
+											},
+											"industry": {
+												"type": "string"
+											}
+										}
+									},
+									"page_url": {
+										"type": "string"
+									},
+									"instructions": {
+										"type": "string",
+										"maxLength": 500
+									}
+								},
+								"required": [
+									"questions"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"answers": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"question_id": {
+														"type": "string"
+													},
+													"value": {
+														"anyOf": [
+															{
+																"type": "string"
+															},
+															{
+																"type": "array",
+																"items": {
+																	"type": "string"
+																}
+															},
+															{
+																"type": "number"
+															},
+															{
+																"type": "boolean"
+															},
+															{
+																"type": "null"
+															}
+														]
+													},
+													"confidence": {},
+													"strategy": {
+														"enum": [
+															"DETERMINISTIC",
+															"AI_MAPPED",
+															"AI_GENERATED",
+															"SMART_DEFAULT"
+														],
+														"type": "string"
+													},
+													"reasoning": {
+														"type": "string"
+													},
+													"source_field": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"question_id",
+													"value",
+													"strategy"
+												]
+											}
+										},
+										"needs_review": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"question_id": {
+														"type": "string"
+													},
+													"question": {
+														"type": "string"
+													},
+													"reason": {
+														"type": "string"
+													},
+													"confidence": {},
+													"suggestions": {
+														"type": "array",
+														"items": {
+															"type": "string"
+														}
+													},
+													"category": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"question_id",
+													"question",
+													"reason"
+												]
+											}
+										},
+										"warnings": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										},
+										"metadata": {
+											"type": "object",
+											"properties": {
+												"questions_received": {
+													"type": "number"
+												},
+												"questions_answered": {
+													"type": "number"
+												},
+												"questions_needs_review": {
+													"type": "number"
+												},
+												"processing_time_ms": {
+													"type": "number"
+												}
+											},
+											"required": [
+												"questions_received",
+												"questions_answered",
+												"questions_needs_review",
+												"processing_time_ms"
+											]
+										}
+									},
+									"required": [
+										"answers",
+										"needs_review",
+										"warnings",
+										"metadata"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_REQUEST"
+												},
+												"status": {
+													"const": 400
+												},
+												"message": {
+													"type": "string",
+													"default": "No master resume or no AI provider is set up."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "502",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "BAD_GATEWAY"
+												},
+												"status": {
+													"const": 502
+												},
+												"message": {
+													"type": "string",
+													"default": "The AI provider returned an error or is unreachable."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl --request POST \"https://rxresu.me/api/openapi/autofill/questions\" --header \"x-api-key: <api-key>\" --header \"Content-Type: application/json\" --data '{\n  \"questions\": [\n    {\n      \"id\": \"<string>\",\n      \"question\": \"<string>\"\n    }\n  ]\n}'"
+					}
+				]
+			}
+		},
 		"/cover-letters": {
 			"get": {
 				"operationId": "listCoverLetters",
@@ -32943,6 +34345,7 @@
 																			"ditto",
 																			"gengar",
 																			"glalie",
+																			"goldstar",
 																			"kakuna",
 																			"lapras",
 																			"leafish",
@@ -33495,6 +34898,7 @@
 											"ditto",
 											"gengar",
 											"glalie",
+											"goldstar",
 											"kakuna",
 											"lapras",
 											"leafish",
@@ -33739,6 +35143,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -34448,6 +35853,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -34994,6 +36400,7 @@
 											"ditto",
 											"gengar",
 											"glalie",
+											"goldstar",
 											"kakuna",
 											"lapras",
 											"leafish",
@@ -35512,6 +36919,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -36151,6 +37559,7 @@
 											"ditto",
 											"gengar",
 											"glalie",
+											"goldstar",
 											"kakuna",
 											"lapras",
 											"leafish",
@@ -36669,6 +38078,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -37403,6 +38813,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -38129,6 +39540,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -38838,6 +40250,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -39487,6 +40900,7 @@
 																	"ditto",
 																	"gengar",
 																	"glalie",
+																	"goldstar",
 																	"kakuna",
 																	"lapras",
 																	"leafish",
@@ -40082,6 +41496,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -41137,6 +42552,7 @@
 																		"ditto",
 																		"gengar",
 																		"glalie",
+																		"goldstar",
 																		"kakuna",
 																		"lapras",
 																		"leafish",
@@ -42030,6 +43446,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -48831,6 +50248,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -53256,6 +54674,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -57876,6 +59295,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -62562,6 +63982,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -68072,6 +69493,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -72666,6 +74088,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -79916,6 +81339,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -84678,6 +86102,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -85691,6 +87116,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -86391,6 +87817,7 @@
 																	"ditto",
 																	"gengar",
 																	"glalie",
+																	"goldstar",
 																	"kakuna",
 																	"lapras",
 																	"leafish",
@@ -86986,6 +88413,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -87720,6 +89148,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -88606,6 +90035,7 @@
 																"ditto",
 																"gengar",
 																"glalie",
+																"goldstar",
 																"kakuna",
 																"lapras",
 																"leafish",
@@ -97206,6 +98636,7 @@
 														"ditto",
 														"gengar",
 														"glalie",
+														"goldstar",
 														"kakuna",
 														"lapras",
 														"leafish",
@@ -101662,6 +103093,7 @@
 														"ditto",
 														"gengar",
 														"glalie",
+														"goldstar",
 														"kakuna",
 														"lapras",
 														"leafish",
@@ -107379,6 +108811,7 @@
 									"ditto",
 									"gengar",
 									"glalie",
+									"goldstar",
 									"kakuna",
 									"lapras",
 									"leafish",

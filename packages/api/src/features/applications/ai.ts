@@ -26,7 +26,7 @@ const reserved = { tags: ["Applications", "AI"] } as const;
 const MAX_PASTED_JOB_DESCRIPTION_CHARS = 20_000;
 
 // Resolve the user's default (tested + enabled) AI provider into a ready model instance.
-async function resolveModel(userId: string) {
+export async function resolveModel(userId: string) {
 	const provider = await aiProvidersService.getDefaultRunnable({ userId });
 	if (!provider) {
 		throw new ORPCError("BAD_REQUEST", {
