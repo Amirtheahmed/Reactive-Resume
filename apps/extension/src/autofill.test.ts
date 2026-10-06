@@ -174,28 +174,55 @@ describe("toQuestions and toSuggestions", () => {
 });
 
 describe("highlightField", () => {
-	const highlight = () => document.getElementById("rx-copilot-highlight");
+	const boxes = () => Array.from(document.querySelectorAll<HTMLElement>("[popover]"));
+	const position = (box: HTMLElement | undefined) =>
+		["left", "top", "width", "height"].map((name) => box?.style.getPropertyValue(name));
 
-	it("draws one box over the field's position, and clears it on request, on a new scan's ids, and on apply", () => {
+	it("draws one box over the field's position, and clears it on request, on unknown ids, and on apply", () => {
 		const [email, name] = extractFormFields();
 		if (!email || !name) throw new Error("fixture");
 
 		highlightField(email.id);
-		expect(highlight()?.style).toMatchObject({ top: "6px", left: "6px", width: "208px", height: "38px" });
+		expect(position(boxes()[0])).toEqual(["6px", "6px", "208px", "38px"]);
 
 		highlightField(name.id);
-		expect(document.querySelectorAll("#rx-copilot-highlight")).toHaveLength(1);
-		expect(highlight()?.style.top).toBe("46px");
+		expect(boxes()).toHaveLength(1);
+		expect(position(boxes()[0])[1]).toBe("46px");
 
 		highlightField(null);
-		expect(highlight()).toBeNull();
+		expect(boxes()).toHaveLength(0);
 
 		highlightField("not-a-scanned-id");
-		expect(highlight()).toBeNull();
+		expect(boxes()).toHaveLength(0);
 
 		highlightField(email.id);
 		applyAutofill([]);
-		expect(highlight()).toBeNull();
+		expect(boxes()).toHaveLength(0);
+	});
+
+	it("follows the field when the page scrolls", () => {
+		const [email] = extractFormFields();
+		const input = document.querySelector<HTMLInputElement>("#email");
+		if (!email || !input) throw new Error("fixture");
+
+		highlightField(email.id);
+		input.getBoundingClientRect = () => box({ top: 300, bottom: 330 });
+		window.dispatchEvent(new Event("scroll"));
+		expect(position(boxes()[0])[1]).toBe("296px");
+	});
+
+	it("is not fooled by a page element that imitates it, and removes its own box", () => {
+		const [email] = extractFormFields();
+		if (!email) throw new Error("fixture");
+		const decoy = document.createElement("div");
+		decoy.id = "rx-copilot-highlight";
+		document.body.append(decoy);
+
+		highlightField(email.id);
+		highlightField(null);
+
+		expect(boxes()).toHaveLength(0);
+		expect(decoy.isConnected).toBe(true);
 	});
 });
 

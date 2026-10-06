@@ -243,38 +243,70 @@ export function toSuggestions(answers: Answer[], fields: FormField[]): (Suggesti
 	});
 }
 
-const HIGHLIGHT_ID = "rx-copilot-highlight";
+/** The box currently drawn by highlightField, and how to stop tracking it. Held here, not looked up in the DOM. */
+let highlight: { box: HTMLElement; stop: () => void } | null = null;
 
 /**
  * Shows the user where a reviewed field is: scrolls to it and draws a box over the space it occupies.
  * The box is drawn by the extension from the field's position, not by styling the field, so a field the
  * page has disguised still gets a clearly visible box, over what looks like nothing. Pass null to clear.
+ *
+ * The box is a popover, which the browser draws in its top layer: positioned against the viewport whatever
+ * transforms or offsets the page's own elements have, and above everything the page can stack. It is
+ * re-measured whenever the page scrolls or resizes, so it cannot be left pointing at the wrong place.
  */
 export function highlightField(id: string | null): void {
-	document.getElementById(HIGHLIGHT_ID)?.remove();
-	const field = id === null ? undefined : scanned.get(id);
-	if (!field?.element.isConnected) return;
+	highlight?.stop();
+	highlight?.box.remove();
+	highlight = null;
 
-	field.element.scrollIntoView({ block: "center", behavior: "instant" });
-	const box = field.element.getBoundingClientRect();
+	const element = id === null ? undefined : scanned.get(id)?.element;
+	if (!element?.isConnected) return;
+	element.scrollIntoView({ block: "center", behavior: "instant" });
 
-	const host = document.createElement("div");
-	host.id = HIGHLIGHT_ID;
-	Object.assign(host.style, {
+	const box = document.createElement("div");
+	box.setAttribute("popover", "manual");
+	// Important, so the page's stylesheets cannot restyle or hide it.
+	const style = (name: string, value: string) => box.style.setProperty(name, value, "important");
+	for (const [name, value] of Object.entries({
 		all: "initial",
-		position: "absolute",
-		left: `${box.left + window.scrollX - 4}px`,
-		top: `${box.top + window.scrollY - 4}px`,
-		width: `${box.width + 8}px`,
-		height: `${box.height + 8}px`,
-		boxSizing: "border-box",
+		position: "fixed",
+		inset: "auto",
+		margin: "0",
+		padding: "0",
+		display: "block",
+		"box-sizing": "border-box",
 		border: "3px solid #d97706",
-		borderRadius: "6px",
-		boxShadow: "0 0 0 4px rgba(217, 119, 6, 0.3)",
-		pointerEvents: "none",
-		zIndex: "2147483647",
-	});
-	document.documentElement.append(host);
+		"border-radius": "6px",
+		"box-shadow": "0 0 0 4px rgba(217, 119, 6, 0.3)",
+		background: "transparent",
+		"pointer-events": "none",
+		"z-index": "2147483647",
+	}))
+		style(name, value);
+
+	const place = () => {
+		const { left, top, width, height } = element.getBoundingClientRect();
+		style("left", `${left - 4}px`);
+		style("top", `${top - 4}px`);
+		style("width", `${width + 8}px`);
+		style("height", `${height + 8}px`);
+	};
+	place();
+
+	document.documentElement.append(box);
+	// Not every engine has the top layer; without it the box is still fixed to the viewport.
+	if (typeof box.showPopover === "function") box.showPopover();
+
+	window.addEventListener("scroll", place, { capture: true, passive: true });
+	window.addEventListener("resize", place, { passive: true });
+	highlight = {
+		box,
+		stop: () => {
+			window.removeEventListener("scroll", place, { capture: true });
+			window.removeEventListener("resize", place);
+		},
+	};
 }
 
 /**
