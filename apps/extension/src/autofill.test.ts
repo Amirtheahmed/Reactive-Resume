@@ -200,15 +200,27 @@ describe("highlightField", () => {
 		expect(boxes()).toHaveLength(0);
 	});
 
-	it("follows the field when the page scrolls", () => {
+	const frames = async (count = 3) => {
+		for (let i = 0; i < count; i++) await new Promise((resolve) => requestAnimationFrame(resolve));
+	};
+
+	it("follows the field wherever the page moves it, comes back if removed, and goes when the field goes", async () => {
 		const [email] = extractFormFields();
 		const input = document.querySelector<HTMLInputElement>("#email");
 		if (!email || !input) throw new Error("fixture");
 
 		highlightField(email.id);
 		input.getBoundingClientRect = () => box({ top: 300, bottom: 330 });
-		window.dispatchEvent(new Event("scroll"));
+		await frames();
 		expect(position(boxes()[0])[1]).toBe("296px");
+
+		boxes()[0]?.remove();
+		await frames();
+		expect(boxes()).toHaveLength(1);
+
+		input.remove();
+		await frames();
+		expect(boxes()).toHaveLength(0);
 	});
 
 	it("is not fooled by a page element that imitates it, and removes its own box", () => {

@@ -252,8 +252,11 @@ let highlight: { box: HTMLElement; stop: () => void } | null = null;
  * page has disguised still gets a clearly visible box, over what looks like nothing. Pass null to clear.
  *
  * The box is a popover, which the browser draws in its top layer: positioned against the viewport whatever
- * transforms or offsets the page's own elements have, and above everything the page can stack. It is
- * re-measured whenever the page scrolls or resizes, so it cannot be left pointing at the wrong place.
+ * transforms or offsets the page's own elements have. While shown it is re-measured on every frame, so it
+ * stays on the field however the page moves it, and it is put back if the page removes it.
+ *
+ * It is an aid, not a guarantee: the box lives in the page, and a page determined to fool it can draw over
+ * it or imitate it. What it reliably does is make an honest page's fields easy to find.
  */
 export function highlightField(id: string | null): void {
 	highlight?.stop();
@@ -298,15 +301,16 @@ export function highlightField(id: string | null): void {
 	// Not every engine has the top layer; without it the box is still fixed to the viewport.
 	if (typeof box.showPopover === "function") box.showPopover();
 
-	window.addEventListener("scroll", place, { capture: true, passive: true });
-	window.addEventListener("resize", place, { passive: true });
-	highlight = {
-		box,
-		stop: () => {
-			window.removeEventListener("scroll", place, { capture: true });
-			window.removeEventListener("resize", place);
-		},
-	};
+	let frame = requestAnimationFrame(function track() {
+		if (!element.isConnected) return highlightField(null);
+		if (!box.isConnected) {
+			document.documentElement.append(box);
+			if (typeof box.showPopover === "function") box.showPopover();
+		}
+		place();
+		frame = requestAnimationFrame(track);
+	});
+	highlight = { box, stop: () => cancelAnimationFrame(frame) };
 }
 
 /**

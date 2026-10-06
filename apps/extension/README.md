@@ -34,3 +34,6 @@ for (CSS filters, clip paths, text and background in the same colour, and so on)
 the review list: nothing is written until you approve each value against the label shown. If the list contains
 a field you cannot find on the page, untick it. Hovering a row scrolls to its field and draws an orange box
 over the space it occupies, so a field that looks like nothing on the page stands out.
+
+The box is an aid, not a guarantee. It is drawn inside the page, and a page built to deceive can draw over
+it or imitate it. On a site you do not trust, fill only the fields you can see for yourself.
