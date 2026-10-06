@@ -1,7 +1,7 @@
 import type { Profile } from "./api";
 import type { FormField, Suggestion } from "./autofill";
 import { Readability } from "@mozilla/readability";
-import { applyAutofill, extractFormFields, runHeuristics } from "./autofill";
+import { applyAutofill, extractFormFields, highlightField, runHeuristics } from "./autofill";
 
 // The content script: the only part of the extension that touches the job page. It answers requests
 // from the side panel and never talks to the network or sees the API key.
@@ -9,6 +9,7 @@ import { applyAutofill, extractFormFields, runHeuristics } from "./autofill";
 export type PageRequest =
 	| { type: "ANALYZE_JOB" }
 	| { type: "PREPARE_AUTOFILL"; profile: Profile }
+	| { type: "HIGHLIGHT_FIELD"; id: string | null }
 	| { type: "APPLY_AUTOFILL"; suggestions: Suggestion[] };
 
 export type JobAnalysis = { title: string; company: string; description: string; url: string };
@@ -75,6 +76,11 @@ chrome.runtime.onMessage.addListener((request: PageRequest, sender, sendResponse
 		if (request.type === "PREPARE_AUTOFILL") {
 			const fields = extractFormFields();
 			sendResponse({ fields, heuristic: runHeuristics(request.profile) } satisfies PreparedAutofill);
+		}
+
+		if (request.type === "HIGHLIGHT_FIELD") {
+			highlightField(request.id);
+			sendResponse({});
 		}
 
 		if (request.type === "APPLY_AUTOFILL") {

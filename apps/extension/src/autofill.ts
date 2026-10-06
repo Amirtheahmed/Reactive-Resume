@@ -243,12 +243,47 @@ export function toSuggestions(answers: Answer[], fields: FormField[]): (Suggesti
 	});
 }
 
+const HIGHLIGHT_ID = "rx-copilot-highlight";
+
+/**
+ * Shows the user where a reviewed field is: scrolls to it and draws a box over the space it occupies.
+ * The box is drawn by the extension from the field's position, not by styling the field, so a field the
+ * page has disguised still gets a clearly visible box, over what looks like nothing. Pass null to clear.
+ */
+export function highlightField(id: string | null): void {
+	document.getElementById(HIGHLIGHT_ID)?.remove();
+	const field = id === null ? undefined : scanned.get(id);
+	if (!field?.element.isConnected) return;
+
+	field.element.scrollIntoView({ block: "center", behavior: "instant" });
+	const box = field.element.getBoundingClientRect();
+
+	const host = document.createElement("div");
+	host.id = HIGHLIGHT_ID;
+	Object.assign(host.style, {
+		all: "initial",
+		position: "absolute",
+		left: `${box.left + window.scrollX - 4}px`,
+		top: `${box.top + window.scrollY - 4}px`,
+		width: `${box.width + 8}px`,
+		height: `${box.height + 8}px`,
+		boxSizing: "border-box",
+		border: "3px solid #d97706",
+		borderRadius: "6px",
+		boxShadow: "0 0 0 4px rgba(217, 119, 6, 0.3)",
+		pointerEvents: "none",
+		zIndex: "2147483647",
+	});
+	document.documentElement.append(host);
+}
+
 /**
  * Writes approved values into their fields, the way typing would, so framework-controlled inputs notice.
  * Every check made when the field was offered is made again here, immediately before the write, and the
  * field must still carry the label the user approved the value for. A field that fails is left empty.
  */
 export function applyAutofill(suggestions: Suggestion[]): number {
+	highlightField(null);
 	const { scrollX, scrollY } = window;
 	let filled = 0;
 

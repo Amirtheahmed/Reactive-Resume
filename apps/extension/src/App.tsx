@@ -113,6 +113,11 @@ export function App() {
 			setView("main");
 		});
 
+	/** Points out a reviewed field on the page (or clears the pointer). Failing to is not worth an error. */
+	const highlight = (id: string | null) => {
+		if (reviewTabId !== null) void askPage(reviewTabId, { type: "HIGHLIGHT_FIELD", id }).catch(() => {});
+	};
+
 	const generate = (type: DocumentType) =>
 		run("generate", async () => {
 			if (!apiKey || !job) return;
@@ -160,7 +165,11 @@ export function App() {
 						suggestions={suggestions}
 						applying={busy === "apply"}
 						onApply={applyAutofill}
-						onBack={() => setView("main")}
+						onHighlight={highlight}
+						onBack={() => {
+							highlight(null);
+							setView("main");
+						}}
 					/>
 				) : view === "generate" && job ? (
 					<GenerateView

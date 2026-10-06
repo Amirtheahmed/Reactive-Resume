@@ -1,6 +1,13 @@
 import type { Profile } from "./api";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { applyAutofill, extractFormFields, runHeuristics, toQuestions, toSuggestions } from "./autofill";
+import {
+	applyAutofill,
+	extractFormFields,
+	highlightField,
+	runHeuristics,
+	toQuestions,
+	toSuggestions,
+} from "./autofill";
 
 const profile: Profile = {
 	basics: {
@@ -163,6 +170,32 @@ describe("toQuestions and toSuggestions", () => {
 
 		// An answer that is not one of the select's options is dropped, not written.
 		expect(toSuggestions([{ question_id: level.id, value: "Principal", strategy: "AI_MAPPED" }], fields)).toEqual([]);
+	});
+});
+
+describe("highlightField", () => {
+	const highlight = () => document.getElementById("rx-copilot-highlight");
+
+	it("draws one box over the field's position, and clears it on request, on a new scan's ids, and on apply", () => {
+		const [email, name] = extractFormFields();
+		if (!email || !name) throw new Error("fixture");
+
+		highlightField(email.id);
+		expect(highlight()?.style).toMatchObject({ top: "6px", left: "6px", width: "208px", height: "38px" });
+
+		highlightField(name.id);
+		expect(document.querySelectorAll("#rx-copilot-highlight")).toHaveLength(1);
+		expect(highlight()?.style.top).toBe("46px");
+
+		highlightField(null);
+		expect(highlight()).toBeNull();
+
+		highlightField("not-a-scanned-id");
+		expect(highlight()).toBeNull();
+
+		highlightField(email.id);
+		applyAutofill([]);
+		expect(highlight()).toBeNull();
 	});
 });
 

@@ -32,4 +32,5 @@ displayed, at least half opaque, a clickable size, on the page, and the thing a 
 These checks are best-effort. A page that wants to disguise a field has more ways to do it than can be tested
 for (CSS filters, clip paths, text and background in the same colour, and so on). The control that matters is
 the review list: nothing is written until you approve each value against the label shown. If the list contains
-a field you cannot find on the page, untick it.
+a field you cannot find on the page, untick it. Hovering a row scrolls to its field and draws an orange box
+over the space it occupies, so a field that looks like nothing on the page stands out.

@@ -274,10 +274,12 @@ type ReviewViewProps = {
 	suggestions: ReviewSuggestion[];
 	applying: boolean;
 	onApply: (chosen: ReviewSuggestion[]) => void;
+	/** Point out a field on the page while its row is hovered or focused; null clears it. */
+	onHighlight: (id: string | null) => void;
 	onBack: () => void;
 };
 
-export function ReviewView({ suggestions, applying, onApply, onBack }: ReviewViewProps) {
+export function ReviewView({ suggestions, applying, onApply, onHighlight, onBack }: ReviewViewProps) {
 	const [selected, setSelected] = useState(() => new Set(suggestions.map(({ id }) => id)));
 
 	const toggle = (id: string, checked: boolean) =>
@@ -294,13 +296,21 @@ export function ReviewView({ suggestions, applying, onApply, onBack }: ReviewVie
 			<div>
 				<h2 className="text-lg font-semibold">Review autofill</h2>
 				<p className="text-xs text-ink-2">
-					Nothing is written to the page until you apply. Untick anything you don't want.
+					Nothing is written to the page until you apply. Hover a row to see its field on the page, and untick anything
+					you don't want or can't find.
 				</p>
 			</div>
 
 			<ul className="space-y-2">
 				{suggestions.map((suggestion) => (
-					<li key={suggestion.id} className="flex items-start gap-3 rounded-md bg-sunken p-3">
+					<li
+						key={suggestion.id}
+						className="flex items-start gap-3 rounded-md bg-sunken p-3 hover:bg-hover"
+						onMouseEnter={() => onHighlight(suggestion.id)}
+						onMouseLeave={() => onHighlight(null)}
+						onFocus={() => onHighlight(suggestion.id)}
+						onBlur={() => onHighlight(null)}
+					>
 						<Checkbox
 							id={suggestion.id}
 							className="mt-0.5"
