@@ -125,6 +125,7 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 export type AutofillProfile = {
 	basics: {
 		fullName: string;
+		headline: string;
 		firstName: string;
 		lastName: string;
 		email: string;
@@ -139,7 +140,7 @@ export type AutofillProfile = {
 
 /** Deterministic contact details for form filling. No AI involved. */
 export function autofillProfile(data: ResumeData): AutofillProfile {
-	const { name, email, phone, location, website, customFields } = data.basics;
+	const { name, headline, email, phone, location, website, customFields } = data.basics;
 	const [firstName = "", ...rest] = name.trim().split(/\s+/);
 
 	// Profile links live in the profiles section; older data keeps them as header custom fields.
@@ -156,6 +157,7 @@ export function autofillProfile(data: ResumeData): AutofillProfile {
 	return {
 		basics: {
 			fullName: name,
+			headline,
 			firstName,
 			lastName: rest.join(" "),
 			email,

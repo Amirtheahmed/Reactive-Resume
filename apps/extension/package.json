@@ -1,0 +1,30 @@
+{
+	"name": "extension",
+	"version": "0.3.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"build": "vite build && EXT_ENTRY=content vite build",
+		"typecheck": "tsgo --noEmit",
+		"test": "vitest run --passWithNoTests"
+	},
+	"dependencies": {
+		"@mozilla/readability": "^0.6.0",
+		"@reactive-resume/ui": "workspace:*",
+		"react": "catalog:",
+		"react-dom": "^19.3.0",
+		"zustand": "^5.0.15"
+	},
+	"devDependencies": {
+		"@reactive-resume/config": "workspace:*",
+		"@tailwindcss/vite": "^4.3.3",
+		"@types/chrome": "^0.1.31",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"@vitejs/plugin-react": "^6.1.1",
+		"typescript": "catalog:",
+		"vite": "^8.3.2",
+		"vitest": "catalog:"
+	}
+}

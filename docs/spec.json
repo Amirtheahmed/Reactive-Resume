@@ -33199,6 +33199,9 @@
 												"fullName": {
 													"type": "string"
 												},
+												"headline": {
+													"type": "string"
+												},
 												"firstName": {
 													"type": "string"
 												},
@@ -33237,6 +33240,7 @@
 											},
 											"required": [
 												"fullName",
+												"headline",
 												"firstName",
 												"lastName",
 												"email",

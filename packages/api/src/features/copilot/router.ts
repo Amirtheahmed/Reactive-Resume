@@ -148,6 +148,7 @@ const questionReviewOutput = z.object({
 const autofillProfileOutput = z.object({
 	basics: z.object({
 		fullName: z.string(),
+		headline: z.string(),
 		firstName: z.string(),
 		lastName: z.string(),
 		email: z.string(),
