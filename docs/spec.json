@@ -33372,12 +33372,9 @@
 												"type": "object",
 												"properties": {
 													"selector": {
-														"type": "string",
-														"maxLength": 300
-													},
-													"type": {
 														"type": "string"
 													},
+													"type": {},
 													"action": {
 														"enum": [
 															"fill",
@@ -33390,8 +33387,7 @@
 													"value": {
 														"anyOf": [
 															{
-																"type": "string",
-																"maxLength": 2000
+																"type": "string"
 															},
 															{
 																"type": "null"
@@ -33416,58 +33412,18 @@
 														],
 														"type": "string"
 													},
-													"reasoning": {
-														"type": "string"
-													}
+													"reasoning": {}
 												},
 												"required": [
 													"selector",
-													"type",
 													"action",
 													"value",
 													"strategy"
 												]
 											}
 										},
-										"needs_review": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"selector": {
-														"type": "string"
-													},
-													"type": {
-														"type": "string"
-													},
-													"label": {
-														"type": "string"
-													},
-													"reason": {
-														"type": "string"
-													},
-													"confidence": {},
-													"suggestions": {
-														"type": "array",
-														"items": {
-															"type": "string"
-														}
-													}
-												},
-												"required": [
-													"selector",
-													"type",
-													"label",
-													"reason"
-												]
-											}
-										},
-										"warnings": {
-											"type": "array",
-											"items": {
-												"type": "string"
-											}
-										},
+										"needs_review": {},
+										"warnings": {},
 										"metadata": {
 											"type": "object",
 											"properties": {
@@ -33494,8 +33450,6 @@
 									},
 									"required": [
 										"fields",
-										"needs_review",
-										"warnings",
 										"metadata"
 									]
 								}
@@ -33698,11 +33652,13 @@
 											"properties": {
 												"id": {
 													"type": "string",
-													"minLength": 1
+													"minLength": 1,
+													"maxLength": 200
 												},
 												"question": {
 													"type": "string",
-													"minLength": 1
+													"minLength": 1,
+													"maxLength": 2000
 												},
 												"type": {
 													"enum": [
@@ -33722,12 +33678,15 @@
 												},
 												"options": {
 													"type": "array",
+													"maxItems": 200,
 													"items": {
-														"type": "string"
+														"type": "string",
+														"maxLength": 300
 													}
 												},
 												"context": {
-													"type": "string"
+													"type": "string",
+													"maxLength": 2000
 												},
 												"required": {
 													"type": "boolean",
@@ -33801,9 +33760,10 @@
 															},
 															{
 																"type": "array",
+																"maxItems": 200,
 																"items": {
 																	"type": "string",
-																	"maxLength": 500
+																	"maxLength": 300
 																}
 															},
 															{
@@ -33827,12 +33787,8 @@
 														],
 														"type": "string"
 													},
-													"reasoning": {
-														"type": "string"
-													},
-													"source_field": {
-														"type": "string"
-													}
+													"reasoning": {},
+													"source_field": {}
 												},
 												"required": [
 													"question_id",
@@ -33849,36 +33805,18 @@
 													"question_id": {
 														"type": "string"
 													},
-													"question": {
-														"type": "string"
-													},
-													"reason": {
-														"type": "string"
-													},
+													"question": {},
+													"reason": {},
 													"confidence": {},
-													"suggestions": {
-														"type": "array",
-														"items": {
-															"type": "string"
-														}
-													},
-													"category": {
-														"type": "string"
-													}
+													"suggestions": {},
+													"category": {}
 												},
 												"required": [
-													"question_id",
-													"question",
-													"reason"
+													"question_id"
 												]
 											}
 										},
-										"warnings": {
-											"type": "array",
-											"items": {
-												"type": "string"
-											}
-										},
+										"warnings": {},
 										"metadata": {
 											"type": "object",
 											"properties": {
@@ -33906,7 +33844,6 @@
 									"required": [
 										"answers",
 										"needs_review",
-										"warnings",
 										"metadata"
 									]
 								}

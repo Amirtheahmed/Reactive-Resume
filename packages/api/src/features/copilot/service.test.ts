@@ -3,7 +3,8 @@ import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
 
 vi.mock("../resume/service", () => ({ resumeService: {} }));
 
-const { applyTailoring, autofillProfile, profileForPrompt, tailoringSchema } = await import("./service");
+const { applyTailoring, autofillProfile, formControls, isFillableSelector, profileForPrompt, tailoringSchema } =
+	await import("./service");
 
 const master = () => structuredClone(sampleResumeData);
 
@@ -79,4 +80,27 @@ describe("profileForPrompt", () => {
 		expect(prompt).not.toContain('"references"');
 		expect(JSON.parse(prompt).basics.name).toBe(data.basics.name);
 	});
+});
+
+describe("isFillableSelector", () => {
+	const controls = formControls(`
+		<form id="apply">
+			<input id="email" name="email" type="email">
+			<input id="csrf" name="token" type="hidden">
+			<input name=pin type='password'>
+			<input id="trap" name="trap" hidden>
+			<textarea name="why"></textarea>
+			<select id="level" name="level"><option value="1">One</option></select>
+		</form>`);
+
+	it.each(["#email", 'input[name="email"]', "[name=why]", "#apply #level", "textarea[name='why']"])(
+		"accepts a visible control: %s",
+		(selector) => expect(isFillableSelector(selector, controls)).toBe(true),
+	);
+
+	// The model's own claim about a field's type is never consulted: only the submitted HTML is.
+	it.each(["#csrf", '[name="token"]', "[name=pin]", "#trap", "#apply", "form input", "#email, #csrf", "#missing"])(
+		"rejects a hidden, unknown or unnamed target: %s",
+		(selector) => expect(isFillableSelector(selector, controls)).toBe(false),
+	);
 });

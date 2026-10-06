@@ -9,7 +9,15 @@ import { generateJson, generatePlainText, resolveModel } from "../applications/a
 import { coverLetterService } from "../cover-letters/service";
 import { resumeService } from "../resume/service";
 import { formAutofillSystemPrompt, questionAutofillSystemPrompt, resumeSystemPrompt } from "./prompts";
-import { applyTailoring, autofillProfile, getMasterResume, profileForPrompt, tailoringSchema } from "./service";
+import {
+	applyTailoring,
+	autofillProfile,
+	formControls,
+	getMasterResume,
+	isFillableSelector,
+	profileForPrompt,
+	tailoringSchema,
+} from "./service";
 
 // Generation and form-filling from the user's master resume (the one tagged "master"). Fork-only feature:
 // external clients (ITJobsMeter, the browser extension) drive these over /api/openapi.
@@ -48,65 +56,94 @@ const confidence = z.coerce
 	.transform((n) => Math.max(0, Math.min(1, n)));
 
 // The form HTML comes from an arbitrary web page, so the model's reply is treated as hostile: a page can
-// try to talk the model into dumping the profile into a field. Values are length-capped, and fields the
-// user cannot see (hidden, password) are never filled.
+// try to talk the model into dumping the profile into a field. What is filled is decided here, against
+// the submitted HTML and fixed limits, never by what the model says about a field.
 const MAX_FILL_VALUE_CHARS = 2_000;
-const UNFILLABLE_FIELD_TYPES = new Set(["hidden", "password"]);
+const MAX_FORM_FIELDS = 200;
+const MAX_ANSWER_CHARS = 10_000;
+
+/** Text the client only displays: clipped, and never a reason to reject the whole reply. */
+const display = (max: number) =>
+	z
+		.string()
+		.catch("")
+		.transform((value) => value.slice(0, max));
+const optionalDisplay = (max: number) =>
+	z
+		.string()
+		.optional()
+		.catch(undefined)
+		.transform((value) => value?.slice(0, max));
+const warnings = z
+	.array(display(300))
+	.catch([])
+	.transform((items) => items.slice(0, 20));
+const suggestions = z
+	.array(display(300))
+	.optional()
+	.catch(undefined)
+	.transform((items) => items?.slice(0, 10));
 
 const formFieldOutput = z.object({
-	selector: z.string().max(300),
-	type: z.string().catch("text"),
+	selector: z.string(),
+	type: display(40),
 	action: z.enum(["fill", "select", "check", "upload"]).catch("fill"),
-	value: z.string().max(MAX_FILL_VALUE_CHARS).nullable().catch(null),
+	value: z.string().nullable().catch(null),
 	file_type: z.enum(["resume", "cover_letter", "portfolio"]).optional().catch(undefined),
 	confidence,
 	strategy: z.enum(["DETERMINISTIC", "AI_MAPPED", "AI_GENERATED", "SMART_DEFAULT"]).catch("AI_MAPPED"),
-	reasoning: z.string().optional().catch(undefined),
+	reasoning: optionalDisplay(500),
 });
 
 const formReviewOutput = z.object({
-	selector: z.string(),
-	type: z.string().catch(""),
-	label: z.string().catch(""),
-	reason: z.string().catch(""),
+	selector: display(300),
+	type: display(40),
+	label: display(300),
+	reason: display(500),
 	confidence,
-	suggestions: z.array(z.string()).optional().catch(undefined),
+	suggestions,
 });
 
 const formAutofillOutput = z.object({
 	fields: z.array(formFieldOutput).catch([]),
-	needs_review: z.array(formReviewOutput).catch([]),
-	warnings: z.array(z.string()).catch([]),
+	needs_review: z
+		.array(formReviewOutput)
+		.catch([])
+		.transform((items) => items.slice(0, MAX_FORM_FIELDS)),
+	warnings,
 });
 
 const questionInput = z.object({
-	id: z.string().min(1),
-	question: z.string().min(1),
+	id: z.string().min(1).max(200),
+	question: z.string().min(1).max(2_000),
 	type: z
 		.enum(["text", "textarea", "select", "multiselect", "date", "number", "boolean", "email", "phone", "url"])
 		.default("text"),
-	options: z.array(z.string()).optional(),
-	context: z.string().optional(),
+	options: z.array(z.string().max(300)).max(200).optional(),
+	context: z.string().max(2_000).optional(),
 	required: z.boolean().default(false),
 	maxLength: z.number().positive().optional(),
 });
 
 const answerOutput = z.object({
 	question_id: z.string(),
-	value: z.union([z.string().max(10_000), z.array(z.string().max(500)), z.number(), z.boolean(), z.null()]).catch(null),
+	// An over-long or over-wide answer becomes null: the question is left for the user.
+	value: z
+		.union([z.string().max(MAX_ANSWER_CHARS), z.array(z.string().max(300)).max(200), z.number(), z.boolean(), z.null()])
+		.catch(null),
 	confidence,
 	strategy: z.enum(["DETERMINISTIC", "AI_MAPPED", "AI_GENERATED", "SMART_DEFAULT"]).catch("AI_MAPPED"),
-	reasoning: z.string().optional().catch(undefined),
-	source_field: z.string().optional().catch(undefined),
+	reasoning: optionalDisplay(500),
+	source_field: optionalDisplay(100),
 });
 
 const questionReviewOutput = z.object({
 	question_id: z.string(),
-	question: z.string().catch(""),
-	reason: z.string().catch(""),
+	question: display(2_000),
+	reason: display(500),
 	confidence,
-	suggestions: z.array(z.string()).optional().catch(undefined),
-	category: z.string().optional().catch(undefined),
+	suggestions,
+	category: optionalDisplay(100),
 });
 
 const autofillProfileOutput = z.object({
@@ -127,7 +164,7 @@ const autofillProfileOutput = z.object({
 const questionAutofillOutput = z.object({
 	answers: z.array(answerOutput).catch([]),
 	needs_review: z.array(questionReviewOutput).catch([]),
-	warnings: z.array(z.string()).catch([]),
+	warnings,
 });
 
 const formAutofillResult = formAutofillOutput.extend({
@@ -278,14 +315,23 @@ export const copilotRouter = {
 				formAutofillOutput,
 			);
 
-			// The prompt asks for this split; enforce it rather than trust it.
-			const fields = result.fields.filter(
-				(field) => field.confidence >= 0.6 && !UNFILLABLE_FIELD_TYPES.has(field.type.toLowerCase()),
-			);
+			// Enforced here rather than trusted: only confident, bounded values, and only into controls that the
+			// submitted HTML shows are visible inputs. The model's own "type" is not evidence of anything.
+			const controls = formControls(input.form_html);
+			const confident = result.fields.filter((field) => field.confidence >= 0.6);
+			const fields = confident
+				.filter(
+					(field) => (field.value?.length ?? 0) <= MAX_FILL_VALUE_CHARS && isFillableSelector(field.selector, controls),
+				)
+				.slice(0, MAX_FORM_FIELDS);
+			const rejected = confident.length - fields.length;
+
 			return {
 				fields,
 				needs_review: result.needs_review,
-				warnings: result.warnings,
+				warnings: rejected
+					? [...result.warnings, `${rejected} field(s) skipped: not a visible form control, or the value was too long.`]
+					: result.warnings,
 				metadata: {
 					fields_extracted: result.fields.length + result.needs_review.length,
 					fields_filled: fields.length,
@@ -330,11 +376,18 @@ export const copilotRouter = {
 				questionAutofillOutput,
 			);
 
+			// One answer per question that was actually asked, whatever the model returns.
 			const asked = new Set(input.questions.map((question) => question.id));
-			const answers = result.answers.filter((answer) => asked.has(answer.question_id) && answer.confidence >= 0.6);
+			const once = <T extends { question_id: string }>(items: T[]) => {
+				const seen = new Set<string>();
+				return items.filter(
+					({ question_id }) => asked.has(question_id) && !seen.has(question_id) && seen.add(question_id),
+				);
+			};
+			const answers = once(result.answers.filter((answer) => answer.confidence >= 0.6));
 			return {
 				answers,
-				needs_review: result.needs_review.filter((item) => asked.has(item.question_id)),
+				needs_review: once(result.needs_review),
 				warnings: result.warnings,
 				metadata: {
 					questions_received: input.questions.length,

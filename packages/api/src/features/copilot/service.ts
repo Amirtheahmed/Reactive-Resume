@@ -166,3 +166,51 @@ export function autofillProfile(data: ResumeData): AutofillProfile {
 		},
 	};
 }
+
+export type FormControls = { fillable: Set<string>; unfillable: Set<string> };
+
+const UNFILLABLE_INPUT_TYPES = new Set(["hidden", "password", "submit", "button", "reset", "image"]);
+
+/**
+ * The id and name of every control in a form's HTML, split by whether a person could see and type into it.
+ * Keys are "id:<value>" and "name:<value>".
+ */
+// ponytail: reads attributes with a regex and cannot see CSS, so a control hidden by a stylesheet still
+// counts as fillable. Clients must fill only elements that are actually visible. Swap in a DOM parser if
+// this ever has to understand more than input types and the hidden attribute.
+export function formControls(formHtml: string): FormControls {
+	const controls: FormControls = { fillable: new Set(), unfillable: new Set() };
+
+	for (const [tag] of formHtml.matchAll(/<(?:input|textarea|select)\b[^>]*>/gi)) {
+		const attribute = (name: string) => {
+			const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
+			return match ? (match[1] ?? match[2] ?? match[3]) : undefined;
+		};
+		const hidden =
+			UNFILLABLE_INPUT_TYPES.has((attribute("type") ?? "text").toLowerCase()) ||
+			/\shidden(?=[\s=>/])/i.test(tag) ||
+			attribute("aria-hidden") === "true";
+
+		for (const key of ["id", "name"]) {
+			const value = attribute(key);
+			if (value) (hidden ? controls.unfillable : controls.fillable).add(`${key}:${value}`);
+		}
+	}
+
+	return controls;
+}
+
+/** True when a CSS selector names a visible control of the form by id or name, and no hidden one. */
+export function isFillableSelector(selector: string, controls: FormControls): boolean {
+	if (selector.length > 300) return false;
+	const references = [
+		...[...selector.matchAll(/#((?:[\w-]|\\.)+)/g)].map((match) => `id:${(match[1] ?? "").replace(/\\(.)/g, "$1")}`),
+		...[...selector.matchAll(/\[\s*(id|name)\s*[~|^$*]?=\s*["']?([^"'\]]+)["']?\s*\]/gi)].map(
+			(match) => `${(match[1] ?? "").toLowerCase()}:${match[2]}`,
+		),
+	];
+	return (
+		references.some((reference) => controls.fillable.has(reference)) &&
+		!references.some((reference) => controls.unfillable.has(reference))
+	);
+}
