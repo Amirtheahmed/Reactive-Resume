@@ -1,13 +1,16 @@
 name: Release Image (fork)
 
-# Fork-only: builds this branch's image when a GitHub release is published and pushes it to
-# ghcr.io/<owner>/<repo> tagged with the release tag and the commit SHA. Upstream's own
-# "Publish Docker Image" workflow promotes images built from `main` and requires the tag to equal
-# package.json's version, neither of which applies to this fork's releases.
+# Fork-only: builds this branch's image when a version tag is pushed (publishing a GitHub release with a
+# new tag does that) and pushes it to ghcr.io/<owner>/<repo> tagged with the version and the commit SHA.
+#
+# Upstream's own workflows (image promotion from `main`, Vercel and Cloudflare checks, Crowdin sync,
+# issue triage, autofix, E2E) are removed on this branch: they target upstream's infrastructure and
+# only failed or made noise here. After merging upstream, keep them deleted.
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 concurrency:
