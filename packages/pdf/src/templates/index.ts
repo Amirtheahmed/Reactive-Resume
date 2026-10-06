@@ -7,6 +7,7 @@ import { DitgarPage } from "./ditgar/DitgarPage";
 import { DittoPage } from "./ditto/DittoPage";
 import { GengarPage } from "./gengar/GengarPage";
 import { GlaliePage } from "./glalie/GlaliePage";
+import { GoldstarPage } from "./goldstar/GoldstarPage";
 import { KakunaPage } from "./kakuna/KakunaPage";
 import { LaprasPage } from "./lapras/LaprasPage";
 import { LeafishPage } from "./leafish/LeafishPage";
@@ -26,6 +27,7 @@ const templatePages: Partial<Record<Template, TemplatePage>> = {
 	ditto: DittoPage,
 	gengar: GengarPage,
 	glalie: GlaliePage,
+	goldstar: GoldstarPage,
 	kakuna: KakunaPage,
 	lapras: LaprasPage,
 	leafish: LeafishPage,

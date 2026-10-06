@@ -52,6 +52,12 @@ export const templates = {
 		imageUrl: "/templates/jpg/glalie.jpg",
 		tags: ["Two-column", "Minimal", "Professional", "Legal", "Finance", "Executive", "Understated"],
 	},
+	goldstar: {
+		name: "Goldstar",
+		description: msg`Dense single-column in the style of a classic LaTeX resume: centered uppercase name, a one-line contact row and ruled section headings; built for engineering roles.`,
+		imageUrl: "/templates/jpg/goldstar.jpg",
+		tags: ["Single-column", "ATS friendly", "Dense", "LaTeX style", "Engineering"],
+	},
 	kakuna: {
 		name: "Kakuna",
 		description: msg`Single-column with a magenta left border accent; compact and efficient for entry-level or internship applications.`,

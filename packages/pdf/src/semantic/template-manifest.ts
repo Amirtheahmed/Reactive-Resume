@@ -9,6 +9,7 @@ import { ditgarSemanticManifest } from "../templates/ditgar/semantic";
 import { dittoSemanticManifest } from "../templates/ditto/semantic";
 import { gengarSemanticManifest } from "../templates/gengar/semantic";
 import { glalieSemanticManifest } from "../templates/glalie/semantic";
+import { goldstarSemanticManifest } from "../templates/goldstar/semantic";
 import { kakunaSemanticManifest } from "../templates/kakuna/semantic";
 import { laprasSemanticManifest } from "../templates/lapras/semantic";
 import { leafishSemanticManifest } from "../templates/leafish/semantic";
@@ -141,6 +142,7 @@ const TEMPLATE_SEMANTIC_MANIFESTS = {
 	ditto: dittoSemanticManifest,
 	gengar: gengarSemanticManifest,
 	glalie: glalieSemanticManifest,
+	goldstar: goldstarSemanticManifest,
 	kakuna: kakunaSemanticManifest,
 	lapras: laprasSemanticManifest,
 	leafish: leafishSemanticManifest,
