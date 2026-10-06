@@ -49,6 +49,11 @@ jobs:
             type=ref,event=tag
             type=sha
 
+      # Image names must be lowercase; the repository name is not.
+      - name: Cache image name
+        id: cache
+        run: echo "image=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
       - name: Build and Push
         uses: docker/build-push-action@v7
         with:
@@ -56,5 +61,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Registry cache, not the Actions cache: that one is scoped to the ref, so every new tag
+          # would start cold. This one is shared by all tags.
+          cache-from: type=registry,ref=ghcr.io/${{ steps.cache.outputs.image }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ steps.cache.outputs.image }}:buildcache,mode=max
