@@ -37,7 +37,6 @@ const MIN_FIELD_SIZE = 8;
 // Only fields a person can see are offered. A page can hide an input to harvest autofilled data
 // (display, visibility, opacity, zero size, parked off-screen), which the server cannot detect from HTML
 // alone; the browser can. Anything this cannot positively confirm as visible is treated as hidden.
-// It does not detect a field covered by another element; the review step is the backstop for that.
 function isVisible(element: FormControl): boolean {
 	if (typeof element.checkVisibility !== "function") return false;
 	if (!element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, contentVisibilityAuto: true }))
@@ -66,6 +65,19 @@ const labelOf = (element: FormControl) => {
 };
 
 /**
+ * Hit-tests the centre of a field: "yes" when a click there would land on the field itself, "no" when it
+ * would land on something else (the field is covered, clipped by a scrolling ancestor, or inert), and
+ * "offscreen" when the centre is outside the viewport, where the browser cannot hit-test.
+ */
+function hitTest(element: FormControl): "yes" | "no" | "offscreen" {
+	const box = element.getBoundingClientRect();
+	const x = box.left + box.width / 2;
+	const y = box.top + box.height / 2;
+	if (x < 0 || y < 0 || x >= window.innerWidth || y >= window.innerHeight) return "offscreen";
+	return document.elementFromPoint(x, y) === element ? "yes" : "no";
+}
+
+/**
  * Tags every visible, fillable control on the page with an id and describes it. The ids carry a random
  * token made for this pass, so approved values can only ever land in the page and the pass they were
  * reviewed for: on any other page, or after another pass, no element has them.
@@ -78,6 +90,8 @@ export function extractFormFields(): FormField[] {
 		element.removeAttribute(FIELD_ID);
 		if (SKIPPED_TYPES.has(element.type) || element.disabled || !isVisible(element)) continue;
 		if (!(element instanceof HTMLSelectElement) && element.readOnly) continue;
+		// Fields below the fold cannot be hit-tested yet; applyAutofill scrolls to each one and insists on it.
+		if (hitTest(element) === "no") continue;
 
 		const id = `rx-${pass}-${fields.length}`;
 		element.setAttribute(FIELD_ID, id);
@@ -197,7 +211,11 @@ export function toSuggestions(answers: Answer[], fields: FormField[]): (Suggesti
 	});
 }
 
-/** Writes approved values into their fields, the way typing would, so framework-controlled inputs notice. */
+/**
+ * Writes approved values into their fields, the way typing would, so framework-controlled inputs notice.
+ * Each field is scrolled into view and must then be the thing under its own centre: the same test a
+ * person's click would have to pass. A field that fails it is left empty.
+ */
 export function applyAutofill(suggestions: Suggestion[]): number {
 	// Looked up by comparing the attribute, so an id is never interpolated into a selector.
 	const tagged = new Map(
@@ -210,7 +228,9 @@ export function applyAutofill(suggestions: Suggestion[]): number {
 
 	for (const { id, value } of suggestions) {
 		const element = tagged.get(id);
-		if (!element || SKIPPED_TYPES.has(element.type) || !isVisible(element)) continue;
+		if (!element || SKIPPED_TYPES.has(element.type) || element.disabled || !isVisible(element)) continue;
+		element.scrollIntoView({ block: "center", behavior: "instant" });
+		if (hitTest(element) !== "yes") continue;
 
 		// React and friends replace the instance's value property; the prototype's setter reaches the real one.
 		const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), "value")?.set;

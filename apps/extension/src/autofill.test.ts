@@ -14,16 +14,36 @@ const profile: Profile = {
 	},
 };
 
-// happy-dom has no layout: every element gets a box, and visibility follows inline display.
+// happy-dom has no layout, so the tests supply one: controls are stacked 40px apart, visibility follows
+// inline display, and a click lands on whichever control's box contains it unless that control is covered.
 const box = (overrides: Partial<DOMRect> = {}) =>
 	({ width: 200, height: 30, left: 10, top: 10, right: 210, bottom: 40, ...overrides }) as DOMRect;
+const controls = () => Array.from(document.querySelectorAll<HTMLElement>("input, textarea, select"));
+const covered = new WeakSet<Element>();
 
 beforeEach(() => {
 	vi.restoreAllMocks();
 	Element.prototype.checkVisibility = function (this: HTMLElement) {
 		return this.style.display !== "none";
 	};
-	vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(() => box());
+	Element.prototype.scrollIntoView = () => {};
+	vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(function (this: Element) {
+		// Matched by name: happy-dom hands out a select as a proxy, so identity would miss it here.
+		const name = this.getAttribute("name");
+		const top =
+			10 +
+			40 *
+				Math.max(
+					0,
+					controls().findIndex((control) => control.getAttribute("name") === name),
+				);
+		return box({ top, bottom: top + 30 });
+	});
+	document.elementFromPoint = (x, y) =>
+		controls().find((element) => {
+			const { left, right, top, bottom } = element.getBoundingClientRect();
+			return !covered.has(element) && x >= left && x <= right && y >= top && y <= bottom;
+		}) ?? document.body;
 	document.body.innerHTML = `
 		<form>
 			<label for="email">Email address</label><input id="email" name="email" type="email">
@@ -71,6 +91,7 @@ describe("extractFormFields", () => {
 			"visibility cannot be checked at all",
 			(input: HTMLInputElement) => Reflect.set(input, "checkVisibility", undefined),
 		],
+		["something else is drawn over it", (input: HTMLInputElement) => covered.add(input)],
 	])("skips a field when %s", (_case, hide) => {
 		const email = document.querySelector<HTMLInputElement>("#email");
 		if (!email) throw new Error("fixture");
@@ -136,6 +157,24 @@ describe("toQuestions and toSuggestions", () => {
 });
 
 describe("applyAutofill", () => {
+	it("leaves a field empty if it is covered, or cannot be brought on screen, by the time values are applied", () => {
+		const [email, name] = extractFormFields();
+		const emailInput = document.querySelector<HTMLInputElement>("#email");
+		const nameInput = document.querySelector<HTMLInputElement>("#full");
+		if (!email || !name || !emailInput || !nameInput) throw new Error("fixture");
+
+		covered.add(emailInput);
+		nameInput.getBoundingClientRect = () => box({ top: 5000, bottom: 5030 });
+
+		expect(
+			applyAutofill([
+				{ id: email.id, value: "ada@example.com" },
+				{ id: name.id, value: "Ada" },
+			]),
+		).toBe(0);
+		expect([emailInput.value, nameInput.value]).toEqual(["", ""]);
+	});
+
 	it("writes values, fires input events, and ignores ids that are not tagged fields", () => {
 		const [email] = extractFormFields();
 		const input = document.querySelector<HTMLInputElement>("#email");
