@@ -1017,6 +1017,9 @@ importers:
       jsonrepair:
         specifier: 'catalog:'
         version: 3.15.0
+      node-html-parser:
+        specifier: ^9.0.4
+        version: 9.0.4
       ollama-ai-provider-v2:
         specifier: ^4.0.1
         version: 4.0.1(ai@7.0.127(zod@4.6.5))(zod@4.6.5)

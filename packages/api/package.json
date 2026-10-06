@@ -66,6 +66,7 @@
 		"fflate": "catalog:",
 		"ioredis": "catalog:",
 		"jsonrepair": "catalog:",
+		"node-html-parser": "^9.0.4",
 		"ollama-ai-provider-v2": "^4.0.1",
 		"pdfjs-dist": "6.4.299",
 		"resumable-stream": "^2.2.13",

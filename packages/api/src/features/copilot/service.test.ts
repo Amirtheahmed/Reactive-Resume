@@ -3,7 +3,7 @@ import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
 
 vi.mock("../resume/service", () => ({ resumeService: {} }));
 
-const { applyTailoring, autofillProfile, formControls, isFillableSelector, profileForPrompt, tailoringSchema } =
+const { applyTailoring, autofillProfile, createFormResolver, profileForPrompt, tailoringSchema } =
 	await import("./service");
 
 const master = () => structuredClone(sampleResumeData);
@@ -82,25 +82,46 @@ describe("profileForPrompt", () => {
 	});
 });
 
-describe("isFillableSelector", () => {
-	const controls = formControls(`
+describe("createFormResolver", () => {
+	const resolve = createFormResolver(`
 		<form id="apply">
 			<input id="email" name="email" type="email">
 			<input id="csrf" name="token" type="hidden">
 			<input name=pin type='password'>
 			<input id="trap" name="trap" hidden>
+			<div style="display: none"><input id="honeypot" name="website"></div>
+			<input id="shadow" type="text"><input id="shadow" type="hidden">
+			<input name="plan" type="radio" value="a"><input name="plan" type="radio" value="b">
 			<textarea name="why"></textarea>
 			<select id="level" name="level"><option value="1">One</option></select>
+			<input type=hidden data-x=">" id="tricky">
 		</form>`);
 
-	it.each(["#email", 'input[name="email"]', "[name=why]", "#apply #level", "textarea[name='why']"])(
-		"accepts a visible control: %s",
-		(selector) => expect(isFillableSelector(selector, controls)).toBe(true),
-	);
+	it.each([
+		["#email", '[id="email"]'],
+		['input[name="email"]', '[id="email"]'],
+		["[name=why]", '[name="why"]'],
+		["#apply #level", '[id="level"]'],
+		["form > textarea", '[name="why"]'],
+	])("resolves a visible control: %s", (selector, canonical) => expect(resolve(selector)).toBe(canonical));
 
-	// The model's own claim about a field's type is never consulted: only the submitted HTML is.
-	it.each(["#csrf", '[name="token"]', "[name=pin]", "#trap", "#apply", "form input", "#email, #csrf", "#missing"])(
-		"rejects a hidden, unknown or unnamed target: %s",
-		(selector) => expect(isFillableSelector(selector, controls)).toBe(false),
+	// The model's own claim about a field's type is never consulted: only the parsed form is.
+	it.each([
+		"#csrf",
+		'[name="token"]',
+		"[name=pin]",
+		"#trap",
+		"#honeypot",
+		"#shadow",
+		"#tricky",
+		"[name=plan]",
+		"#apply",
+		"form input",
+		"#email, #csrf",
+		"#missing",
+		"input[",
+		"*",
+	])("refuses a hidden, ambiguous, unknown or malformed target: %s", (selector) =>
+		expect(resolve(selector)).toBeNull(),
 	);
 });

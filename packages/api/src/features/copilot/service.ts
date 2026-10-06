@@ -1,6 +1,8 @@
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
 import type { Template } from "@reactive-resume/schema/templates";
+import type { HTMLElement } from "node-html-parser";
 import { ORPCError } from "@orpc/client";
+import { parse as parseHtml } from "node-html-parser";
 import z from "zod";
 import { parseResumeData, skillItemSchema } from "@reactive-resume/schema/resume/data";
 import { generateId } from "@reactive-resume/utils/string";
@@ -11,7 +13,7 @@ import { resumeService } from "../resume/service";
  * Tailored resumes, cover letters and autofill answers are all generated from it.
  */
 // ponytail: a tag instead of an is_master column; add the column if users need exactly-one enforcement.
-export const MASTER_TAG = "master";
+const MASTER_TAG = "master";
 
 export async function getMasterResume(userId: string) {
 	const [latest] = await resumeService.list({ userId, tags: [MASTER_TAG], sort: "lastUpdatedAt" });
@@ -167,50 +169,54 @@ export function autofillProfile(data: ResumeData): AutofillProfile {
 	};
 }
 
-export type FormControls = { fillable: Set<string>; unfillable: Set<string> };
-
+const FILLABLE_TAGS = new Set(["input", "textarea", "select"]);
 const UNFILLABLE_INPUT_TYPES = new Set(["hidden", "password", "submit", "button", "reset", "image"]);
+/** Ids and names that can be written into a quoted attribute selector without any escaping. */
+const PLAIN_ATTRIBUTE_VALUE = /^[\w\-:.[\]@/ ]+$/;
 
 /**
- * The id and name of every control in a form's HTML, split by whether a person could see and type into it.
- * Keys are "id:<value>" and "name:<value>".
+ * Checks a model-supplied CSS selector against the form it claims to describe. The form is parsed and the
+ * selector is run against it, so the check sees what a browser would select rather than guessing from the
+ * selector's text. Anything short of exactly one visible input, textarea or select is refused.
+ *
+ * Returns a selector written here from that element's own id or name, never the model's text, or null.
+ * What this cannot see: styles from a stylesheet, and any difference between this parser and a browser.
+ * A client must still fill only elements that are visible on the real page.
  */
-// ponytail: reads attributes with a regex and cannot see CSS, so a control hidden by a stylesheet still
-// counts as fillable. Clients must fill only elements that are actually visible. Swap in a DOM parser if
-// this ever has to understand more than input types and the hidden attribute.
-export function formControls(formHtml: string): FormControls {
-	const controls: FormControls = { fillable: new Set(), unfillable: new Set() };
+export function createFormResolver(formHtml: string): (selector: string) => string | null {
+	const root = parseHtml(formHtml);
+	const elements = root.querySelectorAll("*");
+	const isUnique = (attribute: string, value: string) =>
+		elements.filter((element) => element.getAttribute(attribute) === value).length === 1;
 
-	for (const [tag] of formHtml.matchAll(/<(?:input|textarea|select)\b[^>]*>/gi)) {
-		const attribute = (name: string) => {
-			const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
-			return match ? (match[1] ?? match[2] ?? match[3]) : undefined;
-		};
-		const hidden =
-			UNFILLABLE_INPUT_TYPES.has((attribute("type") ?? "text").toLowerCase()) ||
-			/\shidden(?=[\s=>/])/i.test(tag) ||
-			attribute("aria-hidden") === "true";
+	const isHidden = (element: HTMLElement) =>
+		element.hasAttribute("hidden") ||
+		element.getAttribute("aria-hidden") === "true" ||
+		/display\s*:\s*none|visibility\s*:\s*hidden/i.test(element.getAttribute("style") ?? "");
 
-		for (const key of ["id", "name"]) {
-			const value = attribute(key);
-			if (value) (hidden ? controls.unfillable : controls.fillable).add(`${key}:${value}`);
+	return (selector) => {
+		if (selector.length > 300) return null;
+
+		let matches: HTMLElement[];
+		try {
+			matches = root.querySelectorAll(selector);
+		} catch {
+			return null;
 		}
-	}
+		const [element] = matches;
+		if (!element || matches.length !== 1) return null;
 
-	return controls;
-}
+		if (!FILLABLE_TAGS.has(element.rawTagName.toLowerCase())) return null;
+		if (UNFILLABLE_INPUT_TYPES.has((element.getAttribute("type") ?? "text").trim().toLowerCase())) return null;
+		for (let node: HTMLElement | null = element; node; node = node.parentNode) {
+			// The root is a document node without attributes.
+			if (node.rawTagName && isHidden(node)) return null;
+		}
 
-/** True when a CSS selector names a visible control of the form by id or name, and no hidden one. */
-export function isFillableSelector(selector: string, controls: FormControls): boolean {
-	if (selector.length > 300) return false;
-	const references = [
-		...[...selector.matchAll(/#((?:[\w-]|\\.)+)/g)].map((match) => `id:${(match[1] ?? "").replace(/\\(.)/g, "$1")}`),
-		...[...selector.matchAll(/\[\s*(id|name)\s*[~|^$*]?=\s*["']?([^"'\]]+)["']?\s*\]/gi)].map(
-			(match) => `${(match[1] ?? "").toLowerCase()}:${match[2]}`,
-		),
-	];
-	return (
-		references.some((reference) => controls.fillable.has(reference)) &&
-		!references.some((reference) => controls.unfillable.has(reference))
-	);
+		for (const attribute of ["id", "name"]) {
+			const value = element.getAttribute(attribute);
+			if (value && PLAIN_ATTRIBUTE_VALUE.test(value) && isUnique(attribute, value)) return `[${attribute}="${value}"]`;
+		}
+		return null;
+	};
 }

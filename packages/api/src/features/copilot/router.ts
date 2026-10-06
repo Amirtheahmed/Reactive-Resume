@@ -12,9 +12,8 @@ import { formAutofillSystemPrompt, questionAutofillSystemPrompt, resumeSystemPro
 import {
 	applyTailoring,
 	autofillProfile,
-	formControls,
+	createFormResolver,
 	getMasterResume,
-	isFillableSelector,
 	profileForPrompt,
 	tailoringSchema,
 } from "./service";
@@ -315,14 +314,16 @@ export const copilotRouter = {
 				formAutofillOutput,
 			);
 
-			// Enforced here rather than trusted: only confident, bounded values, and only into controls that the
-			// submitted HTML shows are visible inputs. The model's own "type" is not evidence of anything.
-			const controls = formControls(input.form_html);
+			// Enforced here rather than trusted: only confident, bounded values, and only into a control that the
+			// selector really names in the submitted HTML. The model's own "type" is not evidence of anything, and
+			// its selector text is replaced by one written from the matched element.
+			const resolve = createFormResolver(input.form_html);
 			const confident = result.fields.filter((field) => field.confidence >= 0.6);
 			const fields = confident
-				.filter(
-					(field) => (field.value?.length ?? 0) <= MAX_FILL_VALUE_CHARS && isFillableSelector(field.selector, controls),
-				)
+				.flatMap((field) => {
+					const selector = resolve(field.selector);
+					return selector && (field.value?.length ?? 0) <= MAX_FILL_VALUE_CHARS ? [{ ...field, selector }] : [];
+				})
 				.slice(0, MAX_FORM_FIELDS);
 			const rejected = confident.length - fields.length;
 
