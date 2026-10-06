@@ -309,8 +309,9 @@ export const copilotRouter = {
 			const result = await generateJson(
 				model,
 				{
+					// The form's raw HTML shares this prompt, so the candidate's private notes stay out of it.
 					system: formAutofillSystemPrompt,
-					prompt: `<profile>\n${profileForPrompt(master.data)}\n</profile>\n\n${jobBlock(input.job_context)}<form url="${input.page_url ?? ""}">\n${input.form_html}\n</form>${input.form_text ? `\n\n<form_text>\n${input.form_text}\n</form_text>` : ""}`,
+					prompt: `<profile>\n${profileForPrompt(master.data, { background: false })}\n</profile>\n\n${jobBlock(input.job_context)}<form url="${input.page_url ?? ""}">\n${input.form_html}\n</form>${input.form_text ? `\n\n<form_text>\n${input.form_text}\n</form_text>` : ""}`,
 				},
 				formAutofillOutput,
 			);

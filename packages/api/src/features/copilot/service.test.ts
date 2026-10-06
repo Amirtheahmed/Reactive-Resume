@@ -71,6 +71,7 @@ describe("applyTailoring", () => {
 		expect(result.customSections).toEqual([]);
 		expect(result.metadata.layout.pages.flatMap((page) => [...page.main, ...page.sidebar])).not.toContain("faq");
 		// The master itself still has it, and the model still gets to read it.
+		expect(JSON.parse(profileForPrompt(data, { background: false })).background).toEqual([]);
 		expect(JSON.parse(profileForPrompt(data)).background).toContainEqual({
 			title: "FAQ",
 			items: [{ content: "<p>Based in Istanbul.</p>" }],
@@ -100,6 +101,23 @@ describe("autofillProfile", () => {
 });
 
 describe("profileForPrompt", () => {
+	it("never sends a references section, whatever type it was created as", () => {
+		const data = master();
+		data.customSections.push({
+			id: "refs",
+			type: "summary",
+			title: "My References",
+			icon: "",
+			columns: 1,
+			hidden: false,
+			keepTogether: false,
+			startOnNewPage: false,
+			items: [{ id: "r1", hidden: false, content: "<p>Jane Roe, +1 555 0100</p>" }],
+		} as never);
+
+		expect(profileForPrompt(data)).not.toContain("Jane Roe");
+	});
+
 	it("leaves out hidden entries and presentation settings", () => {
 		const data = master();
 		const hidden = data.sections.experience.items[0];

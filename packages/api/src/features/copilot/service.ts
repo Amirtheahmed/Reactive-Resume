@@ -25,8 +25,17 @@ export async function getMasterResume(userId: string) {
 	return resumeService.getById({ id: latest.id, userId });
 }
 
+type ProfileOptions = {
+	/**
+	 * Whether to include the custom sections (the candidate's FAQ, preferences, notes). Leave them out
+	 * when the same prompt carries raw text from an untrusted page, which could try to talk the model into
+	 * repeating them.
+	 */
+	background?: boolean;
+};
+
 /** The master resume without presentation settings or hidden entries, as compact JSON for a prompt. */
-export function profileForPrompt(data: ResumeData): string {
+export function profileForPrompt(data: ResumeData, { background: withBackground = true }: ProfileOptions = {}): string {
 	// References are other people's contact details: never sent to a model or offered to a form.
 	const { references: _references, ...ownSections } = data.sections;
 	const sections = Object.fromEntries(
@@ -39,8 +48,9 @@ export function profileForPrompt(data: ResumeData): string {
 	);
 	// Custom sections hold what the standard ones cannot: an FAQ, preferences, extra projects. They are
 	// background for the model, so they are sent whole, apart from anyone else's contact details.
-	const background = data.customSections
-		.filter((section) => !section.hidden && section.type !== "references")
+	const background = (withBackground ? data.customSections : [])
+		// References, whatever kind of section they were typed into, are someone else's details.
+		.filter((section) => !section.hidden && section.type !== "references" && !/referen/i.test(section.title))
 		.map((section) => ({
 			title: section.title,
 			items: (section.items as Record<string, unknown>[])
