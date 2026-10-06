@@ -27,6 +27,7 @@ beforeEach(() => {
 		return this.style.display !== "none";
 	};
 	Element.prototype.scrollIntoView = () => {};
+	window.scrollTo = () => {};
 	vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(function (this: Element) {
 		// Matched by name: happy-dom hands out a select as a proxy, so identity would miss it here.
 		const name = this.getAttribute("name");
@@ -92,6 +93,15 @@ describe("extractFormFields", () => {
 			(input: HTMLInputElement) => Reflect.set(input, "checkVisibility", undefined),
 		],
 		["something else is drawn over it", (input: HTMLInputElement) => covered.add(input)],
+		["it is nearly transparent", (input: HTMLInputElement) => (input.style.opacity = "0.05")],
+		[
+			"an ancestor fades it out",
+			(input: HTMLInputElement) => ((input.parentElement as HTMLElement).style.opacity = "0.1"),
+		],
+		[
+			"it cannot be brought on screen",
+			(input: HTMLInputElement) => (input.getBoundingClientRect = () => box({ top: 5000, bottom: 5030 })),
+		],
 	])("skips a field when %s", (_case, hide) => {
 		const email = document.querySelector<HTMLInputElement>("#email");
 		if (!email) throw new Error("fixture");
@@ -157,6 +167,23 @@ describe("toQuestions and toSuggestions", () => {
 });
 
 describe("applyAutofill", () => {
+	it("writes nothing into the DOM that a page could copy onto another element", () => {
+		const before = document.body.innerHTML;
+		extractFormFields();
+		expect(document.body.innerHTML).toBe(before);
+	});
+
+	it("leaves a field empty if its label changed after the user reviewed it", () => {
+		const [email] = extractFormFields();
+		const label = document.querySelector('label[for="email"]');
+		const input = document.querySelector<HTMLInputElement>("#email");
+		if (!email || !label || !input) throw new Error("fixture");
+
+		label.textContent = "Newsletter";
+		expect(applyAutofill([{ id: email.id, value: "ada@example.com" }])).toBe(0);
+		expect(input.value).toBe("");
+	});
+
 	it("leaves a field empty if it is covered, or cannot be brought on screen, by the time values are applied", () => {
 		const [email, name] = extractFormFields();
 		const emailInput = document.querySelector<HTMLInputElement>("#email");

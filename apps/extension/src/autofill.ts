@@ -15,7 +15,12 @@ export type FormField = {
 
 export type Suggestion = { id: string; value: string };
 
-const FIELD_ID = "data-rx-autofill-id";
+/**
+ * The fields found by the latest scan, by id. This lives in the content script, which the page's own
+ * scripts cannot read or change: nothing about a scan is written into the DOM, so a page cannot move an
+ * approved value onto another element. Each entry remembers the label the user was shown.
+ */
+let scanned = new Map<string, { element: FormControl; label: string }>();
 /** Input types that are never filled: not text, or not the user's to hand over. */
 const SKIPPED_TYPES = new Set([
 	"hidden",
@@ -33,6 +38,8 @@ const normalise = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "")
 
 /** Smallest box, in CSS pixels, that still counts as a field someone could click into. */
 const MIN_FIELD_SIZE = 8;
+/** Below this combined opacity a field is treated as invisible. */
+const MIN_OPACITY = 0.5;
 
 // Only fields a person can see are offered. A page can hide an input to harvest autofilled data
 // (display, visibility, opacity, zero size, parked off-screen), which the server cannot detect from HTML
@@ -41,6 +48,14 @@ function isVisible(element: FormControl): boolean {
 	if (typeof element.checkVisibility !== "function") return false;
 	if (!element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, contentVisibilityAuto: true }))
 		return false;
+
+	// A nearly transparent field is as good as hidden, and opacity multiplies down the tree.
+	let opacity = 1;
+	for (let node: Element | null = element; node; node = node.parentElement) {
+		const own = Number.parseFloat(getComputedStyle(node).opacity);
+		if (!Number.isNaN(own)) opacity *= own;
+	}
+	if (opacity < MIN_OPACITY) return false;
 
 	const box = element.getBoundingClientRect();
 	const page = document.documentElement;
@@ -65,40 +80,58 @@ const labelOf = (element: FormControl) => {
 };
 
 /**
- * Hit-tests the centre of a field: "yes" when a click there would land on the field itself, "no" when it
- * would land on something else (the field is covered, clipped by a scrolling ancestor, or inert), and
- * "offscreen" when the centre is outside the viewport, where the browser cannot hit-test.
+ * True when clicks across the field would land on the field itself, once it is scrolled into view. Five
+ * points are tested (the centre and towards each corner), so a field that is covered, clipped by a
+ * scrolling ancestor, inert, or only peeking out from under something does not pass.
  */
-function hitTest(element: FormControl): "yes" | "no" | "offscreen" {
+function isHittable(element: FormControl): boolean {
+	element.scrollIntoView({ block: "center", behavior: "instant" });
 	const box = element.getBoundingClientRect();
-	const x = box.left + box.width / 2;
-	const y = box.top + box.height / 2;
-	if (x < 0 || y < 0 || x >= window.innerWidth || y >= window.innerHeight) return "offscreen";
-	return document.elementFromPoint(x, y) === element ? "yes" : "no";
+
+	return [
+		[0.5, 0.5],
+		[0.2, 0.25],
+		[0.8, 0.25],
+		[0.2, 0.75],
+		[0.8, 0.75],
+	].every(([fx = 0.5, fy = 0.5]) => {
+		const x = box.left + box.width * fx;
+		const y = box.top + box.height * fy;
+		const onScreen = x >= 0 && y >= 0 && x < window.innerWidth && y < window.innerHeight;
+		return onScreen && document.elementFromPoint(x, y) === element;
+	});
 }
 
+/** Everything that must hold for a field at the moment it is offered, and again at the moment it is filled. */
+const isFillable = (element: FormControl) =>
+	element.isConnected &&
+	!SKIPPED_TYPES.has(element.type) &&
+	!element.disabled &&
+	(element instanceof HTMLSelectElement || !element.readOnly) &&
+	isVisible(element) &&
+	isHittable(element);
+
 /**
- * Tags every visible, fillable control on the page with an id and describes it. The ids carry a random
- * token made for this pass, so approved values can only ever land in the page and the pass they were
- * reviewed for: on any other page, or after another pass, no element has them.
+ * Finds every field on the page that a person could see and click into, and describes it. Checking that
+ * means scrolling each field into view, so the page is put back where it was afterwards. Ids are random
+ * per scan: values approved for one scan match nothing after another, or on another page.
  */
 export function extractFormFields(): FormField[] {
 	const fields: FormField[] = [];
 	const pass = crypto.randomUUID();
+	const { scrollX, scrollY } = window;
+	scanned = new Map();
 
 	for (const element of document.querySelectorAll<FormControl>("input, textarea, select")) {
-		element.removeAttribute(FIELD_ID);
-		if (SKIPPED_TYPES.has(element.type) || element.disabled || !isVisible(element)) continue;
-		if (!(element instanceof HTMLSelectElement) && element.readOnly) continue;
-		// Fields below the fold cannot be hit-tested yet; applyAutofill scrolls to each one and insists on it.
-		if (hitTest(element) === "no") continue;
+		if (!isFillable(element)) continue;
 
 		const id = `rx-${pass}-${fields.length}`;
-		element.setAttribute(FIELD_ID, id);
+		const label = labelOf(element).slice(0, 300);
+		scanned.set(id, { element, label });
 
 		fields.push({
 			id,
-			label: labelOf(element).slice(0, 300),
+			label,
 			tagName: element.tagName.toLowerCase() as FormField["tagName"],
 			type: element.type,
 			...(element instanceof HTMLSelectElement
@@ -112,6 +145,7 @@ export function extractFormFields(): FormField[] {
 		});
 	}
 
+	window.scrollTo(scrollX, scrollY);
 	return fields;
 }
 
@@ -147,28 +181,26 @@ function score(element: FormControl, keys: string[]): number {
 
 /** Matches profile values to tagged fields by name, id and label. No network, no AI. */
 export function runHeuristics(profile: Profile): Suggestion[] {
-	const elements = Array.from(document.querySelectorAll<FormControl>(`[${FIELD_ID}]`));
-	const taken = new Set<FormControl>();
+	const taken = new Set<string>();
 	const suggestions: Suggestion[] = [];
 
 	for (const { keys, value } of profileValues(profile)) {
 		if (!value) continue;
 
-		let best: FormControl | undefined;
+		let best: string | undefined;
 		let bestScore = 5; // a single loose match is not enough
-		for (const element of elements) {
-			if (taken.has(element) || element instanceof HTMLSelectElement) continue;
+		for (const [id, { element }] of scanned) {
+			if (taken.has(id) || element instanceof HTMLSelectElement) continue;
 			const elementScore = score(element, keys);
 			if (elementScore > bestScore) {
-				best = element;
+				best = id;
 				bestScore = elementScore;
 			}
 		}
 
-		const id = best?.getAttribute(FIELD_ID);
-		if (best && id) {
+		if (best) {
 			taken.add(best);
-			suggestions.push({ id, value });
+			suggestions.push({ id: best, value });
 		}
 	}
 
@@ -213,24 +245,18 @@ export function toSuggestions(answers: Answer[], fields: FormField[]): (Suggesti
 
 /**
  * Writes approved values into their fields, the way typing would, so framework-controlled inputs notice.
- * Each field is scrolled into view and must then be the thing under its own centre: the same test a
- * person's click would have to pass. A field that fails it is left empty.
+ * Every check made when the field was offered is made again here, immediately before the write, and the
+ * field must still carry the label the user approved the value for. A field that fails is left empty.
  */
 export function applyAutofill(suggestions: Suggestion[]): number {
-	// Looked up by comparing the attribute, so an id is never interpolated into a selector.
-	const tagged = new Map(
-		Array.from(document.querySelectorAll<FormControl>(`[${FIELD_ID}]`), (element) => [
-			element.getAttribute(FIELD_ID),
-			element,
-		]),
-	);
+	const { scrollX, scrollY } = window;
 	let filled = 0;
 
 	for (const { id, value } of suggestions) {
-		const element = tagged.get(id);
-		if (!element || SKIPPED_TYPES.has(element.type) || element.disabled || !isVisible(element)) continue;
-		element.scrollIntoView({ block: "center", behavior: "instant" });
-		if (hitTest(element) !== "yes") continue;
+		const field = scanned.get(id);
+		if (!field) continue;
+		const { element, label } = field;
+		if (labelOf(element).slice(0, 300) !== label || !isFillable(element)) continue;
 
 		// React and friends replace the instance's value property; the prototype's setter reaches the real one.
 		const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(element), "value")?.set;
@@ -241,5 +267,6 @@ export function applyAutofill(suggestions: Suggestion[]): number {
 		filled++;
 	}
 
+	window.scrollTo(scrollX, scrollY);
 	return filled;
 }
