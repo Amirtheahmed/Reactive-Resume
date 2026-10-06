@@ -16,7 +16,7 @@ TARGET
 LIMITS
 - experience: at most 6 entries. Include every job from the last 10 years so the timeline has no unexplained gap; drop older or irrelevant ones only to save space. Always keep the current job.
 - bullets: 3 to 5 for each of the three most recent jobs, 1 to 3 for older ones. One or two lines each.
-- projects: at most 3. Take them from <profile>.sections.projects by id, or from <profile>.background when it describes personal projects, labs or open source work: then omit "id" and give the project's "name" as written there. Use 2 to 3 bullets each and end with a "<p>Tech: …</p>" line. No projects is fine if the profile has none.
+- projects: at most 3. Take them from <profile>.sections.projects by id, or from <profile>.background when it describes personal projects, labs or open source work: then omit "id" and give as "name" the project's heading exactly as written there (a project without a heading or bold title cannot be used). Use 2 to 3 bullets each and end with a "<p>Tech: …</p>" line. No projects is fine if the profile has none.
 - skills: only skills present in the profile, grouped into at most 6 categories (for example name "Backend", keywords ["Node.js", "PostgreSQL"]), most relevant first, at most 10 keywords per category.
 - education: one entry per degree in the profile with its id. description is an empty string, or one short "<p>…</p>" line for a thesis title or a focus area that matters for the target. Never a paragraph.
 - summary: 2 to 3 sentences as "<p>…</p>": seniority and total years of experience (count from the first job to today), the domains worked in, the core stack, and one standout result. Third person without a subject ("Senior engineer with…"), no "I".

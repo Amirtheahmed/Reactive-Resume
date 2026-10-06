@@ -100,8 +100,9 @@ describe("applyTailoring", () => {
 			tailoringSchema.parse({
 				experience: [{ id: first.id, description: "" }],
 				projects: [
-					{ name: "Homelab", description: "<ul><li>Built a cluster</li></ul>" },
+					{ name: "homelab ", description: "<ul><li>Built a cluster</li></ul>" },
 					{ name: "Invented Startup", description: "<ul><li>Not in the notes</li></ul>" },
+					{ name: "k3s cluster", description: "<ul><li>A phrase from the notes, not a title</li></ul>" },
 					{ name: "No description" },
 					{ id: "not-in-master", name: "", description: "<ul><li>Nameless</li></ul>" },
 				],

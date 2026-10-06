@@ -26,6 +26,12 @@ export async function getMasterResume(userId: string) {
 	return resumeService.getById({ id: latest.id, userId });
 }
 
+/** The custom sections a model may read. References, whatever kind of section they were typed into, are someone else's details. */
+const backgroundSections = (data: ResumeData) =>
+	data.customSections.filter(
+		(section) => !section.hidden && section.type !== "references" && !/referen/i.test(section.title),
+	);
+
 type ProfileOptions = {
 	/**
 	 * Whether to include the custom sections (the candidate's FAQ, preferences, notes). Leave them out
@@ -49,15 +55,12 @@ export function profileForPrompt(data: ResumeData, { background: withBackground 
 	);
 	// Custom sections hold what the standard ones cannot: an FAQ, preferences, extra projects. They are
 	// background for the model, so they are sent whole, apart from anyone else's contact details.
-	const background = (withBackground ? data.customSections : [])
-		// References, whatever kind of section they were typed into, are someone else's details.
-		.filter((section) => !section.hidden && section.type !== "references" && !/referen/i.test(section.title))
-		.map((section) => ({
-			title: section.title,
-			items: (section.items as Record<string, unknown>[])
-				.filter((item) => !item.hidden)
-				.map(({ id: _id, hidden: _hidden, icon: _icon, iconColor: _iconColor, ...item }) => item),
-		}));
+	const background = (withBackground ? backgroundSections(data) : []).map((section) => ({
+		title: section.title,
+		items: (section.items as Record<string, unknown>[])
+			.filter((item) => !item.hidden)
+			.map(({ id: _id, hidden: _hidden, icon: _icon, iconColor: _iconColor, ...item }) => item),
+	}));
 	const { name, headline, email, phone, location, website, customFields } = data.basics;
 	return JSON.stringify({
 		basics: {
@@ -179,29 +182,32 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 	data.sections.experience.items = experience;
 
 	const masterProjects = data.sections.projects.items;
-	// A project without an id must be named in the candidate's own notes: the model cannot add one of its own
-	// (or one a job posting asked for).
+	// A project without an id must be a heading (or bold title) in the notes the model was shown: the model
+	// cannot add one of its own, or lift an arbitrary phrase out of the notes into a title.
 	const normalize = (text: string) => text.toLowerCase().replace(/\s+/g, " ").trim();
-	const notes = normalize(
-		sanitizeHtml(
-			data.customSections
-				.filter((section) => !section.hidden)
-				.flatMap((section) => (section.items as { hidden: boolean }[]).filter((item) => !item.hidden))
-				.map((item) => Object.values(item).join(" "))
-				.join(" "),
-			{ allowedTags: [], allowedAttributes: {} },
-		),
-	);
-	const inNotes = (name: string) => name.length >= 3 && notes.includes(normalize(name));
+	const titles = new Map<string, string>();
+	for (const section of backgroundSections(data)) {
+		for (const item of section.items as Record<string, unknown>[]) {
+			if (item.hidden) continue;
+			for (const value of Object.values(item)) {
+				if (typeof value !== "string") continue;
+				for (const node of parseHtml(value).querySelectorAll("h1,h2,h3,h4,h5,h6,strong,b")) {
+					const title = node.textContent.replace(/\s+/g, " ").trim().slice(0, 100);
+					if (title.length >= 3) titles.set(normalize(title), title);
+				}
+			}
+		}
+	}
 	data.sections.projects.items = tailoring.projects.flatMap(({ id, name, description }) => {
 		const item = masterProjects.find((candidate) => candidate.id === id && !candidate.hidden);
 		if (item) return [{ ...item, description: description || item.description }];
-		if (!inNotes(name) || !description.trim()) return [];
+		const title = titles.get(normalize(name));
+		if (!title || !description.trim()) return [];
 		return [
 			projectItemSchema.parse({
 				id: generateId(),
 				hidden: false,
-				name,
+				name: title,
 				period: "",
 				website: { url: "", label: "" },
 				description,
