@@ -28,6 +28,11 @@ type BankStore = {
 	edit: (recipe: (draft: InformationBank) => InformationBank | void) => void;
 	/** Saves everything typed so far. False on failure; the edits remain for a retry. */
 	flush: () => Promise<boolean>;
+	/**
+	 * Says who is signed in. A bank held for anyone else is dropped on the spot, unsaved edits included: it must
+	 * never be shown to, or saved into, another account.
+	 */
+	claim: (userId: string) => void;
 	reset: () => void;
 };
 
@@ -35,6 +40,8 @@ let timer: ReturnType<typeof setTimeout> | undefined;
 let inflight: Promise<void> | null = null;
 /** Raised by load and reset, so a save that answers after either is ignored. */
 let visit = 0;
+/** The signed-in account, as last reported by claim. A save only goes out for a bank this account owns. */
+let signedIn: string | null = null;
 
 export const useBankStore = create<BankStore>()((set, get) => ({
 	bank: null,
@@ -47,6 +54,7 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 	load: (bank, revision, owner) => {
 		clearTimeout(timer);
 		visit += 1;
+		signedIn = owner;
 		set({ bank, owner, revision, dirty: false, status: "saved" });
 	},
 
@@ -65,7 +73,12 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 		if (inflight) await inflight;
 		if (visit !== started) return false;
 
-		const { bank, revision, dirty, status } = get();
+		const { bank, owner, revision, dirty, status } = get();
+		// The request is authorised by whoever is signed in now, so a bank loaded for someone else stays here.
+		if (bank && owner !== signedIn) {
+			get().reset();
+			return false;
+		}
 		if (!bank || !dirty || status === "conflict") return status === "saved";
 
 		set({ dirty: false, status: "saving" });
@@ -88,6 +101,12 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 		if (visit !== started) return false;
 		if (get().status === "saving" && get().dirty) return get().flush();
 		return get().status === "saved";
+	},
+
+	claim: (userId) => {
+		signedIn = userId;
+		const { owner } = get();
+		if (owner && owner !== userId) get().reset();
 	},
 
 	reset: () => {

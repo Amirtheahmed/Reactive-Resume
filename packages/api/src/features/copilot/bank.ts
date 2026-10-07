@@ -1,6 +1,6 @@
 import type { InformationBank } from "@reactive-resume/schema/resume/information-bank";
 import { ORPCError } from "@orpc/client";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import z from "zod";
 import { db } from "@reactive-resume/db/client";
 import { informationBank } from "@reactive-resume/db/schema";
@@ -28,15 +28,17 @@ export async function getBank(userId: string) {
 
 /** Saves the whole bank, unless it changed since the revision the caller last read. */
 async function saveBank(userId: string, data: InformationBank, expectedRevision: number) {
-	const [row] = await db
-		.insert(informationBank)
-		.values({ userId, data })
-		.onConflictDoUpdate({
-			target: informationBank.userId,
-			set: { data, revision: sql`${informationBank.revision} + 1` },
-			setWhere: eq(informationBank.revision, expectedRevision),
-		})
-		.returning({ revision: informationBank.revision, updatedAt: informationBank.updatedAt });
+	const saved = { revision: informationBank.revision, updatedAt: informationBank.updatedAt };
+	// A row is only created by a first save (revision 0). A save that names a later revision must find that
+	// row: otherwise a client still holding another account's bank could create this one from it.
+	const [row] =
+		expectedRevision === 0
+			? await db.insert(informationBank).values({ userId, data }).onConflictDoNothing().returning(saved)
+			: await db
+					.update(informationBank)
+					.set({ data, revision: sql`${informationBank.revision} + 1` })
+					.where(and(eq(informationBank.userId, userId), eq(informationBank.revision, expectedRevision)))
+					.returning(saved);
 	if (!row) {
 		throw new ORPCError("CONFLICT", {
 			message: "The Information Bank changed elsewhere. Reload it before saving again.",

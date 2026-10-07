@@ -38,6 +38,9 @@ import { getSectionTitle } from "@/libs/resume/section";
 
 const anchor = (id: string) => `bank-${id}`;
 
+/** How many times the page has been opened, so a save that ends after a return doesn't clear the new visit. */
+let visits = 0;
+
 /** Loads the bank into the editor, and saves what's pending before the page is left. */
 function useBankSession() {
 	const userId = useRouteContext({ from: "/dashboard" }).session.user.id;
@@ -51,6 +54,7 @@ function useBankSession() {
 	// The editor owns the bank from here. A later fetch only replaces it when it's newer and nothing is unsaved,
 	// so an answer that was already on its way can't put older text back.
 	useEffect(() => {
+		useBankStore.getState().claim(userId);
 		if (!data) return;
 		const { bank, owner, revision, dirty } = useBankStore.getState();
 		if (!bank || owner !== userId || (!dirty && data.revision > revision)) {
@@ -73,7 +77,20 @@ function useBankSession() {
 		enableBeforeUnload: () => useBankStore.getState().dirty || useBankStore.getState().status === "saving",
 	});
 
-	useEffect(() => () => void useBankStore.getState().flush(), []);
+	// Leaving saves what's pending. Once it is saved the bank is let go, so nothing of it outlives the page;
+	// unsaved edits stay for a retry, unless the page has been opened again in the meantime.
+	useEffect(() => {
+		visits += 1;
+		const visit = visits;
+		return () => {
+			void useBankStore
+				.getState()
+				.flush()
+				.then((saved) => {
+					if (saved && visits === visit) useBankStore.getState().reset();
+				});
+		};
+	}, []);
 
 	return { error, userId };
 }

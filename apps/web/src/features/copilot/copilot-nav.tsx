@@ -1,8 +1,10 @@
 import { t } from "@lingui/core/macro";
-import { Link, useMatchRoute } from "@tanstack/react-router";
+import { Link, useMatchRoute, useRouteContext } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Icon } from "@reactive-resume/ui/components/icon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@reactive-resume/ui/components/tooltip";
 import { cn } from "@reactive-resume/utils/style";
+import { useBankStore } from "./bank-store";
 import { useDialogStore } from "@/dialogs/store";
 
 // Fork feature: sidebar entries for the Information Bank (the full profile that tailored resumes, cover
@@ -22,6 +24,10 @@ type CopilotNavProps = {
 
 export function CopilotNav({ compact = false }: CopilotNavProps) {
 	const openDialog = useDialogStore((state) => state.openDialog);
+	// The shell is on every dashboard page, so this is where a change of account is noticed first: a bank still
+	// held for the previous one is dropped before anything can show or save it.
+	const userId = useRouteContext({ from: "/dashboard" }).session.user.id;
+	useEffect(() => useBankStore.getState().claim(userId), [userId]);
 	const current = Boolean(useMatchRoute()({ to: "/dashboard/information-bank", fuzzy: true }));
 	const bank = t`Information Bank`;
 	const tailor = t`Tailor to a job`;

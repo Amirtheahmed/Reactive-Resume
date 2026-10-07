@@ -36,6 +36,15 @@ it("sends what was typed during a save next, against the revision that save retu
 	expect(store()).toMatchObject({ revision: 5, status: "saved", dirty: false });
 });
 
+it("drops a bank, unsaved edits and all, once someone else is signed in", async () => {
+	rename("Theirs");
+	store().claim("someone-else");
+
+	expect(store()).toMatchObject({ bank: null, owner: null, dirty: false });
+	expect(await store().flush()).toBe(true);
+	expect(mocks.update).not.toHaveBeenCalled();
+});
+
 it("stops editing and saving after a conflict, keeping what was typed", async () => {
 	mocks.update.mockRejectedValueOnce(new ORPCError("CONFLICT"));
 
