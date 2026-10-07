@@ -810,6 +810,10 @@ msgstr "인증 추가"
 msgid "Add contact"
 msgstr "연락처 추가"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "소개서 추가"
@@ -854,6 +858,10 @@ msgstr "키워드 추가"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "언어 추가"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "이름을 추가하세요"
 msgid "Added {0} at {1}"
 msgstr "{1}에 {0}를 추가했습니다."
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "주소"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "백업 코드"
 msgid "Backup codes copied to clipboard."
 msgstr "백업 코드가 클립보드에 복사되었습니다."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "기치"
@@ -1647,6 +1668,7 @@ msgstr "테마를…로 변경하세요"
 msgid "Change this timeline entry."
 msgstr "이 타임라인 항목을 변경하세요."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "다른 곳에서 변경됨"
@@ -1994,6 +2016,16 @@ msgstr "연결이 저장되었습니다."
 msgid "Contact"
 msgstr "연락하다"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "PDF를 생성하지 못했습니다. 다시 시도하세요."
 msgid "Could not load connected applications."
 msgstr "연결된 애플리케이션을 로드할 수 없습니다."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "이력서를 인쇄용으로 준비하지 못했습니다. 다시 시도하세요."
@@ -2272,6 +2300,10 @@ msgstr "문서를 로드할 수 없습니다."
 msgid "Couldn't load the sample file. Try again."
 msgstr "샘플 파일을 로드할 수 없습니다. 다시 시도해 보세요."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "AI 제공업체에 연결할 수 없습니다. 해당 키가 만료되�
 msgid "Couldn't read that file."
 msgstr "해당 파일을 읽을 수 없습니다."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "이 페이지를 읽을 수 없습니다: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "제출을 기록할 수 없습니다. 다시 시도해 보세요."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "태그를 저장할 수 없습니다."
 msgid "Couldn't save your changes. Please try again."
 msgstr "변경사항을 저장할 수 없습니다. 다시 시도하세요."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "{0}를 생성하고 연결했습니다."
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "계정 삭제"
 msgid "Delete Account"
 msgstr "계정 삭제"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "항목 삭제"
@@ -3204,6 +3246,7 @@ msgstr "사설"
 msgid "Education"
 msgstr "학력"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "2단계 인증 설정을 확인하려면 비밀번호를 입력하세요
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "2단계 인증을 비활성화하려면 비밀번호를 입력하세요. 2단계 인증을 사용하지 않으면 계정 보안이 낮아집니다."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "항목이 삭제되었습니다."
@@ -3349,6 +3393,10 @@ msgstr "채용 공고에서 강조하는 모든 용어는 이미 존재합니다
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "당신이"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "이 계정 아카이브를 추출한 다음 이력서 또는 편지 폴�
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "해당 페이지의 PDF에서 발췌 · 읽는 순서"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "제목"
 msgid "Heading changed"
 msgstr "제목이 변경됨"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "헤드라인"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "이미지가 페이지의 대부분을 차지하고 있습니다."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "가져오기"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "이력서 가져오기"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "이력서를 가져오거나, 직업에 맞게 복사하거나, 공백으로 시작하세요."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "가져오기에 실패했습니다. CSV를 확인하고 다시 시도하세요."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "CSV에서 가져오기"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "CSV에서 가져오기…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "두 줄이 하나로 합쳐지지 않도록 줄 간격을 늘리세요."
 msgid "Indonesian"
 msgstr "인도네시아어"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "폰트는 두세 종류로 유지하세요. 폰트가 추가될수록 �
 msgid "Keep together"
 msgstr "함께 하세요"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "가장 구체적인 부분을 유지합니다."
@@ -4461,6 +4529,10 @@ msgstr "가장 구체적인 부분을 유지합니다."
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "그대로 유지"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "이렇게 가까운 줄은 읽을 때 함께 실행될 수 있습니다.
 msgid "Link"
 msgstr "링크"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Reactive Resume 연결 (권장)"
@@ -4879,6 +4955,7 @@ msgstr "합계 로드 중"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "적용됨으로 표시"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown 바로가기"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "{0}로 이동했습니다."
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "이력서에 없음"
 msgid "Not in your resume · add only if true"
 msgstr "이력서에 없음 · 사실인 경우에만 추가하세요"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "무엇을 써야 할지 모르겠나요?"
 msgid "Not true for me, hide it"
 msgstr "나에게는 사실이 아닙니다. 숨겨주세요."
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "아직 확인되지 않았습니다. 링크를 다시 보내세요"
@@ -5599,6 +5686,7 @@ msgstr "정보"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "이 내용은 나만 볼 수 있습니다."
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "공유하기 전까지는 오직 당신뿐입니다. 이력서는 비공개로 유지되거나 공개 링크에 게시되거나 비밀번호로 보호될 수 있으며 언제든지 변경할 수 있습니다. 계정을 삭제하면 해당 계정에 포함된 이력서도 삭제됩니다."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "원본 표 서식이 유지됩니다. 안전하게 편집할 수 없어 
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "기타 · OpenAI 호환"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "채용 링크나 채용 공고를 붙여넣은 후 역할과 회사를 �
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "채용 링크를 붙여넣으세요. 수표, 조수 및 귀하의 편지가 이를 사용할 수 있도록 채용 공고를 저장하겠습니다."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "채용 공고 붙여넣기…"
@@ -6069,6 +6166,7 @@ msgstr "모든 것을 영구적으로 제거합니다. 복사본을 원하면 �
 msgid "Persian"
 msgstr "페르시아어"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "거부하다"
 msgid "Rejected"
 msgstr "거부됨"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "새로고침"
@@ -6655,6 +6755,11 @@ msgstr "{value} 제거"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "연결 제거"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "다시 열다"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "{0} 재주문"
@@ -6864,6 +6970,10 @@ msgstr "이력서는 주제가 무엇이든 항상 백서에 렌더링됩니다.
 msgid "Resumes created"
 msgstr "이력서가 작성되었습니다."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "{0}를 검색했습니다. 보고되지 않는 한 원산지 신선도는 알 수 없습니다."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "다시 해 보다"
 msgid "Retry save"
 msgstr "저장 다시 시도"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "저장됨"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "{0}/{username}/{slug}… 저장 저장 후 복사가 가능합니다."
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "저장이 예상보다 오래 걸리고 있습니다. 변경 사항은 그대로 남아 있습니다."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "섹션 제목"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "섹션"
@@ -7850,6 +7965,10 @@ msgstr "각 항목을 구체적인 동사로 시작하세요: 구축했다, 이�
 msgid "Start from"
 msgstr "다음에서 시작"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "가지고 있는 것부터 시작하여 입사 지원서를 연결하세요."
@@ -7958,6 +8077,7 @@ msgstr "<0>models.dev</0>의 제안. 모델 ID를 입력할 수도 있습니다.
 msgid "Suggests cuts, never deletes on its own"
 msgstr "잘라내기를 제안하고 자체적으로 삭제하지 않습니다."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "직업 설명에 적응"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "연결 테스트 중…"
 msgid "Testing…"
 msgstr "테스트…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "텍스트"
@@ -8192,6 +8315,10 @@ msgstr "가장자리에 이렇게 가까운 텍스트는 잘릴 수 있습니다
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "{minimum} pt 아래의 텍스트는 시스템이 다시 렌더링할 때 잘못 읽힐 수 있습니다."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "이 로그인 시도는 만료되었거나 이미 사용되었습니다.
 msgid "This step is optional, but recommended."
 msgstr "이 단계는 선택 사항이지만 권장됩니다."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "스레드"
@@ -8675,6 +8806,7 @@ msgstr "한 페이지로 압축"
 msgid "Tip"
 msgstr "팁"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "제목"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "링크에 밑줄을 긋습니다"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "먼저 잠금을 해제하세요"
 msgid "Unnamed passkey"
 msgstr "이름 없는 패스키"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "샘플 사용"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "표준 제목을 사용하세요"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "웹 검색이 완료되지 않았습니다."
 msgid "Web search failed: {0}"
 msgstr "웹 검색 실패: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "웹사이트"
@@ -9428,6 +9568,10 @@ msgstr "어떤 언어를 사용하나요?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "내 이력서를 누가 볼 수 있나요?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "로그인이 완료되기 전에 취소했습니다."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "아직 복사할 이력서가 없습니다. 먼저 이력서를 가져오거나 만든 다음 돌아와서 이 직무에 맞게 복사하세요."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

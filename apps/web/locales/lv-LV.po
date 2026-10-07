@@ -810,6 +810,10 @@ msgstr "Pievienojiet sertifikātu"
 msgid "Add contact"
 msgstr "Pievienot kontaktu"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Pievienojiet pavadvēstuli"
@@ -854,6 +858,10 @@ msgstr "Pievienot atslēgvārdu"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Pievienojiet valodu"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Pievienojiet savu vārdu"
 msgid "Added {0} at {1}"
 msgstr "Pievienots {0} pie {1}"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Adrese"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Rezerves kods"
 msgid "Backup codes copied to clipboard."
 msgstr "Rezerves kodi ir nokopēti starpliktuvē."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Reklāmkarogs"
@@ -1647,6 +1668,7 @@ msgstr "Mainīt tēmu uz…"
 msgid "Change this timeline entry."
 msgstr "Mainiet šo laika skalas ierakstu."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Mainīts citur"
@@ -1994,6 +2016,16 @@ msgstr "Savienojums saglabāts"
 msgid "Contact"
 msgstr "Sazināties"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "Neizdevās izveidot PDF. Lūdzu, mēģiniet vēlreiz."
 msgid "Could not load connected applications."
 msgstr "Nevarēja ielādēt pievienotās lietojumprogrammas."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Neizdevās sagatavot jūsu CV drukāšanai. Lūdzu, mēģiniet vēlreiz."
@@ -2272,6 +2300,10 @@ msgstr "Nevarēja ielādēt dokumentus"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Nevarēja ielādēt parauga failu. Mēģiniet vēlreiz."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "Nevarēja sazināties ar jūsu AI nodrošinātāju. Iespējams, ka tās 
 msgid "Couldn't read that file."
 msgstr "Nevarēja nolasīt šo failu."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Nevarēja izlasīt šo lapu: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Nevarēja ierakstīt iesniegšanu. Mēģiniet vēlreiz."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Nevarēja saglabāt atzīmes."
 msgid "Couldn't save your changes. Please try again."
 msgstr "Neizdevās saglabāt izmaiņas. Lūdzu, mēģiniet vēlreiz."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Izveidots un saistīts ar {0}"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Dzēst kontu"
 msgid "Delete Account"
 msgstr "Dzēst kontu"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Dzēst ierakstu"
@@ -3204,6 +3246,7 @@ msgstr "Redakcija"
 msgid "Education"
 msgstr "Izglītība"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Ievadiet savu paroli, lai apstiprinātu divu faktoru autentifikācijas i
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Ievadiet savu paroli, lai deaktivētu divu faktoru autentifikāciju. Bez ieslēgtas 2FA jūsu konts būs mazāk drošs."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Ieraksts izdzēsts"
@@ -3349,6 +3393,10 @@ msgstr "Katrs termins, ko uzsver darba sludinājums, jau ir tur."
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Viss,"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Izņemiet šo konta arhīvu, pēc tam importējiet JSON failu no tā CV 
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Izvilkts no PDF lappusē · lasīšanas secība"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Virsraksts"
 msgid "Heading changed"
 msgstr "Virsraksts mainīts"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Īss apraksts"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Attēli aizņem lielāko daļu lapas."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Importēt"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Importējiet CV"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Importējiet CV, kopējiet to darbam vai sāciet tukšu."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Importēšana neizdevās. Pārbaudiet CSV un mēģiniet vēlreiz."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "Importēt no CSV"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "Importēt no CSV…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Palieliniet rindstarpu, lai divas rindas nesaplūstu vienā."
 msgid "Indonesian"
 msgstr "Indonēziešu"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Izmantojiet ne vairāk kā divas vai trīs fontu saimes. Katrs papildu f
 msgid "Keep together"
 msgstr "Turēties kopā"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Saglabā visspecifiskākās daļas"
@@ -4461,6 +4529,10 @@ msgstr "Saglabā visspecifiskākās daļas"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Saglabāts kā ir"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Lasot tik tuvu rindas, var iet kopā. Izmantojiet vismaz {minimum}."
 msgid "Link"
 msgstr "Saite"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Saistīt Reactive Resume (ieteicams)"
@@ -4879,6 +4955,7 @@ msgstr "Notiek kopsummas ielāde"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Atzīmēt kā lietotu"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown īsceļi ieslēgti"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "Pārvietots uz {0}"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Nav jūsu CV"
 msgid "Not in your resume · add only if true"
 msgstr "Nav jūsu CV · pievienojiet tikai tad, ja patiess"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Neesat pārliecināts, ko rakstīt?"
 msgid "Not true for me, hide it"
 msgstr "Man nav taisnība, slēpiet to"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Vēl nav pārbaudīts. Atkārtoti nosūtīt saiti"
@@ -5599,6 +5686,7 @@ msgstr "Informācija"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Tikai jūs tos redzat"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Tikai jūs, līdz jūs to kopīgojat. CV var palikt privāts, publicēt, izmantojot publisku saiti, vai būt aizsargāts ar paroli, un jūs to varat mainīt jebkurā laikā. Dzēšot kontu, tiek dzēsti arī jūsu CV."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Oriģinālais tabulas formatējums ir saglabāts. Šis saturs ir tikai l
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Cits · Saderīgs ar OpenAI"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Ielīmējiet darba saiti vai darba sludinājumu, pēc tam pārbaudiet lo
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Ielīmējiet darba saiti. Mēs saglabāsim darba sludinājumu, lai to varētu izmantot Check, asistents un jūsu vēstule."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Ielīmējiet darba sludinājumu…"
@@ -6069,6 +6166,7 @@ msgstr "Neatgriezeniski noņem visu. Vispirms eksportējiet, ja vēlaties kopiju
 msgid "Persian"
 msgstr "Persiešu"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Noraidīt"
 msgid "Rejected"
 msgstr "Noraidīts"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Pārlādēt"
@@ -6655,6 +6755,11 @@ msgstr "Noņemiet {value}"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Noņemiet savienojumu"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Atkārtoti atvērt"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "Pārkārtot {0}"
@@ -6864,6 +6970,10 @@ msgstr "CV vienmēr renderē uz balta papīra neatkarīgi no tēmas."
 msgid "Resumes created"
 msgstr "izveidoti CV"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Iegūts {0}. Izcelsmes svaigums nav zināms, ja vien nav ziņots."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Mēģināt vēlreiz"
 msgid "Retry save"
 msgstr "Mēģiniet vēlreiz saglabāt"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "saglabāts"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Saglabā {0}/{username}/{slug}… Pēc saglabāšanas ir pieejama kopija
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Saglabāšana aizņem ilgāku laiku, nekā paredzēts. Jūsu izmaiņas joprojām ir atvērtas."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Sadaļu virsraksti"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Sadaļas"
@@ -7850,6 +7965,10 @@ msgstr "Sāciet katru ar konkrētu darbības vārdu: izveidoja, vadīja, samazin
 msgid "Start from"
 msgstr "Sāciet no"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Sāciet ar vienu, kas jums ir, un saistiet darba pieteikumu."
@@ -7958,6 +8077,7 @@ msgstr "Ieteikumi no <0>models.dev</0>. Varat arī ievadīt jebkuru modeļa ID."
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Iesaka samazinājumus, nekad neizdzēš pats"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Pielāgojiet darba aprakstam"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Notiek savienojuma pārbaude…"
 msgid "Testing…"
 msgstr "Testēšana…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Teksts"
@@ -8192,6 +8315,10 @@ msgstr "Tekstu tik tuvu malai var nogriezt. Izmantojiet vismaz {minimum} pt."
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "Teksts zem {minimum} pt var tikt nepareizi nolasīts, kad sistēma to atkārtoti renderē."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Šī pieteikšanās mēģinājuma termiņš ir beidzies vai tas jau ir i
 msgid "This step is optional, but recommended."
 msgstr "Šis solis nav obligāts, taču ieteicams."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Pavedieni"
@@ -8675,6 +8806,7 @@ msgstr "Pievelciet līdz vienai lapai"
 msgid "Tip"
 msgstr "Padoms"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Nosaukums"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Pasvītrot saites"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Vispirms atbloķējiet to"
 msgid "Unnamed passkey"
 msgstr "Nenosaukta piekļuves atslēga"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Izmantot paraugu"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Izmantojiet standarta virsrakstu"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Meklēšana tīmeklī netika pabeigta."
 msgid "Web search failed: {0}"
 msgstr "Meklēšana tīmeklī neizdevās: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Tīmekļa vietne"
@@ -9428,6 +9568,10 @@ msgstr "Kurās valodās tas runā?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Kas var redzēt manu CV?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Jūs atcēlāt pieteikšanos, pirms tā tika pabeigta."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Jums vēl nav CV, ko kopēt. Vispirms importējiet vai izveidojiet CV, pēc tam atgriezieties, lai kopētu to šim darbam."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

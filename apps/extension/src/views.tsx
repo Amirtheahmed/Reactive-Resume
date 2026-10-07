@@ -43,7 +43,7 @@ export function ConnectView({ onConnect }: ConnectViewProps) {
 			await api.profile(apiKey);
 			onConnect(apiKey);
 		} catch (cause) {
-			// 400 means the key works but no resume is tagged "master" yet: connect, and the panel says so.
+			// 400 means the key works but the Information Bank is still empty: connect, and the panel says so.
 			if (cause instanceof ApiError && cause.status === 400) onConnect(apiKey);
 			else if (cause instanceof ApiError && (cause.status === 401 || cause.status === 403))
 				setError("That API key was not accepted. Check it and try again.");

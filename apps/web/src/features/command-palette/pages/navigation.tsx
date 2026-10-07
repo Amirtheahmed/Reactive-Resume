@@ -49,6 +49,7 @@ export function NavigationCommandGroup() {
 					<Trans>New document</Trans>
 				</CommandItem>
 
+				{/* Fork: tailoring and the Information Bank. */}
 				<CommandItem
 					disabled={!session}
 					keywords={[t`Tailor`, t`Generate`, t`Job`]}
@@ -60,6 +61,16 @@ export function NavigationCommandGroup() {
 				>
 					<Icon name="auto_fix_high" size={16} />
 					<Trans>Tailor a resume to a job</Trans>
+				</CommandItem>
+
+				<CommandItem
+					disabled={!session}
+					keywords={[t`Profile`, t`Master`, t`Bank`]}
+					value="navigation.information-bank"
+					onSelect={() => onNavigate("/dashboard/information-bank")}
+				>
+					<Icon name="bookmark" size={16} />
+					<Trans>Information Bank</Trans>
 				</CommandItem>
 
 				<CommandItem

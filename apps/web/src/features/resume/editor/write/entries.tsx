@@ -21,7 +21,13 @@ import { IconPicker } from "@/components/input/icon-picker";
 
 export type PageSettings = { locale: string; dateFormat?: DateFormat | undefined };
 
-type FieldSetProps = { entry: Entry; write: EntryWriter; page: PageSettings };
+type FieldSetProps = {
+	entry: Entry;
+	write: EntryWriter;
+	page: PageSettings;
+	/** Fork: only what an entry says, not how it prints: no icons, link placement or AI rewriting (Information Bank). */
+	contentOnly?: boolean | undefined;
+};
 
 type Values = Record<string, unknown> & {
 	website?: Website & { inlineLink?: boolean };
@@ -76,11 +82,12 @@ function Dates({ entry, write, page, single }: FieldSetProps & { single?: boolea
 	);
 }
 
-function Link({ entry, write }: FieldSetProps) {
+function Link({ entry, write, contentOnly }: FieldSetProps) {
 	const website = valuesOf(entry).website ?? { url: "", label: "", inlineLink: false };
 	return (
 		<WebsiteField
 			value={website}
+			allowInlineLink={!contentOnly}
 			onChange={(value) =>
 				write("website", (target) => {
 					target.website = value;
@@ -95,12 +102,14 @@ function Description({
 	write,
 	field = "description",
 	label,
+	contentOnly,
 }: FieldSetProps & { field?: string; label?: string }) {
 	return (
 		<div className="col-span-full grid gap-1.5">
 			<span className="text-[13px] leading-4 font-medium">{label ?? t`Description`}</span>
 			<RichTextEditor
 				label={label ?? t`Description`}
+				improve={!contentOnly}
 				value={str(valuesOf(entry)[field])}
 				onChange={(html) =>
 					write(field, (target) => {
@@ -160,8 +169,9 @@ function Level({ entry, write }: FieldSetProps) {
 }
 
 /** The icon printed before the entry, and its colour (blank uses the template's). */
-function IconAndColor({ entry, write }: FieldSetProps) {
+function IconAndColor({ entry, write, contentOnly }: FieldSetProps) {
 	const values = valuesOf(entry);
+	if (contentOnly) return null;
 	return (
 		<div className="col-span-full flex items-center gap-2">
 			<IconPicker
@@ -197,7 +207,7 @@ function IconAndColor({ entry, write }: FieldSetProps) {
 	);
 }
 
-function Roles({ entry, write, page }: FieldSetProps) {
+function Roles({ entry, write, page, contentOnly }: FieldSetProps) {
 	const roles = valuesOf(entry).roles ?? [];
 
 	const writeRoles = (key: string, mutate: (roles: RoleItem[]) => void) =>
@@ -269,6 +279,7 @@ function Roles({ entry, write, page }: FieldSetProps) {
 						</span>
 						<RichTextEditor
 							label={t`Description of role ${index + 1}`}
+							improve={!contentOnly}
 							value={role.description}
 							onChange={(html) =>
 								writeRoles(`${role.id}:description`, (list) => {
@@ -303,12 +314,16 @@ function Roles({ entry, write, page }: FieldSetProps) {
 	);
 }
 
+const NoOptions = () => null;
+
 /** The fields each entry type edits, in a two-column grid. The first field takes focus on a new draft. */
 export function EntryFields({
 	type,
 	autoFocus,
 	...props
 }: FieldSetProps & { type: CustomSectionType; autoFocus?: boolean | undefined }) {
+	// Fork: a group that would only hold the icon and colour is left out entirely for content-only entries.
+	const IconOptions = props.contentOnly ? NoOptions : MoreOptions;
 	switch (type) {
 		case "experience":
 			return (
@@ -371,9 +386,9 @@ export function EntryFields({
 				<>
 					<Text {...props} field="name" label={<Trans>Name</Trans>} wide autoFocus={autoFocus} />
 					<Keywords {...props} label={<Trans>Keywords</Trans>} />
-					<MoreOptions>
+					<IconOptions>
 						<IconAndColor {...props} />
-					</MoreOptions>
+					</IconOptions>
 				</>
 			);
 		case "awards":
@@ -432,9 +447,9 @@ export function EntryFields({
 					<Text {...props} field="network" label={<Trans>Network</Trans>} autoFocus={autoFocus} />
 					<Text {...props} field="username" label={<Trans>Username</Trans>} />
 					<Link {...props} />
-					<MoreOptions>
+					<IconOptions>
 						<IconAndColor {...props} />
-					</MoreOptions>
+					</IconOptions>
 				</>
 			);
 		case "summary":

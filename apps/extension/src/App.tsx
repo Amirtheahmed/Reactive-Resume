@@ -83,7 +83,7 @@ export function App() {
 	const prepareAutofill = () =>
 		run("autofill", async () => {
 			if (!apiKey || !job) return;
-			if (!profile) throw new Error('No master resume found. Add the tag "master" to your full resume.');
+			if (!profile) throw new Error("Your Information Bank is empty. Add your details to it in Reactive Resume.");
 
 			const tabId = await activeTabId();
 			const { fields, heuristic } = await askPage<PreparedAutofill>(tabId, { type: "PREPARE_AUTOFILL", profile });

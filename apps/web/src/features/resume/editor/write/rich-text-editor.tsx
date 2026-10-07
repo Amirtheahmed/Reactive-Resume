@@ -93,6 +93,8 @@ type RichTextEditorProps = {
 	id?: string;
 	/** Replaces the text area's default height (88px to 360px). */
 	heightClassName?: string;
+	/** Fork: whether to offer the AI "Improve" action. Off where the text is source material, not resume copy. */
+	improve?: boolean;
 };
 
 /**
@@ -108,6 +110,7 @@ export function RichTextEditor({
 	className,
 	id,
 	heightClassName = "max-h-[360px] min-h-[88px]",
+	improve = true,
 }: RichTextEditorProps) {
 	const [focused, setFocused] = useState(false);
 	const toolbar = useRef<HTMLDivElement>(null);
@@ -205,6 +208,7 @@ export function RichTextEditor({
 				className={cn(
 					"ms-auto flex shrink-0 items-center gap-1.5 rounded-md bg-accent-soft px-2.5 text-xs font-semibold text-accent-text transition-[filter] duration-quick hover:brightness-95 disabled:opacity-50",
 					mobile ? "h-11" : "h-8",
+					!improve && "hidden",
 				)}
 			>
 				<Icon name="auto_awesome" size={16} />

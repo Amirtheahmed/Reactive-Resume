@@ -810,6 +810,10 @@ msgstr "Tambahkan sertifikasi"
 msgid "Add contact"
 msgstr "Tambah kontak"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Tambahkan surat lamaran"
@@ -854,6 +858,10 @@ msgstr "Tambahkan kata kunci"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Tambahkan bahasa"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Tambahkan nama Anda"
 msgid "Added {0} at {1}"
 msgstr "Menambahkan {0} di {1}"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Alamat"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Kode cadangan"
 msgid "Backup codes copied to clipboard."
 msgstr "Kode cadangan disalin ke papan klip."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Spanduk"
@@ -1647,6 +1668,7 @@ msgstr "Ubah tema menjadi…"
 msgid "Change this timeline entry."
 msgstr "Ubah entri garis waktu ini."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Berubah di tempat lain"
@@ -1994,6 +2016,16 @@ msgstr "Koneksi disimpan"
 msgid "Contact"
 msgstr "Kontak"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "Tidak dapat membuat PDF. Silakan coba lagi."
 msgid "Could not load connected applications."
 msgstr "Tidak dapat memuat aplikasi yang terhubung."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Tidak dapat menyiapkan resume Anda untuk dicetak. Silakan coba lagi."
@@ -2272,6 +2300,10 @@ msgstr "Tidak dapat memuat dokumen"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Tidak dapat memuat file sampel. Coba lagi."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "Tidak dapat menghubungi penyedia AI Anda. Kuncinya mungkin telah kedaluw
 msgid "Couldn't read that file."
 msgstr "Tidak dapat membaca file itu."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Tidak dapat membaca halaman ini: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Tidak dapat merekam pengiriman. Coba lagi."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Tidak dapat menyimpan tag."
 msgid "Couldn't save your changes. Please try again."
 msgstr "Tidak dapat menyimpan perubahan. Coba lagi."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Dibuat dan ditautkan ke {0}"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Hapus akun"
 msgid "Delete Account"
 msgstr "Hapus Akun"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Hapus entri"
@@ -3204,6 +3246,7 @@ msgstr "Tajuk rencana"
 msgid "Education"
 msgstr "Pendidikan"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Masukkan kata sandi Anda untuk mengonfirmasi pengaturan autentikasi dua 
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Masukkan kata sandi Anda untuk menonaktifkan autentikasi dua faktor. Akun Anda akan menjadi kurang aman tanpa 2FA diaktifkan."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Entri dihapus"
@@ -3349,6 +3393,10 @@ msgstr "Setiap istilah yang ditekankan dalam lowongan pekerjaan sudah ada."
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Semua"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Ekstrak arsip akun ini, lalu impor file JSON dari folder resume atau sur
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Diekstraksi dari PDF di halaman · urutan membaca"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Judul"
 msgid "Heading changed"
 msgstr "Judul diubah"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Headline"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Gambar menutupi sebagian besar halaman."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Impor"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Impor resume"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Impor resume, salin resume untuk suatu pekerjaan, atau mulai dengan blanko."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Impor gagal. Periksa CSV dan coba lagi."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "Impor dari CSV"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "Impor dari CSV…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Tambah spasi antar baris agar dua baris tidak menyatu menjadi satu."
 msgid "Indonesian"
 msgstr "Indonesia"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Batasi hingga dua atau tiga keluarga font. Setiap font tambahan adalah p
 msgid "Keep together"
 msgstr "Tetap bersatu"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Menyimpan bagian yang paling spesifik"
@@ -4461,6 +4529,10 @@ msgstr "Menyimpan bagian yang paling spesifik"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Tetap apa adanya"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Garis sedekat ini dapat berjalan bersamaan saat dibaca. Gunakan setidakn
 msgid "Link"
 msgstr "Tautan"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Tautkan Reactive Resume (disarankan)"
@@ -4879,6 +4955,7 @@ msgstr "Memuat totalnya"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Tandai sebagai diterapkan"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Pintasan Markdown aktif"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "Dipindahkan ke {0}"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Tidak ada dalam resume Anda"
 msgid "Not in your resume · add only if true"
 msgstr "Tidak ada dalam resume Anda · tambahkan hanya jika benar"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Tidak yakin harus menulis apa?"
 msgid "Not true for me, hide it"
 msgstr "Bagi saya itu tidak benar, sembunyikan saja"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Belum diverifikasi. Kirim ulang tautannya"
@@ -5599,6 +5686,7 @@ msgstr "Informasi"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Hanya Anda yang melihat ini"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Hanya kamu, sampai kamu membagikannya. Resume dapat tetap bersifat pribadi, ditayangkan di tautan publik, atau dilindungi dengan kata sandi, dan Anda dapat mengubahnya kapan saja. Menghapus akun Anda juga akan menghapus resume Anda."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Format tabel asli dipertahankan. Konten ini bersifat read-only karena ti
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Lainnya · Kompatibel dengan OpenAI"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Tempelkan tautan pekerjaan atau postingan pekerjaan, lalu periksa peran 
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Tempel tautan pekerjaan. Kami akan menyimpan postingan pekerjaan sehingga Periksa, asisten dan surat Anda dapat menggunakannya."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Tempelkan postingan pekerjaan…"
@@ -6069,6 +6166,7 @@ msgstr "Menghapus semuanya secara permanen. Ekspor terlebih dahulu jika Anda ing
 msgid "Persian"
 msgstr "Persia"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Menolak"
 msgid "Rejected"
 msgstr "Ditolak"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Muat ulang"
@@ -6655,6 +6755,11 @@ msgstr "Hapus {value}"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Hapus koneksi"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Buka kembali"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "Susun ulang {0}"
@@ -6864,6 +6970,10 @@ msgstr "resume selalu ditampilkan di kertas putih, apa pun temanya."
 msgid "Resumes created"
 msgstr "resume dibuat"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Diambil {0}. Kesegaran asal tidak diketahui kecuali dilaporkan."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Mencoba kembali"
 msgid "Retry save"
 msgstr "Coba simpan lagi"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "disimpan"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Menyimpan {0}/{username}/{slug}… Salinan tersedia setelah disimpan."
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Penghematan membutuhkan waktu lebih lama dari yang diperkirakan. Perubahan Anda masih terbuka."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Judul bagian"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Bagian"
@@ -7850,6 +7965,10 @@ msgstr "Mulai setiap poin dengan kata kerja yang konkret: membangun, memimpin, m
 msgid "Start from"
 msgstr "Mulai dari"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Mulailah dari yang Anda miliki dan tautkan lamaran pekerjaan."
@@ -7958,6 +8077,7 @@ msgstr "Saran dari <0>models.dev</0>. Anda juga dapat memasukkan ID model apa pu
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Menyarankan pemotongan, tidak pernah menghapus sendiri"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Sesuaikan dengan deskripsi pekerjaan"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Menguji koneksi…"
 msgid "Testing…"
 msgstr "Pengujian…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Teks"
@@ -8192,6 +8315,10 @@ msgstr "Teks sedekat ini dengan tepi dapat terpotong. Gunakan setidaknya {minimu
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "Teks di bawah {minimum} pt dapat salah dibaca ketika sistem merendernya ulang."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Upaya masuk ini kedaluwarsa atau sudah digunakan. Silakan mulai lagi."
 msgid "This step is optional, but recommended."
 msgstr "Langkah ini opsional, tetapi direkomendasikan."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Utas"
@@ -8675,6 +8806,7 @@ msgstr "Kencangkan menjadi satu halaman"
 msgid "Tip"
 msgstr "Tips"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Judul"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Garis bawahi tautan"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Buka kuncinya terlebih dahulu"
 msgid "Unnamed passkey"
 msgstr "Kunci sandi yang tidak disebutkan namanya"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Gunakan contoh"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Gunakan judul standar"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Pencarian web tidak selesai."
 msgid "Web search failed: {0}"
 msgstr "Pencarian web gagal: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Situs Web"
@@ -9428,6 +9568,10 @@ msgstr "Bahasa apa yang digunakannya?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Siapa yang dapat melihat resume saya?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Anda membatalkan proses masuk sebelum selesai."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Anda belum memiliki resume untuk disalin. Impor atau buat resume terlebih dahulu, lalu kembali untuk menyalinnya untuk pekerjaan ini."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

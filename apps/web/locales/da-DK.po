@@ -810,6 +810,10 @@ msgstr "Tilføj certificering"
 msgid "Add contact"
 msgstr "Tilføj kontakt"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Tilføj følgebrev"
@@ -854,6 +858,10 @@ msgstr "Tilføj nøgleord"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Tilføj sprog"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Tilføj dit navn"
 msgid "Added {0} at {1}"
 msgstr "Tilføjet {0} ved {1}"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Adresse"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Backup kode"
 msgid "Backup codes copied to clipboard."
 msgstr "Backup-koder kopieret til udklipsholderen."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Banner"
@@ -1647,6 +1668,7 @@ msgstr "Skift tema til…"
 msgid "Change this timeline entry."
 msgstr "Skift denne tidslinjepost."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Ændret andetsteds"
@@ -1994,6 +2016,16 @@ msgstr "Forbindelsen er gemt"
 msgid "Contact"
 msgstr "Kontakte"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "Kunne ikke generere PDF-filen. Prøv venligst igen."
 msgid "Could not load connected applications."
 msgstr "Kunne ikke indlæse tilsluttede applikationer."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Kunne ikke klargøre dit CV til udskrivning. Prøv venligst igen."
@@ -2272,6 +2300,10 @@ msgstr "Dokumenter kunne ikke indlæses"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Eksempelfilen kunne ikke indlæses. Prøv igen."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "Kunne ikke få fat i din AI-udbyder. Dens nøgle kan være udløbet."
 msgid "Couldn't read that file."
 msgstr "Kunne ikke læse den fil."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Kunne ikke læse denne side: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Afsendelsen kunne ikke optages. Prøv igen."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Kunne ikke gemme tags."
 msgid "Couldn't save your changes. Please try again."
 msgstr "Dine ændringer kunne ikke gemmes. Prøv igen."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Oprettet og knyttet til {0}"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Slet konto"
 msgid "Delete Account"
 msgstr "Slet konto"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Slet post"
@@ -3204,6 +3246,7 @@ msgstr "Redaktionel"
 msgid "Education"
 msgstr "Uddannelse"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Indtast din adgangskode for at bekræfte opsætningen af to-faktor-godke
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Indtast din adgangskode for at deaktivere to-faktor-godkendelse. Din konto vil være mindre sikker uden 2FA aktiveret."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Indlæg slettet"
@@ -3349,6 +3393,10 @@ msgstr "Hvert udtryk, jobopslaget understreger, er der allerede."
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Alt,"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Udpak dette kontoarkiv, og importer derefter en JSON-fil fra dens CV- el
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Uddraget fra PDF på siden · læserækkefølge"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Overskrift"
 msgid "Heading changed"
 msgstr "Overskrift ændret"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Overskrift"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Billeder dækker det meste af siden."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Importér"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Importer et CV"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Importer et CV, kopier et til et job, eller start tomt."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Importen mislykkedes. Tjek CSV-filen, og prøv igen."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "Importer fra CSV"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "Importer fra CSV..."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Øg linjeafstanden, så to linjer ikke smelter sammen til én."
 msgid "Indonesian"
 msgstr "Indonesisk"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Hold dig til to eller tre skrifttypefamilier. Hver ekstra skrifttype er 
 msgid "Keep together"
 msgstr "Hold sammen"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Beholder de mest specifikke dele"
@@ -4461,6 +4529,10 @@ msgstr "Beholder de mest specifikke dele"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Gemt som det er"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Linjer så tæt på kan løbe sammen, når de læses. Brug mindst {minim
 msgid "Link"
 msgstr "Forbindelse"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Tilknyt et Reactive Resume (anbefalet)"
@@ -4879,6 +4955,7 @@ msgstr "Indlæser totalen"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Markér som anvendt"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown genveje til"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "Flyttet til {0}"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Ikke i dit CV"
 msgid "Not in your resume · add only if true"
 msgstr "Ikke i dit cv · tilføj kun, hvis det er sandt"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Ikke sikker på, hvad du skal skrive?"
 msgid "Not true for me, hide it"
 msgstr "Ikke sandt for mig, skjul det"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Ikke verificeret endnu. Send linket igen"
@@ -5599,6 +5686,7 @@ msgstr "Information"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Kun du ser disse"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Kun dig, indtil du deler det. Et CV kan forblive privat, gå live på et offentligt link eller være beskyttet med en adgangskode, og du kan ændre det til enhver tid. Sletning af din konto sletter dine cv'er med den."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Den oprindelige tabelformatering bevares. Dette indhold er skrivebeskytt
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Andet · OpenAI-kompatibelt"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Indsæt et joblink eller jobopslag, og tjek derefter rollen og virksomhe
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Indsæt et joblink. Vi gemmer stillingsopslaget, så Check, assistenten og dit brev kan bruge det."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Indsæt et jobopslag..."
@@ -6069,6 +6166,7 @@ msgstr "Fjerner alt permanent. Eksportér først, hvis du vil have en kopi."
 msgid "Persian"
 msgstr "Persisk"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Afvise"
 msgid "Rejected"
 msgstr "Afvist"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Genindlæs"
@@ -6655,6 +6755,11 @@ msgstr "Fjern {value}"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Fjern forbindelsen"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Åbn igen"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "Genbestil {0}"
@@ -6864,6 +6970,10 @@ msgstr "CV'er gengives altid på hvidt papir, uanset temaet."
 msgid "Resumes created"
 msgstr "cv'er oprettet"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Hentet {0}. Oprindelsens friskhed er ukendt, medmindre det er rapporteret."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Prøv igen"
 msgid "Retry save"
 msgstr "Prøv at gemme igen"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "gemt"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Gemmer {0}/{username}/{slug}... Kopi er tilgængelig efter lagring."
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Det tager længere tid end forventet at gemme. Dine ændringer er der stadig."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Afsnitsoverskrifter"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Afsnit"
@@ -7850,6 +7965,10 @@ msgstr "Start hver med et konkret udsagnsord: byggede, ledte, reducerede, migrer
 msgid "Start from"
 msgstr "Start fra"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Start fra en du har og link jobansøgningen."
@@ -7958,6 +8077,7 @@ msgstr "Forslag fra <0>models.dev</0>. Du kan også indtaste ethvert model-id."
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Foreslår nedskæringer, sletter aldrig af sig selv"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Tilpas til jobbeskrivelse"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Tester forbindelsen..."
 msgid "Testing…"
 msgstr "Test…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Tekst"
@@ -8192,6 +8315,10 @@ msgstr "Tekst så tæt på kanten kan skæres af. Brug mindst {minimum} pt."
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "Tekst under {minimum} pt kan læses forkert, når et system gengiver den."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Dette login-forsøg er udløbet eller allerede brugt. Start venligst for
 msgid "This step is optional, but recommended."
 msgstr "Dette trin er valgfrit, men anbefales."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Tråde"
@@ -8675,6 +8806,7 @@ msgstr "Stram til en side"
 msgid "Tip"
 msgstr "Tip"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Titel"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Understreg links"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Lås den op først"
 msgid "Unnamed passkey"
 msgstr "Unavngivet passkey"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Brug eksempel"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Brug standardoverskriften"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Websøgning blev ikke afsluttet."
 msgid "Web search failed: {0}"
 msgstr "Websøgning mislykkedes: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Hjemmeside"
@@ -9428,6 +9568,10 @@ msgstr "Hvilke sprog taler den?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Hvem kan se mit CV?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Du annullerede login, før det var færdigt."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Du har ikke et cv at kopiere endnu. Importer eller opret først et CV, og vend derefter tilbage for at kopiere det til dette job."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

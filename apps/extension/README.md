@@ -3,7 +3,7 @@
 A Chrome side panel for this fork. On a job posting it can:
 
 - read the posting (title, company, description),
-- generate a tailored resume or cover letter from the resume tagged `master`,
+- generate a tailored resume or cover letter from your Information Bank,
 - fill the application form: obvious fields from your profile, open questions answered by your AI provider. You review every value before anything is written to the page.
 
 ## Build and load

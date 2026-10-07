@@ -810,6 +810,10 @@ msgstr "Thêm chứng nhận"
 msgid "Add contact"
 msgstr "Thêm liên hệ"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Thêm thư xin việc"
@@ -854,6 +858,10 @@ msgstr "Thêm từ khóa"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Thêm ngôn ngữ"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Thêm tên của bạn"
 msgid "Added {0} at {1}"
 msgstr "Đã thêm {0} tại {1}"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Địa chỉ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Mã dự phòng"
 msgid "Backup codes copied to clipboard."
 msgstr "Mã dự phòng đã được sao chép vào bộ nhớ tạm."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Ngọn cờ"
@@ -1647,6 +1668,7 @@ msgstr "Thay đổi chủ đề thành…"
 msgid "Change this timeline entry."
 msgstr "Thay đổi mục nhập dòng thời gian này."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Đã thay đổi ở nơi khác"
@@ -1994,6 +2016,16 @@ msgstr "Đã lưu kết nối"
 msgid "Contact"
 msgstr "Liên hệ"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "Không thể tạo tệp PDF. Vui lòng thử lại."
 msgid "Could not load connected applications."
 msgstr "Không thể tải các ứng dụng được kết nối."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Không thể chuẩn bị sơ yếu lý lịch của bạn để in. Vui lòng thử lại."
@@ -2272,6 +2300,10 @@ msgstr "Không thể tải tài liệu"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Không thể tải tệp mẫu. Hãy thử lại."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "Không thể liên hệ với nhà cung cấp AI của bạn. Chìa khó
 msgid "Couldn't read that file."
 msgstr "Không thể đọc tập tin đó."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Không thể đọc được trang này: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Không thể ghi lại bài gửi. Hãy thử lại."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Không thể lưu thẻ."
 msgid "Couldn't save your changes. Please try again."
 msgstr "Không thể lưu thay đổi của bạn. Vui lòng thử lại."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Đã tạo và liên kết với {0}"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Xóa tài khoản"
 msgid "Delete Account"
 msgstr "Xóa tài khoản"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Xóa mục nhập"
@@ -3204,6 +3246,7 @@ msgstr "biên tập"
 msgid "Education"
 msgstr "Giáo dục"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Nhập mật khẩu của bạn để xác nhận việc thiết lập x
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Nhập mật khẩu của bạn để tắt xác thực hai yếu tố. Tài khoản của bạn sẽ kém an toàn hơn nếu không bật 2FA."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Đã xóa mục nhập"
@@ -3349,6 +3393,10 @@ msgstr "Mỗi học kỳ mà tin tuyển dụng nhấn mạnh đều đã có s�
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Tất cả"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Giải nén kho lưu trữ tài khoản này, sau đó nhập tệp JSON
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Trích từ PDF trên trang · thứ tự đọc"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Tiêu đề"
 msgid "Heading changed"
 msgstr "Tiêu đề đã thay đổi"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Tiêu đề"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Hình ảnh chiếm phần lớn trang."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Nhập"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Nhập sơ yếu lý lịch"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Nhập sơ yếu lý lịch, sao chép sơ yếu lý lịch cho công việc hoặc bắt đầu để trống."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Nhập thất bại. Hãy kiểm tra CSV và thử lại."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "Nhập từ CSV"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "Nhập từ CSV…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Tăng khoảng cách dòng để hai dòng không bị hợp nhất thà
 msgid "Indonesian"
 msgstr "Tiếng Indonesia"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Chỉ dùng hai hoặc ba họ font. Mỗi font thêm vào là thêm m�
 msgid "Keep together"
 msgstr "Hãy giữ vững sự đoàn kết"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Giữ những phần cụ thể nhất"
@@ -4461,6 +4529,10 @@ msgstr "Giữ những phần cụ thể nhất"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Giữ nguyên như cũ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Các dòng gần nhau này có thể chạy cùng nhau khi đọc. Sử 
 msgid "Link"
 msgstr "liên kết"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Liên kết Reactive Resume (được khuyến nghị)"
@@ -4879,6 +4955,7 @@ msgstr "Đang tải tổng số"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Đánh dấu là đã áp dụng"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Bật phím tắt Markdown"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "Đã chuyển đến {0}"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Không có trong sơ yếu lý lịch của bạn"
 msgid "Not in your resume · add only if true"
 msgstr "Không có trong lý lịch của bạn · chỉ thêm nếu đúng"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Không biết nên viết gì?"
 msgid "Not true for me, hide it"
 msgstr "Không đúng với tôi, hãy giấu nó đi"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Chưa được xác minh. Gửi lại liên kết"
@@ -5599,6 +5686,7 @@ msgstr "Thông tin"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Chỉ có bạn mới nhìn thấy những điều này"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Chỉ có bạn, cho đến khi bạn chia sẻ nó. Sơ yếu lý lịch có thể được giữ ở chế độ riêng tư, hiển thị trực tuyến ở liên kết công khai hoặc được bảo vệ bằng mật khẩu và bạn có thể thay đổi điều đó bất kỳ lúc nào. Xóa tài khoản của bạn sẽ xóa sơ yếu lý lịch của bạn với nó."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Định dạng bảng gốc được giữ nguyên. Nội dung này ở 
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Khác · Tương thích với OpenAI"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Dán liên kết công việc hoặc tin tuyển dụng, sau đó kiểm
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Dán một liên kết công việc. Chúng tôi sẽ lưu tin tuyển dụng để Kiểm tra, trợ lý và thư của bạn có thể sử dụng."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Dán tin tuyển dụng…"
@@ -6069,6 +6166,7 @@ msgstr "Loại bỏ vĩnh viễn mọi thứ. Xuất trước nếu bạn muốn
 msgid "Persian"
 msgstr "Ba Tư"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Từ chối"
 msgid "Rejected"
 msgstr "Vật bị loại bỏ"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Tải lại"
@@ -6655,6 +6755,11 @@ msgstr "Xóa {value}"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Xóa kết nối"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Mở lại"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "Sắp xếp lại {0}"
@@ -6864,6 +6970,10 @@ msgstr "sơ yếu lý lịch luôn được trình bày trên giấy trắng, b�
 msgid "Resumes created"
 msgstr "sơ yếu lý lịch được tạo"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Đã lấy {0}. Độ tươi của nguồn gốc không được biết trừ khi được báo cáo."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Thử lại"
 msgid "Retry save"
 msgstr "Thử lưu lại"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "đã lưu"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Đang lưu {0}/{username}/{slug}… Bản sao sẽ có sẵn sau khi lư
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Quá trình lưu mất nhiều thời gian hơn dự kiến. Những thay đổi của bạn vẫn mở."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Tiêu đề phần"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Các mục"
@@ -7850,6 +7965,10 @@ msgstr "Bắt đầu mỗi mục bằng một động từ cụ thể: xây dự
 msgid "Start from"
 msgstr "Bắt đầu từ"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Bắt đầu từ cái bạn có và liên kết đơn xin việc."
@@ -7958,6 +8077,7 @@ msgstr "Đề xuất từ ​​<0>models.dev</0>. Bạn cũng có thể nhập 
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Đề xuất cắt giảm, không bao giờ tự xóa"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Thích ứng với mô tả công việc"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Đang kiểm tra kết nối…"
 msgid "Testing…"
 msgstr "Đang kiểm tra…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Chữ"
@@ -8192,6 +8315,10 @@ msgstr "Văn bản gần mép này có thể bị cắt bỏ. Sử dụng ít nh
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "Văn bản trong {minimum} pt có thể bị đọc sai khi hệ thống hiển thị lại nó."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Lần đăng nhập này đã hết hạn hoặc đã được sử dụ
 msgid "This step is optional, but recommended."
 msgstr "Bước này là không bắt buộc, nhưng được khuyến nghị."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Chủ đề"
@@ -8675,6 +8806,7 @@ msgstr "Thắt chặt vào một trang"
 msgid "Tip"
 msgstr "Mẹo"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Tiêu đề"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Gạch chân các liên kết"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Mở khóa nó trước"
 msgid "Unnamed passkey"
 msgstr "Khóa truy cập không có tên"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Dùng mẫu"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Sử dụng tiêu đề tiêu chuẩn"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Tìm kiếm trên web chưa kết thúc."
 msgid "Web search failed: {0}"
 msgstr "Tìm kiếm trên web không thành công: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Trang web"
@@ -9428,6 +9568,10 @@ msgstr "Nó nói những ngôn ngữ nào?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Ai có thể xem sơ yếu lý lịch của tôi?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Bạn đã hủy đăng nhập trước khi hoàn tất."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Bạn chưa có sơ yếu lý lịch để sao chép. Nhập hoặc tạo sơ yếu lý lịch trước, sau đó quay lại sao chép nó cho công việc này."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

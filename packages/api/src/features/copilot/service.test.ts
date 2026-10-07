@@ -1,9 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+import { coverLetterDocumentSchema } from "@reactive-resume/schema/cover-letter/data";
+import { emptyInformationBank, importResume, toResumeData } from "@reactive-resume/schema/resume/information-bank";
 import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
 
-vi.mock("../resume/service", () => ({ resumeService: {} }));
-
-const { applyTailoring, autofillProfile, createFormResolver, profileForPrompt, tailoringSchema } =
+const { applyTailoring, autofillProfile, bankLetterDocument, createFormResolver, profileForPrompt, tailoringSchema } =
 	await import("./service");
 
 const master = () => structuredClone(sampleResumeData);
@@ -243,4 +243,62 @@ describe("createFormResolver", () => {
 	])("refuses a hidden, ambiguous, unknown or malformed target: %s", (selector) =>
 		expect(resolve(selector)).toBeNull(),
 	);
+});
+
+describe("the Information Bank as a profile", () => {
+	it("offers its notes as background and keeps referees to itself", () => {
+		const bank = importResume(emptyInformationBank, { ...sampleResumeData, customSections: [] });
+		const [job] = bank.sections.experience;
+		if (!job) throw new Error("sample data needs experience");
+		bank.notes = [
+			{ id: "labs", title: "Side projects", content: "<h3>Homelab</h3><p>A k3s cluster.</p>" },
+			{ id: "refs", title: "References", content: "<p>Dana Referee, 555 0100</p>" },
+			{ id: "prefs", title: "Preferences", content: "<p>Remote only, four-day week</p>" },
+		];
+		bank.sections.references = [
+			{
+				id: "r1",
+				hidden: false,
+				name: "Riley Referee",
+				position: "",
+				website: { url: "", label: "", inlineLink: false },
+				phone: "555 0199",
+				description: "",
+			},
+		];
+		const profile = toResumeData(bank);
+
+		const prompt = profileForPrompt(profile);
+		expect(prompt).toContain("Homelab");
+		expect(prompt).toContain("four-day week");
+		expect(prompt).not.toContain("Referee");
+		expect(profileForPrompt(profile, { background: false })).not.toContain("Homelab");
+
+		const result = applyTailoring(
+			profile,
+			tailoringSchema.parse({
+				experience: [{ id: job.id, description: "<ul><li>Built it</li></ul>" }],
+				projects: [
+					{ name: "homelab", description: "<ul><li>Ran k3s</li></ul>" },
+					{ name: "Invented", description: "<ul><li>No</li></ul>" },
+				],
+			}),
+			"goldstar",
+		);
+		expect(result.sections.projects.items.map((item) => item.name)).toEqual(["Homelab"]);
+		expect(result.customSections).toEqual([]);
+	});
+
+	it("saves a letter that carries the bank's sender", () => {
+		const profile = toResumeData(importResume(emptyInformationBank, sampleResumeData));
+		const document = coverLetterDocumentSchema.parse(
+			bankLetterDocument(profile, {
+				name: "Engineer @ Orbital",
+				content: "<p>Dear team</p>",
+				recipientCompany: "Orbital",
+			}),
+		);
+		expect(document.style.basics.name).toBe(sampleResumeData.basics.name);
+		expect(document).toMatchObject({ layout: "structured", recipientCompany: "Orbital" });
+	});
 });

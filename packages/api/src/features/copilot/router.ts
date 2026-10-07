@@ -1,3 +1,4 @@
+import { ORPCError } from "@orpc/client";
 import z from "zod";
 import { letterDraftSystemPrompt } from "@reactive-resume/ai/prompts";
 import { coverLetterTextToHtml } from "@reactive-resume/resume/cover-letter";
@@ -8,18 +9,19 @@ import { aiRequestRateLimit } from "../../middleware/rate-limit";
 import { generateJson, generatePlainText, resolveModel } from "../applications/ai";
 import { coverLetterService } from "../cover-letters/service";
 import { resumeService } from "../resume/service";
+import { bankRouter, getProfile } from "./bank";
 import { formAutofillSystemPrompt, questionAutofillSystemPrompt, resumeSystemPrompt } from "./prompts";
 import {
 	applyTailoring,
 	autofillProfile,
+	bankLetterDocument,
 	createFormResolver,
-	getMasterResume,
 	profileForPrompt,
 	tailoringSchema,
 } from "./service";
 
-// Generation and form-filling from the user's master resume (the one tagged "master"). Fork-only feature:
-// external clients (ITJobsMeter, the browser extension) drive these over /api/openapi.
+// Generation and form-filling from the user's Information Bank. Fork-only feature: external clients
+// (ITJobsMeter, the browser extension) drive these over /api/openapi.
 
 const reserved = { tags: ["Copilot"] } as const;
 const MAX_JOB_DESCRIPTION_CHARS = 20_000;
@@ -27,7 +29,7 @@ const MAX_FORM_HTML_CHARS = 200_000;
 
 const aiErrors = {
 	BAD_GATEWAY: { message: "The AI provider returned an error or is unreachable.", status: 502 },
-	BAD_REQUEST: { message: "No master resume or no AI provider is set up.", status: 400 },
+	BAD_REQUEST: { message: "The Information Bank is empty or no AI provider is set up.", status: 400 },
 };
 
 const jobInput = z.object({
@@ -186,7 +188,9 @@ const questionAutofillResult = questionAutofillOutput.extend({
 });
 
 export const copilotRouter = {
-	// Create a job-tailored resume from the master resume.
+	bank: bankRouter,
+
+	// Create a job-tailored resume from the Information Bank.
 	generateResume: protectedProcedure
 		.route({
 			method: "POST",
@@ -194,7 +198,7 @@ export const copilotRouter = {
 			operationId: "generateTailoredResume",
 			summary: "Generate a tailored resume",
 			description:
-				'Creates a new resume for one job from the master resume (the resume tagged "master"). The AI selects the most relevant experience, projects and skills and rewrites their descriptions; employers, titles and dates are copied from the master. Download it with GET /resumes/{id}/pdf. Requires a configured AI provider.',
+				"Creates a new resume for one job from the Information Bank. The AI selects the most relevant experience, projects and skills and rewrites their descriptions; employers, titles and dates are copied from the bank. Download it with GET /resumes/{id}/pdf. Requires a configured AI provider.",
 			...reserved,
 		})
 		.input(jobInput.extend({ template: templateSchema.default("goldstar") }))
@@ -202,13 +206,13 @@ export const copilotRouter = {
 		.output(z.object({ id: z.string(), name: z.string() }))
 		.errors(aiErrors)
 		.handler(async ({ context, input }) => {
-			const [model, master] = await Promise.all([resolveModel(context.user.id), getMasterResume(context.user.id)]);
+			const [model, profile] = await Promise.all([resolveModel(context.user.id), getProfile(context.user.id)]);
 
 			const tailoring = await generateJson(
 				model,
 				{
 					system: resumeSystemPrompt,
-					prompt: `<profile>\n${profileForPrompt(master.data)}\n</profile>\n\n<job>\n${input.jobTitle}${input.companyName ? ` at ${input.companyName}` : ""}\n\n${input.jobDescription}\n</job>`,
+					prompt: `<profile>\n${profileForPrompt(profile)}\n</profile>\n\n<job>\n${input.jobTitle}${input.companyName ? ` at ${input.companyName}` : ""}\n\n${input.jobDescription}\n</job>`,
 				},
 				tailoringSchema,
 			);
@@ -218,14 +222,14 @@ export const copilotRouter = {
 				userId: context.user.id,
 				name,
 				tags: ["tailored"],
-				data: applyTailoring(master.data, tailoring, input.template),
+				data: applyTailoring(profile, tailoring, input.template),
 				locale: context.locale,
 			});
 
 			return { id, name };
 		}),
 
-	// Create a cover letter for a job from the master resume (or a given resume).
+	// Create a cover letter for a job from the Information Bank (or a given resume).
 	generateCoverLetter: protectedProcedure
 		.route({
 			method: "POST",
@@ -233,7 +237,7 @@ export const copilotRouter = {
 			operationId: "generateCoverLetter",
 			summary: "Generate a cover letter",
 			description:
-				"Creates a saved cover letter for one job, written from the given resume or, when none is given, the master resume. Download it with GET /cover-letters/{id}/exports/pdf. Requires a configured AI provider.",
+				"Creates a saved cover letter for one job, written from the given resume or, when none is given, the Information Bank. Download it with GET /cover-letters/{id}/exports/pdf. Requires a configured AI provider.",
 			...reserved,
 		})
 		.input(jobInput.extend({ resumeId: z.string().optional() }))
@@ -242,30 +246,41 @@ export const copilotRouter = {
 		.errors(aiErrors)
 		.handler(async ({ context, input }) => {
 			const userId = context.user.id;
-			const [model, resume] = await Promise.all([
+			const [model, resume, profile] = await Promise.all([
 				resolveModel(userId),
-				input.resumeId ? resumeService.getById({ id: input.resumeId, userId }) : getMasterResume(userId),
+				input.resumeId ? resumeService.getById({ id: input.resumeId, userId }) : null,
+				input.resumeId ? null : getProfile(userId),
 			]);
+			// References are other people's contact details, and the default layout prints them: never sent to a model.
+			const source =
+				resume?.data ??
+				(profile && {
+					...profile,
+					sections: { ...profile.sections, references: { ...profile.sections.references, items: [] } },
+				});
+			if (!source) throw new ORPCError("BAD_REQUEST");
 
 			// Same prompt shape as the in-app letter draft (features/cover-letters/draft.ts), which only streams.
 			const text = await generatePlainText(
 				model,
-				`${letterDraftSystemPrompt}\n\nWrite the body of the letter.\n\n## The job\n\n${input.jobTitle}${input.companyName ? ` at ${input.companyName}` : ""}\n\n## The posting\n\n<<<POSTING_START>>>\n${input.jobDescription}\n<<<POSTING_END>>>\n\n## The resume\n\n<<<RESUME_START>>>\n${buildMarkdown(resume.data)}\n<<<RESUME_END>>>`,
+				`${letterDraftSystemPrompt}\n\nWrite the body of the letter.\n\n## The job\n\n${input.jobTitle}${input.companyName ? ` at ${input.companyName}` : ""}\n\n## The posting\n\n<<<POSTING_START>>>\n${input.jobDescription}\n<<<POSTING_END>>>\n\n## The resume\n\n<<<RESUME_START>>>\n${buildMarkdown(source)}\n<<<RESUME_END>>>`,
 			);
 
 			const name = documentName(input);
-			const letter = await coverLetterService.create({
-				userId,
-				name,
-				content: coverLetterTextToHtml(text),
-				resumeId: resume.id,
-				...(input.companyName ? { recipientCompany: input.companyName } : {}),
-			});
+			const content = coverLetterTextToHtml(text);
+			const recipientCompany = input.companyName ?? "";
+			// A letter from the bank has no resume to take its sender from, so it carries a copy of the bank's.
+			const letter = resume
+				? await coverLetterService.create({ userId, name, content, resumeId: resume.id, recipientCompany })
+				: await coverLetterService.import({
+						userId,
+						document: bankLetterDocument(source, { name, content, recipientCompany }),
+					});
 
 			return { id: letter.id, name };
 		}),
 
-	// Contact details from the master resume, for deterministic form filling.
+	// Contact details from the Information Bank, for deterministic form filling.
 	autofillProfile: protectedProcedure
 		.route({
 			method: "GET",
@@ -273,12 +288,12 @@ export const copilotRouter = {
 			operationId: "getAutofillProfile",
 			summary: "Get autofill profile",
 			description:
-				"Returns the name, contact details and profile links from the master resume in a flat shape suited to filling application forms. No AI is involved.",
+				"Returns the name, contact details and profile links from the Information Bank in a flat shape suited to filling application forms. No AI is involved.",
 			...reserved,
 		})
 		.input(z.object({}).optional())
 		.output(autofillProfileOutput)
-		.handler(async ({ context }) => autofillProfile((await getMasterResume(context.user.id)).data)),
+		.handler(async ({ context }) => autofillProfile(await getProfile(context.user.id))),
 
 	// Fill instructions for every field of an application form's HTML.
 	autofillForm: protectedProcedure
@@ -288,7 +303,7 @@ export const copilotRouter = {
 			operationId: "autofillForm",
 			summary: "Autofill an application form",
 			description:
-				"Analyses the HTML of a job application form and returns a fill instruction (selector, action, value, confidence) for each field, answered from the master resume. Low-confidence and sensitive fields are returned under needs_review instead. Requires a configured AI provider.",
+				"Analyses the HTML of a job application form and returns a fill instruction (selector, action, value, confidence) for each field, answered from the Information Bank. Low-confidence and sensitive fields are returned under needs_review instead. Requires a configured AI provider.",
 			...reserved,
 		})
 		.input(
@@ -304,14 +319,14 @@ export const copilotRouter = {
 		.errors(aiErrors)
 		.handler(async ({ context, input }) => {
 			const started = Date.now();
-			const [model, master] = await Promise.all([resolveModel(context.user.id), getMasterResume(context.user.id)]);
+			const [model, profile] = await Promise.all([resolveModel(context.user.id), getProfile(context.user.id)]);
 
 			const result = await generateJson(
 				model,
 				{
 					// The form's raw HTML shares this prompt, so the candidate's private notes stay out of it.
 					system: formAutofillSystemPrompt,
-					prompt: `<profile>\n${profileForPrompt(master.data, { background: false })}\n</profile>\n\n${jobBlock(input.job_context)}<form url="${input.page_url ?? ""}">\n${input.form_html}\n</form>${input.form_text ? `\n\n<form_text>\n${input.form_text}\n</form_text>` : ""}`,
+					prompt: `<profile>\n${profileForPrompt(profile, { background: false })}\n</profile>\n\n${jobBlock(input.job_context)}<form url="${input.page_url ?? ""}">\n${input.form_html}\n</form>${input.form_text ? `\n\n<form_text>\n${input.form_text}\n</form_text>` : ""}`,
 				},
 				formAutofillOutput,
 			);
@@ -352,7 +367,7 @@ export const copilotRouter = {
 			operationId: "autofillQuestions",
 			summary: "Answer application questions",
 			description:
-				"Answers up to 50 application form questions from the master resume, tailored to the job when a job context is given. Questions the profile cannot answer confidently are returned under needs_review instead. Requires a configured AI provider.",
+				"Answers up to 50 application form questions from the Information Bank, tailored to the job when a job context is given. Questions the profile cannot answer confidently are returned under needs_review instead. Requires a configured AI provider.",
 			...reserved,
 		})
 		.input(
@@ -368,13 +383,13 @@ export const copilotRouter = {
 		.errors(aiErrors)
 		.handler(async ({ context, input }) => {
 			const started = Date.now();
-			const [model, master] = await Promise.all([resolveModel(context.user.id), getMasterResume(context.user.id)]);
+			const [model, profile] = await Promise.all([resolveModel(context.user.id), getProfile(context.user.id)]);
 
 			const result = await generateJson(
 				model,
 				{
 					system: questionAutofillSystemPrompt,
-					prompt: `<profile>\n${profileForPrompt(master.data)}\n</profile>\n\n${jobBlock(input.job_context)}<questions>\n${JSON.stringify(input.questions)}\n</questions>${input.instructions ? `\n\nThe candidate's own instructions: ${input.instructions}` : ""}`,
+					prompt: `<profile>\n${profileForPrompt(profile)}\n</profile>\n\n${jobBlock(input.job_context)}<questions>\n${JSON.stringify(input.questions)}\n</questions>${input.instructions ? `\n\nThe candidate's own instructions: ${input.instructions}` : ""}`,
 				},
 				questionAutofillOutput,
 			);

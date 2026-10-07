@@ -32,6 +32,7 @@ import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2f
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
 import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as DashboardCoverLettersRouteImport } from "./routes/dashboard/cover-letters";
+import { Route as DashboardInformationBankRouteImport } from "./routes/dashboard/information-bank";
 import { Route as DashboardSettingsRouteRouteImport } from "./routes/dashboard/settings/route";
 import { Route as DashboardTrashRouteImport } from "./routes/dashboard/trash";
 import { Route as TemplatesSplatRouteImport } from "./routes/templates/$";
@@ -163,6 +164,12 @@ const DashboardCoverLettersRoute = DashboardCoverLettersRouteImport.update({
   path: "/cover-letters",
   getParentRoute: () => DashboardRouteRoute,
 } as any);
+const DashboardInformationBankRoute =
+  DashboardInformationBankRouteImport.update({
+    id: "/information-bank",
+    path: "/information-bank",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
 const DashboardSettingsRouteRoute = DashboardSettingsRouteRouteImport.update({
   id: "/settings",
   path: "/settings",
@@ -274,6 +281,7 @@ export interface FileRoutesByFullPath {
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
+  "/dashboard/information-bank": typeof DashboardInformationBankRoute;
   "/dashboard/trash": typeof DashboardTrashRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/agent/": typeof AgentIndexRoute;
@@ -308,6 +316,7 @@ export interface FileRoutesByTo {
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
+  "/dashboard/information-bank": typeof DashboardInformationBankRoute;
   "/dashboard/trash": typeof DashboardTrashRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/": typeof HomeIndexRoute;
@@ -350,6 +359,7 @@ export interface FileRoutesById {
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
+  "/dashboard/information-bank": typeof DashboardInformationBankRoute;
   "/dashboard/trash": typeof DashboardTrashRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/_home/": typeof HomeIndexRoute;
@@ -393,6 +403,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
     | "/dashboard/cover-letters"
+    | "/dashboard/information-bank"
     | "/dashboard/trash"
     | "/templates/$"
     | "/agent/"
@@ -427,6 +438,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
     | "/dashboard/cover-letters"
+    | "/dashboard/information-bank"
     | "/dashboard/trash"
     | "/templates/$"
     | "/"
@@ -468,6 +480,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
     | "/dashboard/cover-letters"
+    | "/dashboard/information-bank"
     | "/dashboard/trash"
     | "/templates/$"
     | "/_home/"
@@ -661,6 +674,13 @@ declare module "@tanstack/react-router" {
       path: "/cover-letters";
       fullPath: "/dashboard/cover-letters";
       preLoaderRoute: typeof DashboardCoverLettersRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
+    "/dashboard/information-bank": {
+      id: "/dashboard/information-bank";
+      path: "/information-bank";
+      fullPath: "/dashboard/information-bank";
+      preLoaderRoute: typeof DashboardInformationBankRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
     "/dashboard/settings": {
@@ -873,6 +893,7 @@ const DashboardSettingsRouteRouteWithChildren =
 interface DashboardRouteRouteChildren {
   DashboardSettingsRouteRoute: typeof DashboardSettingsRouteRouteWithChildren;
   DashboardCoverLettersRoute: typeof DashboardCoverLettersRoute;
+  DashboardInformationBankRoute: typeof DashboardInformationBankRoute;
   DashboardTrashRoute: typeof DashboardTrashRoute;
   DashboardIndexRoute: typeof DashboardIndexRoute;
   DashboardApplicationsIndexRoute: typeof DashboardApplicationsIndexRoute;
@@ -882,6 +903,7 @@ interface DashboardRouteRouteChildren {
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardSettingsRouteRoute: DashboardSettingsRouteRouteWithChildren,
   DashboardCoverLettersRoute: DashboardCoverLettersRoute,
+  DashboardInformationBankRoute: DashboardInformationBankRoute,
   DashboardTrashRoute: DashboardTrashRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardApplicationsIndexRoute: DashboardApplicationsIndexRoute,

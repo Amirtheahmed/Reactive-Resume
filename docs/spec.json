@@ -32683,11 +32683,2821 @@
 				]
 			}
 		},
+		"/information-bank": {
+			"get": {
+				"operationId": "getInformationBank",
+				"summary": "Get the Information Bank",
+				"description": "Returns the user's Information Bank: contact details, a summary, every entry they could put on a resume, and free-form notes. Before the first save it is empty, at revision 0.",
+				"tags": [
+					"Copilot"
+				],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "object",
+											"properties": {
+												"basics": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string",
+															"description": "The full name of the author of the resume."
+														},
+														"headline": {
+															"type": "string",
+															"description": "The headline of the author of the resume."
+														},
+														"email": {
+															"type": "string",
+															"description": "The email address of the author of the resume."
+														},
+														"phone": {
+															"type": "string",
+															"description": "The phone number of the author of the resume."
+														},
+														"location": {
+															"type": "string",
+															"description": "The location of the author of the resume."
+														},
+														"website": {
+															"type": "object",
+															"properties": {
+																"url": {
+																	"type": "string",
+																	"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																},
+																"label": {
+																	"type": "string",
+																	"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																}
+															},
+															"required": [
+																"url",
+																"label"
+															],
+															"description": "The website of the author of the resume."
+														},
+														"customFields": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the custom field. Usually generated as a UUID."
+																	},
+																	"icon": {
+																		"type": "string",
+																		"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																	},
+																	"text": {
+																		"type": "string",
+																		"description": "The text to display for the custom field."
+																	},
+																	"link": {
+																		"type": "string",
+																		"description": "If the custom field should be a link, the URL to link to."
+																	}
+																},
+																"required": [
+																	"id",
+																	"icon",
+																	"text",
+																	"link"
+																]
+															},
+															"description": "The custom fields to display on the resume."
+														}
+													},
+													"required": [
+														"name",
+														"headline",
+														"email",
+														"phone",
+														"location",
+														"website",
+														"customFields"
+													]
+												},
+												"summary": {
+													"type": "string",
+													"maxLength": 200000,
+													"description": "Long-form professional summary as HTML."
+												},
+												"sections": {
+													"type": "object",
+													"properties": {
+														"experience": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"company": {
+																		"type": "string",
+																		"description": "The name of the company or organization. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"position": {
+																		"type": "string",
+																		"description": "The position held at the company or organization. Used when there is only a single role. If multiple roles are provided in the 'roles' field, this serves as a summary title or can be left blank."
+																	},
+																	"location": {
+																		"type": "string",
+																		"description": "The location of the company or organization."
+																	},
+																	"period": {
+																		"type": "string",
+																		"description": "The overall period of time at the company, as text. When multiple roles are used, this should reflect the total tenure. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The website of the company or organization, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the experience. This should be a HTML-formatted string."
+																	},
+																	"roles": {
+																		"type": "array",
+																		"items": {
+																			"type": "object",
+																			"properties": {
+																				"id": {
+																					"type": "string",
+																					"description": "The unique identifier for the role. Usually generated as a UUID."
+																				},
+																				"position": {
+																					"type": "string",
+																					"description": "The position or job title for this role."
+																				},
+																				"period": {
+																					"type": "string",
+																					"description": "The period of time this role was held, as text. Written from `dates` on every save; write `dates` instead."
+																				},
+																				"dates": {
+																					"type": "object",
+																					"properties": {
+																						"start": {
+																							"anyOf": [
+																								{
+																									"type": "string",
+																									"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																									"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																								},
+																								{
+																									"type": "null"
+																								}
+																							],
+																							"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																						},
+																						"end": {
+																							"anyOf": [
+																								{
+																									"type": "string",
+																									"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																									"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																								},
+																								{
+																									"type": "null"
+																								}
+																							],
+																							"description": "When it ended. Null while ongoing or for single dates."
+																						},
+																						"present": {
+																							"type": "boolean",
+																							"description": "Whether it's ongoing, printed as 'Present'."
+																						},
+																						"raw": {
+																							"type": "string",
+																							"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																						}
+																					},
+																					"required": [
+																						"start",
+																						"end",
+																						"present"
+																					],
+																					"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																				},
+																				"description": {
+																					"type": "string",
+																					"description": "The description of this specific role. This should be a HTML-formatted string."
+																				}
+																			},
+																			"required": [
+																				"id",
+																				"position",
+																				"period",
+																				"description"
+																			]
+																		},
+																		"description": "List of individual roles held at this company to show career progression."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"company",
+																	"position",
+																	"location",
+																	"period",
+																	"website",
+																	"description",
+																	"roles"
+																]
+															}
+														},
+														"education": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"school": {
+																		"type": "string",
+																		"description": "The name of the school or institution. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"degree": {
+																		"type": "string",
+																		"description": "The degree or qualification obtained."
+																	},
+																	"area": {
+																		"type": "string",
+																		"description": "The area of study or specialization."
+																	},
+																	"grade": {
+																		"type": "string",
+																		"description": "The grade or score achieved."
+																	},
+																	"location": {
+																		"type": "string",
+																		"description": "The location of the school or institution."
+																	},
+																	"period": {
+																		"type": "string",
+																		"description": "The period of time the education was obtained over, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The website of the school or institution, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the education. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"school",
+																	"degree",
+																	"area",
+																	"grade",
+																	"location",
+																	"period",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"projects": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"name": {
+																		"type": "string",
+																		"description": "The name of the project. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"period": {
+																		"type": "string",
+																		"description": "The period of time the project was worked on, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The link to the project, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the project. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"name",
+																	"period",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"skills": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"icon": {
+																		"type": "string",
+																		"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																	},
+																	"iconColor": {
+																		"type": "string",
+																		"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																	},
+																	"name": {
+																		"type": "string",
+																		"description": "The name of the skill. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"proficiency": {
+																		"type": "string",
+																		"description": "The proficiency level of the skill. Can be any text, such as 'Beginner', 'Intermediate', 'Advanced', etc."
+																	},
+																	"level": {
+																		"type": "number",
+																		"minimum": 0,
+																		"maximum": 5,
+																		"description": "The proficiency level of the skill, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden."
+																	},
+																	"keywords": {
+																		"type": "array",
+																		"items": {
+																			"type": "string"
+																		},
+																		"description": "The keywords associated with the skill, if any. These are displayed as tags below the name."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"icon",
+																	"iconColor",
+																	"name",
+																	"proficiency",
+																	"level",
+																	"keywords"
+																]
+															}
+														},
+														"certifications": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"title": {
+																		"type": "string",
+																		"description": "The title of the certification. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"issuer": {
+																		"type": "string",
+																		"description": "The issuer of the certification."
+																	},
+																	"date": {
+																		"type": "string",
+																		"description": "The date when the certification was received, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The website of the certification, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the certification. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"title",
+																	"issuer",
+																	"date",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"awards": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"title": {
+																		"type": "string",
+																		"description": "The title of the award. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"awarder": {
+																		"type": "string",
+																		"description": "The awarder of the award."
+																	},
+																	"date": {
+																		"type": "string",
+																		"description": "The date when the award was received, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The website of the award, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the award. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"title",
+																	"awarder",
+																	"date",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"publications": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"title": {
+																		"type": "string",
+																		"description": "The title of the publication. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"publisher": {
+																		"type": "string",
+																		"description": "The publisher of the publication."
+																	},
+																	"date": {
+																		"type": "string",
+																		"description": "The date when the publication was published, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The link to the publication, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the publication. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"title",
+																	"publisher",
+																	"date",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"volunteer": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"organization": {
+																		"type": "string",
+																		"description": "The name of the organization or company. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"location": {
+																		"type": "string",
+																		"description": "The location of the organization or company."
+																	},
+																	"period": {
+																		"type": "string",
+																		"description": "The period of time the author was volunteered at the organization or company, as text. Written from `dates` on every save; write `dates` instead."
+																	},
+																	"dates": {
+																		"type": "object",
+																		"properties": {
+																			"start": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																			},
+																			"end": {
+																				"anyOf": [
+																					{
+																						"type": "string",
+																						"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																						"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																					},
+																					{
+																						"type": "null"
+																					}
+																				],
+																				"description": "When it ended. Null while ongoing or for single dates."
+																			},
+																			"present": {
+																				"type": "boolean",
+																				"description": "Whether it's ongoing, printed as 'Present'."
+																			},
+																			"raw": {
+																				"type": "string",
+																				"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																			}
+																		},
+																		"required": [
+																			"start",
+																			"end",
+																			"present"
+																		],
+																		"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The link to the organization or company, if any."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the volunteer experience. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"organization",
+																	"location",
+																	"period",
+																	"website",
+																	"description"
+																]
+															}
+														},
+														"languages": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"language": {
+																		"type": "string",
+																		"description": "The name of the language the author knows. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"fluency": {
+																		"type": "string",
+																		"description": "The fluency level of the language. Can be any text, such as 'Native', 'Fluent', 'Conversational', etc. or can also be a CEFR level (A1, A2, B1, B2, C1, C2)."
+																	},
+																	"level": {
+																		"type": "number",
+																		"minimum": 0,
+																		"maximum": 5,
+																		"description": "The proficiency level of the language, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"language",
+																	"fluency",
+																	"level"
+																]
+															}
+														},
+														"interests": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"icon": {
+																		"type": "string",
+																		"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																	},
+																	"iconColor": {
+																		"type": "string",
+																		"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																	},
+																	"name": {
+																		"type": "string",
+																		"description": "The name of the interest/hobby. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"keywords": {
+																		"type": "array",
+																		"items": {
+																			"type": "string"
+																		},
+																		"description": "The keywords associated with the interest/hobby, if any. These are displayed as tags below the name."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"icon",
+																	"iconColor",
+																	"name",
+																	"keywords"
+																]
+															}
+														},
+														"profiles": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"icon": {
+																		"type": "string",
+																		"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																	},
+																	"iconColor": {
+																		"type": "string",
+																		"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																	},
+																	"network": {
+																		"type": "string",
+																		"description": "The name of the network or platform. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"username": {
+																		"type": "string",
+																		"description": "The username of the author on the network or platform."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The link to the profile of the author on the network or platform, if any."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"icon",
+																	"iconColor",
+																	"network",
+																	"username",
+																	"website"
+																]
+															}
+														},
+														"references": {
+															"type": "array",
+															"maxItems": 500,
+															"items": {
+																"type": "object",
+																"properties": {
+																	"id": {
+																		"type": "string",
+																		"description": "The unique identifier for the item. Usually generated as a UUID."
+																	},
+																	"hidden": {
+																		"type": "boolean",
+																		"description": "Whether to hide the item from the resume."
+																	},
+																	"name": {
+																		"type": "string",
+																		"description": "The name of the reference, or a note such as 'Available upon request'. Empty while the entry is a draft, which isn't printed."
+																	},
+																	"position": {
+																		"type": "string",
+																		"description": "The position or job title of the reference."
+																	},
+																	"website": {
+																		"type": "object",
+																		"properties": {
+																			"url": {
+																				"type": "string",
+																				"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																			},
+																			"label": {
+																				"type": "string",
+																				"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																			},
+																			"inlineLink": {
+																				"type": "boolean",
+																				"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																			}
+																		},
+																		"required": [
+																			"url",
+																			"label",
+																			"inlineLink"
+																		],
+																		"description": "The website or LinkedIn profile of the reference, if any."
+																	},
+																	"phone": {
+																		"type": "string",
+																		"description": "The phone number of the reference."
+																	},
+																	"description": {
+																		"type": "string",
+																		"description": "The description of the reference. Can be used to display a quote, a testimonial, etc. This should be a HTML-formatted string."
+																	}
+																},
+																"required": [
+																	"id",
+																	"hidden",
+																	"name",
+																	"position",
+																	"website",
+																	"phone",
+																	"description"
+																]
+															}
+														}
+													},
+													"required": [
+														"experience",
+														"education",
+														"projects",
+														"skills",
+														"certifications",
+														"awards",
+														"publications",
+														"volunteer",
+														"languages",
+														"interests",
+														"profiles",
+														"references"
+													]
+												},
+												"notes": {
+													"type": "array",
+													"maxItems": 500,
+													"items": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string"
+															},
+															"title": {
+																"type": "string",
+																"maxLength": 200
+															},
+															"content": {
+																"type": "string",
+																"maxLength": 200000,
+																"description": "Free-form facts as HTML: an FAQ, preferences, side projects."
+															}
+														},
+														"required": [
+															"id",
+															"title",
+															"content"
+														]
+													}
+												}
+											},
+											"required": [
+												"basics",
+												"summary",
+												"sections",
+												"notes"
+											]
+										},
+										"revision": {
+											"type": "integer",
+											"minimum": -9007199254740991,
+											"maximum": 9007199254740991
+										},
+										"updatedAt": {
+											"anyOf": [
+												{
+													"type": "string",
+													"format": "date-time",
+													"x-native-type": "date"
+												},
+												{
+													"type": "null"
+												}
+											]
+										}
+									},
+									"required": [
+										"data",
+										"revision",
+										"updatedAt"
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl \"https://rxresu.me/api/openapi/information-bank\" --header \"x-api-key: <api-key>\""
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateInformationBank",
+				"summary": "Replace the Information Bank",
+				"description": "Replaces the whole Information Bank. Send the revision you last read as expectedRevision; if the bank changed since, the save is refused with 409 and nothing is overwritten.",
+				"tags": [
+					"Copilot"
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"type": "object",
+										"properties": {
+											"basics": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string",
+														"description": "The full name of the author of the resume."
+													},
+													"headline": {
+														"type": "string",
+														"description": "The headline of the author of the resume."
+													},
+													"email": {
+														"type": "string",
+														"description": "The email address of the author of the resume."
+													},
+													"phone": {
+														"type": "string",
+														"description": "The phone number of the author of the resume."
+													},
+													"location": {
+														"type": "string",
+														"description": "The location of the author of the resume."
+													},
+													"website": {
+														"type": "object",
+														"properties": {
+															"url": {
+																"type": "string",
+																"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+															},
+															"label": {
+																"type": "string",
+																"description": "The label to display for the URL. Leave blank to display the URL as-is."
+															}
+														},
+														"required": [
+															"url",
+															"label"
+														],
+														"description": "The website of the author of the resume."
+													},
+													"customFields": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the custom field. Usually generated as a UUID."
+																},
+																"icon": {
+																	"type": "string",
+																	"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																},
+																"text": {
+																	"type": "string",
+																	"description": "The text to display for the custom field."
+																},
+																"link": {
+																	"type": "string",
+																	"description": "If the custom field should be a link, the URL to link to."
+																}
+															},
+															"required": [
+																"id",
+																"icon",
+																"text",
+																"link"
+															]
+														},
+														"description": "The custom fields to display on the resume."
+													}
+												},
+												"required": [
+													"name",
+													"headline",
+													"email",
+													"phone",
+													"location",
+													"website",
+													"customFields"
+												]
+											},
+											"summary": {
+												"type": "string",
+												"maxLength": 200000,
+												"description": "Long-form professional summary as HTML."
+											},
+											"sections": {
+												"type": "object",
+												"properties": {
+													"experience": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"company": {
+																	"type": "string",
+																	"description": "The name of the company or organization. Empty while the entry is a draft, which isn't printed."
+																},
+																"position": {
+																	"type": "string",
+																	"description": "The position held at the company or organization. Used when there is only a single role. If multiple roles are provided in the 'roles' field, this serves as a summary title or can be left blank."
+																},
+																"location": {
+																	"type": "string",
+																	"description": "The location of the company or organization."
+																},
+																"period": {
+																	"type": "string",
+																	"description": "The overall period of time at the company, as text. When multiple roles are used, this should reflect the total tenure. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The website of the company or organization, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the experience. This should be a HTML-formatted string."
+																},
+																"roles": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string",
+																				"description": "The unique identifier for the role. Usually generated as a UUID."
+																			},
+																			"position": {
+																				"type": "string",
+																				"description": "The position or job title for this role."
+																			},
+																			"period": {
+																				"type": "string",
+																				"description": "The period of time this role was held, as text. Written from `dates` on every save; write `dates` instead."
+																			},
+																			"dates": {
+																				"type": "object",
+																				"properties": {
+																					"start": {
+																						"anyOf": [
+																							{
+																								"type": "string",
+																								"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																								"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																							},
+																							{
+																								"type": "null"
+																							}
+																						],
+																						"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																					},
+																					"end": {
+																						"anyOf": [
+																							{
+																								"type": "string",
+																								"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																								"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																							},
+																							{
+																								"type": "null"
+																							}
+																						],
+																						"description": "When it ended. Null while ongoing or for single dates."
+																					},
+																					"present": {
+																						"type": "boolean",
+																						"description": "Whether it's ongoing, printed as 'Present'."
+																					},
+																					"raw": {
+																						"type": "string",
+																						"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																					}
+																				},
+																				"required": [
+																					"start",
+																					"end",
+																					"present"
+																				],
+																				"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																			},
+																			"description": {
+																				"type": "string",
+																				"description": "The description of this specific role. This should be a HTML-formatted string."
+																			}
+																		},
+																		"required": [
+																			"id",
+																			"position",
+																			"period",
+																			"description"
+																		]
+																	},
+																	"description": "List of individual roles held at this company to show career progression."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"company",
+																"position",
+																"location",
+																"period",
+																"website",
+																"description",
+																"roles"
+															]
+														}
+													},
+													"education": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"school": {
+																	"type": "string",
+																	"description": "The name of the school or institution. Empty while the entry is a draft, which isn't printed."
+																},
+																"degree": {
+																	"type": "string",
+																	"description": "The degree or qualification obtained."
+																},
+																"area": {
+																	"type": "string",
+																	"description": "The area of study or specialization."
+																},
+																"grade": {
+																	"type": "string",
+																	"description": "The grade or score achieved."
+																},
+																"location": {
+																	"type": "string",
+																	"description": "The location of the school or institution."
+																},
+																"period": {
+																	"type": "string",
+																	"description": "The period of time the education was obtained over, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The website of the school or institution, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the education. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"school",
+																"degree",
+																"area",
+																"grade",
+																"location",
+																"period",
+																"website",
+																"description"
+															]
+														}
+													},
+													"projects": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"name": {
+																	"type": "string",
+																	"description": "The name of the project. Empty while the entry is a draft, which isn't printed."
+																},
+																"period": {
+																	"type": "string",
+																	"description": "The period of time the project was worked on, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The link to the project, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the project. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"name",
+																"period",
+																"website",
+																"description"
+															]
+														}
+													},
+													"skills": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"icon": {
+																	"type": "string",
+																	"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																},
+																"iconColor": {
+																	"type": "string",
+																	"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																},
+																"name": {
+																	"type": "string",
+																	"description": "The name of the skill. Empty while the entry is a draft, which isn't printed."
+																},
+																"proficiency": {
+																	"type": "string",
+																	"description": "The proficiency level of the skill. Can be any text, such as 'Beginner', 'Intermediate', 'Advanced', etc."
+																},
+																"level": {
+																	"type": "number",
+																	"minimum": 0,
+																	"maximum": 5,
+																	"description": "The proficiency level of the skill, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden."
+																},
+																"keywords": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	},
+																	"description": "The keywords associated with the skill, if any. These are displayed as tags below the name."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"icon",
+																"iconColor",
+																"name",
+																"proficiency",
+																"level",
+																"keywords"
+															]
+														}
+													},
+													"certifications": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"title": {
+																	"type": "string",
+																	"description": "The title of the certification. Empty while the entry is a draft, which isn't printed."
+																},
+																"issuer": {
+																	"type": "string",
+																	"description": "The issuer of the certification."
+																},
+																"date": {
+																	"type": "string",
+																	"description": "The date when the certification was received, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The website of the certification, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the certification. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"title",
+																"issuer",
+																"date",
+																"website",
+																"description"
+															]
+														}
+													},
+													"awards": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"title": {
+																	"type": "string",
+																	"description": "The title of the award. Empty while the entry is a draft, which isn't printed."
+																},
+																"awarder": {
+																	"type": "string",
+																	"description": "The awarder of the award."
+																},
+																"date": {
+																	"type": "string",
+																	"description": "The date when the award was received, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The website of the award, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the award. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"title",
+																"awarder",
+																"date",
+																"website",
+																"description"
+															]
+														}
+													},
+													"publications": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"title": {
+																	"type": "string",
+																	"description": "The title of the publication. Empty while the entry is a draft, which isn't printed."
+																},
+																"publisher": {
+																	"type": "string",
+																	"description": "The publisher of the publication."
+																},
+																"date": {
+																	"type": "string",
+																	"description": "The date when the publication was published, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The link to the publication, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the publication. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"title",
+																"publisher",
+																"date",
+																"website",
+																"description"
+															]
+														}
+													},
+													"volunteer": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"organization": {
+																	"type": "string",
+																	"description": "The name of the organization or company. Empty while the entry is a draft, which isn't printed."
+																},
+																"location": {
+																	"type": "string",
+																	"description": "The location of the organization or company."
+																},
+																"period": {
+																	"type": "string",
+																	"description": "The period of time the author was volunteered at the organization or company, as text. Written from `dates` on every save; write `dates` instead."
+																},
+																"dates": {
+																	"type": "object",
+																	"properties": {
+																		"start": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it started, or the date itself for single-date entries (awards, certifications, publications)."
+																		},
+																		"end": {
+																			"anyOf": [
+																				{
+																					"type": "string",
+																					"pattern": "^\\d{4}(?:-(?:0[1-9]|1[0-2]))?$",
+																					"description": "A year (\"2022\") or a year and month (\"2022-03\")."
+																				},
+																				{
+																					"type": "null"
+																				}
+																			],
+																			"description": "When it ended. Null while ongoing or for single dates."
+																		},
+																		"present": {
+																			"type": "boolean",
+																			"description": "Whether it's ongoing, printed as 'Present'."
+																		},
+																		"raw": {
+																			"type": "string",
+																			"description": "The original text when it couldn't be read exactly, such as 'Summer 2016'. It's printed as written until the dates are edited, which removes it."
+																		}
+																	},
+																	"required": [
+																		"start",
+																		"end",
+																		"present"
+																	],
+																	"description": "Structured dates. Write these rather than the legacy text field (`period` or `date`), which is kept in sync from them."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The link to the organization or company, if any."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the volunteer experience. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"organization",
+																"location",
+																"period",
+																"website",
+																"description"
+															]
+														}
+													},
+													"languages": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"language": {
+																	"type": "string",
+																	"description": "The name of the language the author knows. Empty while the entry is a draft, which isn't printed."
+																},
+																"fluency": {
+																	"type": "string",
+																	"description": "The fluency level of the language. Can be any text, such as 'Native', 'Fluent', 'Conversational', etc. or can also be a CEFR level (A1, A2, B1, B2, C1, C2)."
+																},
+																"level": {
+																	"type": "number",
+																	"minimum": 0,
+																	"maximum": 5,
+																	"description": "The proficiency level of the language, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"language",
+																"fluency",
+																"level"
+															]
+														}
+													},
+													"interests": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"icon": {
+																	"type": "string",
+																	"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																},
+																"iconColor": {
+																	"type": "string",
+																	"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																},
+																"name": {
+																	"type": "string",
+																	"description": "The name of the interest/hobby. Empty while the entry is a draft, which isn't printed."
+																},
+																"keywords": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	},
+																	"description": "The keywords associated with the interest/hobby, if any. These are displayed as tags below the name."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"icon",
+																"iconColor",
+																"name",
+																"keywords"
+															]
+														}
+													},
+													"profiles": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"icon": {
+																	"type": "string",
+																	"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
+																},
+																"iconColor": {
+																	"type": "string",
+																	"description": "Custom color for the icon, defined as rgba(r, g, b, a). Leave blank to use the template default icon color."
+																},
+																"network": {
+																	"type": "string",
+																	"description": "The name of the network or platform. Empty while the entry is a draft, which isn't printed."
+																},
+																"username": {
+																	"type": "string",
+																	"description": "The username of the author on the network or platform."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The link to the profile of the author on the network or platform, if any."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"icon",
+																"iconColor",
+																"network",
+																"username",
+																"website"
+															]
+														}
+													},
+													"references": {
+														"type": "array",
+														"maxItems": 500,
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": {
+																	"type": "string",
+																	"description": "The unique identifier for the item. Usually generated as a UUID."
+																},
+																"hidden": {
+																	"type": "boolean",
+																	"description": "Whether to hide the item from the resume."
+																},
+																"name": {
+																	"type": "string",
+																	"description": "The name of the reference, or a note such as 'Available upon request'. Empty while the entry is a draft, which isn't printed."
+																},
+																"position": {
+																	"type": "string",
+																	"description": "The position or job title of the reference."
+																},
+																"website": {
+																	"type": "object",
+																	"properties": {
+																		"url": {
+																			"type": "string",
+																			"description": "The URL to show as a link. Must be a valid URL with a protocol (http:// or https://)."
+																		},
+																		"label": {
+																			"type": "string",
+																			"description": "The label to display for the URL. Leave blank to display the URL as-is."
+																		},
+																		"inlineLink": {
+																			"type": "boolean",
+																			"description": "If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom."
+																		}
+																	},
+																	"required": [
+																		"url",
+																		"label",
+																		"inlineLink"
+																	],
+																	"description": "The website or LinkedIn profile of the reference, if any."
+																},
+																"phone": {
+																	"type": "string",
+																	"description": "The phone number of the reference."
+																},
+																"description": {
+																	"type": "string",
+																	"description": "The description of the reference. Can be used to display a quote, a testimonial, etc. This should be a HTML-formatted string."
+																}
+															},
+															"required": [
+																"id",
+																"hidden",
+																"name",
+																"position",
+																"website",
+																"phone",
+																"description"
+															]
+														}
+													}
+												},
+												"required": [
+													"experience",
+													"education",
+													"projects",
+													"skills",
+													"certifications",
+													"awards",
+													"publications",
+													"volunteer",
+													"languages",
+													"interests",
+													"profiles",
+													"references"
+												]
+											},
+											"notes": {
+												"type": "array",
+												"maxItems": 500,
+												"items": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"title": {
+															"type": "string",
+															"maxLength": 200
+														},
+														"content": {
+															"type": "string",
+															"maxLength": 200000,
+															"description": "Free-form facts as HTML: an FAQ, preferences, side projects."
+														}
+													},
+													"required": [
+														"id",
+														"title",
+														"content"
+													]
+												}
+											}
+										},
+										"required": [
+											"basics",
+											"summary",
+											"sections",
+											"notes"
+										]
+									},
+									"expectedRevision": {
+										"type": "integer",
+										"minimum": 0,
+										"maximum": 9007199254740991
+									}
+								},
+								"required": [
+									"data",
+									"expectedRevision"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"revision": {
+											"type": "integer",
+											"minimum": -9007199254740991,
+											"maximum": 9007199254740991
+										},
+										"updatedAt": {
+											"type": "string",
+											"format": "date-time",
+											"x-native-type": "date"
+										}
+									},
+									"required": [
+										"revision",
+										"updatedAt"
+									]
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "409",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": true
+												},
+												"code": {
+													"const": "CONFLICT"
+												},
+												"status": {
+													"const": 409
+												},
+												"message": {
+													"type": "string",
+													"default": "The Information Bank changed elsewhere."
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"defined": {
+													"const": false
+												},
+												"code": {
+													"type": "string"
+												},
+												"status": {
+													"type": "number"
+												},
+												"message": {
+													"type": "string"
+												},
+												"data": {}
+											},
+											"required": [
+												"defined",
+												"code",
+												"status",
+												"message"
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "Structured API error. See status and code; do not branch on message text.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": [
+										"defined",
+										"code",
+										"status",
+										"message"
+									],
+									"properties": {
+										"defined": {
+											"type": "boolean"
+										},
+										"code": {
+											"type": "string"
+										},
+										"status": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"apiKey": []
+					},
+					{
+						"bearerAuth": []
+					},
+					{
+						"cookieAuth": []
+					}
+				],
+				"x-codeSamples": [
+					{
+						"lang": "bash",
+						"label": "cURL",
+						"source": "curl --request PUT \"https://rxresu.me/api/openapi/information-bank\" --header \"x-api-key: <api-key>\" --header \"Content-Type: application/json\" --data '{\n  \"data\": {\n    \"basics\": {\n      \"name\": \"<string>\",\n      \"headline\": \"<string>\",\n      \"email\": \"<string>\",\n      \"phone\": \"<string>\",\n      \"location\": \"<string>\",\n      \"website\": {\n        \"url\": \"<string>\",\n        \"label\": \"<string>\"\n      },\n      \"customFields\": [\n        {\n          \"id\": \"<string>\",\n          \"icon\": \"<string>\",\n          \"text\": \"<string>\",\n          \"link\": \"<string>\"\n        }\n      ]\n    },\n    \"summary\": \"<string>\",\n    \"sections\": {\n      \"experience\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"company\": \"<string>\",\n          \"position\": \"<string>\",\n          \"location\": \"<string>\",\n          \"period\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\",\n          \"roles\": [\n            {\n              \"id\": \"<string>\",\n              \"position\": \"<string>\",\n              \"period\": \"<string>\",\n              \"description\": \"<string>\"\n            }\n          ]\n        }\n      ],\n      \"education\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"school\": \"<string>\",\n          \"degree\": \"<string>\",\n          \"area\": \"<string>\",\n          \"grade\": \"<string>\",\n          \"location\": \"<string>\",\n          \"period\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"projects\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"name\": \"<string>\",\n          \"period\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"skills\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"icon\": \"<string>\",\n          \"iconColor\": \"<string>\",\n          \"name\": \"<string>\",\n          \"proficiency\": \"<string>\",\n          \"level\": 123,\n          \"keywords\": [\n            \"<string>\"\n          ]\n        }\n      ],\n      \"certifications\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"title\": \"<string>\",\n          \"issuer\": \"<string>\",\n          \"date\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"awards\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"title\": \"<string>\",\n          \"awarder\": \"<string>\",\n          \"date\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"publications\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"title\": \"<string>\",\n          \"publisher\": \"<string>\",\n          \"date\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"volunteer\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"organization\": \"<string>\",\n          \"location\": \"<string>\",\n          \"period\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"description\": \"<string>\"\n        }\n      ],\n      \"languages\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"language\": \"<string>\",\n          \"fluency\": \"<string>\",\n          \"level\": 123\n        }\n      ],\n      \"interests\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"icon\": \"<string>\",\n          \"iconColor\": \"<string>\",\n          \"name\": \"<string>\",\n          \"keywords\": [\n            \"<string>\"\n          ]\n        }\n      ],\n      \"profiles\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"icon\": \"<string>\",\n          \"iconColor\": \"<string>\",\n          \"network\": \"<string>\",\n          \"username\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          }\n        }\n      ],\n      \"references\": [\n        {\n          \"id\": \"<string>\",\n          \"hidden\": true,\n          \"name\": \"<string>\",\n          \"position\": \"<string>\",\n          \"website\": {\n            \"url\": \"<string>\",\n            \"label\": \"<string>\",\n            \"inlineLink\": true\n          },\n          \"phone\": \"<string>\",\n          \"description\": \"<string>\"\n        }\n      ]\n    },\n    \"notes\": [\n      {\n        \"id\": \"<string>\",\n        \"title\": \"<string>\",\n        \"content\": \"<string>\"\n      }\n    ]\n  },\n  \"expectedRevision\": 123\n}'"
+					}
+				]
+			}
+		},
 		"/resumes/generations": {
 			"post": {
 				"operationId": "generateTailoredResume",
 				"summary": "Generate a tailored resume",
-				"description": "Creates a new resume for one job from the master resume (the resume tagged \"master\"). The AI selects the most relevant experience, projects and skills and rewrites their descriptions; employers, titles and dates are copied from the master. Download it with GET /resumes/{id}/pdf. Requires a configured AI provider.",
+				"description": "Creates a new resume for one job from the Information Bank. The AI selects the most relevant experience, projects and skills and rewrites their descriptions; employers, titles and dates are copied from the bank. Download it with GET /resumes/{id}/pdf. Requires a configured AI provider.",
 				"tags": [
 					"Copilot"
 				],
@@ -32788,7 +35598,7 @@
 												},
 												"message": {
 													"type": "string",
-													"default": "No master resume or no AI provider is set up."
+													"default": "The Information Bank is empty or no AI provider is set up."
 												},
 												"data": {}
 											},
@@ -32944,7 +35754,7 @@
 			"post": {
 				"operationId": "generateCoverLetter",
 				"summary": "Generate a cover letter",
-				"description": "Creates a saved cover letter for one job, written from the given resume or, when none is given, the master resume. Download it with GET /cover-letters/{id}/exports/pdf. Requires a configured AI provider.",
+				"description": "Creates a saved cover letter for one job, written from the given resume or, when none is given, the Information Bank. Download it with GET /cover-letters/{id}/exports/pdf. Requires a configured AI provider.",
 				"tags": [
 					"Copilot"
 				],
@@ -33024,7 +35834,7 @@
 												},
 												"message": {
 													"type": "string",
-													"default": "No master resume or no AI provider is set up."
+													"default": "The Information Bank is empty or no AI provider is set up."
 												},
 												"data": {}
 											},
@@ -33180,7 +35990,7 @@
 			"get": {
 				"operationId": "getAutofillProfile",
 				"summary": "Get autofill profile",
-				"description": "Returns the name, contact details and profile links from the master resume in a flat shape suited to filling application forms. No AI is involved.",
+				"description": "Returns the name, contact details and profile links from the Information Bank in a flat shape suited to filling application forms. No AI is involved.",
 				"tags": [
 					"Copilot"
 				],
@@ -33313,7 +36123,7 @@
 			"post": {
 				"operationId": "autofillForm",
 				"summary": "Autofill an application form",
-				"description": "Analyses the HTML of a job application form and returns a fill instruction (selector, action, value, confidence) for each field, answered from the master resume. Low-confidence and sensitive fields are returned under needs_review instead. Requires a configured AI provider.",
+				"description": "Analyses the HTML of a job application form and returns a fill instruction (selector, action, value, confidence) for each field, answered from the Information Bank. Low-confidence and sensitive fields are returned under needs_review instead. Requires a configured AI provider.",
 				"tags": [
 					"Copilot"
 				],
@@ -33480,7 +36290,7 @@
 												},
 												"message": {
 													"type": "string",
-													"default": "No master resume or no AI provider is set up."
+													"default": "The Information Bank is empty or no AI provider is set up."
 												},
 												"data": {}
 											},
@@ -33636,7 +36446,7 @@
 			"post": {
 				"operationId": "autofillQuestions",
 				"summary": "Answer application questions",
-				"description": "Answers up to 50 application form questions from the master resume, tailored to the job when a job context is given. Questions the profile cannot answer confidently are returned under needs_review instead. Requires a configured AI provider.",
+				"description": "Answers up to 50 application form questions from the Information Bank, tailored to the job when a job context is given. Questions the profile cannot answer confidently are returned under needs_review instead. Requires a configured AI provider.",
 				"tags": [
 					"Copilot"
 				],
@@ -33874,7 +36684,7 @@
 												},
 												"message": {
 													"type": "string",
-													"default": "No master resume or no AI provider is set up."
+													"default": "The Information Bank is empty or no AI provider is set up."
 												},
 												"data": {}
 											},

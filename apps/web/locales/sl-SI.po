@@ -810,6 +810,10 @@ msgstr "Dodajte certifikat"
 msgid "Add contact"
 msgstr "Dodaj kontakt"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Dodajte spremno pismo"
@@ -854,6 +858,10 @@ msgstr "Dodajte ključno besedo"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Dodajte jezik"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Dodajte svoje ime"
 msgid "Added {0} at {1}"
 msgstr "Dodan {0} na {1}"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Naslov"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Rezervna koda"
 msgid "Backup codes copied to clipboard."
 msgstr "Varnostne kode kopirane v odložišče."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Pasica"
@@ -1647,6 +1668,7 @@ msgstr "Spremeni temo v…"
 msgid "Change this timeline entry."
 msgstr "Spremenite ta vnos na časovnici."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Spremenjen drugje"
@@ -1994,6 +2016,16 @@ msgstr "Povezava shranjena"
 msgid "Contact"
 msgstr "Kontakt"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "Datoteke PDF ni bilo mogoče ustvariti. Poskusite znova."
 msgid "Could not load connected applications."
 msgstr "Ni bilo mogoče naložiti povezanih aplikacij."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Vašega življenjepisa ni bilo mogoče pripraviti za tiskanje. Poskusite znova."
@@ -2272,6 +2300,10 @@ msgstr "Dokumentov ni bilo mogoče naložiti"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Vzorčne datoteke ni bilo mogoče naložiti. poskusi ponovno"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "Vašega ponudnika umetne inteligence ni bilo mogoče doseči. Njegov klj
 msgid "Couldn't read that file."
 msgstr "Te datoteke ni bilo mogoče prebrati."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Te strani ni bilo mogoče prebrati: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Oddaje ni bilo mogoče posneti. poskusi ponovno"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Oznak ni bilo mogoče shraniti."
 msgid "Couldn't save your changes. Please try again."
 msgstr "Vaših sprememb ni bilo mogoče shraniti. prosim poskusite ponovno"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Ustvarjeno in povezano z {0}"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Izbriši račun"
 msgid "Delete Account"
 msgstr "Izbriši račun"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Izbriši vnos"
@@ -3204,6 +3246,7 @@ msgstr "Uredništvo"
 msgid "Education"
 msgstr "Izobrazba"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Vnesite svoje geslo, da potrdite nastavitev dvofaktorske avtentikacije. 
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Vnesite svoje geslo za onemogočanje dvostopenjskega preverjanja pristnosti. Vaš račun bo brez omogočenega 2FA manj varen."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Vnos izbrisan"
@@ -3349,6 +3393,10 @@ msgstr "Vsak termin, ki ga poudarja objava zaposlitve, je že tam."
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Vse,"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Ekstrahirajte ta arhiv računa, nato uvozite datoteko JSON iz njegove ma
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Izvleček iz PDF na strani · vrstni red branja"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Naslov"
 msgid "Heading changed"
 msgstr "Naslov spremenjen"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Glava"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Slike prekrivajo večino strani."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Uvozi"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Uvozi življenjepis"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Uvozite življenjepis, kopirajte ga za delo ali začnite prazno."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Uvoz ni uspel. Preverite CSV in poskusite znova."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "Uvoz iz CSV"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "Uvoz iz CSV…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Povečajte razmik med vrsticami, da se dve vrstici ne zlijeta v eno."
 msgid "Indonesian"
 msgstr "Indonezijščina"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Uporabite le dve ali tri družine pisav. Vsaka dodatna pisava je nova pr
 msgid "Keep together"
 msgstr "Ostanite skupaj"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Ohranja najbolj specifične dele"
@@ -4461,6 +4529,10 @@ msgstr "Ohranja najbolj specifične dele"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Ohranjeno tako kot je"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Vrstice tako blizu lahko tečejo skupaj, ko jih berete. Uporabite vsaj {
 msgid "Link"
 msgstr "Povezava"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Poveži Reactive Resume (priporočeno)"
@@ -4879,6 +4955,7 @@ msgstr "Nalaganje vsote"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Označi kot uporabljeno"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown bližnjice vklopljene"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "Premaknjeno v {0}"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Ni v vašem življenjepisu"
 msgid "Not in your resume · add only if true"
 msgstr "Ni v vašem življenjepisu · dodajte samo, če je res"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Niste prepričani, kaj naj napišete?"
 msgid "Not true for me, hide it"
 msgstr "Zame ni res, skrijte"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Še ni preverjeno. Ponovno pošljite povezavo"
@@ -5599,6 +5686,7 @@ msgstr "Informacije"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Samo ti jih vidiš"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Samo vi, dokler tega ne delite. Življenjepis lahko ostane zaseben, se objavi na javni povezavi ali je zaščiten z geslom, kar lahko kadar koli spremenite. Če izbrišete svoj račun, z njim izbrišete tudi svoje življenjepise."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Prvotno oblikovanje tabele je ohranjeno. Ta vsebina je samo za branje, k
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Drugo · OpenAI združljivo"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Prilepite povezavo do zaposlitve ali objavo zaposlitve, nato preverite v
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Prilepite povezavo do zaposlitve. Objavo zaposlitve bomo shranili, tako da jo lahko uporabijo Check, pomočnik in vaše pismo."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Prilepite objavo za delo ..."
@@ -6069,6 +6166,7 @@ msgstr "Trajno odstrani vse. Če želite kopijo, najprej izvozite."
 msgid "Persian"
 msgstr "perzijščina"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Zavrni"
 msgid "Rejected"
 msgstr "Zavrnjeno"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Ponovno naloži"
@@ -6655,6 +6755,11 @@ msgstr "Odstranite {value}"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Odstrani povezavo"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Ponovno odpri"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "Ponovno naroči {0}"
@@ -6864,6 +6970,10 @@ msgstr "življenjepisi so vedno prikazani na belem papirju, ne glede na temo."
 msgid "Resumes created"
 msgstr "ustvarjeni življenjepisi"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Pridobljeno {0}. Svežost izvora ni znana, razen če je prijavljena."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Poskusi znova"
 msgid "Retry save"
 msgstr "Poskusi znova shraniti"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "shranjeno"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Shranjevanje {0}/{username}/{slug}… Kopija je na voljo po shranjevanju
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Shranjevanje traja dlje, kot je bilo pričakovano. Vaše spremembe so še vedno odprte."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Naslovi razdelkov"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Razdelki"
@@ -7850,6 +7965,10 @@ msgstr "Vsako začnite s konkretnim glagolom: zgradil, vodil, zmanjšal, migrira
 msgid "Start from"
 msgstr "Začnite od"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Začnite s tistim, ki ga imate, in povežite prošnjo za delo."
@@ -7958,6 +8077,7 @@ msgstr "Predlogi iz <0>models.dev</0>. Vnesete lahko tudi poljuben ID modela."
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Predlaga reze, nikoli se ne izbriše sam"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Prilagodite se opisu delovnega mesta"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Preizkušanje povezave ..."
 msgid "Testing…"
 msgstr "Testiranje…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Besedilo"
@@ -8192,6 +8315,10 @@ msgstr "Besedilo tako blizu roba je mogoče odrezati. Uporabite vsaj {minimum} p
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "Besedilo pod {minimum} pt je lahko napačno prebrano, ko ga sistem ponovno upodablja."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Ta poskus prijave je potekel ali je bil že uporabljen. Začnite znova."
 msgid "This step is optional, but recommended."
 msgstr "Ta korak je neobvezen, vendar priporočen."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Niti"
@@ -8675,6 +8806,7 @@ msgstr "Zategnite na eno stran"
 msgid "Tip"
 msgstr "Nasvet"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Naziv"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Podčrtaj povezave"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Najprej ga odkleni"
 msgid "Unnamed passkey"
 msgstr "Neimenovani ključ passkey"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Uporabi vzorec"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Uporabite standardni naslov"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Spletno iskanje se ni končalo."
 msgid "Web search failed: {0}"
 msgstr "Spletno iskanje ni uspelo: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Spletna stran"
@@ -9428,6 +9568,10 @@ msgstr "Katere jezike govori?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Kdo lahko vidi moj življenjepis?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Prijavo ste preklicali, preden se je dokončala."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Nimate še življenjepisa za kopiranje. Najprej uvozite ali ustvarite življenjepis, nato pa se vrnite in ga kopirajte za to delovno mesto."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

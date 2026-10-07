@@ -810,6 +810,10 @@ msgstr "ಪ್ರಮಾಣೀಕರಣವನ್ನು ಸೇರಿಸಿ"
 msgid "Add contact"
 msgstr "ಸಂಪರ್ಕ ಸೇರಿಸಿ"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "ಕವರ್ ಲೆಟರ್ ಸೇರಿಸಿ"
@@ -854,6 +858,10 @@ msgstr "ಕೀವರ್ಡ್ ಸೇರಿಸಿ"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "ಭಾಷೆಯನ್ನು ಸೇರಿಸಿ"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "ನಿಮ್ಮ ಹೆಸರನ್ನು ಸೇರಿಸಿ"
 msgid "Added {0} at {1}"
 msgstr "{1} ನಲ್ಲಿ {0} ಸೇರಿಸಲಾಗಿದೆ"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "ವಿಳಾಸ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "ಬ್ಯಾಕಪ್ ಕೋಡ್"
 msgid "Backup codes copied to clipboard."
 msgstr "ಬ್ಯಾಕಪ್ ಕೋಡ್‌ಗಳನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "ಬ್ಯಾನರ್"
@@ -1647,6 +1668,7 @@ msgstr "ಥೀಮ್ ಅನ್ನು… ಗೆ ಬದಲಾಯಿಸಿ"
 msgid "Change this timeline entry."
 msgstr "ಈ ಟೈಮ್‌ಲೈನ್ ನಮೂದನ್ನು ಬದಲಾಯಿಸಿ."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "ಬೇರೆಡೆ ಬದಲಾಗಿದೆ"
@@ -1994,6 +2016,16 @@ msgstr "ಸಂಪರ್ಕವನ್ನು ಉಳಿಸಲಾಗಿದೆ"
 msgid "Contact"
 msgstr "ಸಂಪರ್ಕಿಸಿ"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "PDF ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ
 msgid "Could not load connected applications."
 msgstr "ಸಂಪರ್ಕಿತ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "ಮುದ್ರಣಕ್ಕಾಗಿ ನಿಮ್ಮ ರೆಸ್ಯೂಮ್ ಅನ್ನು ಸಿದ್ಧಪಡಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
@@ -2272,6 +2300,10 @@ msgstr "ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಲೋಡ್ ಮ�
 msgid "Couldn't load the sample file. Try again."
 msgstr "ಮಾದರಿ ಫೈಲ್ ಅನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "ನಿಮ್ಮ AI ಪೂರೈಕೆದಾರರನ್ನು ತಲು�
 msgid "Couldn't read that file."
 msgstr "ಆ ಫೈಲ್ ಅನ್ನು ಓದಲಾಗಲಿಲ್ಲ."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "ಈ ಪುಟವನ್ನು ಓದಲಾಗಲಿಲ್ಲ: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "ಸಲ್ಲಿಕೆಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "ಟ್ಯಾಗ್‌ಗಳನ್ನು ಉಳಿಸಲು ಸಾಧ್�
 msgid "Couldn't save your changes. Please try again."
 msgstr "ನಿಮ್ಮ ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "{0} ಅನ್ನು ರಚಿಸಲಾಗಿದೆ ಮತ್ತು ಲಿಂಕ್ ಮಾಡಲಾಗಿದೆ"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "ಖಾತೆಯನ್ನು ಅಳಿಸಿ"
 msgid "Delete Account"
 msgstr "ಖಾತೆಯನ್ನು ಅಳಿಸಿ"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "ನಮೂದನ್ನು ಅಳಿಸಿ"
@@ -3204,6 +3246,7 @@ msgstr "ಸಂಪಾದಕೀಯ"
 msgid "Education"
 msgstr "ಶಿಕ್ಷಣ"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "ಎರಡು ಅಂಶಗಳ ದೃಢೀಕರಣವನ್ನು ಸಿ
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "ಎರಡು ಅಂಶಗಳ ದೃಢೀಕರಣವನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲು ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನಮೂದಿಸಿ. 2FA ಸಕ್ರಿಯಗೊಳಿಸದಿದ್ದರೆ ನಿಮ್ಮ ಖಾತೆ ಕಡಿಮೆ ಸುರಕ್ಷಿತವಾಗಿರುತ್ತದೆ."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "ಪ್ರವೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ"
@@ -3349,6 +3393,10 @@ msgstr "ಉದ್ಯೋಗವನ್ನು ಪೋಸ್ಟ್ ಮಾಡುವ ಪ
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "ನೀವು"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "ಈ ಖಾತೆ ಆರ್ಕೈವ್ ಅನ್ನು ಹೊರತೆ�
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "ಪುಟದಲ್ಲಿ PDF ನಿಂದ ಹೊರತೆಗೆಯಲಾಗಿದೆ · ಓದುವ ಕ್ರಮ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "ಶೀರ್ಷಿಕೆ (Heading)"
 msgid "Heading changed"
 msgstr "ಶೀರ್ಷಿಕೆ ಬದಲಾಗಿದೆ"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "ಶೀರ್ಷಿಕೆ"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "ಚಿತ್ರಗಳು ಪುಟದ ಹೆಚ್ಚಿನ ಭಾಗವನ್ನು ಆವರಿಸಿವೆ."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "ಆಮದು"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "ರೆಸ್ಯೂಮೆಯನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಿ"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "ರೆಸ್ಯೂಮೆಯನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಿ, ಕೆಲಸಕ್ಕಾಗಿ ಒಂದನ್ನು ನಕಲಿಸಿ ಅಥವಾ ಖಾಲಿ ಪ್ರಾರಂಭಿಸಿ."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "ಆಮದು ವಿಫಲವಾಗಿದೆ. CSV ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "CSV ನಿಂದ ಆಮದು ಮಾಡಿ"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "CSV ನಿಂದ ಆಮದು ಮಾಡಿ..."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "ಎರಡು ಸಾಲುಗಳು ಒಂದಾಗಿ ವಿಲೀನವ
 msgid "Indonesian"
 msgstr "ಇಂಡೋನೇಷಿಯನ್"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "ಎರಡು ಅಥವಾ ಮೂರು ಫಾಂಟ್ ಕುಟುಂ�
 msgid "Keep together"
 msgstr "ಒಟ್ಟಿಗೆ ಇರಿಸಿ"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "ಅತ್ಯಂತ ನಿರ್ದಿಷ್ಟವಾದ ಭಾಗಗಳನ್ನು ಇಡುತ್ತದೆ"
@@ -4461,6 +4529,10 @@ msgstr "ಅತ್ಯಂತ ನಿರ್ದಿಷ್ಟವಾದ ಭಾಗಗಳ�
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "ಹಾಗೆಯೇ ಇಡಲಾಗಿದೆ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "ಓದಿದಾಗ ಈ ಹತ್ತಿರವಿರುವ ಸಾಲುಗ
 msgid "Link"
 msgstr "ಲಿಂಕ್"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Reactive Resume ಲಿಂಕ್ ಮಾಡಿ (ಶಿಫಾರಸು)"
@@ -4879,6 +4955,7 @@ msgstr "ಒಟ್ಟು ಲೋಡ್ ಆಗುತ್ತಿದೆ"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "ಅನ್ವಯಿಸಿದಂತೆ ಗುರುತಿಸಿ"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು ಆನ್ ಆಗಿದೆ"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "{0} ಗೆ ಸರಿಸಲಾಗಿದೆ"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "ನಿಮ್ಮ ರೆಸ್ಯೂಮೆಯಲ್ಲಿ ಇಲ್ಲ"
 msgid "Not in your resume · add only if true"
 msgstr "ನಿಮ್ಮ ರೆಸ್ಯೂಮೆಯಲ್ಲಿ ಇಲ್ಲ · ನಿಜವಾಗಿದ್ದರೆ ಮಾತ್ರ ಸೇರಿಸಿ"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "ಏನು ಬರೆಯಬೇಕೆಂದು ಖಚಿತವಿಲ್ಲ�
 msgid "Not true for me, hide it"
 msgstr "ನನಗೆ ನಿಜವಲ್ಲ, ಅದನ್ನು ಮರೆಮಾಡಿ"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "ಇನ್ನೂ ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ. ಲಿಂಕ್ ಅನ್ನು ಮರುಕಳುಹಿಸಿ"
@@ -5599,6 +5686,7 @@ msgstr "ಮಾಹಿತಿ"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "ನೀವು ಮಾತ್ರ ಇವುಗಳನ್ನು ನೋಡುತ
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "ನೀವು ಮಾತ್ರ, ನೀವು ಅದನ್ನು ಹಂಚಿಕೊಳ್ಳುವವರೆಗೆ. ರೆಸ್ಯೂಮ್ ಖಾಸಗಿಯಾಗಿ ಉಳಿಯಬಹುದು, ಸಾರ್ವಜನಿಕ ಲಿಂಕ್‌ನಲ್ಲಿ ಲೈವ್ ಆಗಬಹುದು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್‌ನೊಂದಿಗೆ ರಕ್ಷಿಸಬಹುದು ಮತ್ತು ನೀವು ಅದನ್ನು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು. ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವುದರಿಂದ ಅದರೊಂದಿಗೆ ನಿಮ್ಮ ರೆಸ್ಯೂಮೆಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "ಮೂಲ ಟೇಬಲ್ ಫಾರ್ಮ್ಯಾಟಿಂಗ್ ಅನ
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "ಇತರೆ · OpenAI-ಹೊಂದಾಣಿಕೆ"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "ಉದ್ಯೋಗ ಲಿಂಕ್ ಅಥವಾ ಉದ್ಯೋಗ ಪ�
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "ಕೆಲಸದ ಲಿಂಕ್ ಅನ್ನು ಅಂಟಿಸಿ. ನಾವು ಕೆಲಸದ ಪೋಸ್ಟಿಂಗ್ ಅನ್ನು ಉಳಿಸುತ್ತೇವೆ ಆದ್ದರಿಂದ ಪರಿಶೀಲಿಸಿ, ಸಹಾಯಕ ಮತ್ತು ನಿಮ್ಮ ಪತ್ರ ಅದನ್ನು ಬಳಸಬಹುದು."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "ಉದ್ಯೋಗ ಪೋಸ್ಟ್ ಅನ್ನು ಅಂಟಿಸಿ..."
@@ -6069,6 +6166,7 @@ msgstr "ಎಲ್ಲವನ್ನೂ ಶಾಶ್ವತವಾಗಿ ತೆಗೆ�
 msgid "Persian"
 msgstr "ಫಾರ್ಸಿ"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "ತಿರಸ್ಕರಿಸಿ"
 msgid "Rejected"
 msgstr "ತಿರಸ್ಕರಿಸಲಾಗಿದೆ"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "ಮರುಲೋಡ್ ಮಾಡಿ"
@@ -6655,6 +6755,11 @@ msgstr "{value} ತೆಗೆದುಹಾಕಿ"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "ಸಂಪರ್ಕವನ್ನು ತೆಗೆದುಹಾಕಿ"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "ಪುನಃ ತೆರೆಯಿರಿ"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "{0} ಮರುಕ್ರಮಗೊಳಿಸಿ"
@@ -6864,6 +6970,10 @@ msgstr "ರೆಸ್ಯೂಮೆಗಳು ಯಾವಾಗಲೂ ಬಿಳಿ ಕ
 msgid "Resumes created"
 msgstr "ರೆಸ್ಯೂಮೆಗಳನ್ನು ರಚಿಸಲಾಗಿದೆ"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "{0} ಮರುಪಡೆಯಲಾಗಿದೆ. ವರದಿ ಮಾಡದ ಹೊರತು ಮೂಲ ತಾಜಾತನ ತಿಳಿದಿಲ್ಲ."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "ಮರುಪ್ರಯತ್ನಿಸಿ"
 msgid "Retry save"
 msgstr "ಉಳಿಸಲು ಮರುಪ್ರಯತ್ನಿಸಿ"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "ಉಳಿಸಲಾಗಿದೆ"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "{0}/{username}/{slug} ಉಳಿಸಲಾಗುತ್ತಿದೆ... ಉ�
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "ಉಳಿತಾಯ ನಿರೀಕ್ಷೆಗಿಂತ ಹೆಚ್ಚು ಸಮಯ ತೆಗೆದುಕೊಳ್ಳುತ್ತಿದೆ. ನಿಮ್ಮ ಬದಲಾವಣೆಗಳು ಇನ್ನೂ ತೆರೆದಿರುತ್ತವೆ."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "ವಿಭಾಗದ ಶೀರ್ಷಿಕೆಗಳು"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "ವಿಭಾಗಗಳು"
@@ -7850,6 +7965,10 @@ msgstr "ಪ್ರತಿಯೊಂದನ್ನೂ ಸ್ಪಷ್ಟ ಕ್ರಿ�
 msgid "Start from"
 msgstr "ನಿಂದ ಪ್ರಾರಂಭಿಸಿ"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "ನೀವು ಹೊಂದಿರುವ ಒಂದರಿಂದ ಪ್ರಾರಂಭಿಸಿ ಮತ್ತು ಉದ್ಯೋಗ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ."
@@ -7958,6 +8077,7 @@ msgstr "<0>models.dev</0> ನಿಂದ ಸಲಹೆಗಳು. ನೀವು ಯ�
 msgid "Suggests cuts, never deletes on its own"
 msgstr "ಕಡಿತವನ್ನು ಸೂಚಿಸುತ್ತದೆ, ಎಂದಿಗೂ ತನ್ನದೇ ಆದ ಮೇಲೆ ಅಳಿಸುವುದಿಲ್ಲ"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "ಉದ್ಯೋಗ ವಿವರಣೆಗೆ ಹೊಂದಿಕೊಳ್�
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "ಸಂಪರ್ಕವನ್ನು ಪರೀಕ್ಷಿಸಲಾಗು�
 msgid "Testing…"
 msgstr "… ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "ಪಠ್ಯ"
@@ -8192,6 +8315,10 @@ msgstr "ಅಂಚಿಗೆ ಹತ್ತಿರವಿರುವ ಪಠ್ಯವನ�
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "{minimum} pt ಅಡಿಯಲ್ಲಿರುವ ಪಠ್ಯವನ್ನು ಸಿಸ್ಟಮ್ ಮರು-ರೆಂಡರ್ ಮಾಡಿದಾಗ ತಪ್ಪಾಗಿ ಓದಬಹುದು."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "ಈ ಸೈನ್-ಇನ್ ಪ್ರಯತ್ನ ಅವಧಿ ಮುಗ�
 msgid "This step is optional, but recommended."
 msgstr "ಈ ಹಂತ ಐಚ್ಛಿಕ, ಆದರೆ ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "ಥ್ರೆಡ್‌ಗಳು"
@@ -8675,6 +8806,7 @@ msgstr "ಒಂದು ಪುಟಕ್ಕೆ ಬಿಗಿಗೊಳಿಸಿ"
 msgid "Tip"
 msgstr "ಸಲಹೆ"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "ಶೀರ್ಷಿಕೆ"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "ಲಿಂಕ್‌ಗಳನ್ನು ಅಂಡರ್‌ಲೈನ್ ಮಾಡಿ"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "ಮೊದಲು ಅದನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ"
 msgid "Unnamed passkey"
 msgstr "ಹೆಸರಿಡದ ಪಾಸ್‌ಕೀ"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "ಮಾದರಿ ಬಳಸಿ"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "ಪ್ರಮಾಣಿತ ಶೀರ್ಷಿಕೆಯನ್ನು ಬಳಸಿ"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "ವೆಬ್ ಹುಡುಕಾಟ ಮುಗಿದಿಲ್ಲ."
 msgid "Web search failed: {0}"
 msgstr "ವೆಬ್ ಹುಡುಕಾಟ ವಿಫಲವಾಗಿದೆ: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "ಜಾಲತಾಣ"
@@ -9428,6 +9568,10 @@ msgstr "ಇದು ಯಾವ ಭಾಷೆಗಳನ್ನು ಮಾತನಾಡು
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "ನನ್ನ ರೆಸ್ಯೂಮೆಯನ್ನು ಯಾರು ನೋಡಬಹುದು?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "ಪೂರ್ಣಗೊಳ್ಳುವ ಮೊದಲೇ ನೀವು ಸೈ
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "ನೀವು ಇನ್ನೂ ನಕಲಿಸಲು ರೆಸ್ಯೂಮೆಯನ್ನು ಹೊಂದಿಲ್ಲ. ಮೊದಲು ರೆಸ್ಯೂಮೆಯನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಿ ಅಥವಾ ರಚಿಸಿ, ನಂತರ ಈ ಕೆಲಸಕ್ಕಾಗಿ ಅದನ್ನು ನಕಲಿಸಲು ಹಿಂತಿರುಗಿ."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

@@ -810,6 +810,10 @@ msgstr "Sertifikatlash qo'shing"
 msgid "Add contact"
 msgstr "Kontakt qo'shish"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Add contact detail"
+msgstr ""
+
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add cover letter"
 msgstr "Muqova xatini qo'shing"
@@ -854,6 +858,10 @@ msgstr "Kalit so'zni qo'shing"
 #: src/features/resume/editor/write/outline.tsx
 msgid "Add language"
 msgstr "Til qo'shing"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Add note"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Add one link that shows your work."
@@ -957,9 +965,18 @@ msgstr "Ismingizni qo'shing"
 msgid "Added {0} at {1}"
 msgstr "{1} da {0} qo‘shildi"
 
+#. placeholder {0}: selected.name
+#: src/features/copilot/bank-page.tsx
+msgid "Added what “{0}” had that the bank didn't."
+msgstr ""
+
 #: src/features/resume/share/link-tab.tsx
 msgid "Address"
 msgstr "Manzil"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Adds the resume's entries to your Information Bank and turns its free-text sections into notes. Your contact details and summary are only filled in where they are empty. The resume itself is not changed."
+msgstr ""
 
 #: src/features/homepage/sections.tsx
 msgid "Ads"
@@ -1450,6 +1467,10 @@ msgstr "Zaxira kodi"
 msgid "Backup codes copied to clipboard."
 msgstr "Zaxira kodlari buferga nusxalandi."
 
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Bank"
+msgstr ""
+
 #: src/features/homepage/sheet.tsx
 msgid "Banner"
 msgstr "Banner"
@@ -1647,6 +1668,7 @@ msgstr "Mavzuni… ga o'zgartiring"
 msgid "Change this timeline entry."
 msgstr "Bu vaqt jadvalidagi yozuvni o'zgartiring."
 
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Changed elsewhere"
 msgstr "Boshqa joyda o'zgartirildi"
@@ -1994,6 +2016,16 @@ msgstr "Ulanish saqlandi"
 msgid "Contact"
 msgstr "Aloqa"
 
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, link"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Contact detail {0}, text"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 #: src/features/resume/editor/check/issues.ts
 msgid "Contact details"
@@ -2151,10 +2183,6 @@ msgstr "PDF faylini yaratib bo'lmadi. Iltimos, qayta urinib ko'ring."
 msgid "Could not load connected applications."
 msgstr "Ulangan ilovalarni yuklab bo‘lmadi."
 
-#: src/features/copilot/copilot-nav.tsx
-msgid "Could not open the Information Bank. Please try again."
-msgstr ""
-
 #: src/features/resume/export/use-resume-export.ts
 msgid "Could not prepare your resume for printing. Please try again."
 msgstr "Rezyumengizni chop etishga tayyorlab bo'lmadi. Iltimos, qayta urinib ko'ring."
@@ -2272,6 +2300,10 @@ msgstr "Hujjatlarni yuklab bo‘lmadi"
 msgid "Couldn't load the sample file. Try again."
 msgstr "Namuna faylni yuklab bo‘lmadi. Qayta urinib ko'ring."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't load your Information Bank. Reload the page to try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't propose these edits: {0}"
@@ -2289,6 +2321,10 @@ msgstr "AI provayderingizga ulanib bo‘lmadi. Uning kaliti muddati tugagan bo'l
 msgid "Couldn't read that file."
 msgstr "Bu faylni oʻqib boʻlmadi."
 
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't read that resume. Try again."
+msgstr ""
+
 #. placeholder {0}: part.errorText
 #: src/features/assistant/conversation.tsx
 msgid "Couldn't read this page: {0}"
@@ -2297,6 +2333,10 @@ msgstr "Bu sahifani o‘qib bo‘lmadi: {0}"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Couldn't record submission. Try again."
 msgstr "Taqdim etishni yozib bo‘lmadi. Qayta urinib ko'ring."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Couldn't reload. Try again."
+msgstr ""
 
 #: src/features/settings/account/security.tsx
 msgid "Couldn't remove the passkey. Try again."
@@ -2342,6 +2382,7 @@ msgstr "Teglarni saqlab bo‘lmadi."
 msgid "Couldn't save your changes. Please try again."
 msgstr "O'zgarishlaringizni saqlab bo'lmadi. Qayta urinib ko'ring."
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/letters/store.ts
 #: src/features/resume/share/history-tab.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -2495,7 +2536,7 @@ msgid "Created and linked to {0}"
 msgstr "Yaratilgan va {0} bilan bog'langan"
 
 #: src/dialogs/resume/generate.tsx
-msgid "Creates a new resume from your master resume (the one tagged “master”), keeping what matters for this job."
+msgid "Creates a new resume from your <0>Information Bank</0>, keeping what matters for this job."
 msgstr ""
 
 #: src/features/resume/editor/write/picture-settings.tsx
@@ -2669,6 +2710,7 @@ msgstr "Hisobni o'chirish"
 msgid "Delete Account"
 msgstr "Hisobni o‘chirish"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Delete entry"
 msgstr "Kirishni o'chirish"
@@ -3204,6 +3246,7 @@ msgstr "Tahririyat"
 msgid "Education"
 msgstr "Ta'lim"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/settings/account/profile.tsx
@@ -3321,6 +3364,7 @@ msgstr "Ikki bosqichli autentifikatsiyani sozlashni tasdiqlash uchun parolingizn
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Ikki bosqichli autentifikatsiyani o‘chirishni tasdiqlash uchun parolingizni kiriting. 2BShT yoqilmagan holda hisobingiz kamroq xavfsiz boʻladi."
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Entry deleted"
 msgstr "Yozuv oʻchirildi"
@@ -3349,6 +3393,10 @@ msgstr "Ishni e'lon qilishning har bir davri allaqachon mavjud."
 #: src/features/homepage/hero.tsx
 msgid "Everything"
 msgstr "Qilgan"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Everything you could put on a resume, in as much detail as you like. Tailored resumes, cover letters and form answers are written from it. It is never printed or shared as it is."
+msgstr ""
 
 #: src/features/homepage/hero.tsx
 msgid "Everything you’ve done, on one page."
@@ -3431,6 +3479,10 @@ msgstr "Ushbu hisob arxivini chiqarib oling, so'ngra uning rezyumelari yoki harf
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Extracted from the PDF on the page · reading order"
 msgstr "Sahifada PDF dan olingan · o'qish tartibi"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Facts that fit nowhere above: answers to common application questions, preferences, side projects. Notes are read by the AI and never printed. Give a side project its own heading and it can be used as a project on a resume."
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Failed"
@@ -3882,6 +3934,7 @@ msgstr "Sarlavha"
 msgid "Heading changed"
 msgstr "Sarlavha o'zgartirildi"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Headline"
 msgstr "Sarlavha"
@@ -4065,6 +4118,7 @@ msgid "Images cover most of the page."
 msgstr "Rasmlar sahifaning katta qismini egallaydi."
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 msgid "Import"
 msgstr "Import"
 
@@ -4073,12 +4127,16 @@ msgid "Import a resume"
 msgstr "Rezyumeni import qiling"
 
 #: src/features/documents/new-document-dialog.tsx
-msgid "Import a resume, copy one for a job, or start blank."
-msgstr "Rezyumeni import qiling, ish uchun nusxa ko'chiring yoki bo'sh boshlang."
+msgid "Import a resume, tailor one to a job, copy one for a job, or start blank."
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Import failed. Check the CSV and try again."
 msgstr "Import amalga oshmadi. CSV'ni tekshirib, qayta urinib ko'ring."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import from a resume"
+msgstr ""
 
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -4088,6 +4146,10 @@ msgstr "CSV'dan import qilish"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV…"
 msgstr "CSV dan import qilish…"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Import one to fill every section at once, then add what a single resume never had room for. Or just start typing below."
+msgstr ""
 
 #: src/features/documents/new-document-dialog.tsx
 msgid "Import or create a resume"
@@ -4164,6 +4226,8 @@ msgstr "Ikki qator birlashib ketmasligi uchun qatorlar oraligʻini oshiring."
 msgid "Indonesian"
 msgstr "Indonez tili"
 
+#: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/copilot/copilot-nav.tsx
 msgid "Information Bank"
 msgstr ""
@@ -4454,6 +4518,10 @@ msgstr "Ikki yoki uchta shrift oilasi bilan cheklaning. Har bir qoʻshimcha shri
 msgid "Keep together"
 msgstr "Birgalikda bo'ling"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Keep, but don't use when generating"
+msgstr ""
+
 #: src/features/assistant/assistant-panel.tsx
 msgid "Keeps the most specific parts"
 msgstr "Eng aniq qismlarni saqlaydi"
@@ -4461,6 +4529,10 @@ msgstr "Eng aniq qismlarni saqlaydi"
 #: src/features/resume/editor/check/actions.ts
 msgid "Kept as it is"
 msgstr "Xuddi shunday saqlangan"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Kept for your resumes only. Referees' details are never sent to an AI or a form."
+msgstr ""
 
 #. placeholder {0}: keyEnding(provider.apiKeyPreview)
 #: src/features/settings/ai/providers.tsx
@@ -4713,6 +4785,10 @@ msgstr "Shunchalik yaqin qatorlar o‘qilganda birga o‘tishi mumkin. Kamida {m
 msgid "Link"
 msgstr "Havola"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Link (optional)"
+msgstr ""
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Link a Reactive Resume (recommended)"
 msgstr "Reactive Resume'ni ulang (tavsiya etiladi)"
@@ -4879,6 +4955,7 @@ msgstr "Jami yuklanmoqda"
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -5013,6 +5090,10 @@ msgstr "Amalga oshirilgan deb belgilang"
 #: src/features/resume/editor/write/rich-text-editor.tsx
 msgid "Markdown shortcuts on"
 msgstr "Markdown yorliqlari yoqilgan"
+
+#: src/features/command-palette/pages/navigation.tsx
+msgid "Master"
+msgstr ""
 
 #. placeholder {0}: resume?.name ?? t`the resume`
 #: src/routes/builder/letter/-components/design-panel.tsx
@@ -5198,6 +5279,7 @@ msgstr "{0} ga koʻchirildi"
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/detail/contacts.tsx
 #: src/features/auth/pages/register.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-card.tsx
 #: src/features/documents/documents-page.tsx
 #: src/features/documents/new-document-dialog.tsx
@@ -5558,6 +5640,7 @@ msgstr "Rezyumeingizda yoʻq"
 msgid "Not in your resume · add only if true"
 msgstr "Rezyumeda yo'q · agar rost bo'lsa, qo'shing"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Not saved"
@@ -5587,6 +5670,10 @@ msgstr "Nima yozishni bilmayapsizmi?"
 msgid "Not true for me, hide it"
 msgstr "Men uchun to'g'ri emas, yashiring"
 
+#: src/features/copilot/bank-cards.tsx
+msgid "Not used"
+msgstr ""
+
 #: src/features/settings/account/profile.tsx
 msgid "Not verified yet. Resend the link"
 msgstr "Hali tasdiqlanmagan. Havolani qayta yuboring"
@@ -5599,6 +5686,7 @@ msgstr "Ma'lumot"
 #: src/features/applications/components/application-notes.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/applications/components/interview-dialog.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-components/document-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
@@ -5743,6 +5831,7 @@ msgstr "Bularni faqat siz ko'rasiz"
 msgid "Only you, until you share it. A resume can stay private, go live at a public link, or be protected with a password, and you can change that at any time. Deleting your account deletes your resumes with it."
 msgstr "Uni baham ko'rmaguningizcha faqat siz. Rezyume shaxsiy qolishi, ochiq havolada jonli efirga chiqishi yoki parol bilan himoyalanishi mumkin va siz uni istalgan vaqtda o'zgartirishingiz mumkin. Hisobingizni o'chirib tashlasangiz, u bilan rezyumelaringiz o'chiriladi."
 
+#: src/dialogs/resume/generate.tsx
 #: src/features/applications/components/detail/sent-documents.tsx
 #: src/features/documents/document-actions.tsx
 #: src/routes/dashboard/applications/index.tsx
@@ -5865,6 +5954,10 @@ msgstr "Jadvalning asl formati saqlanib qolgan. Bu kontent faqat o‘qish uchun 
 #: src/features/assistant/provider-setup.tsx
 msgid "Other · OpenAI-compatible"
 msgstr "Boshqa · OpenAI-mos keladi"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Other contact details"
+msgstr ""
 
 #. placeholder {0}: others.length
 #: src/features/assistant/assistant-panel.tsx
@@ -6004,6 +6097,10 @@ msgstr "Ish havolasini yoki ish e'lonini joylashtiring, keyin rol va kompaniyani
 msgid "Paste a job link. We'll save the posting so Check, the assistant and your letter can use it."
 msgstr "Ishga havolani joylashtiring. Ish haqidagi eʼlonni tekshiring, yordamchi va sizning xatingiz undan foydalanishi uchun saqlab qoʻyamiz."
 
+#: src/features/documents/new-document-dialog.tsx
+msgid "Paste a job posting. AI writes a new resume for it from your Information Bank."
+msgstr ""
+
 #: src/features/resume/editor/check/job-match.tsx
 msgid "Paste a job posting…"
 msgstr "Ish haqidagi xabarni joylashtirish…"
@@ -6069,6 +6166,7 @@ msgstr "Hamma narsani doimiy ravishda olib tashlaydi. Agar nusxa olishni istasan
 msgid "Persian"
 msgstr "Fors tili"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 #: src/features/resume/editor/write/entries.tsx
@@ -6615,6 +6713,8 @@ msgstr "Rad etish"
 msgid "Rejected"
 msgstr "Rad etilgan"
 
+#: src/features/copilot/bank-page.tsx
+#: src/features/copilot/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Reload"
 msgstr "Qayta yuklash"
@@ -6655,6 +6755,11 @@ msgstr "{value} ni olib tashlang"
 #: src/features/settings/ai/web-access.tsx
 msgid "Remove connection"
 msgstr "Ulanishni olib tashlang"
+
+#. placeholder {0}: index + 1
+#: src/features/copilot/bank-page.tsx
+msgid "Remove contact detail {0}"
+msgstr ""
 
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Remove field"
@@ -6709,6 +6814,7 @@ msgid "Reopen"
 msgstr "Qayta oching"
 
 #. placeholder {0}: title || t`Untitled`
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 msgid "Reorder {0}"
 msgstr "{0}"
@@ -6864,6 +6970,10 @@ msgstr "rezyumelar har doim oq qog'ozda, har qanday mavzuda ko'rsatiladi."
 msgid "Resumes created"
 msgstr "rezyumelar yaratildi"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Resumes tailored from the bank are not listed."
+msgstr ""
+
 #. placeholder {0}: application.postingSource.retrievedAt
 #. placeholder {1}: application.postingSource.method
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6876,6 +6986,7 @@ msgid "Retrieved {0}. Origin freshness is unknown unless reported."
 msgstr "Olingan {0}. Xabar berilmasa, kelib chiqishi yangiligi noma'lum."
 
 #: src/features/assistant/conversation.tsx
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/check/writing-tab.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -6886,6 +6997,7 @@ msgstr "Qayta urinish"
 msgid "Retry save"
 msgstr "Qaytadan saqlashga urinib ko'ring"
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Retry saving"
@@ -7067,6 +7179,7 @@ msgstr "saqlangan"
 
 #: src/features/applications/components/add-application-dialog.tsx
 #: src/features/applications/stages.ts
+#: src/features/copilot/save-status.tsx
 #: src/features/homepage/tailor.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
@@ -7098,6 +7211,7 @@ msgstr "Saqlanmoqda {0}/{username}/{slug}… Saqlangandan keyin nusxa olish mumk
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Saqlash kutilganidan ko'proq vaqt talab qilmoqda. Oʻzgartirishlaringiz hali ham ochiq."
 
+#: src/features/copilot/save-status.tsx
 #: src/features/resume/editor/save-status.tsx
 #: src/routes/builder/letter/-components/letter-bar.tsx
 msgid "Saving…"
@@ -7234,6 +7348,7 @@ msgid "Section headings"
 msgstr "Bo'lim sarlavhalari"
 
 #: src/features/ats-checker/messages.ts
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/check/parser-view.tsx
 msgid "Sections"
 msgstr "Boʻlimlar"
@@ -7850,6 +7965,10 @@ msgstr "Har birini aniq fe'l bilan boshlang: built, led, reduced, migrated."
 msgid "Start from"
 msgstr "dan boshlang"
 
+#: src/features/copilot/bank-page.tsx
+msgid "Start from a resume you already have"
+msgstr ""
+
 #: src/features/documents/new-document-dialog.tsx
 msgid "Start from one you have and link the application."
 msgstr "Sizda mavjud bo'lganidan boshlang va ish arizasini bog'lang."
@@ -7958,6 +8077,7 @@ msgstr "<0>models.dev</0> dan takliflar. Siz har qanday model identifikatorini h
 msgid "Suggests cuts, never deletes on its own"
 msgstr "Kesishni taklif qiladi, hech qachon o'z-o'zidan o'chirilmaydi"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/summary-editor.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
@@ -8063,6 +8183,8 @@ msgstr "Ish tavsifiga moslash"
 
 #: src/dialogs/resume/generate.tsx
 #: src/features/command-palette/pages/navigation.tsx
+#: src/features/copilot/bank-page.tsx
+#: src/features/documents/new-document-dialog.tsx
 msgid "Tailor a resume to a job"
 msgstr ""
 
@@ -8145,6 +8267,7 @@ msgstr "Ulanish tekshirilmoqda…"
 msgid "Testing…"
 msgstr "Sinov…"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Text"
 msgstr "Matn"
@@ -8192,6 +8315,10 @@ msgstr "Chekka yaqin joylashgan matnni kesib tashlash mumkin. Kamida {minimum} p
 #: src/features/resume/editor/check/issues.ts
 msgid "Text under {minimum} pt can be misread when a system re-renders it."
 msgstr "{minimum} pt ostidagi matn tizim uni qayta ko'rsatganda noto'g'ri o'qilishi mumkin."
+
+#: src/features/copilot/bank-page.tsx
+msgid "Text, like github.com/you"
+msgstr ""
 
 #: src/libs/locale.ts
 msgid "Thai"
@@ -8663,6 +8790,10 @@ msgstr "Bu kirish urinishi muddati tugagan yoki allaqachon ishlatilgan. Iltimos,
 msgid "This step is optional, but recommended."
 msgstr "Bu bosqich ixtiyoriy, ammo tavsiya etiladi."
 
+#: src/features/copilot/bank-page.tsx
+msgid "This was changed somewhere else, so nothing new is being saved. Reload to carry on."
+msgstr ""
+
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Threads"
 msgstr "Mavzular"
@@ -8675,6 +8806,7 @@ msgstr "Bir sahifaga mahkamlang"
 msgid "Tip"
 msgstr "Maslahat"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entries.tsx
 msgid "Title"
 msgstr "Sarlavha"
@@ -8889,6 +9021,8 @@ msgid "Underline links"
 msgstr "Havolalar tagiga chizish"
 
 #: src/features/assistant/document.ts
+#: src/features/copilot/bank-cards.tsx
+#: src/features/copilot/bank-page.tsx
 #: src/features/documents/document-actions.tsx
 #: src/features/homepage/write.tsx
 #: src/features/resume/editor/check/actions.ts
@@ -8947,6 +9081,7 @@ msgstr "Avval uni qulfdan chiqaring"
 msgid "Unnamed passkey"
 msgstr "Nomsiz kirish kaliti"
 
+#: src/features/copilot/bank-cards.tsx
 #: src/features/resume/editor/write/entry-card.tsx
 #: src/features/resume/stylesheet/targets.ts
 msgid "Untitled"
@@ -9103,6 +9238,10 @@ msgstr "Namuna ishlatish"
 #: src/features/resume/editor/check/issues.ts
 msgid "Use the standard heading"
 msgstr "Standart sarlavhadan foydalaning"
+
+#: src/features/copilot/bank-cards.tsx
+msgid "Use this entry again"
+msgstr ""
 
 #: src/features/settings/ai/providers.tsx
 msgid "Use this provider"
@@ -9325,6 +9464,7 @@ msgstr "Veb-qidiruv tugamadi."
 msgid "Web search failed: {0}"
 msgstr "Veb-qidiruv amalga oshmadi: {0}"
 
+#: src/features/copilot/bank-page.tsx
 #: src/features/resume/editor/write/basics-card.tsx
 msgid "Website"
 msgstr "Veb-sayt"
@@ -9428,6 +9568,10 @@ msgstr "U qaysi tillarda gapiradi?"
 #: src/features/homepage/faq.tsx
 msgid "Who can see my resume?"
 msgstr "Mening rezyumeimni kim ko'rishi mumkin?"
+
+#: src/features/copilot/bank-page.tsx
+msgid "Who you are professionally. Long is fine: each resume gets its own short version."
+msgstr ""
 
 #: src/features/applications/components/interview-dialog.tsx
 msgid "Who you're meeting, what to prepare…"
@@ -9557,6 +9701,10 @@ msgstr "Siz kirishni yakunlanishidan oldin bekor qildingiz."
 #: src/features/documents/new-document-dialog.tsx
 msgid "You don't have a resume to copy yet. Import or create a resume first, then return to copy it for this job."
 msgstr "Sizda hali nusxa ko'chirish uchun rezyume yo'q. Avval rezyumeni import qiling yoki yarating, so'ngra uni ushbu ish uchun nusxalash uchun qayting."
+
+#: src/features/copilot/bank-page.tsx
+msgid "You don't have a resume to import from yet."
+msgstr ""
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

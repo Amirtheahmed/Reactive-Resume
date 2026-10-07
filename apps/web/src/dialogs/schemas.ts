@@ -4,7 +4,13 @@ import type { ReactNode } from "react";
 type EmptyDialog<T extends string> = { [K in T]: { type: K; data?: undefined } }[T];
 
 export type DialogSchema =
-	| EmptyDialog<"auth.change-password" | "auth.two-factor.enable" | "auth.two-factor.disable" | "resume.generate">
+	| EmptyDialog<"auth.change-password" | "auth.two-factor.enable" | "auth.two-factor.disable">
+	// Fork: the tailor dialog.
+	| {
+			type: "resume.generate";
+			/** The application the resume is for: its posting fills the form, and the new resume is linked to it. */
+			data?: { applicationId?: string | undefined } | undefined;
+	  }
 	| {
 			type: "document.new";
 			data?: NewDocumentDialogData | undefined;

@@ -1,3 +1,4 @@
+import type { CoverLetterDocument } from "@reactive-resume/schema/cover-letter/data";
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
 import type { Template } from "@reactive-resume/schema/templates";
 import type { HTMLElement } from "node-html-parser";
@@ -5,43 +6,28 @@ import { ORPCError } from "@orpc/client";
 import { parse as parseHtml } from "node-html-parser";
 import sanitizeHtml from "sanitize-html";
 import z from "zod";
+import { copyCoverLetterStyle } from "@reactive-resume/resume/cover-letter";
 import { parseResumeData, projectItemSchema, skillItemSchema } from "@reactive-resume/schema/resume/data";
 import { generateId } from "@reactive-resume/utils/string";
-import { resumeService } from "../resume/service";
-
-/**
- * The resume carrying this tag is the user's master profile: everything they could put on a resume.
- * Tailored resumes, cover letters and autofill answers are all generated from it.
- */
-// ponytail: a tag instead of an is_master column; add the column if users need exactly-one enforcement.
-const MASTER_TAG = "master";
-
-export async function getMasterResume(userId: string) {
-	const [latest] = await resumeService.list({ userId, tags: [MASTER_TAG], sort: "lastUpdatedAt" });
-	if (!latest) {
-		throw new ORPCError("BAD_REQUEST", {
-			message: `No master resume found. Add the tag "${MASTER_TAG}" to the resume that holds your full profile.`,
-		});
-	}
-	return resumeService.getById({ id: latest.id, userId });
-}
 
 /** The custom sections a model may read. References, whatever kind of section they were typed into, are someone else's details. */
+// Whole words only: "Preferences" contains "referen" and is exactly the kind of note a model should read.
+const REFEREES_TITLE = /\b(references?|referees?)\b/i;
 const backgroundSections = (data: ResumeData) =>
 	data.customSections.filter(
-		(section) => !section.hidden && section.type !== "references" && !/referen/i.test(section.title),
+		(section) => !section.hidden && section.type !== "references" && !REFEREES_TITLE.test(section.title),
 	);
 
 type ProfileOptions = {
 	/**
-	 * Whether to include the custom sections (the candidate's FAQ, preferences, notes). Leave them out
+	 * Whether to include the Information Bank's notes (the candidate's FAQ, preferences, side projects). Leave them out
 	 * when the same prompt carries raw text from an untrusted page, which could try to talk the model into
 	 * repeating them.
 	 */
 	background?: boolean;
 };
 
-/** The master resume without presentation settings or hidden entries, as compact JSON for a prompt. */
+/** The profile without presentation settings or hidden entries, as compact JSON for a prompt. */
 export function profileForPrompt(data: ResumeData, { background: withBackground = true }: ProfileOptions = {}): string {
 	// References are other people's contact details: never sent to a model or offered to a form.
 	const { references: _references, ...ownSections } = data.sections;
@@ -53,8 +39,9 @@ export function profileForPrompt(data: ResumeData, { background: withBackground 
 				.map(({ hidden: _hidden, icon: _icon, iconColor: _iconColor, ...item }) => item),
 		]),
 	);
-	// Custom sections hold what the standard ones cannot: an FAQ, preferences, extra projects. They are
-	// background for the model, so they are sent whole, apart from anyone else's contact details.
+	// The Information Bank's notes arrive as custom sections. They hold what the standard sections cannot:
+	// an FAQ, preferences, extra projects. They are background for the model, so they are sent whole, apart
+	// from anyone else's contact details.
 	const background = (withBackground ? backgroundSections(data) : []).map((section) => ({
 		title: section.title,
 		items: (section.items as Record<string, unknown>[])
@@ -153,9 +140,9 @@ const GOLDSTAR_ORDER = [
 ];
 
 /**
- * Builds the tailored resume from the master: the model only chooses entries by id and rewrites their
- * descriptions, so employers, titles and dates always come from the master and the result stays schema-valid.
- * The one thing it may add is a project taken from the master's background notes.
+ * Builds the tailored resume from the master profile (the Information Bank as resume data): the model only
+ * chooses entries by id and rewrites their descriptions, so employers, titles and dates always come from the
+ * profile and the result stays schema-valid. The one thing it may add is a project taken from the notes.
  */
 export function applyTailoring(master: ResumeData, tailoring: Tailoring, template: Template): ResumeData {
 	const data = structuredClone(master);
@@ -226,8 +213,8 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 		);
 	}
 
-	// The master's custom sections are background (FAQ, preferences, notes), not resume content: a tailored
-	// resume is built from the standard sections only.
+	// The notes are background (FAQ, preferences, side projects), not resume content: a tailored resume is
+	// built from the standard sections only.
 	const background = new Set(data.customSections.map((section) => section.id));
 	data.customSections = [];
 	for (const page of data.metadata.layout.pages) {
@@ -260,6 +247,26 @@ export function applyTailoring(master: ResumeData, tailoring: Tailoring, templat
 	}
 
 	return parseResumeData(data);
+}
+
+/**
+ * A letter written from the Information Bank has no resume to take its sender and design from, so it is
+ * saved as a standalone letter carrying a copy of the bank's contact details on the default design.
+ */
+export function bankLetterDocument(
+	profile: ResumeData,
+	letter: { name: string; content: string; recipientCompany: string },
+): CoverLetterDocument {
+	return {
+		format: "reactive-resume-cover-letter",
+		version: 1,
+		...letter,
+		recipient: "",
+		style: copyCoverLetterStyle(profile),
+		layout: "structured",
+		recipientName: "",
+		letterDate: new Date().toISOString().slice(0, 10),
+	};
 }
 
 export type AutofillProfile = {

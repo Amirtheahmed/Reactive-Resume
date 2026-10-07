@@ -18,7 +18,8 @@ import { SectionRow } from "./section-row";
 import { SummaryEditor } from "./summary-editor";
 import { useCurrentBuilderResumeSelector, useUpdateResumeData } from "@/features/resume/builder/draft";
 
-const ADD_LABELS: Record<CustomSectionType, MessageDescriptor> = {
+// Fork: exported for the Information Bank page.
+export const ADD_LABELS: Record<CustomSectionType, MessageDescriptor> = {
 	summary: msg`Add text`,
 	experience: msg`Add experience`,
 	education: msg`Add education`,
@@ -45,7 +46,8 @@ function parseRows(key: string): OutlineRow[] {
 	});
 }
 
-function useSortSensors() {
+// Fork: exported for the Information Bank page.
+export function useSortSensors() {
 	return useSensors(
 		// A small distance keeps clicks on the handle from starting a drag.
 		useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),

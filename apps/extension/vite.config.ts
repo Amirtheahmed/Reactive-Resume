@@ -25,7 +25,7 @@ const manifest = (appUrl: string): Plugin => ({
 					name: "Reactive Resume Copilot",
 					version,
 					description:
-						"Tailor resumes and cover letters to a job posting and fill application forms from your master resume.",
+						"Tailor resumes and cover letters to a job posting and fill application forms from your Information Bank.",
 					permissions: ["sidePanel", "storage", "activeTab", "scripting"],
 					host_permissions: [`${new URL(appUrl).origin}/*`],
 					side_panel: { default_path: "index.html" },

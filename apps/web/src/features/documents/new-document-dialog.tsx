@@ -226,7 +226,7 @@ export function NewDocumentDialog({ data }: { data?: NewDocumentDialogData | und
 							<Trans>New document</Trans>
 						</DialogTitle>
 						<DialogDescription className="sr-only">
-							<Trans>Import a resume, copy one for a job, or start blank.</Trans>
+							<Trans>Import a resume, tailor one to a job, copy one for a job, or start blank.</Trans>
 						</DialogDescription>
 					</DialogHeader>
 
@@ -258,6 +258,17 @@ export function NewDocumentDialog({ data }: { data?: NewDocumentDialogData | und
 					</button>
 
 					<div className="grid gap-3 sm:grid-cols-2">
+						{/* Fork feature: the tailor dialog replaces this one. */}
+						<div className="grid sm:col-span-2">
+							<ChoiceTile
+								icon="auto_fix_high"
+								title={t`Tailor a resume to a job`}
+								description={t`Paste a job posting. AI writes a new resume for it from your Information Bank.`}
+								onClick={() =>
+									useDialogStore.getState().openDialog("resume.generate", { applicationId: data?.applicationId })
+								}
+							/>
+						</div>
 						<ChoiceTile
 							icon="content_copy"
 							title={t`Copy a resume for a job`}
@@ -474,7 +485,7 @@ export function useStartDocument(applicationId?: string) {
 }
 
 type ChoiceTileProps = {
-	icon: "content_copy" | "note_add";
+	icon: "auto_fix_high" | "content_copy" | "note_add";
 	title: string;
 	description: string;
 	onClick: () => void;

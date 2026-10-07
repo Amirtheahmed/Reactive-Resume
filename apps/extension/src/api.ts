@@ -63,7 +63,7 @@ async function request(path: string, apiKey: string, body?: unknown): Promise<Re
 }
 
 export const api = {
-	/** Contact details from the master resume. Fails with 401 for a bad key and 400 when no resume is tagged "master". */
+	/** Contact details from the Information Bank. Fails with 401 for a bad key and 400 while the bank is empty. */
 	profile: async (apiKey: string): Promise<Profile> => (await request("/autofill/profile", apiKey)).json(),
 
 	generate: async (apiKey: string, type: DocumentType, job: Job): Promise<GeneratedDocument> => {
