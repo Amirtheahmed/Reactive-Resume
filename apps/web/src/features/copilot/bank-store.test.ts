@@ -15,7 +15,8 @@ const rename = (name: string) =>
 
 beforeEach(() => {
 	mocks.update.mockReset();
-	store().load(emptyInformationBank, 3, "user");
+	store().claim("user");
+	store().load(emptyInformationBank, 3);
 });
 
 it("sends what was typed during a save next, against the revision that save returned", async () => {
@@ -31,7 +32,11 @@ it("sends what was typed during a save next, against the revision that save retu
 
 	expect(await saving).toBe(true);
 	expect(mocks.update).toHaveBeenCalledTimes(2);
-	expect(mocks.update.mock.calls[0]?.[0]).toMatchObject({ expectedRevision: 3, data: { basics: { name: "First" } } });
+	expect(mocks.update.mock.calls[0]?.[0]).toMatchObject({
+		owner: "user",
+		expectedRevision: 3,
+		data: { basics: { name: "First" } },
+	});
 	expect(mocks.update.mock.calls[1]?.[0]).toMatchObject({ expectedRevision: 4, data: { basics: { name: "Second" } } });
 	expect(store()).toMatchObject({ revision: 5, status: "saved", dirty: false });
 });
@@ -41,6 +46,9 @@ it("drops a bank, unsaved edits and all, once someone else is signed in", async 
 	store().claim("someone-else");
 
 	expect(store()).toMatchObject({ bank: null, owner: null, dirty: false });
+	// A bank loaded from here on belongs to the account that was claimed, whatever was held before.
+	store().load(emptyInformationBank, 7);
+	expect(store().owner).toBe("someone-else");
 	expect(await store().flush()).toBe(true);
 	expect(mocks.update).not.toHaveBeenCalled();
 });

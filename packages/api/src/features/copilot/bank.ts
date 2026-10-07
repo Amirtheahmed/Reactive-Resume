@@ -85,9 +85,30 @@ export const bankRouter = {
 				"Replaces the whole Information Bank. Send the revision you last read as expectedRevision; if the bank changed since, the save is refused with 409 and nothing is overwritten.",
 			...reserved,
 		})
-		.input(z.object({ data: informationBankSchema, expectedRevision: z.number().int().min(0) }))
+		.input(
+			z.object({
+				data: informationBankSchema,
+				expectedRevision: z.number().int().min(0),
+				owner: z
+					.string()
+					.optional()
+					.describe(
+						"The id of the user this bank was read for. When given, a save under any other account is refused. Send it from any client that can outlive a sign-out.",
+					),
+			}),
+		)
 		.use(resumeMutationRateLimit)
 		.output(z.object({ revision: z.number().int(), updatedAt: z.date() }))
-		.errors({ CONFLICT: { message: "The Information Bank changed elsewhere.", status: 409 } })
-		.handler(({ context, input }) => saveBank(context.user.id, input.data, input.expectedRevision)),
+		.errors({
+			CONFLICT: { message: "The Information Bank changed elsewhere.", status: 409 },
+			FORBIDDEN: { message: "This Information Bank belongs to another account.", status: 403 },
+		})
+		.handler(({ context, input }) => {
+			// A page left open across a sign-out still holds the previous account's bank. The session says who is
+			// saving; this says whose bank it is, and the two must agree here rather than only in the client.
+			if (input.owner !== undefined && input.owner !== context.user.id) {
+				throw new ORPCError("FORBIDDEN", { message: "This Information Bank belongs to another account." });
+			}
+			return saveBank(context.user.id, input.data, input.expectedRevision);
+		}),
 };

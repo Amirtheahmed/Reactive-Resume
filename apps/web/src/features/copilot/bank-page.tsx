@@ -58,7 +58,7 @@ function useBankSession() {
 		if (!data) return;
 		const { bank, owner, revision, dirty } = useBankStore.getState();
 		if (!bank || owner !== userId || (!dirty && data.revision > revision)) {
-			useBankStore.getState().load(data.data, data.revision, userId);
+			useBankStore.getState().load(data.data, data.revision);
 		}
 	}, [data, userId]);
 
@@ -97,9 +97,8 @@ function useBankSession() {
 
 async function reloadBank() {
 	try {
-		const owner = useBankStore.getState().owner;
 		const { data, revision } = await client.copilot.bank.get();
-		if (owner) useBankStore.getState().load(data, revision, owner);
+		useBankStore.getState().load(data, revision);
 	} catch (error) {
 		toast.add({ type: "error", description: getOrpcErrorMessage(error, { fallback: t`Couldn't reload. Try again.` }) });
 	}

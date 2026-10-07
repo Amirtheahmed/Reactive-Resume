@@ -23,7 +23,8 @@ type BankStore = {
 	status: BankSaveStatus;
 	/** Counts edits refused after a conflict, so the page can say why nothing is happening. */
 	blocked: number;
-	load: (bank: InformationBank, revision: number, owner: string) => void;
+	/** Takes a bank fetched for the signed-in account (see claim). Ignored until someone has been claimed. */
+	load: (bank: InformationBank, revision: number) => void;
 	/** Changes the bank with an immer recipe (mutate the draft, or return a whole new bank). Ignored after a conflict. */
 	edit: (recipe: (draft: InformationBank) => InformationBank | void) => void;
 	/** Saves everything typed so far. False on failure; the edits remain for a retry. */
@@ -51,10 +52,12 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 	status: "saved",
 	blocked: 0,
 
-	load: (bank, revision, owner) => {
+	load: (bank, revision) => {
+		// The owner is never taken from a caller: only claim says who is signed in.
+		const owner = signedIn;
+		if (!owner) return;
 		clearTimeout(timer);
 		visit += 1;
-		signedIn = owner;
 		set({ bank, owner, revision, dirty: false, status: "saved" });
 	},
 
@@ -75,7 +78,7 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 
 		const { bank, owner, revision, dirty, status } = get();
 		// The request is authorised by whoever is signed in now, so a bank loaded for someone else stays here.
-		if (bank && owner !== signedIn) {
+		if (!signedIn || (bank && owner !== signedIn)) {
 			get().reset();
 			return false;
 		}
@@ -84,7 +87,7 @@ export const useBankStore = create<BankStore>()((set, get) => ({
 		set({ dirty: false, status: "saving" });
 		inflight = (async () => {
 			try {
-				const saved = await client.copilot.bank.update({ data: bank, expectedRevision: revision });
+				const saved = await client.copilot.bank.update({ data: bank, expectedRevision: revision, owner: signedIn });
 				if (visit !== started) return;
 				// Anything typed while the save was on its way is still dirty and goes out next.
 				set((state) => ({ revision: saved.revision, status: state.dirty ? "saving" : "saved" }));
