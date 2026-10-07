@@ -238,3 +238,13 @@ docker compose up -d --build
 - Route-tree errors after adding routes: run Vite dev/build to regenerate `apps/web/src/routeTree.gen.ts`; never edit it by hand.
 - Serverless module-loading failures: inspect `bundledInteropPackages` in `apps/server/tsdown.config.ts` and the Vercel compatibility workflow. External CommonJS server dependencies break on Vercel because its service builder drops their pnpm links; bundle them with their dependencies.
 - Most test scripts use `--passWithNoTests`; a successful run with zero tests does not verify the behavior you changed.
+
+## Fork policy: stay mergeable with upstream
+
+**This checkout is a fork that merges `upstream/main` regularly. Before any change, ask how it will merge next time.** Full rules, the list of upstream files the fork edits, and the merge procedure: `docs/agents/fork.md`. Read it before touching a file that exists upstream.
+
+- **Put fork work in fork-owned files**: `packages/api/src/features/copilot/`, `apps/web/src/features/copilot/`, a schema/table/route file of its own. New files never conflict.
+- **If an upstream file must change, add the smallest hunk**: add lines, never rewrite, reorder, rename or re-indent existing ones; new props are optional and default to upstream behaviour; mark the hunk with a `Fork:` comment; add the file to the table in `docs/agents/fork.md`.
+- **Never refactor upstream code for the fork**, not even to remove duplication. Export what you need or keep a small copy in a fork file.
+- **Never hand-resolve generated files** (`apps/web/locales/*.po`, `docs/spec.json`, `routeTree.gen.ts`, `pnpm-lock.yaml`): regenerate them. Fork migrations are new folders; never edit an upstream migration.
+- **Keep this section the only fork edit in this file**, and keep it at the end.
