@@ -254,6 +254,9 @@ describe("the Information Bank as a profile", () => {
 			{ id: "labs", title: "Side projects", content: "<h3>Homelab</h3><p>A k3s cluster.</p>" },
 			{ id: "refs", title: "References", content: "<p>Dana Referee, 555 0100</p>" },
 			{ id: "prefs", title: "Preferences", content: "<p>Remote only, four-day week</p>" },
+			{ id: "de", title: "Referenzen", content: "<p>Hans Referee, 555 0101</p>" },
+			{ id: "fr", title: "Mes références", content: "<p>Anne Referee, 555 0102</p>" },
+			{ id: "en", title: "My referees", content: "<p>Sam Referee, 555 0103</p>" },
 		];
 		bank.sections.references = [
 			{

@@ -11,11 +11,14 @@ import { parseResumeData, projectItemSchema, skillItemSchema } from "@reactive-r
 import { generateId } from "@reactive-resume/utils/string";
 
 /** The custom sections a model may read. References, whatever kind of section they were typed into, are someone else's details. */
-// Whole words only: "Preferences" contains "referen" and is exactly the kind of note a model should read.
-const REFEREES_TITLE = /\b(references?|referees?)\b/i;
+// Any title built on "referen…" or "referee", in any language and with or without accents (References,
+// Referenzen, Références, Referências), is treated as other people's details and withheld. The one exception
+// is the stem inside "preferences", which is exactly the kind of note a model should read.
+const REFEREES_TITLE = /(?<!p)refere[ne]/i;
+const isRefereesTitle = (title: string) => REFEREES_TITLE.test(title.normalize("NFD").replace(/\p{M}/gu, ""));
 const backgroundSections = (data: ResumeData) =>
 	data.customSections.filter(
-		(section) => !section.hidden && section.type !== "references" && !REFEREES_TITLE.test(section.title),
+		(section) => !section.hidden && section.type !== "references" && !isRefereesTitle(section.title),
 	);
 
 type ProfileOptions = {
